@@ -1,0 +1,116 @@
+URL: https://www.fatcalc.com/bfb
+TITLE: Calories Burned Calculator | Estimate Your Workout Energy
+
+menuhome
+
+ FatCalc 
+
+ bedtime share
+
+Calories Burned Calculator
+
+ Discover how many calories you burn by walking, cycling, or running! Enter your personal details, activity type, speed, and duration to get an estimate. Plan your weight loss journey by specifying your activity frequency and desired weight loss. The calculator will calculate how long it will take to reach your goal for your selected activity.
+
+ To use the calculator, enter your sex, age, height, and weight, then click on "Calculate." This will display an estimate of your Resting Energy Expenditure in the top heading. Next, select an activity from the dropdown menu. The calculator will provide default values for the speed and duration of your activity, as well as the frequency of the activity and the desired calorie burn. 
+
+nextstay
+
+CC
+
+SettingsOffArabicChineseEnglishFrenchGermanHindiPortugueseSpanish
+
+Font ColorwhiteFont Opacity100%Font Size100%Font FamilyArialText ShadownoneBackground ColorblackBackground Opacity50%Window ColorblackWindow Opacity0%
+
+WhiteBlackRedGreenBlueYellowMagentaCyan
+
+100%75%50%25%
+
+200%175%150%125%100%75%50%
+
+ArialGeorgiaGaramondCourier NewTahomaTimes New RomanTrebuchet MSVerdana
+
+NoneRaisedDepressedUniformDrop Shadow
+
+WhiteBlackRedGreenBlueYellowMagentaCyan
+
+100%75%50%25%0%
+
+WhiteBlackRedGreenBlueYellowMagentaCyan
+
+100%75%50%25%0%
+
+Video Muted
+
+ You can adjust these values by tapping or holding the left or right arrows to decrease or increase them. By experimenting with different speed and duration settings, you can find the optimal pace and time needed to perform an activity that will burn the desired amount of energy. The Duration bar will also show the distance traveled. 
+
+ You can use this calculator as a tool for planning your weight loss. Start by selecting the average speed and duration of an activity you currently do or plan to do regularly. Next, use the Frequency arrows to indicate how often you engage in that activity. Then, set your weight loss goal using the Burn Goal arrows. The calculator will display the approximate time to reach your weight loss goal in the Time to reach your burn goal line at the top. 
+
+ Experiment with all four settings to explore various scenarios for achieving your desired weight loss. The calculator updates continuously, allowing you to see results instantly as you adjust the settings. 
+
+About the Calculations
+
+ This calculator relies on your Resting Energy Expenditure as a baseline in calculating energy burn for the various activities. Resting Energy Expenditure (REE) is often used interchangeably with Resting Metabolic Rate (RMR). It is the energy burned by your body to keep it functioning while you do nothing but rest for a 24 hour period. This energy is usually expressed in Calories or kilocalories and it is used to perform essential body functions such as breathing, maintaining body temperature, blood circulation, cell growth and brain functions. 
+
+ Both Resting Energy Expenditure (REE) and Resting Metabolic Rate (RMR) can be measured using direct or indirect calorimetry gas analysis. These measurements are available at some health clubs and medical clinics; however, they can be expensive and inconvenient. Alternatively, REE and RMR can be roughly estimated using predictive mathematical equations based on factors such as height, weight, age, and sex. Comparisons of various predictive equations have shown that the Mifflin-St Jeor formula is the most reliable, often predicting REE within 10% of measured values and having the narrowest margin of error. This calculator utilizes the Mifflin-St Jeor formula, along with Metabolic Equivalent of Task (MET) values, to calculate energy expenditure. 
+
+Metabolic Equivalent of Task
+
+ A Metabolic Equivalent of Task (MET) is the ratio of the energy expenditure rate of a body during a physical activity to the rate when the body is at rest. For example, the physical activity of walking 4.0 mph on a level firm surface is rated at a MET of 5. This means that the activity will burn energy at a rate 5 times that of being at rest. If your REE is say 1527 Calories, the amount of energy you would burn per minute while resting is 1527 / (24 x 60) or 1.06 Calories. So, walking at 4.0 mph would burn 1.06 x 5 or 5.3 Calories per minute. 
+
+ Tables of MET values for hundreds of activities are available in the ➤ Compendium of Physical Activities tables which is updated periodically. 
+
+Related Calculators:
+
+TDEE Calculator for All Ages
+
+Calorie Deficit Calculator for Realistic Weight Loss Goals
+
+Heart Rate Zone Calculator
+
+VO2 Max Calculator
+
+Calculate Your Daily Calories and Macros to Reach Your Goal Weight
+
+References:
+
+ A new predictive equation for resting energy expenditure in healthy individuals. 
+ M D Mifflin, S T St Jeor, L A Hill, B J Scott, S A Daugherty, Y O Koh
+ The American Journal of Clinical Nutrition, Volume 51, Issue 2, February 1990, Pages 241–247 
+
+ Comparison of predictive equations for resting metabolic rate in healthy non obese and obese adults: a systematic review. 
+ Frankenfield D1, Roth-Yousey L, Compher C.
+ Department of Clinical Nutrition, Milton S. Hershey Medical Center, Hershey, PA, USA. 
+
+ Using Metabolic Equivalent for Task (MET) for Exercises 
+ Elizabeth Quinn
+ verywell fit. 
+
+ 2011 Compendium of Physical Activities: A Second Update of Codes and MET Values
+ Ainsworth BE, Haskell WL, Herrmann SD, et al.
+ Medicine & Science in Sports & Exercise: August 2011 - Volume 43 - Issue 8 - p 1575-1581 
+
+Top of Page
+
+About UsPrivacy PolicyDisclaimerTerms of ServiceContact Us
+
+ 
+
+✕
+Do not sell or share my personal information.
+
+You have chosen to opt-out of the sale or sharing of your information from this site and any of its affiliates. To opt back in please click the "Reenable Personalization" link.
+
+ 
+This site collects information through the use of cookies and other tracking tools. Cookies and these tools do not contain any information that personally identifies a user, but personal information that would be stored about you may be linked to the information stored in and obtained from them. This information would be used and shared for Analytics, Ad Serving, Interest Based Advertising, among other purposes.
+
+ 
+For more information please visit this site's Privacy Policy.
+
+CANCEL
+
+CONTINUE
+
+Information from your device can be used to personalize your ad experience. 
+
+Do not sell or share my personal information.
+A Raptive Partner Site

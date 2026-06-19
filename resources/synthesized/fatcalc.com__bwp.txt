@@ -1,0 +1,68 @@
+URL: https://www.fatcalc.com/bwp
+TITLE: Daily Calorie Calculator for Weight Loss & Gain Goals
+
+menuhome
+
+ FatCalc 
+
+ bedtime share
+
+Calculate Your Daily Calories and Macros to Reach Your Goal Weight
+
+ This calorie calculator uses a research-backed model from the National Institutes of Health to estimate the daily calories and macronutrients you need to reach your goal weight by a realistic target date. Unlike calculators based on the outdated "3,500 calories per pound" rule, it accounts for how your metabolism and body composition change as you lose or gain weight, giving you a more accurate and sustainable plan. 
+
+ Enter your age, sex, height, current, and goal weight. Click the Physical Activity field to find your physical activity level. Physical activity levels can range from 1.4 (little activity) to 2.3 (very active). The default is 1.4. If you are unsure of your physical activity level, start with the default, the worst-case scenario. 
+
+Enter a time frame for your goal weight (start date and target date). Note that this tool is intended for individuals who are 18 years or older and are not pregnant or breastfeeding. 
+
+ This weight loss calculator provides results only if it determines that your daily energy intake must exceed 1,000 calories to reach your goal weight by your target date. If the calculator determines that you need fewer than 1,000 calories, it will adjust your target date to ensure that you consume at least 1,200 calories per day for women and 1,500 calories per day for men. 
+
+ Nutrition therapists recommend not going below these calorie levels, as doing so can hinder your ability to meet essential food group and nutrient requirements. If you wish to modify your required calorie intake, you can adjust your target date later. If you plan to consume fewer than the recommended amount, please consult a doctor for guidance and support. 
+
+Body Dynamics of Weight Change
+
+ Your body needs energy to stay alive and do physical activities. The primary energy source comes from glucose, which is blood sugar from the food you eat. When your body has more glucose than it needs for energy, it sends the extra to the liver and muscles to be stored as glycogen for later use. However, there is a limit to how much glycogen the liver and muscles can hold. Once they are full, any leftover glucose is turned into triglycerides and stored in fat cells. 
+
+ To lose weight, you must eat fewer calories than your body uses daily. This creates an energy deficit. When that happens, your body takes energy from its stores to meet its daily needs. This process leads to weight loss by breaking down fat and lean body mass. 
+
+ A commonly held but incorrect belief about weight loss suggests that to lose 1 pound a week, you need to eat 500 fewer calories daily, which adds up to 3,500 calories fewer in a week. This idea comes from the assumption that fat tissue contains about 3,500 calories per pound, so by burning that many calories, you would lose 1 pound. However, the body doesn't operate in such a simple way. Eating 3,500 fewer calories doesn't mean your body will automatically burn 3,500 calories of fat. 
+
+ The reality is that when you lose weight, you lose fat along with some lean tissue in muscle, not just fat. Lean mass consists of everything that's not fat, including muscle, bones, organs, ligaments, tendons, other tissues, and water. The rule also ignores other body dynamics of weight loss, such as the reduction in basal metabolic rate (BMR) and decreased energy cost of physical activity. Your total daily energy expenditure (TDEE) changes with weight loss. Consequently, followers of diet programs based on this simple rule of thumb usually fail to reach their weight loss goal in the long run. 
+
+Calculation of Calorie Requirements
+
+ This calculator uses the mathematical body model equations developed by Kevin Dennis Hall, Ph. D., and his team of researchers at the National Institute of Diabetes and Digestive Kidney Diseases of the National Institute of Health. It has been shown that his mathematical model can accurately determine an individual's energy requirements for weight management. It challenges the popular 3,500 calories per pound rule by accounting for the body dynamics discussed earlier, including body adaptations that oppose weight change and the weight change associated with changes to glycogen and extracellular fluid levels. 
+
+Calculation of Macronutrients
+
+ The calculator will calculate your macronutrient requirements (carbs, protein, and fat) in grams based on the required caloric intake to reach your goal weight with a balanced, low-fat, low-carb, and high-protein diet. According to the Food and Nutrition Board of the Institutes of Medicine (IOM) dietary guidelines, an acceptable macronutrient distribution range is 45%-65% of calories for carbohydrates, 10%-35% for protein, and 20%-35% for fat. The calculated amounts put each macro's percentage within the IOM acceptable range for the different diet types. 
+
+ Knowing your macronutrient needs is important for planning meals and controlling portions. If you want to lose weight, gain weight, or keep your weight steady, understanding how many calories you need and the right balance of macronutrients can help you make better food choices and reach your goals. 
+
+Related Calculators:
+
+Calorie Deficit Calculator for Realistic Weight Loss Goals
+
+Ideal Body Weight Calculator
+
+Macro Calculator
+
+Protein Calculator
+
+Maximum Fat Loss Calculator
+
+Further Reading:
+
+ Research by K.D. Hall and colleagues, published in The Lancet (2011), developed a mathematical model quantifying how energy imbalance affects bodyweight over time. View study
+
+ A study by A. Jackson, P. Stanforth, J. Gagnon, and colleagues from the Heritage Family Study, published in the International Journal of Obesity (2002), examined how sex, age, and race influence body fat percentage estimates derived from BMI. View study
+
+ The Mifflin-St Jeor equation for estimating resting energy expenditure was developed by M.D. Mifflin, S.T. St Jeor, and colleagues and published in The American Journal of Clinical Nutrition (1990). It remains one of the most widely recommended formulas for healthy individuals. View study
+
+ A review by M.M. Manore in Current Sports Medicine Reports (2005) examined how the Institute of Medicine's nutrition recommendations apply to physically active individuals. View study
+
+ K.D. Hall revisited Forbes's theory on the relationship between body fat and fat-free mass in a study published in the British Journal of Nutrition (2007), refining our understanding of how body composition changes during weight loss. View study
+
+Top of Page
+
+About UsPrivacy PolicyDisclaimerTerms of ServiceContact Us

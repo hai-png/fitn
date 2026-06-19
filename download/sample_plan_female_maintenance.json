@@ -1,0 +1,4658 @@
+{
+  "name": "sample_plan_female_maintenance",
+  "description": "32yo female intermediate, 22% BF, maintenance goal, 5 days/week",
+  "profile": {
+    "age": 32,
+    "sex": "female",
+    "height_cm": 170,
+    "weight_kg": 62,
+    "activity_level": "active",
+    "training_status": "intermediate",
+    "primary_goal": "maintenance",
+    "training_days_per_week": 5,
+    "equipment_access": "full_gym",
+    "diet_type": "omnivore",
+    "body_fat_pct": 22,
+    "neck_cm": 32,
+    "waist_cm": 68,
+    "hip_cm": 92,
+    "cut_rate_tier": null,
+    "bulk_aggressiveness": null
+  },
+  "assessment": {
+    "body_composition": {
+      "body_fat_pct": 22,
+      "body_fat_method": "user_provided",
+      "body_fat_category": "fitness",
+      "lean_body_mass_kg": 48.4,
+      "fat_mass_kg": 13.6,
+      "bmi": 21.5,
+      "bmi_category": "normal",
+      "ffmi": 16.7,
+      "normalized_ffmi": 17.3,
+      "target_weight_at_target_bf_kg": 59.0,
+      "notes": [
+        "BF% was user-provided; consider verifying with Navy/calloipers."
+      ]
+    },
+    "health_risk": {
+      "whr": 0.739,
+      "whr_risk": "low",
+      "whtr": 0.4,
+      "whtr_risk": "low",
+      "absi": 0.06755,
+      "absi_z_score": -2.797,
+      "absi_risk": "low",
+      "ibw_devine_kg": 61.4,
+      "ibw_robinson_kg": 60.8,
+      "ibw_miller_kg": 62.5,
+      "ibw_hamwi_kg": 60.6,
+      "overall_risk": "low",
+      "risk_factors": [],
+      "notes": [
+        "IBW (Devine): 61.4 kg",
+        "IBW (Robinson): 60.8 kg",
+        "IBW (Miller): 62.5 kg",
+        "IBW (Hamwi): 60.6 kg",
+        "Frame-size adjustment (wrist circumference): \u00b110% for small/large frame."
+      ]
+    },
+    "muscular_potential": {
+      "current_ffmi": 16.7,
+      "current_normalized_ffmi": 17.3,
+      "natural_ceiling_ffmi": 25.0,
+      "attainable_ceiling_ffmi": 27.3,
+      "likely_max_ffmi": 28.0,
+      "berkhan_stage_max_kg": 70.0,
+      "ffmi_to_ceiling_pct": 66.9,
+      "headroom_kg": 23.9,
+      "expected_monthly_muscle_gain_kg": 0.23,
+      "notes": [
+        "FFMI=16.7 \u2014 significant headroom to natural ceiling (23.9 kg FFM remaining at FFMI=25).",
+        "Berkhan stage-shredded max for height=170cm: 70.0 kg at 5-6% BF.",
+        "Expected monthly muscle gain (intermediate, female): ~0.23 kg/month with proper training + nutrition."
+      ]
+    },
+    "recommended_strategy": "maintenance",
+    "strategy_rationale": "User goal is maintenance.",
+    "summary": "Female, 32y, 170cm, 62.0kg \u2022 BMI 21.5 (normal) \u2022 BF% 22.0 (fitness, via user_provided) \u2022 LBM 48.4kg, fat mass 13.6kg \u2022 FFMI 16.7 (norm: 17.3, natural ceiling 25.0, 67% of ceiling) \u2022 Recommended: MAINTENANCE \u2014 User goal is maintenance."
+  },
+  "plan": {
+    "nutrition": {
+      "rmr": {
+        "formula": "cunningham",
+        "base_rmr_kcal": 1414.6,
+        "metabolic_adaptation_factor": 1.0,
+        "weight_reduced_factor": 1.0,
+        "adjusted_rmr_kcal": 1414.6,
+        "notes": [
+          "Base RMR (cunningham): 1415 kcal"
+        ]
+      },
+      "tdee": {
+        "rmr_kcal": 1414.6,
+        "activity_factor": 1.85,
+        "tdee_kcal": 2617.0,
+        "adaptive_tdee_kcal": null,
+        "final_tdee_kcal": 2617.0,
+        "notes": [
+          "RMR (adjusted): 1415 kcal",
+          "Activity factor: 1.85 (active)",
+          "TDEE = RMR \u00d7 1.85 = 2617 kcal"
+        ]
+      },
+      "calories": {
+        "strategy": "maintenance",
+        "base_tdee_kcal": 2617.0,
+        "rate_pct": 0.0,
+        "rate_label": "maintenance (no surplus/deficit)",
+        "calorie_delta_kcal": 0.0,
+        "target_calories_kcal": 2617.0,
+        "calorie_floor_applied": false,
+        "floor_kcal": null,
+        "notes": [
+          "Target = TDEE = 2617 kcal"
+        ]
+      },
+      "macros": {
+        "protein_g": 107.0,
+        "fat_g": 73.0,
+        "carb_g": 384.0,
+        "protein_pct": 16.3,
+        "fat_pct": 25.0,
+        "carb_pct": 58.7,
+        "protein_kcal": 426.0,
+        "fat_kcal": 654.0,
+        "carb_kcal": 1536.0,
+        "notes": [
+          "Maintenance: 1.0 g/lb LBM \u00d7 106.6 lb = 107 g",
+          "Fat = 25% of 2617 kcal \u00f7 9 = 73 g (within 20%-30% range).",
+          "Saturated fat ceiling: <29 g (10% of calories).",
+          "Carbs = remainder: 2617 \u2212 426 (protein) \u2212 654 (fat) = 1536 kcal \u00f7 4 = 384 g"
+        ]
+      },
+      "hydration": {
+        "water_liters_per_day": 2.36,
+        "components": {
+          "base (30 mL/kg)": 1.86,
+          "exercise (moderate, 1.0h)": 0.5
+        },
+        "notes": [
+          "EFSA AI (female): 2.0 L/day",
+          "NAM AI (female): 2.7 L/day",
+          "Target urine color: pale yellow (lemonade).",
+          "~20% of daily fluid intake typically comes from food."
+        ]
+      },
+      "micronutrients": {
+        "fiber_g": 37.0,
+        "fruit_cups": 3,
+        "veg_cups": 3,
+        "notes": [
+          "Fiber target: 37 g (14 g per 1,000 kcal)",
+          "Fruit: 3 cups/day, Veg: 3 cups/day",
+          "At-risk nutrients for dieters: calcium, zinc, magnesium, iron, vitamin D.",
+          "Maintain dairy + red meat + sun exposure to avoid deficiencies.",
+          "Vegan/vegetarian Phase-2: add B12, iron, zinc, calcium, omega-3, D3, creatine."
+        ]
+      },
+      "timeline_weeks": 12,
+      "notes": [
+        "RMR formula: cunningham",
+        "Activity factor: 1.85",
+        "Strategy: maintenance",
+        "Estimated timeline to goal: 12 weeks"
+      ]
+    },
+    "training": {
+      "split_type": "pplul",
+      "training_days_per_week": 5,
+      "progression": "dup",
+      "mesocycles": [
+        {
+          "name": "Block 1: Intermediate maintenance",
+          "duration_weeks": 5,
+          "progression": "dup",
+          "microcycles": [
+            {
+              "name": "Week 1",
+              "workouts": [
+                {
+                  "day_number": 1,
+                  "name": "Push",
+                  "focus": "Chest + Shoulders + Triceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Overhead Press (OHP)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Incline Dumbbell Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest_upper",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lateral Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders_lateral"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "12-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 2,
+                  "name": "Pull",
+                  "focus": "Back + Biceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bent-Over Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Pull-Up",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 4,
+                        "default_reps": "5-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Seated Cable Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Face Pull",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "rear_delts",
+                          "rotator_cuff"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 3,
+                  "name": "Legs",
+                  "focus": "Quads + Hams + Glutes",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Back Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Romanian Deadlift (RDL)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bulgarian Split Squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Leg Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "hamstrings"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Calf Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "calves"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 4,
+                  "name": "Upper",
+                  "focus": "Full Upper Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Chest-Supported Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Dumbbell Shoulder Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lat Pulldown",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 93,
+                  "notes": ""
+                },
+                {
+                  "day_number": 5,
+                  "name": "Lower",
+                  "focus": "Full Lower Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Front Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Conventional Deadlift",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back",
+                          "traps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "3-5",
+                        "default_rest_sec": 240,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "3-5",
+                      "rest_sec": 240,
+                      "rpe_target": 9,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Walking Lunge",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-16",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-16",
+                      "rest_sec": 90,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hip Thrust",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hanging Leg Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "core",
+                          "hip_flexors"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                }
+              ],
+              "rest_days": [
+                4,
+                7
+              ]
+            },
+            {
+              "name": "Week 2",
+              "workouts": [
+                {
+                  "day_number": 1,
+                  "name": "Push",
+                  "focus": "Chest + Shoulders + Triceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Overhead Press (OHP)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Incline Dumbbell Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest_upper",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lateral Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders_lateral"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "12-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 2,
+                  "name": "Pull",
+                  "focus": "Back + Biceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bent-Over Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Pull-Up",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 4,
+                        "default_reps": "5-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Seated Cable Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Face Pull",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "rear_delts",
+                          "rotator_cuff"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 3,
+                  "name": "Legs",
+                  "focus": "Quads + Hams + Glutes",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Back Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Romanian Deadlift (RDL)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bulgarian Split Squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Leg Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "hamstrings"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Calf Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "calves"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 4,
+                  "name": "Upper",
+                  "focus": "Full Upper Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Chest-Supported Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Dumbbell Shoulder Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lat Pulldown",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 93,
+                  "notes": ""
+                },
+                {
+                  "day_number": 5,
+                  "name": "Lower",
+                  "focus": "Full Lower Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Front Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Conventional Deadlift",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back",
+                          "traps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "3-5",
+                        "default_rest_sec": 240,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "3-5",
+                      "rest_sec": 240,
+                      "rpe_target": 9,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Walking Lunge",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-16",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-16",
+                      "rest_sec": 90,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hip Thrust",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hanging Leg Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "core",
+                          "hip_flexors"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                }
+              ],
+              "rest_days": [
+                4,
+                7
+              ]
+            },
+            {
+              "name": "Week 3",
+              "workouts": [
+                {
+                  "day_number": 1,
+                  "name": "Push",
+                  "focus": "Chest + Shoulders + Triceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Overhead Press (OHP)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Incline Dumbbell Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest_upper",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lateral Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders_lateral"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "12-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 2,
+                  "name": "Pull",
+                  "focus": "Back + Biceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bent-Over Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Pull-Up",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 4,
+                        "default_reps": "5-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Seated Cable Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Face Pull",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "rear_delts",
+                          "rotator_cuff"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 3,
+                  "name": "Legs",
+                  "focus": "Quads + Hams + Glutes",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Back Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Romanian Deadlift (RDL)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bulgarian Split Squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Leg Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "hamstrings"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Calf Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "calves"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 4,
+                  "name": "Upper",
+                  "focus": "Full Upper Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Chest-Supported Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Dumbbell Shoulder Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lat Pulldown",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 93,
+                  "notes": ""
+                },
+                {
+                  "day_number": 5,
+                  "name": "Lower",
+                  "focus": "Full Lower Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Front Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Conventional Deadlift",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back",
+                          "traps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "3-5",
+                        "default_rest_sec": 240,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "3-5",
+                      "rest_sec": 240,
+                      "rpe_target": 9,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Walking Lunge",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-16",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-16",
+                      "rest_sec": 90,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hip Thrust",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hanging Leg Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "core",
+                          "hip_flexors"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                }
+              ],
+              "rest_days": [
+                4,
+                7
+              ]
+            },
+            {
+              "name": "Week 4",
+              "workouts": [
+                {
+                  "day_number": 1,
+                  "name": "Push",
+                  "focus": "Chest + Shoulders + Triceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Overhead Press (OHP)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Incline Dumbbell Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest_upper",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lateral Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders_lateral"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "12-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 2,
+                  "name": "Pull",
+                  "focus": "Back + Biceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bent-Over Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Pull-Up",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 4,
+                        "default_reps": "5-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Seated Cable Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Face Pull",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "rear_delts",
+                          "rotator_cuff"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 3,
+                  "name": "Legs",
+                  "focus": "Quads + Hams + Glutes",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Back Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Romanian Deadlift (RDL)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bulgarian Split Squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Leg Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "hamstrings"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Calf Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "calves"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                },
+                {
+                  "day_number": 4,
+                  "name": "Upper",
+                  "focus": "Full Upper Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Chest-Supported Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Dumbbell Shoulder Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lat Pulldown",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 93,
+                  "notes": ""
+                },
+                {
+                  "day_number": 5,
+                  "name": "Lower",
+                  "focus": "Full Lower Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Front Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Conventional Deadlift",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back",
+                          "traps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "3-5",
+                        "default_rest_sec": 240,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "3-5",
+                      "rest_sec": 240,
+                      "rpe_target": 9,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Walking Lunge",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-16",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-16",
+                      "rest_sec": 90,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hip Thrust",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hanging Leg Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "core",
+                          "hip_flexors"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6,
+                      "notes": ""
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": ""
+                }
+              ],
+              "rest_days": [
+                4,
+                7
+              ]
+            },
+            {
+              "name": "Week 5 \u2014 Deload",
+              "workouts": [
+                {
+                  "day_number": 1,
+                  "name": "Push (Deload)",
+                  "focus": "Chest + Shoulders + Triceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Overhead Press (OHP)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Incline Dumbbell Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest_upper",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lateral Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders_lateral"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "12-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "12-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": "Deload week: -1 set per exercise, same load."
+                },
+                {
+                  "day_number": 2,
+                  "name": "Pull (Deload)",
+                  "focus": "Back + Biceps",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bent-Over Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Pull-Up",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 4,
+                        "default_reps": "5-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "5-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Seated Cable Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Face Pull",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "rear_delts",
+                          "rotator_cuff"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": "Deload week: -1 set per exercise, same load."
+                },
+                {
+                  "day_number": 3,
+                  "name": "Legs (Deload)",
+                  "focus": "Quads + Hams + Glutes",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Back Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "5-8",
+                      "rest_sec": 180,
+                      "rpe_target": 8,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Romanian Deadlift (RDL)",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "6-10",
+                        "default_rest_sec": 150,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bulgarian Split Squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Leg Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "hamstrings"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Calf Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "calves"
+                        ],
+                        "equipment": "machine",
+                        "default_sets": 3,
+                        "default_reps": "12-20",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "12-20",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": "Deload week: -1 set per exercise, same load."
+                },
+                {
+                  "day_number": 4,
+                  "name": "Upper (Deload)",
+                  "focus": "Full Upper Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Barbell Bench Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "chest",
+                          "triceps",
+                          "shoulders"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Chest-Supported Row",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps",
+                          "rear_delts"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Dumbbell Shoulder Press",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "shoulders",
+                          "triceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Lat Pulldown",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "back",
+                          "biceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bicep Curl",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "biceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Tricep Pushdown",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "triceps"
+                        ],
+                        "equipment": "cable",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 5,
+                      "notes": "deload"
+                    }
+                  ],
+                  "estimated_duration_min": 93,
+                  "notes": "Deload week: -1 set per exercise, same load."
+                },
+                {
+                  "day_number": 5,
+                  "name": "Lower (Deload)",
+                  "focus": "Full Lower Body",
+                  "exercises": [
+                    {
+                      "exercise": {
+                        "name": "Front Squat",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 4,
+                        "default_reps": "5-8",
+                        "default_rest_sec": 180,
+                        "notes": ""
+                      },
+                      "sets": 3,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Conventional Deadlift",
+                        "category": "compound_primary",
+                        "muscle_groups": [
+                          "hamstrings",
+                          "glutes",
+                          "back",
+                          "traps",
+                          "core"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "3-5",
+                        "default_rest_sec": 240,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "3-5",
+                      "rest_sec": 240,
+                      "rpe_target": 9,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Walking Lunge",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "dumbbell",
+                        "default_sets": 3,
+                        "default_reps": "10-16",
+                        "default_rest_sec": 90,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-16",
+                      "rest_sec": 90,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hip Thrust",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "default_sets": 3,
+                        "default_reps": "8-12",
+                        "default_rest_sec": 120,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hanging Leg Raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "core",
+                          "hip_flexors"
+                        ],
+                        "equipment": "bodyweight",
+                        "default_sets": 3,
+                        "default_reps": "10-15",
+                        "default_rest_sec": 60,
+                        "notes": ""
+                      },
+                      "sets": 2,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6,
+                      "notes": "deload"
+                    }
+                  ],
+                  "estimated_duration_min": 85,
+                  "notes": "Deload week: -1 set per exercise, same load."
+                }
+              ],
+              "rest_days": [
+                4,
+                7
+              ]
+            }
+          ],
+          "deload_week": true,
+          "notes": "dup progression; 5w block with deload."
+        }
+      ],
+      "weekly_volume_summary": {
+        "chest": 7,
+        "triceps": 22,
+        "shoulders": 16,
+        "core": 20,
+        "chest_upper": 3,
+        "shoulders_lateral": 3,
+        "back": 23,
+        "biceps": 23,
+        "rear_delts": 17,
+        "rotator_cuff": 3,
+        "quads": 14,
+        "glutes": 23,
+        "hamstrings": 19,
+        "calves": 3,
+        "traps": 3,
+        "hip_flexors": 3
+      },
+      "notes": [
+        "Split: pplul (5 days/week)",
+        "Progression: dup (suitable for intermediate)",
+        "Mesocycle: 5 weeks + 1 deload week",
+        "Equipment: full_gym",
+        "Volume target: 10-20 hard sets per muscle group per week (recomp/general).",
+        "Train each muscle group \u22652\u00d7/week.",
+        "Compound movements as foundation; progressive overload primary driver.",
+        "\u26a0 chest volume = 7 sets/wk (below 10-set minimum). Consider adding accessory work.",
+        "\u26a0 back volume = 23 sets/wk (above 20-set ceiling). Recovery may be compromised.",
+        "Phase-1 framework: ships with default templates. User-supplied exercise resources will extend the library in Phase-2."
+      ]
+    },
+    "meal": {
+      "days": [
+        {
+          "day_number": 1,
+          "day_name": "Day 1",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Greek Yogurt Parfait",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Greek Yogurt (non-fat, plain)",
+                    "category": "dairy",
+                    "kcal_per_100g": 59,
+                    "protein_g_per_100g": 10.2,
+                    "carb_g_per_100g": 3.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 170,
+                    "serving_description": "1 cup (~170g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 252.0
+                },
+                {
+                  "food": {
+                    "name": "Oats (rolled, dry)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 389,
+                    "protein_g_per_100g": 16.9,
+                    "carb_g_per_100g": 66.3,
+                    "fat_g_per_100g": 6.9,
+                    "fiber_g_per_100g": 10.6,
+                    "serving_size_g": 50,
+                    "serving_description": "1/2 cup (~50g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 104.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 75.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Grilled Chicken Salad",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Chicken Breast (skinless, boneless, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 23.1,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 2.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium breast (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 130.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 286.0
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 13.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Salmon & Asparagus",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Chicken Breast (skinless, boneless, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 23.1,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 2.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium breast (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 130.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 286.0
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 13.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        },
+        {
+          "day_number": 2,
+          "day_name": "Day 2",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Oatmeal Power Bowl",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Egg White (large)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 52,
+                    "protein_g_per_100g": 11.0,
+                    "carb_g_per_100g": 0.7,
+                    "fat_g_per_100g": 0.2,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 33,
+                    "serving_description": "1 white (~33g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 233.0
+                },
+                {
+                  "food": {
+                    "name": "Banana",
+                    "category": "carb_fruit",
+                    "kcal_per_100g": 89,
+                    "protein_g_per_100g": 1.1,
+                    "carb_g_per_100g": 22.8,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 120,
+                    "serving_description": "1 medium (~120g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 303.0
+                },
+                {
+                  "food": {
+                    "name": "Almonds (raw)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 579,
+                    "protein_g_per_100g": 21.2,
+                    "carb_g_per_100g": 21.6,
+                    "fat_g_per_100g": 49.9,
+                    "fiber_g_per_100g": 12.5,
+                    "serving_size_g": 30,
+                    "serving_description": "1 oz (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 22.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Turkey & Rice Bowl",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Tuna (light, water-packed, drained)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 116,
+                    "protein_g_per_100g": 25.5,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 0.8,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 120,
+                    "serving_description": "1 can (~120g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 117.0
+                },
+                {
+                  "food": {
+                    "name": "Brown Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 111,
+                    "protein_g_per_100g": 2.6,
+                    "carb_g_per_100g": 22.9,
+                    "fat_g_per_100g": 0.9,
+                    "fiber_g_per_100g": 1.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 352.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 87.0
+                },
+                {
+                  "food": {
+                    "name": "Spinach (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 23,
+                    "protein_g_per_100g": 2.9,
+                    "carb_g_per_100g": 3.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.2,
+                    "serving_size_g": 30,
+                    "serving_description": "1 cup (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Steak & Veggies",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Salmon (Atlantic, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 208,
+                    "protein_g_per_100g": 20.4,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 13.4,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 fillet (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 147.0
+                },
+                {
+                  "food": {
+                    "name": "Brown Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 111,
+                    "protein_g_per_100g": 2.6,
+                    "carb_g_per_100g": 22.9,
+                    "fat_g_per_100g": 0.9,
+                    "fiber_g_per_100g": 1.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 352.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 87.0
+                },
+                {
+                  "food": {
+                    "name": "Spinach (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 23,
+                    "protein_g_per_100g": 2.9,
+                    "carb_g_per_100g": 3.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.2,
+                    "serving_size_g": 30,
+                    "serving_description": "1 cup (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        },
+        {
+          "day_number": 3,
+          "day_name": "Day 3",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Egg & Avocado Toast",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whole Egg (large)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 155,
+                    "protein_g_per_100g": 12.6,
+                    "carb_g_per_100g": 1.1,
+                    "fat_g_per_100g": 10.6,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 50,
+                    "serving_description": "1 egg (~50g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 204.0
+                },
+                {
+                  "food": {
+                    "name": "Whole Wheat Bread",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 247,
+                    "protein_g_per_100g": 13.0,
+                    "carb_g_per_100g": 41.0,
+                    "fat_g_per_100g": 4.2,
+                    "fiber_g_per_100g": 7.0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 slice (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 169.0
+                },
+                {
+                  "food": {
+                    "name": "Peanut Butter (natural)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 588,
+                    "protein_g_per_100g": 25.1,
+                    "carb_g_per_100g": 20.0,
+                    "fat_g_per_100g": 50.4,
+                    "fiber_g_per_100g": 6.0,
+                    "serving_size_g": 32,
+                    "serving_description": "2 tbsp (~32g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 22.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Tuna Salad Wrap",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Turkey Breast (skinless, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 117,
+                    "protein_g_per_100g": 24.0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 2.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 serving (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 125.0
+                },
+                {
+                  "food": {
+                    "name": "Quinoa (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 4.4,
+                    "carb_g_per_100g": 21.3,
+                    "fat_g_per_100g": 1.9,
+                    "fiber_g_per_100g": 2.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 379.0
+                },
+                {
+                  "food": {
+                    "name": "Almonds (raw)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 579,
+                    "protein_g_per_100g": 21.2,
+                    "carb_g_per_100g": 21.6,
+                    "fat_g_per_100g": 49.9,
+                    "fiber_g_per_100g": 12.5,
+                    "serving_size_g": 30,
+                    "serving_description": "1 oz (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 26.0
+                },
+                {
+                  "food": {
+                    "name": "Mixed Salad Greens",
+                    "category": "vegetable",
+                    "kcal_per_100g": 20,
+                    "protein_g_per_100g": 1.5,
+                    "carb_g_per_100g": 3.0,
+                    "fat_g_per_100g": 0.2,
+                    "fiber_g_per_100g": 2.0,
+                    "serving_size_g": 60,
+                    "serving_description": "1 cup (~60g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Chicken & Broccoli",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Steak (Sirloin, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 217,
+                    "protein_g_per_100g": 26.0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 12.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 200,
+                    "serving_description": "1 steak (~200g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 140.0
+                },
+                {
+                  "food": {
+                    "name": "Sweet Potato (raw)",
+                    "category": "carb_starchy_veg",
+                    "kcal_per_100g": 86,
+                    "protein_g_per_100g": 1.6,
+                    "carb_g_per_100g": 20.1,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 3.0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 401.0
+                },
+                {
+                  "food": {
+                    "name": "Walnuts (raw)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 654,
+                    "protein_g_per_100g": 15.2,
+                    "carb_g_per_100g": 13.7,
+                    "fat_g_per_100g": 65.2,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 30,
+                    "serving_description": "1 oz (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 20.0
+                },
+                {
+                  "food": {
+                    "name": "Mixed Salad Greens",
+                    "category": "vegetable",
+                    "kcal_per_100g": 20,
+                    "protein_g_per_100g": 1.5,
+                    "carb_g_per_100g": 3.0,
+                    "fat_g_per_100g": 0.2,
+                    "fiber_g_per_100g": 2.0,
+                    "serving_size_g": 60,
+                    "serving_description": "1 cup (~60g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        },
+        {
+          "day_number": 4,
+          "day_name": "Day 4",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Protein Smoothie",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Cottage Cheese (low-fat, 2%)",
+                    "category": "dairy",
+                    "kcal_per_100g": 84,
+                    "protein_g_per_100g": 11.0,
+                    "carb_g_per_100g": 4.3,
+                    "fat_g_per_100g": 1.2,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 226,
+                    "serving_description": "1 cup (~226g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 233.0
+                },
+                {
+                  "food": {
+                    "name": "Oats (rolled, dry)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 389,
+                    "protein_g_per_100g": 16.9,
+                    "carb_g_per_100g": 66.3,
+                    "fat_g_per_100g": 6.9,
+                    "fiber_g_per_100g": 10.6,
+                    "serving_size_g": 50,
+                    "serving_description": "1/2 cup (~50g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 104.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 75.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Salmon & Quinoa",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Salmon (Atlantic, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 208,
+                    "protein_g_per_100g": 20.4,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 13.4,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 fillet (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 147.0
+                },
+                {
+                  "food": {
+                    "name": "Sweet Potato (raw)",
+                    "category": "carb_starchy_veg",
+                    "kcal_per_100g": 86,
+                    "protein_g_per_100g": 1.6,
+                    "carb_g_per_100g": 20.1,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 3.0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 401.0
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 13.0
+                },
+                {
+                  "food": {
+                    "name": "Bell Pepper (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 31,
+                    "protein_g_per_100g": 1.0,
+                    "carb_g_per_100g": 6.0,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 2.1,
+                    "serving_size_g": 120,
+                    "serving_description": "1 medium (~120g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Shrimp Stir-Fry",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Cod (raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 82,
+                    "protein_g_per_100g": 18.0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 0.7,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 fillet (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 166.0
+                },
+                {
+                  "food": {
+                    "name": "Potato (white, raw)",
+                    "category": "carb_starchy_veg",
+                    "kcal_per_100g": 77,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 17.0,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 2.2,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 474.0
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 13.0
+                },
+                {
+                  "food": {
+                    "name": "Bell Pepper (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 31,
+                    "protein_g_per_100g": 1.0,
+                    "carb_g_per_100g": 6.0,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 2.1,
+                    "serving_size_g": 120,
+                    "serving_description": "1 medium (~120g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        },
+        {
+          "day_number": 5,
+          "day_name": "Day 5",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Veggie Omelette",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 32.0
+                },
+                {
+                  "food": {
+                    "name": "Banana",
+                    "category": "carb_fruit",
+                    "kcal_per_100g": 89,
+                    "protein_g_per_100g": 1.1,
+                    "carb_g_per_100g": 22.8,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 120,
+                    "serving_description": "1 medium (~120g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 303.0
+                },
+                {
+                  "food": {
+                    "name": "Almonds (raw)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 579,
+                    "protein_g_per_100g": 21.2,
+                    "carb_g_per_100g": 21.6,
+                    "fat_g_per_100g": 49.9,
+                    "fiber_g_per_100g": 12.5,
+                    "serving_size_g": 30,
+                    "serving_description": "1 oz (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 22.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Chicken Burrito Bowl",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Chicken Breast (skinless, boneless, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 23.1,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 2.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium breast (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 130.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 286.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 87.0
+                },
+                {
+                  "food": {
+                    "name": "Asparagus (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 20,
+                    "protein_g_per_100g": 2.2,
+                    "carb_g_per_100g": 3.9,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 2.1,
+                    "serving_size_g": 130,
+                    "serving_description": "5 spears (~130g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Cod & Sweet Potato",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Shrimp (raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 85,
+                    "protein_g_per_100g": 20.3,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 0.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 120,
+                    "serving_description": "1 serving (~120g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 148.0
+                },
+                {
+                  "food": {
+                    "name": "Quinoa (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 4.4,
+                    "carb_g_per_100g": 21.3,
+                    "fat_g_per_100g": 1.9,
+                    "fiber_g_per_100g": 2.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 379.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 87.0
+                },
+                {
+                  "food": {
+                    "name": "Asparagus (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 20,
+                    "protein_g_per_100g": 2.2,
+                    "carb_g_per_100g": 3.9,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 2.1,
+                    "serving_size_g": 130,
+                    "serving_description": "5 spears (~130g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        },
+        {
+          "day_number": 6,
+          "day_name": "Day 6",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Banana & PB Oats",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Greek Yogurt (non-fat, plain)",
+                    "category": "dairy",
+                    "kcal_per_100g": 59,
+                    "protein_g_per_100g": 10.2,
+                    "carb_g_per_100g": 3.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 170,
+                    "serving_description": "1 cup (~170g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 252.0
+                },
+                {
+                  "food": {
+                    "name": "Whole Wheat Bread",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 247,
+                    "protein_g_per_100g": 13.0,
+                    "carb_g_per_100g": 41.0,
+                    "fat_g_per_100g": 4.2,
+                    "fiber_g_per_100g": 7.0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 slice (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 169.0
+                },
+                {
+                  "food": {
+                    "name": "Peanut Butter (natural)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 588,
+                    "protein_g_per_100g": 25.1,
+                    "carb_g_per_100g": 20.0,
+                    "fat_g_per_100g": 50.4,
+                    "fiber_g_per_100g": 6.0,
+                    "serving_size_g": 32,
+                    "serving_description": "2 tbsp (~32g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 22.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Steak & Sweet Potato",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Tuna (light, water-packed, drained)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 116,
+                    "protein_g_per_100g": 25.5,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 0.8,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 120,
+                    "serving_description": "1 can (~120g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 117.0
+                },
+                {
+                  "food": {
+                    "name": "Brown Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 111,
+                    "protein_g_per_100g": 2.6,
+                    "carb_g_per_100g": 22.9,
+                    "fat_g_per_100g": 0.9,
+                    "fiber_g_per_100g": 1.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 352.0
+                },
+                {
+                  "food": {
+                    "name": "Almonds (raw)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 579,
+                    "protein_g_per_100g": 21.2,
+                    "carb_g_per_100g": 21.6,
+                    "fat_g_per_100g": 49.9,
+                    "fiber_g_per_100g": 12.5,
+                    "serving_size_g": 30,
+                    "serving_description": "1 oz (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 26.0
+                },
+                {
+                  "food": {
+                    "name": "Green Beans (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 31,
+                    "protein_g_per_100g": 1.8,
+                    "carb_g_per_100g": 7.0,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 2.7,
+                    "serving_size_g": 100,
+                    "serving_description": "1 cup (~100g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Pork & Green Beans",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Pork Loin (raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 143,
+                    "protein_g_per_100g": 22.0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 5.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 serving",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 136.0
+                },
+                {
+                  "food": {
+                    "name": "Pasta (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 158,
+                    "protein_g_per_100g": 5.8,
+                    "carb_g_per_100g": 31.0,
+                    "fat_g_per_100g": 0.9,
+                    "fiber_g_per_100g": 1.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 260.0
+                },
+                {
+                  "food": {
+                    "name": "Walnuts (raw)",
+                    "category": "fat_nut_seed",
+                    "kcal_per_100g": 654,
+                    "protein_g_per_100g": 15.2,
+                    "carb_g_per_100g": 13.7,
+                    "fat_g_per_100g": 65.2,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 30,
+                    "serving_description": "1 oz (~30g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 20.0
+                },
+                {
+                  "food": {
+                    "name": "Green Beans (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 31,
+                    "protein_g_per_100g": 1.8,
+                    "carb_g_per_100g": 7.0,
+                    "fat_g_per_100g": 0.1,
+                    "fiber_g_per_100g": 2.7,
+                    "serving_size_g": 100,
+                    "serving_description": "1 cup (~100g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        },
+        {
+          "day_number": 7,
+          "day_name": "Day 7",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "Cottage Cheese Bowl",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Egg White (large)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 52,
+                    "protein_g_per_100g": 11.0,
+                    "carb_g_per_100g": 0.7,
+                    "fat_g_per_100g": 0.2,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 33,
+                    "serving_description": "1 white (~33g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 233.0
+                },
+                {
+                  "food": {
+                    "name": "Oats (rolled, dry)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 389,
+                    "protein_g_per_100g": 16.9,
+                    "carb_g_per_100g": 66.3,
+                    "fat_g_per_100g": 6.9,
+                    "fiber_g_per_100g": 10.6,
+                    "serving_size_g": 50,
+                    "serving_description": "1/2 cup (~50g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 104.0
+                },
+                {
+                  "food": {
+                    "name": "Avocado (raw)",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 160,
+                    "protein_g_per_100g": 2.0,
+                    "carb_g_per_100g": 8.5,
+                    "fat_g_per_100g": 14.7,
+                    "fiber_g_per_100g": 6.7,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium (~150g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 75.0
+                }
+              ],
+              "target_kcal": 785.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 115.0,
+              "target_fat_g": 22.0,
+              "notes": "Target: 785 kcal, P32g/C115g/F22g"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Lentil Power Bowl",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Turkey Breast (skinless, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 117,
+                    "protein_g_per_100g": 24.0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 2.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 serving (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 125.0
+                },
+                {
+                  "food": {
+                    "name": "Quinoa (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 4.4,
+                    "carb_g_per_100g": 21.3,
+                    "fat_g_per_100g": 1.9,
+                    "fiber_g_per_100g": 2.8,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 379.0
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 13.0
+                },
+                {
+                  "food": {
+                    "name": "Carrots (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 41,
+                    "protein_g_per_100g": 0.9,
+                    "carb_g_per_100g": 9.6,
+                    "fat_g_per_100g": 0.2,
+                    "fiber_g_per_100g": 2.8,
+                    "serving_size_g": 60,
+                    "serving_description": "1/2 cup (~60g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Turkey Meatballs & Pasta",
+              "foods": [
+                {
+                  "food": {
+                    "name": "Chicken Breast (skinless, boneless, raw)",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 120,
+                    "protein_g_per_100g": 23.1,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 2.5,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 150,
+                    "serving_description": "1 medium breast (~150g)",
+                    "is_vegan": false,
+                    "notes": ""
+                  },
+                  "grams": 130.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 286.0
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 13.0
+                },
+                {
+                  "food": {
+                    "name": "Carrots (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 41,
+                    "protein_g_per_100g": 0.9,
+                    "carb_g_per_100g": 9.6,
+                    "fat_g_per_100g": 0.2,
+                    "fiber_g_per_100g": 2.8,
+                    "serving_size_g": 60,
+                    "serving_description": "1/2 cup (~60g)",
+                    "is_vegan": true,
+                    "notes": ""
+                  },
+                  "grams": 100
+                }
+              ],
+              "target_kcal": 916.0,
+              "target_protein_g": 37.0,
+              "target_carb_g": 134.0,
+              "target_fat_g": 26.0,
+              "notes": "Target: 916 kcal, P37g/C134g/F26g"
+            }
+          ]
+        }
+      ],
+      "meal_frequency": 3,
+      "macro_allocation": {
+        "breakfast": 0.3,
+        "lunch": 0.35,
+        "dinner": 0.35
+      },
+      "notes": [
+        "Meal frequency: 3 meals/day",
+        "Daily target: 2616 kcal, P107g / C384g / F73g",
+        "7-day rotating template \u2014 food choices vary daily for variety.",
+        "Vegetables are 'free' (low calorie, high volume) \u2014 add liberally.",
+        "Phase-1 framework: simple greedy allocator. Phase-2 will use optimization-based selection once detailed food database is loaded.",
+        "Swap proteins: chicken \u2194 turkey \u2194 fish; carbs: rice \u2194 potato \u2194 pasta."
+      ]
+    },
+    "summary": "=== Fitness Plan Summary ===\nUser: female, 32y, 170cm, 62.0kg\nAssessment: BF=22.0% (fitness), BMI=21.5, FFMI=16.7\nStrategy: MAINTENANCE\n  \u2014 User goal is maintenance.\nNutrition:\n  \u2022 TDEE: 2617 kcal\n  \u2022 Target: 2617 kcal (+0 vs TDEE)\n  \u2022 Macros: P107g / C384g / F73g\n  \u2022 Hydration: 2.4 L/day\n  \u2022 Fiber: 37 g/day\n  \u2022 Timeline: ~12 weeks to goal\nTraining:\n  \u2022 Split: pplul (5d/wk)\n  \u2022 Progression: dup\n  \u2022 Mesocycle: 5w + deload\n  \u2022 Workouts per cycle: 5\nMeal plan:\n  \u2022 Frequency: 3 meals/day\n  \u2022 Template: 7-day rotation\n  \u2022 Daily target: 2617 kcal"
+  }
+}

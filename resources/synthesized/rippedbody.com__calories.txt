@@ -1,0 +1,3270 @@
+URL: https://rippedbody.com/calories/
+TITLE: How To Set Your Calorie Intake For Fat Loss And Muscle Growth
+
+Skip to content
+
+ How To Set Your Calorie Intake For Fat Loss And Muscle Growth
+
+#1 Calories, #2 Macros, #3 Micros, #4 Nutrient Timing, #5 Supplements
+
+This is the first chapter in my five-part guide on nutrition for fat loss and muscle growth. Join 100,000 people and download the full PDF version here.
+
+This chapter covers the calorie part of the nutrition puzzle. This is the exact system that I have used and refined from working with clients over the last 9 years. Here’s what it covers:
+
+Why calorie intake comes first and what you’ll hear from those who make money by denying it.
+
+How to calculate maintenance calorie needs
+
+Adjusting your calories for your specific goal: fat loss, muscle gain, or gradual body recomp.
+
+Why calorie calculations are estimations that will need adjusting.
+
+How to tweak things to stay on target when they don’t go as planned.
+
+Calorie Intake For Fat Loss: The Most Important Thing
+Energy balance and how it affects weight loss. 
+As you’ll see, it’s not quite as simple as it looks.
+Whether your goal is muscle gain, fat loss, or weight maintenance, the single most critical piece of the nutritional puzzle is getting your calorie intake right.
+
+If you consume more calories than your body needs, you will gain weight.
+
+If you consume the same amount of calories that your body needs, you will maintain your weight.
+
+If you consume fewer calories than your body needs, you will lose weight.
+
+The calories in, calories out equation (often referred to as CICO) is a simple one, but each side affects the other and there are a few things in and out of our control on both.
+
+Things That Impact Calorie Intake
+The intake side of the energy balance equation, what we eat and drink, is affected by hunger, which adapts to circumstance.
+The energy intake side of the equation looks simple but is actually quite nuanced.
+
+The specific foods we eat and when we eat them impacts how much we eat. This means the macro, micro, and timing sections of the pyramid influence our ability to adhere to this first layer.
+
+While getting our food choices and timing right can help with feelings of fullness, our feelings of hunger are affected by the energy intake side of the equation.
+
+If we overeat, we get less hungry and tend to eat less.
+
+If we undereat, we get more hungry and tend to eat more.
+
+Those who are naturally skinny and struggle to gain weight have a stronger pull the one way than those who are naturally overweight and struggle to lose it.
+
+When you consider we consume nearly one million calories each year, it’s quite remarkable that our weights fluctuate by a mere 1–2 lbs each year on average. This shows how strong a self-regulating mechanism this is.
+
+This is good for life preservation, but terribly inconvenient for those of us who want to change the status quo. We need to override this mechanism, which is why counting calories becomes the necessary next step for people who have made all the obvious lifestyle changes but are still not successful.
+
+Our environment also impacts our choices. This is partially in our control. We can make sure the fridge is stocked with the foods we want to eat and clear the junk out of the house, but we can’t control all the fast-food restaurants and how frequently Betty decides to bring banana bread into the office.
+
+Things That Impact Calorie Expenditure
+The energy expenditure side of the equation has adaptive elements out of our control and only one within our control.
+The two primary factors on the energy expenditure side of the equation, are our metabolic rate and our activity levels. Both of these are affected to some degree by the energy intake side.
+
+Metabolic rate drops when we diet and then returns to normal when we come back to maintenance. This is out of our control.
+
+Activity levels are partially under conscious control (like how much we exercise) and partially not (how much we fidget and move around throughout the day).
+
+This latter part is particularly interesting because it seems to vary from person to person and can make a big difference in energy expenditure. — Some people get way more lethargic than others when dieting, and some move around a lot more when they overeat. This is called non-exercise activity thermogenesis (nicknamed NEAT) and includes things like the energy expended walking to work, typing and texting friends, shaking up a protein shake, performing yard work, and fidgeting.
+
+So, sharp readers may be thinking, “Ahh, but couldn’t I exercise more rather than restrict my food intake if I want to lose weight?”
+
+Technically, yes, you could. However,
+
+It’s more time-efficient to control energy balance with your diet, i.e., eating more or less, rather than moving more or less.
+
+Adding extra weight training will interfere with your recovery. This is not only inefficient but a common way people get injured.
+
+Cardio should be used sparingly, if at all. Reliance on it is unsustainable and sets people up for failure.
+
+Therefore, dietary changes should be the primary driver of an energy deficit or surplus.
+
+Beware Those Who Deny The Importance Of Calorie Balance
+
+The focus of this guide is on what to do, instead of what not to do. So I won’t spend much time debunking ideas. However, there is one notable exception worth addressing immediately — that is the idea that low-carb diets are superior (or necessary) for weight loss.
+
+The Carbohydrate-Insulin Hypothesis of Obesity
+
+There are a few legitimate-seeming doctors who continue to push something called the carbohydrate-insulin hypothesis of obesity.
+
+The idea is when insulin levels are high, we can’t lose fat because insulin shuts down fat burning. And as carbs are supposedly the biggest thing that stimulate insulin release, if we eat a high-carb diet, we can’t lose fat.
+
+(The argument is more nuanced, but this is the general gist.)
+(I created this so it’ll the idea will stick in your head when you hear this kind of thing in the future.)
+I could point out that protein (whey, dairy, animal protein, etc.) spikes insulin just as high as sugar and all sorts of other mechanistic shortcomings with this theory.
+
+And people love to argue all kinds of biochemical pathways and hormone regulation loops.
+
+But the fact is, when you put two groups on a calorie-matched, high vs low-carb diets, studies show that there is no difference in fat loss outcome.
+
+So why does this idea persist?
+
+It’s easy to understand and share.
+
+It makes people who talk about it a shit-ton of money in book sales and speaking gigs. (Gary Taubes and Jason Fung are two names, in particular, to steer clear of.)
+
+There is an element of truth in the idea that cutting carbs helps with weight loss.
+
+I do not deny that a low carbohydrate diet can be effective for fat loss. But it’s important to note that people lose weight because they eat fewer calories overall, not because of any effect on insulin or because it burns more body fat.
+
+If you are trying to lose fat, you will likely need to reduce your carb intake to create a calorie deficit (and probably your fat intake too). But, if someone tells you that you need to remove carbs almost entirely, or that calorie balance is not the key to sustained weight loss, ignore them.
+
+Lastly, sugar is demonized by the media but is not inherently ‘bad.’ It depends how it fits with the rest of your diet. However, limiting sugary foods is a good idea if you are trying to diet, and you find yourself easily overeating them.
+
+How To CALCULATE Your Daily Calorie Targets
+
+Step 1: We must estimate your basal metabolic rate (BMR).
+
+Step 2: We must adjust this figure based on your daily activity levels.
+
+Step 3: We must adjust this calculation based on your goal.
+Your cutting macros may be close to your BMR (or lower); your bulking macros may be double it.
+Before proceeding, it is essential to understand that the final calorie number you calculate is only an estimation. The equations are derived from group averages, the activity multiplier used will be an estimation, and there are individual differences in how people respond to a calorie deficit or surplus.
+
+Therefore, consider your calculation as a starting point from which to adjust based on how you progress. I’ll come back to this later.
+
+Step 1. BMR Calculator
+
+The first thing we need to do is calculate your basal metabolic rate (BMR).
+
+There are a variety of formulas designed to estimate basal metabolic rate. I like the Harris-Benedict formula because it’s just as effective, yet simpler to do.
+
+(The Cunningham equation, for example, requires people to estimate their body-fat percentage first. But as all the methods we have available of assessing body-fat percentage have accuracy issues, I don’t see the point of using it.)
+
+The Harris-Benedict Formula for Calculating BMR
+
+For those who use pounds and inches:
+
+Men: BMR = 66 + (6.2 x weight in lbs) + (12.7 x height in inches) – (6.8 x age)
+
+Women: BMR = 655 + (4.4 x weight in lbs) + (4.6 x height in inches) – (4.7 x age)
+
+For those who use kilograms and centimeters:
+
+Men: BMR = 66 + (13.7 x weight in kg) + (5 x height in cm) – (6.8 x age)
+
+Women: BMR = 655 + (9.6 x weight in kg) + (1.8 x height in cm) – (4.7 x age)
+
+Step 2. TDEE Calculator
+
+The second thing we need to do is to make an adjustment to your BMR for activity levels to find your total daily energy expenditure (TDEE).
+
+I like to use the following four categories:
+
+Sedentary (little or no exercise) [BMR x 1.15]
+
+Mostly sedentary (office work), plus 3–6 days of weight lifting [BMR x 1.35]
+
+Lightly active, plus 3–6 days of weight lifting [BMR x 1.55]
+
+Highly active, plus 3–6 days of weight lifting [BMR x 1.75]
+
+The majority of people reading this will find that the second or third options are the best fit. If you are an office worker who drives to work and walks around little, I’d suggest the second option.
+
+This will give you a number known as your Total Daily Energy Expenditure (TDEE).
+
+Example TDEE Calculations
+
+I find examples to be exceptionally helpful, when I am learning new things, to solidify what I am learning. So, I’ll give four examples throughout this guide which fit four common avatars: Fat Freddie, Shredded Sam, Thicc Thelma, and Noobie Natalie.
+
+Fat Freddie is 5’9, 31 years old, weighs 180 lbs, and works in an office so is “mostly sedentary.” His TDEE is estimated to be 2499 kcal.
+
+Shredded Sam is 6’1, 37 years old, weighs 175 lbs, and is lightly active. His TDEE is estimated at 2844 kcal.
+
+Thicc Thelma is 5’4, 44 years old, weighs 190 lbs. Having an office job, her current activity level is sedentary, but she will choose “mostly sedentary” because she’s about to start to lift. Her TDEE is estimated at 2109 kcal.
+
+Noobie Natalie is 5’7, 21 years old, weighs 135 lbs, and works filling shelves at Costco. Up until now, she has enjoyed 3x a week spinning classes with the occasional weekend trail run. She is completely new to strength training, and will drop the spinning class to once per week. Therefore, her activity level is set at “lightly active.” Her TDEE is estimated at 2254 kcal.
+
+(Test these numbers or enter your own using the calorie and macro calculator.)
+
+STEP 3. CALCULATE YOUR DAILY CALORIE INTAKE BASED ON YOUR GOAL
+
+In this section, I give recommended rates of body weight loss and gain during cut and bulk phases, explain the math used, and give example calculations for Thicc Thelma, Fat Freddie, and Shredded Sam.
+
+BODY RECOMPOSITION PHASES
+
+“Body recomposition” refers to fat loss and muscle gain at the same time. A degree of muscle gain can happen when losing weight, but when I refer to “body recomp phase,” I’m talking about the purposeful choice to chase simultaneous fat loss and muscle gain while maintaining body weight.
+
+Noob Natalie is new to strength training, so she has a good shot at achieving simultaneous muscle gain and fat loss. She is happy with her body weight, so she won’t add or subtract any calories from here. Natalie will do a body recomp phase.
+
+ If you need help deciding what you should do, read my related guide on Bulking vs Cutting.
+
+HOW TO ADJUST CALORIE INTAKE FOR A FAT LOSS GOAL
+
+When your goal is primarily to lose fat, we call this a cut. I recommend a weight loss rate between 0.5–0.75% of body weight per week.
+The fat-loss rate sweet spot for most people is around 0.5% of body weight per week.
+High rates of weight loss are motivating, but they are hard to sustain. The leaner we are, the higher the chances of muscle mass losses.
+
+Slow rates of weight loss are easier to sustain, but hard to stay motivated for, difficult to track, and they can become an increasing mental burden.
+
+For busy individuals who can’t afford the lethargy and brain fog, 0.5% seems to be the sweet spot per week. I’m basing this on my years of client work.
+
+You can go up to 1% if you have a lot of fat to lose, but most clients didn’t find this to be sustainable. Above 1%, your diet will be very hard to sustain and muscle loss is likely.
+
+As you close in on seeing your abs for the first time, I would recommend you stay closer to 0.5%. If you get into the single digits of body fat %, the whole curve shifts to the left and you want to lose at or slightly under a rate of 0.5% to maximize your chances of holding onto muscle mass.
+
+Cutting Math & Example Calculations
+
+It requires an approximate 3500 kcal deficit to burn 1 lb of fat (7700 kcal per kg). Therefore, to lose 1 lb of fat per week, you need a 500 kcal daily deficit (1100 kcal for 1 kg).
+
+The calculation to adjust your calorie intake for a fat loss goal is as follows:
+
+Target daily calorie intake (TDCI) = TDEE – (Bodyweight x target weekly fat loss rate x 500*) 
+
+*1100 if you use kg
+
+However, our metabolisms adapt to fight a caloric deficit, which means that if we use the calculation above, it will not likely lead to the 0.5% of body weight loss per week we are hoping for. Therefore, I have set the calorie and macro calculator to use 0.75%.
+
+Fat Freddie’s target daily calorie intake = 2499 – (180 x 0.0075 x 500) = 2499 – 675 = 1824 kcal
+
+Thicc Thelma’s target daily calorie intake = 2109 – (190 x 0.0075 x 500) = 2109 – 712.5 = 1397 kcal
+
+Even if you wish to cut faster than 0.5% of body weight per week, I suggest you use the calculator as I have it, wait, then adjust after a few weeks based on the outcome. This will teach you if you can sustain 0.5% first. Again, for most people, attempts at faster fat loss rates rarely end well.
+
+HOW TO ADJUST CALORIE INTAKE FOR A MUSCLE GAIN GOAL
+
+The goal of the bulk is to maximize our rate of muscle gain while gaining the least amount of fat. Therefore, it is important to estimate our rate of muscle growth potential if we’re to set weight gain targets and calculate the calorie surplus appropriately.
+
+The newer you are to training, the faster the rate you can gain muscle; the more advanced you get, the slower this will happen. Therefore, it is best to set weight gain targets based on your level of training experience. If you ignore this, you’ll either gain too much fat or make slower progress than you could have.
+The less training experience you have, the faster you can grow, so the higher you should set your rate of weight gain. Be aware that the inverse is also true.
+Categorizing training advancement is tricky, but here is my preferred method along with the monthly rates of weight gain I recommend:
+
+Beginner: 2% (Totally new to training.)
+
+Novice: 1.5% (Still able to progress most training loads in the gym on a week to week basis.)
+
+Intermediate: 1% (Able to progress most training loads in the gym on a month to month basis.)
+
+Advanced: 0.5% (Progress is evident only when viewed over multiple months or a year.)
+
+These rates of weight gain purposefully skew to the upper boundary of the recommendations we have in our Muscle and Strength Pyramid: Nutrition book.
+
+As I often say to online coaching applicants, when it comes to goal setting, it is imperative that the outcome is measurable if we are to manage it. When results are hard to measure, it is both tough to coach for and tough to stay motivated for. This is why I have a preference for slightly higher numbers.
+
+There is also a genetic component to the rate at which people gain muscle. This will work out better for those more genetically blessed.
+
+Bulking Example Calculation
+
+It takes roughly ~2500 kcal to build 1 lb of muscle and ~3500 kcal to burn or store 1 lb of fat.
+
+As people typically gain fat and muscle in a 1:1 ratio in a bulk phase, and if we assume a 30 day month, this means we need a 100 kcal daily caloric surplus to gain 1 lb of weight per month (~220 kcal for 1 kg).
+
+However, like the additional downward adjustment I made for metabolic adaptation when cutting, I believe we should make an additional upward adjustment when bulking. This is because as we raise calories, some of that calorie increase will be eaten up by NEAT and not result in a caloric surplus.
+
+The NEAT increase will be different from person to person and is impossible to predict, but I suggest we add 50% to these numbers, which gives the following heuristic:
+
+To gain 1 lb of weight per month, add 150 kcal each day (330 kcal for 1 kg).
+
+Therefore, the calculation to adjust your calorie intake for a weight gain goal is as follows:
+
+Target daily calorie intake (TDCI) = TDEE + (Bodyweight x target monthly gain rate x 150*)
+
+*330 if you use kg
+
+Shredded Sam is an intermediate trainee, so his target monthly gain rate will be 1%. His calculation is as follows:
+
+Shredded Sam’s target daily calorie intake = 2844 + (175 x 0.01 x 150) = 2844 + 263 = 3107 kcal
+
+Why CALCULATIONS ARE ESTIMATIONS
+
+It’s essential to realize that any calculation will just be an estimation. This are three primary reasons for this:
+
+1. The BMR calculation in step 1 was developed based on group averages, but people can vary up to 15% either side
+
+2. The activity multiplier is an estimation.
+
+3. Reactions to a calorie surplus or deficit vary – some people get more fidgety and move around more throughout the day when in a calorie surplus, some people get very lethargic when in a calorie deficit. This is the NEAT I referred to earlier.
+
+This means two 6 ft, 200 lb dudes of the same age and training schedule could find their maintenance calorie needs 700 calories apart.
+
+No calculation can take into account these differences. Therefore, tracking after the initial calculation and then making refinements is essential.
+
+How to Adjust CALORIE INTAKE WHEN Your WEIGHT DOESN’T CHANGE AS PLANNED
+Progress tracking tools
+I literally wrote a book and video series (The Diet Adjustments Manual) on this topic, but here are the fundamentals.
+
+How To Track Progress
+
+To know how to adjust your calorie intake, you need to have data on which to base decisions. At the very minimum, I recommend that you track your weight each day and measure your stomach in three places once per week.
+
+Your weight will fluctuate from day to day and vary depending on the time of day, so stepping on the scale a few times a week is not enough.
+
+Note your weight each morning, immediately after using the bathroom after you wake, and write down the average at the end of the week.
+
+What you’ll likely see if you switch to a cut, is a large drop in weight in the first week, and then a more steady rate of change each week thereafter. The opposite will be true when bulking.
+
+This is due to the change in gut content, water, and muscle glycogen in your body, which happens whenever you change the number of carbs you eat or total food intake in general.
+
+Use a tape to measure at your navel, and then 3 finger-widths above and below. This will help you to keep tabs on fat gain when bulking, fat losses when recomping, and confirm that fat (rather than muscle) is being lost when cutting.
+
+So, before deciding you need to adjust, track for several weeks first, taking the average scale weight each day and your stomach measurements once per week, and ignore the first week of data.
+
+How To Adjust
+
+For a Cut
+
+If weight is lost too quickly, there is a risk of muscle loss. Increase calorie intake.
+
+If weight is not lost quickly enough, decrease calorie intake.
+
+Suggested incremental change: 200–250 kcal per day
+
+For a Slow Bulk
+
+If weight is not gained quickly enough, increase calorie intake.
+
+If weight is gained too quickly, you’ll have put too much fat on, so decrease calories.
+
+Suggested incremental change: 100–150 kcal per day.
+
+Remember to take into account water weight fluctuations, and always consider 3–4 weeks’ worth of tracking data before making any changes.
+
+The Weight Loss Stalls And Whooshes You Can Expect
+
+It’s not uncommon for some people to find that the scale weight suddenly stops moving and stays there for several weeks. This is due to water retention — the fat loss is still happening, but as the fat cells empty, they fill back up with water.
+
+I’m not sure exactly why this happens, but potentially due to rises in cortisol, which happen when we are stressed. (A calorie deficit is a stressor, training is a stressor.) All you can do is sleep well, work to reduce other stress in your life, then just wait it out.
+
+A gradual decrease in the rate of fat loss over the weeks is to be expected and does not indicate water retention (in this case you’ll make an adjustment to your calorie intake downwards to bring up the rate of fat loss), but a sudden stall indicates that it is water retention marking the fat loss, as there is no physiological mechanism whereby your body will suddenly cease to burn fat if you are in a calorie deficit.
+
+This has the potential to drive everyone crazy, but there is little you can do but wait it out. One morning you’ll wake up to find yourself a couple of kilograms lighter. This is known as a whoosh. It happens with both sexes but is especially common with women.
+
+Thank you for reading. Got a question? Hit me up in the comments.
+
+– Andy
+
+DOWNLOAD THE FULL VERSION OF THIS GUIDE!
+
+I’ll send you the book, our training programs, and a 15-day Transformation Kickstart Course on how to put it all together without making the most common progress-killing mistakes. 
+
+About The Author
+
+ 
+Andy Morgan
+ 
+Hi! The Ripped Body® Method is an evidence-based, data-driven approach to physique transformation.
+⠀
+For the majority of my 20s, I fell for the scams of the fitness industry. 
+⠀
+This site is my revenge. 
+⠀
+Since 2011, I’ve written guides explaining how we get results to help readers avoid the same path of frustration. We’ve helped over 2,000 busy working guys transform their bodies WITHOUT supplements, fad diets, or the process dominating their lives.
+⠀
+ Enter your email address in the box at the bottom of this page and I'd be honored to show you how.
+
+Privacy policy.
+
+ 330 Comments
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Ryan C.
+
+ 
+
+ 
+ July 16, 2025 13:46
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hi Andy,
+
+I was just wondering what your advice would be regarding tracking things like marinade, where the majority is thrown out but some has absorbed into the meat?
+
+Thanks!
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ July 17, 2025 05:31
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Ryan C.
+ 
+
+ 
+
+ 
+Hi Adam, great question. I could be wrong about this, but my intuition is to weigh the meat before and after.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Nick
+
+ 
+
+ 
+ April 8, 2025 16:09
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hi Andy, 
+
+So two question please;
+
+Having been on a calorie deficit for a while fluctuating between
+
+(0.4-0.75) I’m finding my activity level is slowly increasing making my expenditure averagely rising each week now.
+
+Does that mean I should keep the calorie deficit at the same initial rate as my body fat % (now 15%) goes down or should the deficit be readjust say when I reach 12% bf?
+
+And when is the 3rd edition of your new book “The Muscle and Strength Pyramid” coming out?
+
+Would love a signed addition.
+
+Cheers
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ April 8, 2025 17:27
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Nick
+ 
+
+ 
+
+ 
+Hi Nick, thanks for the questions.
+
+1. As long as you’re losing 0.5-0.75% of body weight per week, no need to adjust. If that changes, consider it. Full framework for making adjustments here: How To Adjust Calories and Macros as you Diet To Keep Losing Fat
+
+2. Sorry, it’s ready when it’s ready, and I don’t dare guess.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ JKR
+
+ 
+
+ 
+ September 14, 2024 05:16
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Thank you for all you do, I have gone all in! I am cutting, (M50,5’11, 270lbs>>213>>185 goal, 10 months so far). I follow the 5 day program and progressing. I am at a 950kcal deficit, and over the past 8 weeks have only lost about 5 lbs. I am consuming 1581kcals per day, 100% adherence. I also do light cardio daily, -200kcals per day…why am I not dropping more lbs? I am trying to be at .5-1% but hitting .14% weekly average last month, .34% this month. Could I be recomping at such a deficit? Seems unlikely? Still have 27lbs to go, what should I do?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ September 17, 2024 01:07
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ JKR
+ 
+
+ 
+
+ 
+Hi JKR, thank you for the comment.
+
+See the fat loss troubleshooting decision tree here: How To Adjust Calories and Macros as you Diet To Keep Losing Fat
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Abrar
+
+ 
+
+ 
+ April 22, 2024 08:38
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hello , How do I calculate my calories if I want to lose fat and build muscle at the same time? My wt 205 lb
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ April 22, 2024 13:36
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Abrar
+ 
+
+ 
+
+ 
+Hi Abrar,
+
+Select “Recomp — with a goal of muscle gain and fat loss” when using the Calorie and Macro Calculator. Or if you’re calculating by hand, stop once you have calculated your TDEE. (There is no need to add calories to bulk or subtract them to cut.)
+
+Also, give my article on bulking, cutting and recomping: Should I Bulk vs Cut (or Recomp)? The Definitive Guide.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Eury
+
+ 
+
+ 
+ July 8, 2024 00:08
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Andy Morgan
+ 
+
+ 
+
+ 
+Pardon my ignorance, but I want to go on a recomp. I calculated my TDEE, which is 1,941. Does that mean I’m supposed to be taking that many each day?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ July 8, 2024 09:24
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Eury
+ 
+
+ 
+
+ 
+Hi Eury,
+
+That’s correct!
+
+I should have explained that better. I’ve added a section on Body Recomposition Phases to make that clearer.
+
+Thank you for the feedback.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ steve
+
+ 
+
+ 
+ September 12, 2023 00:54
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Andy- when calculating calories for cottage cheese or greek yogurt,should I use scale weight or a volume cup?Thanks for reading-Steve
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ September 12, 2023 02:40
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ steve
+ 
+
+ 
+
+ 
+Scale weight has less room for error than a volume cup, so if you have the option to weigh it, I’d do that.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Logan
+
+ 
+
+ 
+ June 10, 2023 02:31
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+If precise waist tracking is important to make sure fat and not muscle is being cut, then is it safe to assume it's not as important if I'm overweight with high body fat (and hitting protein and lifting targets)?
+
+I ask because I get easily overwhelmed and when habit-building even taking photos and 3 waist measurements weekly is too much complexity at the start
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ June 12, 2023 07:35
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Logan
+ 
+
+ 
+
+ 
+The question is not whether you can cut fat without losing muscle without tracking two more stomach measurements; the question is whether you can accurately assess whether you are making progress (or have stalled), and thus know when and when not to change things, and by how much (in the case of the latter).
+
+Getting clients to measure in three places has been exceptionally useful for me as a coach over the years because fat loss doesn't happen linearly in all places.
+
+Do it. It'll take you just 30 seconds more.
+
+Start right. Start as you mean to go on.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Greg Vital
+
+ 
+
+ 
+ December 4, 2022 14:15
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+TO LOOSE WEIGHT WHY NOT GO ON LOW FAT DIET WHERE YOU DONT COUNT CALORIES YOU JUST COUNT FAT GRAMS LIKE NO MORE THAN 10-12 GRAMS OF FAT PER MEAL AND JUST DRINK PLENTY OF WATER YOU WILL SERIOUSLY LOOSE WEIGHT. IF YOU'RE WORKING OUT THEN THATS A DIFFERENT STORY BUT IF YOU WANT TO SHRED OF FAT (AN OBESE PERSON) THEN THEY SHOULD LOOSE THE WEIGHT FIRST THEN START WORKING OUT WITH A NORMAL DIET PLAN
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ December 5, 2022 12:17
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Greg Vital
+ 
+
+ 
+
+ 
+Oh right, yes. How insightful!
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Fernando
+
+ 
+
+ 
+ November 24, 2022 13:28
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hello andy, do the rates of weight gain are just for pure muscle?,or they consider fat gain. I'm having a hard time understanding the math up there.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ November 24, 2022 13:57
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Fernando
+ 
+
+ 
+
+ 
+Hi Fernando. The percentages are for total body weight gain (muscle and the inevitable fat gain).
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Brendan Averett
+
+ 
+
+ 
+ November 18, 2022 07:11
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hello. I have a question about TCDI, training/rest day calories. If, after adjustments, any of these end up lower than my BMR, is that okay? If not, should I adjust the weight loss target percentage in the TCDI calculation to correct?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ November 18, 2022 10:41
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Brendan Averett
+ 
+
+ 
+
+ 
+Hi Brendan. Yes, that's fine.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Brendan Averett
+
+ 
+
+ 
+ November 19, 2022 07:59
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Andy Morgan
+ 
+
+ 
+
+ 
+Thank you for the quick response. Correct to assume that’s an answer to the 2nd question and not the 1st?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ November 21, 2022 07:45
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Brendan Averett
+ 
+
+ 
+
+ 
+My answer was to the first part of the question. It doesn't matter if your calorie intake is below your calculated BMR.
+
+Sorry for the lack of clarity, Brendan, and thank you for the follow-up.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Scott
+
+ 
+
+ 
+ September 26, 2022 07:13
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hi Andy,
+
+I have been weight training for a while now with quite decent gains. I’m in my 40s and will be getting Lasik surgery soon. 
+
+Because of the surgery I will be unable to continue my program for a minimum of 2-4 weeks. Is there anything I can do to minimize my losses during this time? Or do you have any suggestions?
+
+Thanks so much and amazing article!
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ September 27, 2022 09:23
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Scott
+ 
+
+ 
+
+ 
+Hi Scott, sure:
+
+1. Eat at calorie maintenance.
+
+2. Eat a sufficient amount of protein.
+
+3. Consider using machines if you have access and are able.
+
+It’s a short time period, so even if you do only the first two you’ll lose very little muscle mass.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Max
+
+ 
+
+ 
+ July 25, 2022 19:19
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hi Andy,
+
+Such a helpful guide but had some questions 
+
+I don’t have good facilities for strength training and have found that I am better at cardio (especially in terms of adherence).
+
+You say that cardio should be kept to a minimum & advocate for strength training.
+
+Is my situation limiting my progress with my physique?
+
+I love the Pyramid as it reminds me to keep on top of calories above all else. But I’ve always struggled to consume anything like the right amount of protein for my given calorie goal.
+
+Will this also limit my physique progress, or will I just be lean with less muscle?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ July 26, 2022 07:41
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Max
+ 
+
+ 
+
+ 
+Hi Max, thank you for the questions.
+
+Is my situation limiting my progress with my physique?
+
+Absolutely. But suboptimal doesn’t mean unworthwhile.
+
+1. Resistance training is the most effective tool we have to tell the body to hold onto muscle as we lean out.
+
+3. The rate of weight loss also affects this (covered above).
+
+3. Adequate protein intake is the third most important factor (covered in next article).
+
+The leaner you get, the more muscle loss becomes a concern. The fatter you are, the less this is a concern. So, if you’re losing weight at an appropriate rate, enjoying cardio, have a lot of fat to lose, and are happy with the changes you see, keep at it.
+
+If you are not, consider making a change. Here’s my guide to training at home.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Ted
+
+ 
+
+ 
+ April 24, 2022 23:41
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Can you please explain what the extra 263 added in the formula is? I am lost here….
+
+Shredded Sam’s target daily calorie intake = 2844 + (175 x 0.01 x 150) = 2844 + 263 = 3107 kcal
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ April 25, 2022 06:58
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Ted
+ 
+
+ 
+
+ 
+Sure. It’s the calorie surplus needed to gain weight.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Ted
+
+ 
+
+ 
+ April 25, 2022 22:44
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Andy Morgan
+ 
+
+ 
+
+ 
+I thought the (175×0.01×150) was the total surplus calories needed to gain weight?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ April 26, 2022 11:01
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Ted
+ 
+
+ 
+
+ 
+Correct.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Clinton
+
+ 
+
+ 
+ February 12, 2022 11:49
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hi Andy,
+
+So I am definitely intermediate.
+
+I’ve trained fairly hard and consistently for three years, but paid little attention to nutrition for most of that time. So weight has barely moved but I likely didn’t get anywhere near enough protein for optimal muscle growth.
+
+Does that mean I am now stuck with quite low rates of possible muscle growth? It seems I’ve missed the optional muscle growth phase?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ February 14, 2022 07:40
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Clinton
+ 
+
+ 
+
+ 
+No, it doesn’t work on a time basis like that. Basically, the closer to your genetic potential, the slower the potential rate of muscle gain; the further away from your genetic potential, the faster the potential rate of muscle gain.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Clinton
+
+ 
+
+ 
+ February 14, 2022 08:40
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Andy Morgan
+ 
+
+ 
+
+ 
+Thanks Andy!
+
+So I’m definitely at the point where progress can only be measured month to month, even then a lift or two might stall or regress for a month or more. So I think that comfortably makes me intermediate.
+
+But given that I’ve not eaten to sufficiently grow I’m assuming I am likely still some way off my genetic potential, meaning I might be able to grow muscle a bit quicker than an average intermediate?
+
+Cheers, Clinton
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ February 14, 2022 16:51
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Clinton
+ 
+
+ 
+
+ 
+Yes, exactly.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Clinton
+
+ 
+
+ 
+ February 14, 2022 17:04
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Andy Morgan
+ 
+
+ 
+
+ 
+Brilliant, thanks again.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Abishai Dominic
+
+ 
+
+ 
+ February 11, 2022 13:55
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Thank you for this resource!
+
+You do not recommend to lose not more than 1% of body weight/week. It is because sustainability and muscle loss (unless I am missing something) 
+
+Ignoring sustainability (assuming that the individual is able to keep the weight off) why is losing muscle is frowned upon while fat loss? (I lost >60 lbs last year – naively in the wrong way, by cardio and cico) If the goal is to have visible shredded abs, why is losing 2% body weight/week( or slightly higher) not advised? Can you not add muscle (slowly bulk back up – with gaining minimum fat possible as recommend by the bulking guidance in your Manual) eventually after you reach to the point of visible abs?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ February 12, 2022 08:04
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Abishai Dominic
+ 
+
+ 
+
+ 
+You do not recommend to not lose more than 1% of body weight/week. It is because of sustainability and muscle loss (unless I am missing something)
+
+> Correct.
+
+…why is losing muscle is frowned upon while fat loss?
+
+Everyone has less muscle than they think and they’re disappointed when they cut for the first time as to how much weight they have to lose to get the lean look they’re after. When you also combine the fact that muscle is very hard-earned, it’s prudent to act in a way where you won’t lose it. 
+
+These points are moot, because you won’t be able to sustain a weight loss rate much over 1% anyway, nevermind 2%.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ William Eze
+
+ 
+
+ 
+ January 6, 2022 21:56
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hey Andy, 
+
+I haven’t trained in a while and when I take a long hiatus and return to the gym, I don’t pace myself, i’m able to lift the same weight as before I took a hiatus. I’m now planning my schedule as I just got a new job (sedentary 9-5) and I have to plan my workouts throughout the week to ensure I get enough sleep. The routine I’m going to do is a 5 day powerbuilding routine (intermediate-advanced) from Monday-Friday with 2 days rowing for 30 minutes on TandT and Muay Thai Training (1hr) on MWF, also 10k steps on MTWTF. What activity level would this lifestyle be?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ January 7, 2022 19:55
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ William Eze
+ 
+
+ 
+
+ 
+Highly active. But it sounds like you’re biting off a lot more than you can chew. Jog before you run.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ William Eze
+
+ 
+
+ 
+ January 8, 2022 03:15
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Andy Morgan
+ 
+
+ 
+
+ 
+Hey Andy, how can I dial back on the training and condition myself into the routine?
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ January 9, 2022 18:45
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ William Eze
+ 
+
+ 
+
+ 
+Start with a small but realistic commitment. Build consistency over several weeks. Add things only when you need to do so to achieve the desired result.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Zakaria Jr
+
+ 
+
+ 
+ May 9, 2021 12:25
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hey Andy ,i was thinking of something , ihope you can help .. if i want to maintain my weight and i calculated my maintenance calories , i was wondering what will happen if i ate different calories everyday(some days deficit , some days surplus) but on the long run , my calories for one month are the same number of my daily maintenance calories multiplied by 30 .. would that be considered as a maintenance month ? meaning should i stay the same weight and fat level at the starting point and ending point of that month ? (assuming perfect calorie counting and activity level as well ) , thanks in advance
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Bryant Pesantez
+
+ 
+
+ 
+ April 11, 2021 12:33
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hi Andy!
+
+I weigh 190 pounds and im 6 feet, i workout 6 times a week after my online education, i’ve been intaking way lower calories then your calculator suggests (probably about 1600) . Question is that for a cut it said i needed to intake 2500 calories, will this spike fat gain in any way since i was in a great deficit before?even thought i’m still cutting.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ April 12, 2021 08:59
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Bryant Pesantez
+ 
+
+ 
+
+ 
+Hi Bryant, thank you for the question.
+
+As you read in the notes on the macro calculator, the calculations are based on estimations and will need adjusting. You further read about the metabolic adaptations to dieting over time. As you already have your macros and tracking data for how you respond to that, you are better off adjusting based on that rather than making a new calculation.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ zack
+
+ 
+
+ 
+ November 11, 2020 13:43
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Andy,
+
+I have been trying this method for a while. I am 5’11 and 182 pounds. I am in an office environment where I get about 5,000 steps per day. I am a triathlete and half of the year am in training mode for an ironman and the other half is the off season. I primarily try to not include the food I eat for fuel on long rides and runs. Is that the best method? I burn way more calories than I can eat during those times.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ November 11, 2020 16:31
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ zack
+ 
+
+ 
+
+ 
+Hi Zach,
+
+It’s the right place to start. Whether that’s sufficient really depends on what you’re trying to do.
+
+If this food reduction isn’t enough to replace the drop in energy expenditure, and you were maintaining weight previously, you’ll start to gain weight.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Brian Mosley
+
+ 
+
+ 
+ October 20, 2020 06:27
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Andy, this is great information. I’m having a difficult time determining how active I am. I sit behind a desk all day but I walk for a full hour every day without stopping (just about 11k steps a day) and strength train 2-3 days/week. I walk even on workout days.
+
+Is that mostly sedentary or lightly active? I’m feeling like there is a tier I’m missing like mostly actively sedentary. (Bad joke)
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ October 20, 2020 10:22
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Brian Mosley
+ 
+
+ 
+
+ 
+Hi Brian, you sound ‘lightly active’ to me.
+
+I’ve limited the options purposefully knowing that more choice leads to decision paralysis and people will need to adjust after a few weeks anyway.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ Felipe
+
+ 
+
+ 
+ July 19, 2020 13:45
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+Hey Andy, great material here from you. I have, however, one doubt regarding adjustments with calories and macros. You say it is better to wait out 3 to 4 weeks before adjusting, but does that apply for every time we adjust? 
+
+For example, if I aimed at 1 lb per week, but I notice that the actual rate in 4 weeks is at 0.5 lb, must the new adjustment wait again another 3-4 weeks, even if the first weeks indicate that it is still not hitting the 1 lb target?
+
+Hope you understand the way I phrased it, keep up with this amazing work!
+
+Thanks!
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Author
+
+ 
+
+ 
+
+ 
+
+ 
+
+ Andy Morgan
+
+ 
+
+ 
+ July 20, 2020 12:28
+
+ 
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ Reply to 
+ 
+ Felipe
+ 
+
+ 
+
+ 
+Hi Felipe. It’s rare that I’d make another adjustment before the 4-week mark. You’ve got to give it enough time to tease out the signal from the noise.
+
+ 
+
+ 
+ 
+
+ 
+ Reply
+
+ 
+
+ 
+ 
+
+ Load Rest of Comments 
+ 
+
+ 
+ 
+
+ × 
+
+ 
+ Scroll to Top
+ 
+
+Insert

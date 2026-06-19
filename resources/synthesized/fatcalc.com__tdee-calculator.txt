@@ -1,0 +1,129 @@
+URL: (curl fetched)
+TITLE: TDEE Calculator | Accurate Daily Calorie Burn for All Ages
+
+menuhome
+
+ FatCalc 
+
+ bedtime share
+
+TDEE Calculator for All Ages
+
+ This TDEE calculator estimates the number of calories you burn each day. It uses your age, height, weight, sex, and activity level. The calculation is based on Doubly Labeled Water (DLW) formulas from the Institute of Medicine's Dietary Reference Intakes. These formulas are considered more accurate than older BMR-based equations, such as the Harris-Benedict and Mifflin-St Jeor equations. They measure real-world energy expenditure rather than relying on controlled lab settings. 
+
+ This calculator works for all ages including children, toddlers and infants. Once you know your number, you can use it to set calorie targets for weight loss, weight gain, or maintenance. For a deeper breakdown of your calorie needs by macronutrient, try our Macro Calculator. 
+
+What Is Your TDEE?
+
+ TDEE stands for Total Daily Energy Expenditure. It represents the total number of calories your body uses in a 24-hour period. This includes every metabolic process and physical movement. Your TDEE is the sum of several components: your Basal Metabolic Rate (BMR), the thermic effect of food (energy used to digest what you eat), non-exercise activity thermogenesis (NEAT), and the calories you burn through deliberate exercise.
+
+ Your body needs energy to keep essential functions running. These include breathing, blood circulation, nervous system activity, temperature regulation, and the continuous creation and replacement of body tissues. This energy comes from breaking down the chemical bonds in food through oxidation. The three primary macronutrients that supply this energy are carbohydrates, protein (about 4 calories per gram), and fat (about 9 calories per gram). You can calculate the right balance for your goals with our Macro Calculator. 
+
+ When you consume the same number of calories as you burn, your weight stays stable. This is because you are in energy balance. Eating more than your TDEE creates a positive energy balance, so excess is stored as body fat. Eating fewer calories than your TDEE creates a negative energy balance. This prompts your body to use stored fat as fuel, leading to weight loss. To estimate how much weight you can realistically lose, try our Calorie Deficit Calculator. 
+
+ Knowing your TDEE is essential for building a meal plan that matches your energy needs. Whether you aim to build muscle, enhance endurance, lose fat, or maintain your current physique, your TDEE provides a baseline for planning. 
+
+Estimated Energy Requirement (EER)
+
+ According to the Dietary Reference Intakes report, the Estimated Energy Requirement (EER) is the calories needed to sustain overall well-being. Thus, this calculator computes and presents energy usage based on EER, not TDEE, for individuals with an average weight. The EER prediction formulas apply to: 
+
+Adults who are considered to have a healthy weight based on their BMI (Body Mass Index) falling between 18.5 and 25. 
+
+Children between the ages of 3 and 18 who fall within the 5th and 85th percentile for BMI.
+
+Infants and toddlers aged up to 2 years who fall within the 3rd and 97th percentile for BMI.
+
+ If you are overweight and want to lose weight, start by finding your Total Daily Energy Expenditure (TDEE). You can calculate your TDEE using the DRI formulas in this calculator. This number will help you set a realistic weight loss goal. To lose weight, you must eat fewer calories than your current TDEE. A good starting point is to eat 200 fewer calories each day than your TDEE. Remember, as you lose weight, your TDEE will also go down. It's essential to check your TDEE regularly during your weight loss journey to keep your calorie intake lower than this number. 
+
+TDEE Formula Comparison
+
+ Most TDEE calculators rely on one of several BMR equations, all developed using indirect calorimetry, which measures energy expenditure in controlled lab settings. The most common are Mifflin-St Jeor, widely considered the best general-purpose adult formula; Harris-Benedict, originally published in 1919 and revised in 1984; Katch-McArdle, which factors in body fat percentage and works best for lean individuals; and Cunningham, designed for athletes but prone to overestimating for the general population. 
+
+ This calculator takes a distinct approach. It applies the Doubly Labeled Water (DLW) formulas from the Institute of Medicine, which are considered the benchmark for measuring total energy expenditure. Rather than confining subjects to a lab, DLW studies monitor energy use as participants follow their typical routines over one to three weeks, making the formulas more representative of real-world calorie expenditure. These formulas also span a broader age range, including infants, toddlers, and adults, while alternative equations target only adults. 
+
+How Many Calories Do I Burn per Day?
+
+ The number of calories you burn in a day depends on your body size, age, sex, and how active you are. As a general reference, most adults burn somewhere between 1,600 and 3,000 calories per day: 
+
+Sedentary adults (desk job, minimal exercise) typically burn 1,600–2,000 calories per day. 
+
+Moderately active adults (some exercise 3–5 days per week) typically burn 2,000–2,500 calories per day. 
+
+Very active adults (intense training or physically demanding job) can burn 2,500–3,500+ calories per day. 
+
+ These ranges are broad because individual metabolism varies significantly. Factors like muscle mass, hormonal balance, sleep quality, and even ambient temperature all influence how much energy your body uses. That is why a personalized calculation using your specific measurements, like the one this TDEE calculator provides, is far more useful than a generic range. 
+
+ If your goal is weight loss, a good starting point is to eat 200–500 fewer calories than your TDEE. For a more precise target based on your timeline and goals, use our Calorie Deficit Calculator or Daily Calories and Macros Planner. 
+
+TDEE vs BMR: What's the Difference?
+
+ Your Basal Metabolic Rate (BMR) is the number of calories your body needs just to stay alive at complete rest, powering your heart, lungs, brain, and other organs. For most people, BMR accounts for 60–70% of total daily calorie burn. 
+
+ Your TDEE builds on top of BMR by adding the energy you spend on daily movement, structured exercise, and digesting food. In practice, TDEE is always higher than BMR, and it's the number you should use when planning your calorie intake for weight loss, gain, or maintenance. 
+
+ For example, someone with a BMR of 1,500 calories might have a TDEE of 2,100–2,400 calories depending on their activity level. If they want to lose weight, they would eat below their TDEE (not their BMR), aiming for roughly 1,700–2,000 calories per day. Eating below your BMR for extended periods is generally not recommended, as it can lead to muscle loss, fatigue, and metabolic slowdown. 
+
+ Frequently Asked Questions about TDEE 
+ What is TDEE? 
+
+ TDEE refers to Total Daily Energy Expenditure. It represents the total number of calories your body consumes in 24 hours, encompassing all physical activities and metabolic processes. Understanding your Total Daily Energy Expenditure (TDEE) aids you in determining the number of calories required to sustain, shed, or increase weight. 
+
+ What information do I need to use the TDEE calculator? 
+
+ You will need your age, gender, height, weight, and an estimate of your daily activity level. These factors help the calculator provide a personalized estimate of your daily calorie needs.
+ 
+
+ Why is my activity level important in calculating TDEE? 
+
+ Activity level accounts for the calories you burn through exercise and daily movement. A more active lifestyle means a higher TDEE, while a sedentary lifestyle results in a lower TDEE. 
+
+ What is the difference between BMR and TDEE? 
+
+ BMR (Basal Metabolic Rate) is the number of calories your body needs to perform basic functions at rest. TDEE includes BMR plus calories burned through daily activities, exercise, and the digestion of food (Thermic Effect of Food). 
+
+ How can I use my TDEE for weight loss or weight gain? 
+
+ To lose weight, consume fewer calories than your TDEE (create a calorie deficit). To gain weight, consume more calories than your TDEE (create a calorie surplus). For maintenance, consume the same number of calories as your Total Daily Energy Expenditure (TDEE). 
+
+ How accurate is the TDEE calculator? 
+
+ The calculator provides a close estimate based on widely accepted formulas and the input data you provide. However, individual metabolism, muscle mass, and other factors can cause variations in results. For best results, monitor your progress and adjust your calorie intake as needed. 
+
+ Can children use this calculator? 
+
+ Yes, our calculator is designed for all ages, including children. For children, the calculator uses age-appropriate formulas and BMI percentiles to ensure accuracy.
+ 
+
+ What is the Estimated Energy Requirement (EER)? 
+
+ EER is the average daily calorie intake estimated to maintain energy balance in a healthy individual of a specific age, gender, weight, height, and activity level. Our calculator uses EER formulas for individuals within a healthy BMI range. 
+
+ Why does my TDEE change over time? 
+
+ Your TDEE can change due to factors such as weight loss or gain, changes in muscle mass, aging, and alterations in activity level. Regularly recalculating your Total Daily Energy Expenditure (TDEE) helps keep your calorie targets accurate. 
+
+ How can I improve the accuracy of my TDEE estimate? 
+
+ For greater accuracy, consider tracking your calorie intake and body weight for 1–2 weeks to see how your body responds to the changes. Adjust your calorie intake based on real-world results. 
+
+ Should I use TDEE or EER for my calculations? 
+
+ If you are within a healthy BMI range, EER is appropriate. If you are overweight or underweight, use your Total Daily Energy Expenditure (TDEE) for more accurate results. 
+
+ Is it safe to lose weight quickly by creating a large calorie deficit? 
+
+ Rapid weight loss is generally not recommended, as it can lead to muscle loss, nutritional deficiencies, and metabolic slowdown. A moderate calorie deficit (200–500 calories below TDEE) is safer and more sustainable. 
+
+Further Reading:
+
+ The EER equations used in this calculator are based on the Institute of Medicine's Dietary Reference Intakes report (2005), published by The National Academies Press, which established evidence-based energy intake recommendations. View report
+
+ Research by C. Henry, published in Public Health Nutrition (2005), reviewed basal metabolic rate measurement methods and developed updated prediction equations based on a large dataset of human studies. View study View study
+
+ A review by K.R. Westerterp, published in the European Journal of Applied Physiology (2017), explained the doubly labelled water method for measuring energy expenditure, considered the gold standard for validating estimation equations. View study
+
+ Expert committee recommendations by S.E. Barlow and W.H. Dietz, published in Pediatrics (1998) on behalf of the Maternal and Child Health Bureau, provided guidelines for evaluating and treating obesity in pediatric populations. View study
+
+Top of Page
+
+About UsPrivacy PolicyDisclaimerTerms of ServiceContact Us

@@ -1,0 +1,521 @@
+URL: https://gymgeek.com/calculators/bulking-calculator/
+TITLE: Bulking Calculator - Calories and Macros to Gain Weight - Gym Geek
+
+To gain 1 lb per week:
+
+— kcal/day
+
+kcalkJ
+
+1.
+Bulking Calculator
+
+2.
+
+Calorie Counter (App Store)
+
+3.
+Calorie Calculator
+
+4.
+Macro Calculator
+
+Activity level
+
+Moderate
+
+Carbs
+
+50%
+
+Fat
+
+30%
+
+Protein
+
+20%
+
+RatioCaloriesCarbsFatProtein
+
+51/30/19
+
+Tailored ratio
+
+— kcal
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+50/30/20
+
+Standard
+
+— kcal
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+40/30/30
+
+Low carb
+
+— kcal
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+44/30/26
+
+High protein
+
+— kcal
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+— g
+
+/day
+
+Your results will appear here
+
+Enter your details in the form above or keep scolling down to learn more
+
+Most Popular Calculators
+
+Calculators to try next:
+
+Calorie Calculator
+Our calorie calculator estimates how many calories you should consume to achieve your weight loss or weight gain goal.
+
+Open
+
+Macro Calculator
+The macro calculator breaks down your diet into macro ratios. Popular ratios include the 50/30/20 (Standard) and 40/30/30 (Low carb) ratios.
+
+Open
+
+Maintenance Calories Calculator
+Our maintenance calories calculator estimates how many calories you should consume to maintain your existing weight.
+
+Open
+
+BMI Calculator
+Calculate your Body Mass Index (BMI), based on your weight and height. A healthy BMI is between 18.5 and 24.9.
+
+Open
+
+Ideal Bodyweight Calculator
+Find your goal weight to hit your desired BMI. This tool can help you set a realistic weight loss goal.
+
+Open
+
+I have a question about bulking
+
+You can get quick feedback from our online moderated communities. These communities are also a great way to get help using the Gym Geek app. Join us on:
+
+Join us on Facebook
+
+Join us on Reddit
+
+Contact Gym Geek
+
+To contact the Gym Geek team, you can start a live chat from our support page. Our team is online Monday to Friday between 11am and 8pm London time (up to 3pm Eastern time and 12pm Pacific time).
+
+ Open support page
+ 
+
+ 
+ 
+
+Frequency asked questions
+
+What should my macros be for bulking?
+
+The optimal macro ratio between carbs, proteins and fats depends on your current weight, your bulking goal and your activity level. For most people, a balanced macro ratio consists of 45-65% carbohydrates, 20-35% fats and 10-35% proteins.
+
+The Gym Geek bulking calculator generally aims for 1.6g of daily protein per kg of bodyweight while bulking. If you are not training (sedentary), the calculator will instead aim for 1.2g of daily protein. The remaining calories are divided between carbs and fats, in accordance with the nutritional guidelines.
+
+How much protein should I eat while bulking?
+
+If you want to gain muscle instead of fat while bulking, you should aim to gain no more than 0.5 lb – 1 lb per week. To support muscle growth during a bulk, a protein intake of between 1.2 g and 1.6 g per kg of bodyweight should be sufficient for most people.
+
+If you train hard, you might want to aim between 1.6 g and 1.8 g of protein per kg of bodyweight. A bulking calculator can calculate your protein goal, while increasing or decreasing fat and carb intake to ensure a healthy balanced diet.
+
+How much protein should a woman eat per day?
+
+A protein intake of between 1.2 g and 1.6 g per kg of bodyweight should be sufficient for both men and women. However, this needs to be balanced against a healthy intake of fats and carbs. In particular, fat intake is critically important for a woman to maintain healthy levels of reproductive hormones. If you have a low bodyweight or low calorie intake, you may need to eat less protein to ensure sufficient fat and carb intake. You should use a macro calculator to get a tailored result.
+
+How much protein should a man eat per day?
+
+A protein intake of between 1.2 g and 1.6 g per kg of bodyweight should be sufficient for most men. Because men tend to have a greater TDEE than women, they can often eat more protein without compromising on fat and carb intake. However, if you are sedentary or have a large calorie deficit, you may need to eat less protein. You should use a macro calculator to get a tailored result.
+
+How many carbs do I need while bulking?
+
+A carb intake equivalent to 45-65% of calories is recommended for most people. Although carbs aren’t the building blocks of muscle, they provide your muscles and organs with glucose. This glucose provides direct energy to your muscle cells, and any excess is stored for 12-24 hours as glycogen in your liver.
+
+Gym Geek’s bulking calculator first calculates your protein and fat intake to meet the nutritional requirements, assigning the remainder of your calories to carbs. To keep your diet balanced, particularly if you have a low bodyweight or calorie intake, the ratios are capped to provide sufficient carb intake in most situations.
+
+ 
+ 
+
+What is the bulking calculator?
+
+Gym Geek’s bulking calculator calculates your daily calorie and macro intakes to gain between 0.5 lb and 2 lb per week. The calculator takes into account your current weight, age, gender and activity level to ensure your calories and macros are within the recommended nutritional guidelines.
+
+ 
+ 
+
+The calculator will output 4 macro ratios, including our “Tailored (recommended)” ratio, which provides between 1.2 g and 1.6 g of daily protein per kg of bodyweight. The ratio also ensures a minimum fat and carbohydrate intake based on your bodyweight. Our “High Protein” ratio provides between 1.6 g and 1.8 g of protein per kg of bodyweight.
+
+How to use the bulking calculator
+
+Before you start, you’ll need a recent weight measurement. We use your current weight to calculate your total daily energy expenditure (TDEE). This is also known as your maintenance calories.
+
+You can provide your weight in kilograms, pounds or stone and pounds.
+
+Enter your details
+
+Input the information about your current weight, height, gender, age and activity level into the calculator. This will be used to calculate your TDEE. You will also need to enter your a weight gain goal, between 0.5 lb per week and 2 lb per week, which we’ll use to calculate your daily calorie goal.
+
+ 
+ 
+
+Our bulking calculator requires the following information to produce an accurate result:
+
+Height – Input your height in imperial units (feet and inches) or metric units (centimeters).
+
+Current weight – Input your current weight in kilograms (metric units), pounds (US imperial units) or stone and pounds (British imperial units).
+
+Gender – Select either “Male” or “Female”. Our calculator is based on scientific research that currently use male and female gender categories. To provide the most accurate results, please choose your sex assigned at birth or the option that best matches your physiology. If you are non-binary, you may prefer to use our calorie counter app which adapts to your unique metabolism irrespective of your gender.
+
+Age – Select your age. You need to be 18 or over to use our calculator, since BMR and TDEE estimates are not a suitable measure for children and teens under the age of 18.
+
+Activity level – Select the activity level that most closely matches your lifestyle, based on the descriptions of typical activity provided.
+
+Weight gain goal – If you are bulking (eating a surplus to gain muscle via resistance training), you typically want to gain 0.5 to 1 lb per week. Gaining 2 lb a week will typically see you gain fat, regardless of your resistance training routine.
+
+Using your TDEE along with your weight gain goal, the bulking calculator will output up to 4 macro ratios. The “Tailored” and “High protein” macro ratios are personalized to your bulking goal, while the “Standard (50/30/20)” and “Low carb (40/30/30)” are fixed ratios that you can compare against. 
+
+Choose your activity level
+
+Our calorie calculator estimates your maintenance calories by multiplying your BMR by an activity level. The activity levels are called Harris-Benedict Standard Activity Factors (SAF) or Physical Activity Levels (PAL), and they range from 1.2 (+20%) to 1.9 (+90%), depending on your level of physical activity.
+
+To perform the calorie calculation, you will need to determine which SAF score fits your lifestyle best:
+
+Sedentary (SAF = 1.2) – Your daily life involves little to no exercise. You may work a desk-based job and spend your spare time indoors with little physical activity.
+
+Light Activity (SAF = 1.375) – You take part in light exercise or sports 1-3 days per week. If you work in a job where you spend time on your feet for most of the day, this may be an appropriate factor.
+
+Moderate Activity (SAF = 1.55) – You take part in moderate exercise or sports 3-5 days per week. This can include activities like jogging, cycling or swimming for at least 30 minutes each day.
+
+Very Active (SAF = 1.725) – You take part in moderate-to-vigorous exercise or sports 6-7 days per week. This can include running or playing competitive sports.
+
+Extra Active (SAF = 1.9) – You take part in vigorous training two times a day or have job requiring hard physical labor.
+
+Easily adjust your inputs
+
+Once you’ve entered the required information into the form, click the “Calculate bulk” button to see your results. To see the impact that activity has on your weight plan, click the “-” (minus) and “+” (plus) buttons next to the “Activity Level” control.
+
+ 
+ 
+
+You can also create a custom macro ratio by pressing the “-” (minus) and “+” (plus) buttons next to the “Carbs”, “Fats” and “Protein” controls.
+
+To change any other value, simply scroll back up to the form and adjust your inputs. You’ll need to click the “Calculate bulk” button again when you change any input in the form.
+
+Tailored macro ratio
+
+A ratio that provides between 1.2 g and 1.6 g of protein per kg of bodyweight. It also ensures a minimum fat intake based on your bodyweight.
+
+Protein
+
+The tailored ratio will provide 1.6 g of daily protein per kg of bodyweight while you are bulking, unless you are completely sedentary. If you are sedentary, the calculator will instead provide 1.2 g of daily protein per kg of bodyweight.
+
+The calculator will cap the protein proportion to 35% of the ratio to avoid an overconsumption of protein.
+
+Fat
+
+In most cases, the tailored macro ratio will provide 30% of your daily calorie intake to fats. However, it will adjust your fat intake down to keep your carbohydrate intake to at least 45% of your diet. It will never fall below the absolute minimum consumption of 0.5 g of fat per kg of bodyweight. This level provides the essential fatty acids for cell growth, nutrient absorption and hormone production.
+
+The fat level is likely to reduce from 30% if you have a low bodyweight. The macros may not meet the nutritional guidelines for carbohydrate, fat and protein intake.
+
+Carbs
+
+Once the calculator has established the acceptable intake of proteins and fats, the remaining calories are allocated to carbohydrates.
+
+High protein macro ratio
+
+A similar ratio to the tailored macro ratio, except it provides between 1.6 g and 1.8 g of protein per kg of bodyweight.
+
+Protein
+
+The “High Protein” ratio will provide 1.8 g of daily protein per kg of bodyweight while you are bulking, unless you are completely sedentary. If you are sedentary, the calculator will instead provide 1.6 g of daily protein per kg of bodyweight.
+
+The calculator will cap the protein proportion to 35% of the ratio to avoid an overconsumption of protein.
+
+Fat
+
+Just like the tailored macro ratio, the high protein macro ratio will provide 30% of your daily calorie intake to fats. However, it will adjust your fat intake down to keep your carbohydrate intake to at least 40% of your diet. It will never fall below the absolute minimum consumption of 0.5 g of fat per kg of bodyweight. This level provides the essential fatty acids for cell growth, nutrient absorption and hormone production.
+
+The fat level is more likely to reduce down compared to the tailored macro ratio. This is because neither ratio will adjust down your protein intake to satisfying the nutritional requirements of fats or carbohydrates.
+
+Carbs
+
+Once the calculator has established the acceptable intake of proteins and fats, the remaining calories are allocated to carbohydrates. Please note that carbohydrates may drop to 40% of calories in this ratio, which is outside the generally recommended Acceptable Macronutrient Distribution Range.
+
+Standard macro ratio – 50/30/20
+
+The 50/30/20 rule-of-thumb is a popular macro ratio. According to this rule, 50% of your daily calories should come from carbohydrates, 30% from proteins, and the remaining 20% from fats. This ratio is simple, but it may not suit every individual. It provides a reasonable starting point for those looking to structure their diet for healthier living.
+
+Low carb macro ratio – 40/30/30
+
+The low carb macro ratio follows a 40/30/30 split between carbs, fats and proteins. 40% of your daily calorie intake should come from carbohydrates, 30% from proteins and the remaining 30% from fats.
+
+What are macros?
+
+Macros (short for “macronutrients”) are the nutrients your body needs to provide it energy. You need macros in large quantities – measured in many tens or hundreds of grams – compared against micronutrients, that are needed in trace amounts. The key macros when it comes to diet are carbs, fats and proteins.
+
+Carbs are the body’s primary energy source, while proteins play a key role in tissue growth and repair. Fats also provide energy and help your body absorb other nutrients.
+
+ 
+ 
+
+Macros are one key consideration when it comes to designing a healthy and balanced diet. For most people, a balanced diet consists of 45-65% carbohydrates, 20-35% fats and 10-35% proteins. These are wide ranges and the suitable ratio depends on your individual needs and health and fitness goals.
+
+Proteins
+
+Protein is an important building block for muscles and other body tissues. Your body uses protein to create and maintain new muscle cells, organ cells, skin and hair. Protein also plays a role in your immune system and can provide energy alongside the metabolism of carbs and fats.
+
+Proteins are made up of amino acids. There are 20 types of amino acid found in proteins in the human body. Nine of these proteins are called ‘essential’ amino acids, which means your body is unable to synthesize them. You must therefore get enough of these proteins from your diet.
+
+ 
+ 
+
+Sources of protein
+
+Good sources of protein include animal-based foods like meat, dairy and eggs. Good plant-based sources are beans, nuts and whole grains.
+
+Animal-based foods high in protein:
+
+Beef
+
+Chicken
+
+Pork
+
+Fish
+
+Eggs
+
+Dairy, including cheese and milk
+
+Plant-based foods high in protein:
+
+Legumes, including beans, lentils and chickpeas
+
+Whole grains, including quinoa and brown rice
+
+Nuts
+
+Seeds
+
+Spinach
+
+Broccoli
+
+Many plant proteins are ‘incomplete’, which means they do not include all 9 essential amino acids. When following a plant-based diet, it’s important to eat a varied diet to ensure you can get proteins with all the essential amino acids.
+
+Protein powder
+
+Protein supplements can be a convenient source of protein, but for most people it is not necessarily to take a supplement. A diet rich in meats, dairy, legumes and nuts can provide all the protein you need.
+
+Some people may benefit from protein supplements in certain circumstances. Athletic individuals or those with high levels of physical activity need more protein to support muscle growth and repair. To meet the increased demand for protein, it may be helpful to take a supplement.
+
+Recommended intake of protein
+
+Protein is essential for growth, maintenance and repair of body tissue. The amount of protein you need depends on your age, gender, weight and level of physical activity. Consuming too much protein can be harmful to your health, and may cause kidney damage, osteoporosis and other health issues.
+
+For most people, it is recommend to consume 0.8 grams of protein per day for each kg of bodyweight. For a person weighing 70 kilograms, this means the recommendation is 56 grams of protein per day. Factors such as physical activity level, muscle mass, and health conditions may require an individual to consume more protein.
+
+Our calculator uses a protein intake of between 1.2g and 1.8g per kg of bodyweight.
+
+ 
+ 
+
+Carbohydrates
+
+Carbohydrates (carbs) provide your body with glucose, that is converted to energy to fuel your body. Your body stores glucose as glycogen in your liver and muscles.
+
+here are two main types of carbs – simple and complex. Simple carbs are made up of one or two sugar molecules and are found in fruits, honey and milk, for example. Processed foods tend to contain a lot of simple carbs.
+
+Complex carbs are made up of complex chains of sugar molecules and can be found in whole foods and vegetables. Because your body has to break down complex carbs, they provide more sustained energy.
+
+Starch is a type of carbohydrate that is found in grains, potatoes and legumes, and is broken down into glucose to provide energy to your body. 
+
+Fiber is a non-digestible carbohydrate that is essential for maintaining a healthy digestive system. Fiber in your diet can help regulate your bowel movements, promote satiety (feeling of fullness) and can help control your blood sugar level.
+
+Sources of carbohydrates
+
+Good sources of complex carbohydrates include:
+
+Whole grains
+
+Vegetables
+
+Quinoa
+
+Brown rice
+
+Sweet potatoes
+
+Oatmeal
+
+Bananas
+
+Recommended intake of carbohydrates
+
+It is generally recommended that 45-65% of your diet, measured by calories, comes from carbohydrates.
+
+Fats
+
+There’s a common misconception that fats are unhealthy and should be avoided. In fact, our bodies need fat to be healthy and function efficiently.
+
+There are three types of fat:
+
+Saturated fats: Some people know these as the ‘unhealthy fat’. A diet that is high in saturated fats is associated with an increased risk of high cholesterol. This may lead to heart disease.
+
+Unsaturated fats: Unsaturated fats are healthy fats that provide essential fatty acids to your body. These can be monounsaturated or polyunsaturated fats.
+
+Trans fats: Trans fats are a harmful type of fat that should be avoided. They have no nutritional value and can increase the risk of heart disease, stroke and diabetes.
+
+Fats play a few key roles in your body. Firstly, they are energy dense, containing more ‘calories’ of energy per gram, compared against both carbohydrates and proteins. If you consume more calories than is needed, the excess is stored as fat. These reserves can be broken down later when your body requires additional energy.
+
+ 
+ 
+
+Fat is also important for absorbing many vitamins. Vitamins A, D, E and K are known as “fat-soluble” vitamins, which means they can only be absorbed into the body when the food you eat contains fat.
+
+Sources of fats
+
+Foods high in “good fats” (unsaturated) include:
+
+Avocados
+
+Nuts
+
+Seeds
+
+Olive oil
+
+Fatty fish
+
+Foods high in “bad fats” (trans and saturated fats) include:
+
+Processed and ultra-processed foods
+
+Fried foods
+
+Baked goods
+
+Recommended intake of fats
+
+It is generally recommended that 20-35% of your diet, measured by calories, comes from fat. You should limit your intake of saturated and trans fats.
+
+Macros and calories
+
+Whether you are looking to losing weight or bulking, it’s important to understand your BMR (Basal Metabolic Rate) and TDEE (Total Daily Energy Expenditure) when planning your diet. Your TDEE is an estimate of the number of calories you burn each day. To lose weight, you can eat fewer calories relative to your TDEE; and to gain weight, you can eat more calories.
+
+You can think of your daily calorie intake as made up of the 3 macronutrients – carbs, fats and proteins. Each macronutrient provides a number of calories per gram:
+
+Carbohydrates – 4 calories per gram
+
+Fats – 9 calories per gram
+
+Proteins – 4 calories per gram
+
+Fats are more than twice as energy-dense when compared to carbohydrates and proteins.
+
+A macro ratio is the proportion of calories that each macro represents in your diet. For example, a 50/30/20 macro ratio means that 50% of your calories come from carbohydrates, 30% come from fats and 20% come from proteins. Remember that the ratio is a proportion of calories, not a proportion of weight (grams) of the food you eat.
+
+For each macro ratio, the bulking calculator outputs the number of grams per day for each of carbohydrates, fats and proteins. For example, if you eat 2,000 calories per day with 20% of your calories coming from protein, this means you will each 400 calories of protein. Divide this by 4 to get 100 – and this is the amount of protein you should eat per day on this ratio: 100g per day.
+
+ 
+ 
+
+Who should not use the bulking calculator?
+
+Do not use our bulking calculator:
+
+If you are pregnant – Our bulking calculator will not provide an accurate reflection of your health status as your body undergoes significant changes during pregnancy. Consult a doctor or medical professional if you are concerned about your weight.
+
+If you have an eating disorder – Always consult a medical professional about your weight.
+
+If you are under the age of 18 – BMR and TDEE estimates are not a suitable measure for children and teens under the age of 18.
+
+About this page
+
+Changelog
+
+14 April 2026 – Published bulking calculator
+
+15 June 2026 – Correction to the Acceptable Macronutrient Distribution Range, minimum range for carbohydrates is 45-65%.
+
+Written by Jane Litfin
+
+Gym Geek’s health and fitness editor.
+
+Updated 15 June 2026
+
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+
+DO NOT SELL OR SHARE MY PERSONAL INFORMATION

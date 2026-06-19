@@ -1,0 +1,197 @@
+URL: (curl fetched)
+TITLE: RMR &amp; BMR Calculator | 3 Validated Formulas
+
+menuhome
+
+ FatCalc 
+
+ bedtime share
+
+Resting Metabolic Rate (RMR) Calculator
+
+ Use this Resting Metabolic Rate calculator to discover how many calories your body burns at rest. You can choose from three validated formulas: Mifflin-St Jeor (recommended for most people), Harris-Benedict, or Katch-McArdle (most accurate if you know your body fat percentage). Results include comparisons with measured RMR data from nearly 12,000 adults. 
+
+What Is RMR?
+
+Resting Metabolic Rate (RMR) is the amount of energy your body expends while at rest to maintain essential functions like breathing, circulating blood, and regulating body temperature. RMR accounts for roughly 60–75% of your total daily energy expenditure.
+
+Formulas Used in This Calculator
+
+Our calculator implements three scientifically validated formulas, each with distinct advantages:
+
+1. Mifflin-St Jeor Equation (1990)
+
+This is the most widely recommended formula for the general population and serves as our default calculation method.
+
+Men: RMR = (9.99 × weight in kg) + (6.25 × height in cm) − (4.92 × age) + 5
+
+Women: RMR = (9.99 × weight in kg) + (6.25 × height in cm) − (4.92 × age) − 161 
+
+Advantages: Most accurate for the general population according to systematic reviews; uses easily obtainable measurements.
+
+Disadvantages: Does not account for body composition; may overestimate RMR in individuals with high body fat or underestimate in those with high muscle mass.
+
+2. Harris-Benedict Equation (Revised 1984)
+
+Originally developed in 1919 and revised by Roza and Shizgal in 1984, this classic equation remains widely used in clinical settings.
+
+Men: RMR = (13.397 × weight in kg) + (4.799 × height in cm) − (5.677 × age) + 88.362
+
+Women: RMR = (9.247 × weight in kg) + (3.098 × height in cm) − (4.330 × age) + 447.593 
+
+Advantages: Extensively validated over decades; familiar to healthcare professionals; uses easily obtainable measurements.
+
+Disadvantages: Tends to overestimate RMR by 5–15% in many populations; less accurate than Mifflin-St Jeor for most individuals.
+
+3. Cunningham Equation (1991)
+
+This formula uses lean body mass (LBM) as its sole predictor, making it particularly useful for athletic or muscular individuals.
+
+Note on Attribution: This equation is commonly referred to as the "Katch-McArdle equation" in fitness literature. However, the formula was actually developed by J.J. Cunningham and published in peer-reviewed journals in 1980 and 1991. Katch and McArdle subsequently popularized it through their widely-used textbook Exercise Physiology: Nutrition, Energy, and Human Performance. Both names refer to the same equation. 
+
+All sexes: RMR = 370 + (21.6 × lean body mass in kg) 
+
+The calculator automatically derives your lean body mass from your weight and body fat percentage using:
+
+ Lean Body Mass = Weight × (1 − Body Fat % ÷ 100) 
+
+Advantages: Most accurate for athletes and individuals with above-average muscle mass; accounts for body composition; sex-neutral (body composition inherently accounts for sex differences); supported by subsequent research showing strong correlation with measured metabolic rates.
+
+Disadvantages: Requires accurate body fat percentage; may be less accurate for sedentary individuals or those over 60 years old.
+
+Body Composition Options
+
+The calculator offers three options for determining which formulas to use:
+
+Option 1: Use Standard Formulas
+
+Select this option if you don't know your body fat percentage. The calculator will use the Mifflin-St Jeor and Harris-Benedict equations, which require only your height, weight, age, and sex. The Cunningham equation will not be calculated since it requires body composition data.
+
+Option 2: I Know My Body Fat %
+
+Select this option if you have measured your body fat using methods such as DEXA scanning, hydrostatic weighing, or bioelectrical impedance analysis. Enter your known body fat percentage directly, and the calculator will compute all three formulas, including the Cunningham equation.
+
+If you don't have a direct measurement but have access to a flexible tape measure or skin calipers, you can estimate your body fat percentage using our Body Fat Calculator.
+
+Option 3: Estimate Body Fat % from BMI
+
+Select this option if you do not have a direct body fat measurement but would like an estimate based on your BMI. The calculator uses the Jackson et al. (2002) regression equations from the HERITAGE Family Study to estimate body fat percentage.
+
+ These equations account for sex, age, and ethnicity: 
+
+ Men: Body Fat % = 0.14 × age + 37.31 × ln(BMI) − 103.94
+
+ Women: Body Fat % = 0.14 × age + 39.96 × ln(BMI) − 102.01 
+
+For African American individuals, the equations include adjustments (−2.0 for men, −3.0 for women) to account for documented differences in body composition at the same BMI.
+
+Important: BMI-based estimates are less accurate than direct measurements. The HERITAGE equations explain roughly 75% of variance in body fat and have a standard error of 4–5%. If you need greater precision, consider using our Body Fat Calculator with measurements or obtaining a DEXA scan.
+
+How You Compare: Population Reference Data
+
+The calculator compares your results against reference values from McMurray et al. (2014), a meta-analysis that examined RMR measurements from nearly 12,000 adults. This comparison shows how your RMR stacks up against others of the same sex, age group, and BMI category.
+
+To enable meaningful comparison across different body sizes, the reference data uses RMR expressed as kcal/kg/hour (calories per kilogram of body weight per hour). Here are the population averages used:
+
+Men (kcal/kg/hr)
+
+AgeNormalOverwtObese
+
+20–391.010.920.82
+
+40–540.920.870.69
+
+55–740.850.79—
+
+Women (kcal/kg/hr)
+
+AgeNormalOverwtObese
+
+20–390.950.800.73
+
+40–540.870.800.70
+
+55–740.850.760.73
+
+Normal: BMI <25 | Overwt: BMI 25–29.9 | Obese: BMI ≥30
+ — indicates insufficient data in the source study
+
+Why RMR Per Kilogram Varies
+
+You may notice that the population average RMR per kilogram varies considerably across groups. Several factors contribute to this:
+
+Age: RMR typically decreases with age, primarily due to loss of muscle mass (sarcopenia) and changes in organ metabolic activity. Young adults tend to have the highest RMR per kilogram.
+
+Sex: Men generally have higher RMR per kilogram than women, largely due to differences in body composition. Men typically have more muscle mass and less fat mass at any given weight.
+
+BMI: Higher BMI categories show lower RMR per kilogram because fat tissue is less metabolically active than lean tissue. When RMR is expressed per kilogram of total body weight, individuals with higher body fat percentages will have lower values. However, in absolute terms (total kcal/day), individuals with higher BMIs typically have higher total energy expenditure.
+
+Interpreting Your Comparison Result
+
+The percentage difference shows how your RMR compares to the average for your specific demographic group. A positive percentage means your RMR is higher than average, while a negative percentage means it's lower.
+
+Being above or below average is not inherently good or bad. Individual variation of 10–15% from the population mean is normal and can be influenced by factors including muscle mass and body composition, genetics, thyroid function, recent diet and activity patterns, and measurement conditions of the original studies.
+
+Interpreting Your Results
+
+The calculator displays results from all applicable formulas for comparison. Keep in mind that all calculations are estimates. Individual variation of 10–15% is normal. Use your calculated RMR as a starting point and adjust based on real-world results over time.
+
+Why Online "BMR Calculators" Don't Actually Calculate BMR
+
+Important: The vast majority of online calculators labeled as "Basal Metabolic Rate (BMR) calculators" are technically misnomers. They estimate RMR or REE, not true BMR.
+
+This isn't just semantic nitpicking. It reflects the actual measurement conditions under which the predictive equations were derived. True BMR measurement requires the subject to have fasted for 12–14 hours, slept overnight in the testing facility, remained completely motionless, been tested immediately upon waking (before rising), and stayed in a thermoneutral environment (22–26°C) with dim lighting and no psychological stress. 
+
+Mifflin-St Jeor Equations (1990): This study explicitly measured resting metabolic rate, not BMR. The original paper uses "RMR" and "REE" terminology throughout. Subjects fasted overnight (10–12 hours) and were measured via indirect calorimetry while resting. They were awake, in normal lighting conditions, and had traveled to the laboratory that morning rather than sleeping in the metabolic ward.
+
+Harris-Benedict Equations (1918/1919): The original study by Harris and Benedict used closed-circuit indirect calorimetry. While subjects fasted overnight, they were measured at rest. They were not under the full basal conditions of 12–14 hours post-absorptive, complete darkness, thermoneutral environment, and measurement immediately upon waking without rising. The 1984 Roza & Shizgal revision used the same underlying dataset.
+
+Cunningham (Katch-McArdle) Equation: This equation was derived from resting measurements correlated with fat-free mass, again under RMR conditions rather than strict basal protocols.
+
+Has Anyone Produced a True Predictive BMR Equation?
+
+The short answer is: not really, and the field largely stopped trying. True BMR measurement requires subjects to sleep overnight in a metabolic ward facility. A protocol so resource-intensive that it's rarely performed outside of specialized research studies. Some older metabolic ward studies from the early-to-mid 20th century did attempt true basal measurements, but the predictive equations derived from them never achieved widespread modern adoption.
+
+The research community pivoted to RMR-based equations for practical reasons: RMR is far more feasible to measure in clinical settings, and since the typical difference between BMR and RMR is only 3–10%, the additional precision of true BMR offers limited practical benefit. After all, people don't live under basal conditions.
+
+What This Means for You
+
+When you use this calculator, or any online metabolic calculator, understand that you're receiving an estimate of RMR/REE, regardless of what the tool calls itself. For practical nutrition and fitness planning, this distinction rarely matters. The small percentage difference between BMR and RMR is well within the margin of error of any predictive equation, and RMR better represents the energy your body actually expends during a typical resting day.
+
+We've chosen to call this tool an "RMR Calculator" because that's scientifically accurate. The equations implemented here estimate what your body burns at rest under realistic conditions which is exactly what you need to know for meal planning or understanding your metabolism.
+
+Related Calculators:
+
+TDEE Calculator for All Ages
+
+Calorie Deficit Calculator for Realistic Weight Loss Goals
+
+Calculate Your Daily Calories and Macros to Reach Your Goal Weight
+
+Body Fat Calculator to Find Your Healthy Goal Weight
+
+Maximum Fat Loss Calculator
+
+References:
+
+Mifflin MD, St Jeor ST, Hill LA, Scott BJ, Daugherty SA, Koh YO. A new predictive equation for resting energy expenditure in healthy individuals. Am J Clin Nutr. 1990;51(2):241-247. https://pubmed.ncbi.nlm.nih.gov/2305711/
+
+Harris JA, Benedict FG. A Biometric Study of Human Basal Metabolism. Proc Natl Acad Sci USA. 1918;4(12):370-373. https://pubmed.ncbi.nlm.nih.gov/16576330/
+
+Roza AM, Shizgal HM. The Harris Benedict equation reevaluated: resting energy requirements and the body cell mass. Am J Clin Nutr. 1984;40(1):168-182. https://pubmed.ncbi.nlm.nih.gov/6741850/
+
+Cunningham JJ. A reanalysis of the factors influencing basal metabolic rate in normal adults. Am J Clin Nutr. 1980;33(11):2372-2374. https://pubmed.ncbi.nlm.nih.gov/7435418/
+
+ Cunningham JJ. Body composition as a determinant of energy expenditure: a synthetic review and a proposed general prediction equation. Am J Clin Nutr. 1991;54(6):963-969. https://pubmed.ncbi.nlm.nih.gov/1957828/
+
+McArdle WD, Katch FI, Katch VL. Exercise Physiology: Nutrition, Energy, and Human Performance. 8th ed. Lippincott Williams & Wilkins; 2015. 
+
+Jackson AS, Stanforth PR, Gagnon J, et al. The effect of sex, age and race on estimating percentage body fat from body mass index: The Heritage Family Study. Int J Obes Relat Metab Disord. 2002;26(6):789-796. https://pubmed.ncbi.nlm.nih.gov/12037649/
+
+Frankenfield D, Roth-Yousey L, Compher C. Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review. J Am Diet Assoc. 2005;105(5):775-789. https://pubmed.ncbi.nlm.nih.gov/15883556/
+
+McMurray RG, Soares J, Caspersen CJ, McCurdy T. Examining Variations of Resting Metabolic Rate of Adults: A Public Health Perspective. Med Sci Sports Exerc. 2014;46(7):1352-1358. https://pubmed.ncbi.nlm.nih.gov/24300125/
+
+Top of Page
+
+About UsPrivacy PolicyDisclaimerTerms of ServiceContact Us

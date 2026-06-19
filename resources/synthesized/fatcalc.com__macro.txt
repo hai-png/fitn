@@ -1,0 +1,219 @@
+URL: https://www.fatcalc.com/macro
+TITLE: Free Macro Calculator | 11 Diet Types | FatCalc
+
+menuhome
+
+ FatCalc 
+
+ bedtime share
+
+Macro Calculator
+
+ This tool calculates your macronutrient (macro) needs based on your daily calorie requirements and dietary preferences. It breaks down the appropriate proportions and quantities of fats, proteins, and carbohydrates to consume — expressed both as a percentage of total calories and as grams per day. Tracking macros in grams rather than counting calories gives you a clearer picture of what you are actually eating and why it matters. 
+
+Macro Calculator
+
+Daily Calorie Requirement
+
+ kcal 
+
+Diet Type
+
+Balanced Diet
+
+For a Balanced Diet of 2000 kcal
+
+Carbs: 57% = 1140 kcal = 285 grams
+
+chevron_left
+
+chevron_right
+
+Protein: 18% = 360 kcal = 90 grams
+
+chevron_left
+
+chevron_right
+
+Fat: 25% = 500 kcal = 56 grams
+
+chevron_left
+
+chevron_right
+
+Customize   Reset
+
+ Enter your daily calorie requirement and select a diet type. If you don't know your daily calorie requirement, check out ➤ TDEE Calculator for All Ages for an estimate of the number of calories your body burns daily to maintain your current weight. If you are planning to lose or gain weight, use the calculators at ➤ Calorie Deficit Calculator for Realistic Weight Loss Goals or ➤ Calculate Your Daily Calories and Macros to Reach Your Goal Weight to help determine your daily calorie target. 
+
+ The calculator offers predefined macro ratios for eleven diet types — see the descriptions below. You can also fine-tune the ratios for any diet using the Customize button, which enables the arrow controls on each macro bar. Adjusting one macro automatically redistributes the remainder to keep the total at 100%. 
+
+Suggested Macronutrient Intakes
+
+ According to the Food and Nutrition Board of the Institute of Medicine (IOM), 45% to 65% of your total calorie consumption should come from carbohydrates, 10% to 35% from protein, and 20% to 35% from fat. For example, on a 2,000 kcal daily intake: 
+
+ For carbs (45% to 65%):
+ 2000 kcal x 0.45 = 900 kcal
+ 2000 kcal x 0.65 = 1300 kcal
+
+ For protein (10% to 35%):
+ 2000 kcal x 0.10 = 200 kcal
+ 2000 kcal x 0.35 = 700 kcal
+
+ For fat (20% to 35%):
+ 2000 kcal x 0.20 = 400 kcal
+ 2000 kcal x 0.35 = 700 kcal 
+
+ To convert those calorie values to grams, recall that one gram of fat provides 9 kcal, while one gram of carbohydrate or protein each provides 4 kcal. For a 2,000 kcal diet this gives: 
+
+ For carbs (900 to 1300 kcal):
+ 900 kcal / 4 kcal per gram = 225 grams
+ 1300 kcal / 4 kcal per gram = 325 grams
+
+ For protein (200 to 700 kcal):
+ 200 kcal / 4 kcal per gram = 50 grams
+ 700 kcal / 4 kcal per gram = 175 grams
+
+ For fat (400 to 700 kcal):
+ 400 kcal / 9 kcal per gram = 44 grams
+ 700 kcal / 9 kcal per gram = 78 grams 
+
+ The combined quantity of carbohydrates, protein, and fat determines the total caloric intake of a macro diet. The suggested IOM ranges are broad enough to accommodate the needs of most physically active individuals. 
+
+Diet Types
+
+ The calculator includes eleven evidence-based diet presets. Each uses mid-point values derived from peer-reviewed guidelines as its default ratios. A brief description of each is provided below. 
+
+Balanced Diet — Fat 25% | Protein 18% | Carbs 57%
+
+ The balanced diet aligns with the IOM Acceptable Macronutrient Distribution Ranges (AMDR) and WHO guidelines. It is the most broadly applicable starting point and suits the majority of healthy adults regardless of activity level. No food group is restricted, making it sustainable and easy to follow long-term. 
+
+Low Fat Diet — Fat 18% | Protein 17% | Carbs 65%
+
+ Developed from classic cardiovascular guidelines (Ornish, AHA), a low-fat diet targets fat intake at or below 20% of total calories, with carbohydrates compensating at 60–70%. It is most commonly recommended for individuals managing LDL cholesterol or cardiovascular risk, and has a strong evidence base in those populations. 
+
+Low Carb Diet — Fat 45% | Protein 28% | Carbs 27%
+
+ A clinically defined low-carb diet restricts carbohydrates to below 26% of total calories — roughly under 130 grams per day on a 2,000 kcal intake. Fat rises to compensate while protein is moderately elevated to support satiety and muscle retention. This pattern is well-studied for weight loss and blood sugar management. 
+
+High Protein Diet — Fat 25% | Protein 35% | Carbs 40%
+
+ Protein is elevated to 30–40% of calories, consistent with Zone and Protein Power protocols. Higher protein intake promotes satiety, supports lean muscle mass, and is particularly effective when combined with resistance training. Fat and carbs are kept moderate to avoid excess saturated fat while maintaining training fuel. 
+
+Standard Keto Diet — Fat 70% | Protein 22% | Carbs 8%
+
+ The classic ketogenic diet keeps carbohydrates at or below 10% of calories (20–50 grams per day) to induce nutritional ketosis, a metabolic state in which the body burns fat as its primary fuel. Fat is elevated to 65–75% and protein is capped at around 20–25% — excess protein can be converted to glucose and suppress ketosis. This diet has strong evidence for epilepsy management and is widely used for fat loss. 
+
+High Protein Keto Diet — Fat 60% | Protein 33% | Carbs 7%
+
+ A modified ketogenic approach that elevates protein to 30–35% to maximise lean muscle retention during fat loss, while still sustaining mild-to-moderate ketosis. Fat is reduced slightly compared to standard keto to accommodate the higher protein load. This pattern is popular among athletes and bodybuilders who want the fat-burning benefits of ketosis without sacrificing muscle. 
+
+Mediterranean Diet — Fat 38% | Protein 17% | Carbs 45%
+
+ Characterised by high intake of monounsaturated fats from olive oil and nuts, moderate fish and legume protein, and carbohydrates from whole grains and vegetables. The PREDIMED trial demonstrated significant cardiovascular benefits. Fat is higher than standard guidelines (35–40%) but is predominantly cardiovascular-protective. It is consistently ranked among the healthiest and most sustainable dietary patterns. 
+
+Paleo Diet — Fat 40% | Protein 30% | Carbs 30%
+
+ Based on estimated macronutrient patterns of pre-agricultural hunter-gatherer populations. The diet eliminates grains, legumes, dairy, and processed foods, relying on lean meats, fish, eggs, nuts, seeds, fruit, and non-starchy vegetables. Fat and protein are both elevated relative to standard guidelines; carbs are lower and come entirely from whole-food sources. Individual results vary considerably depending on food selection within the diet. 
+
+Vegetarian Diet — Fat 30% | Protein 17% | Carbs 53%
+
+ A vegetarian diet excludes meat and fish but includes dairy and eggs. It naturally trends higher in carbohydrates due to greater reliance on grains, legumes, and fruit. Protein targets are achievable via dairy, eggs, legumes, and soy, though slightly lower than omnivore targets to reflect the mixed bioavailability of plant proteins. Fat comes from dairy, eggs, nuts, seeds, and plant oils. Macro ratios fall within IOM AMDR guidelines. 
+
+Vegan Diet — Fat 25% | Protein 15% | Carbs 60%
+
+ The vegan diet excludes all animal products and is the highest-carbohydrate pattern in the calculator due to exclusive reliance on plant foods. Protein is set at 12–18% to reflect the lower bioavailability of plant proteins; absolute protein intake should be slightly higher than omnivore recommendations to compensate — around 1.0–1.1 grams per kilogram of body weight. Fat comes from nuts, seeds, avocado, and plant oils; ensuring adequate omega-3 fatty acids (ALA, EPA, DHA) requires deliberate food choices or supplementation. 
+
+Gluten-Free Diet — Fat 30% | Protein 18% | Carbs 52%
+
+ A gluten-free diet is an exclusion diet rather than a macronutrient-defined diet — it removes wheat, barley, and rye, but does not inherently alter the balance of fat, protein, or carbohydrates. The macro ratios therefore mirror a balanced diet. It is medically necessary for individuals with coeliac disease or non-coeliac gluten sensitivity. Note that many processed gluten-free products are higher in fat and sugar than their gluten-containing equivalents; whole-food gluten-free sources such as rice, potato, quinoa, and oats are preferred. 
+
+ The preset macro values for the Balanced, Low Fat, Low Carb, High Protein, Mediterranean, Vegetarian, Vegan, and Gluten-Free diets all fall within the IOM AMDR guidelines. The Paleo diet sits slightly outside the standard carbohydrate range due to the exclusion of grains and legumes. The Standard Keto and High Protein Keto diets differ substantially from conventional guidelines; they are effective for specific goals but are not appropriate for everyone. Consult a healthcare professional before starting any restrictive dietary pattern. 
+
+What is the Benefit of Tracking Macros Instead of Counting Calories?
+
+ Monitoring macros motivates you to make intelligent and nutritious food selections. Your body weight fluctuates depending on whether you consume fewer or more calories than you expend. Keeping track of macros lets you understand your energy source and its impact on your body. It's important to note that not all calories are equal. 
+
+ People tend to prioritize the composition of their food, leading them to be more mindful of how they nourish their bodies and monitor how their bodies respond. 
+
+ Focusing on consuming enough protein and being mindful of carbohydrate intake — rather than solely counting calories — can aid individuals in achieving their fitness objectives by promoting a greater sense of satiety. 
+
+Frequently Asked Questions about Macros
+ What is a macro calculator? 
+
+ A macro calculator is a tool that helps you determine your ideal daily intake of macronutrients based on your daily calorie needs and dietary preferences. 
+
+ How do I use the macro calculator? 
+
+ Enter your daily calorie requirement, or use the provided TDEE calculator to estimate it. Then select your preferred diet type. The calculator will display recommended macro proportions and quantities in both calories and grams. You can also use the Customize button to fine-tune the ratios to suit your individual needs. 
+
+ What are macronutrients? 
+
+ Macronutrients are the main components of food that provide energy: carbohydrates, proteins, and fats. Each plays a unique role in your diet and overall health. Carbohydrates are the body's primary fuel source, protein supports muscle repair and growth, and fat is essential for hormone production, brain function, and the absorption of fat-soluble vitamins. 
+
+ Why track macros instead of just calories? 
+
+ Tracking macros encourages smarter, more nutritious food choices. It helps you understand the sources of your energy and how different nutrients affect your body. Not all calories are equal — protein, fat, and carbs have different effects on satiety, metabolism, and body composition. Tracking macros also makes it easier to ensure you are eating enough protein, which is critical for preserving muscle during weight loss. 
+
+ What are the recommended ranges for macronutrients? 
+
+ According to the Institute of Medicine (IOM), your total calorie intake should consist of 45–65% carbohydrates, 10–35% protein, and 20–35% fat. These ranges are broad enough to accommodate most healthy adults and a wide variety of dietary patterns. 
+
+ How do I convert macro percentages to grams? 
+
+ Each gram of carbohydrate or protein provides 4 calories, while each gram of fat provides 9 calories. For example, on a 2,000-calorie diet the IOM ranges translate to 225–325 grams of carbohydrates, 50–175 grams of protein, and 44–78 grams of fat. 
+
+ Can I customize my macro ratios? 
+
+ Yes. Use the Customize button to enable the arrow controls on each macro bar. Clicking or holding the arrows adjusts the percentage for that macro, and the remaining two macros automatically redistribute to keep the total at 100%. The Reset button returns the ratios to the selected diet preset. 
+
+ What diet types does the calculator support? 
+
+ The calculator includes eleven evidence-based diet presets: Balanced, Low Fat, Low Carb, High Protein, Standard Keto, High Protein Keto, Mediterranean, Paleo, Vegetarian, Vegan, and Gluten-Free. Each preset uses mid-point values derived from peer-reviewed clinical guidelines. 
+
+ How do I know my daily calorie requirement? 
+
+ If you are unsure, use the TDEE calculator on FatCalc.com to estimate the number of calories your body burns daily. For weight loss or gain goals, use the Calorie Deficit or Weight Management calculators to determine an appropriate daily calorie target. 
+
+ Are all diet presets suitable for everyone? 
+
+ Most presets — including Balanced, Low Fat, Mediterranean, Vegetarian, and Gluten-Free — fall within standard IOM guidelines and are appropriate for healthy adults. Some diets require more consideration: Keto and High Protein Keto differ substantially from conventional guidelines and are not appropriate for everyone, particularly those with kidney disease or diabetes. Paleo eliminates entire food groups, which can affect micronutrient intake. Vegan diets require careful planning to ensure adequate protein bioavailability, omega-3 fatty acids, vitamin B12, iron, and calcium. Consult a healthcare professional or registered dietitian before starting any restrictive dietary pattern. 
+
+Related Calculators:
+
+TDEE Calculator for All Ages
+
+Calculate Your Daily Calories and Macros to Reach Your Goal Weight
+
+Protein Calculator
+
+Calorie Deficit Calculator for Realistic Weight Loss Goals
+
+Intermittent Fasting Window Calculator
+
+Further Reading:
+
+ A review by M.M. Manore, published in Current Sports Medicine Reports (2005), examined how the Institute of Medicine's nutrition recommendations apply to physically active individuals. View study 
+
+ The Institute of Medicine's Dietary Reference Intakes report (2005), published by the National Academies Press, establishes the Acceptable Macronutrient Distribution Ranges used as the foundation across diet presets in this calculator. View study
+
+ A study by D. Ornish, L.W. Scherwitz, J.H. Billings, and colleagues, published in JAMA (1998), demonstrated that intensive lifestyle changes, including a low-fat diet, can reverse coronary heart disease. View study
+
+ A paper by E.C. Westman, R.D. Feinman, J.C. Mavropoulos, and colleagues, published in the American Journal of Clinical Nutrition (2007), reviewed the science of low-carbohydrate nutrition and its effects on metabolism. View study
+
+ Research by D.K. Layman, R.A. Boileau, D.J. Erickson, and colleagues, published in the Journal of Nutrition (2003), found that a lower carbohydrate-to-protein ratio improved body composition and blood lipid profiles during weight loss in adult women. View study
+
+ A review by A. Paoli, A. Rubini, J.S. Volek, and K.A. Grimaldi, published in the European Journal of Clinical Nutrition (2013), examined the therapeutic applications of very-low-carbohydrate ketogenic diets beyond weight loss, including their established use in epilepsy management. View study
+
+ A study by J.S. Volek, M.J. Sharman, D.M. Love, and colleagues, published in Metabolism (2002), investigated changes in body composition and hormonal responses following a carbohydrate-restricted diet, informing the High Protein Keto preset. View study
+
+ The PREDIMED trial by R. Estruch, E. Ros, J. Salas-Salvadó, and colleagues, published in the New England Journal of Medicine (2013), demonstrated that a Mediterranean diet significantly reduced the risk of major cardiovascular events compared to a low-fat control diet. View study
+
+ Research by L. Cordain, J.B. Miller, S.B. Eaton, and colleagues, published in the American Journal of Clinical Nutrition (2000), estimated the plant-to-animal food ratios and macronutrient profiles of traditional hunter-gatherer diets worldwide, forming the scientific basis for the Paleo preset. View study
+
+ The American Dietetic Association's position paper on vegetarian diets, authored by W.J. Craig and A.R. Mangels and published in the Journal of the American Dietetic Association (2009), reviewed the health implications and nutritional considerations of vegetarian eating patterns. View study
+
+ A review by D. Rogerson, published in the Journal of the International Society of Sports Nutrition (2017), provided practical guidance on meeting macronutrient and micronutrient needs, including protein, omega-3 fatty acids, and vitamin B12, on a vegan diet for active individuals. View study
+
+Top of Page
+
+About UsPrivacy PolicyDisclaimerTerms of ServiceContact Us

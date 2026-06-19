@@ -1,0 +1,669 @@
+     1→     1→URL: https://gymgeek.com/calculators/calorie-calculator/
+     2→     2→TITLE: Calorie Calculator for Men and Women - Lose or Maintain Weight - Gym Geek
+     3→     3→
+     4→     4→To maintain your current weight:
+     5→     5→
+     6→     6→— kcal/day
+     7→     7→
+     8→     8→kcalkJ
+     9→     9→
+    10→    10→ How is this calculated?
+    11→    11→
+    12→    12→1.
+    13→    13→Calorie Calculator
+    14→    14→
+    15→    15→2.
+    16→    16→
+    17→    17→Calorie Counter (App Store)
+    18→    18→
+    19→    19→3.
+    20→    20→Macro Calculator
+    21→    21→
+    22→    22→4.
+    23→    23→Body Mass Index
+    24→    24→
+    25→    25→Activity level
+    26→    26→
+    27→    27→Sedentary
+    28→    28→
+    29→    29→Target weight/BMI
+    30→    30→
+    31→    31→220 lbBMI = 29.8
+    32→    32→
+    33→    33→To LoseConsumeAchieved
+    34→    34→
+    35→    35→0 kg
+    36→    36→
+    37→    37→per week
+    38→    38→
+    39→    39→(maintenance)
+    40→    40→
+    41→    41→—
+    42→    42→
+    43→    43→kcal/day
+    44→    44→
+    45→    45→—
+    46→    46→
+    47→    47→weeks
+    48→    48→
+    49→    49→Your results will appear here
+    50→    50→
+    51→    51→Enter your details in the form above or keep scolling down to learn more
+    52→    52→
+    53→    53→Most Popular Calculators
+    54→    54→
+    55→    55→Calculators to try next:
+    56→    56→
+    57→    57→Macro Calculator
+    58→    58→The macro calculator breaks down your diet into macro ratios. Popular ratios include the 50/30/20 (Standard) and 40/30/30 (Low carb) ratios.
+    59→    59→
+    60→    60→Open
+    61→    61→
+    62→    62→Maintenance Calories Calculator
+    63→    63→Our maintenance calories calculator estimates how many calories you should consume to maintain your existing weight.
+    64→    64→
+    65→    65→Open
+    66→    66→
+    67→    67→Bulking Calculator
+    68→    68→Calories and macros you need to bulk (gain weight), based on your current weight and lbs per week you want to gain.
+    69→    69→
+    70→    70→Open
+    71→    71→
+    72→    72→BMI Calculator
+    73→    73→Calculate your Body Mass Index (BMI), based on your weight and height. A healthy BMI is between 18.5 and 24.9.
+    74→    74→
+    75→    75→Open
+    76→    76→
+    77→    77→Ideal Bodyweight Calculator
+    78→    78→Find your goal weight to hit your desired BMI. This tool can help you set a realistic weight loss goal.
+    79→    79→
+    80→    80→Open
+    81→    81→
+    82→    82→I have a question about losing, maintaining or gaining weight
+    83→    83→
+    84→    84→You can get quick feedback from our online moderated communities. These communities are also a great way to get help using the Gym Geek app. Join us on:
+    85→    85→
+    86→    86→Join us on Facebook
+    87→    87→
+    88→    88→Join us on Reddit
+    89→    89→
+    90→    90→Contact Gym Geek
+    91→    91→
+    92→    92→To contact the Gym Geek team, you can start a live chat from our support page. Our team is online Monday to Friday between 11am and 8pm London time (up to 3pm Eastern time and 12pm Pacific time).
+    93→    93→
+    94→    94→ Open support page
+    95→    95→ 
+    96→    96→
+    97→    97→ 
+    98→    98→ 
+    99→    99→
+   100→   100→Frequently asked questions
+   101→   101→
+   102→   102→What are my maintenance calories?
+   103→   103→
+   104→   104→Your maintenance calories are the number of calories you need to maintain your current weight, without losing or gaining weight. This number is sometimes called your total daily energy expenditure (TDEE), since if you eat the same number of calories you burn (expend), you will maintain weight. You can estimate your maintenance calories using the Mifflin-St Jeor formula, multiplying by the Standard Activity Factor (SAF) which best reflects your activity level.
+   105→   105→
+   106→   106→How many calories should I eat per day?
+   107→   107→
+   108→   108→The number of calories you should eat depends on your weight, height, age and gender. For a woman of healthy weight, eating 2,000 calories per day is generally recommended, while men should aim for 2,500 calories. If you are aiming to lose weight, you can eat fewer calories or increase your level of physical activity. Most people should not eat less than 1,200 calories per day if you are a woman and 1,500 calories per day if you are a man.
+   109→   109→
+   110→   110→Low and Very Low Calorie Diets (VLCD), which are below 1,200 calories per day and 800 calories per day respectively, are only suitable under medical supervision and where there is a clinical rationale for rapid weight loss. 
+   111→   111→
+   112→   112→You can use Gym Geek's calorie calculator to estimate your maintenance calories and calculate a calorie deficit based on your weight loss goal.
+   113→   113→
+   114→   114→How many calories should I eat to lose weight?
+   115→   115→
+   116→   116→To lose weight, you should maintain a calorie deficit below your total daily energy expenditure (TDEE). The number of calories you should eat depends on your current weight, height, age and gender, as well as your activity level. A calorie deficit of 500 calories per day will typically allow you to lose up to one pound per week, and 1,000 calories per day will see you lose up to two pounds per week.
+   117→   117→
+   118→   118→Most people should not attempt to lose more than 2 lb per week without medical supervision. After deducting your calorie deficit, your daily calorie goal should be not be less than the minimum calorie intake (1,200 calories per day for women and 1,500 calories per day for men). Eating less than the minimum calorie intake is only suitable with medical supervision.
+   119→   119→
+   120→   120→How do I calculate my calorie deficit?
+   121→   121→
+   122→   122→First, you will need to calculate your Basal Metabolic Rate (BMR). This is the number of calories you burn at rest, but it doesn't include the calories you burn through exercise or the digestion of food. Multiply this number by your activity level, measured with the Standard Activity Factor (SAF) (also known as Physical Activity Level or PAL) to get your TDEE. 
+   123→   123→
+   124→   124→Finally, subtract between 250 and 1,000 calories from your TDEE to lose between 0.5 lb and 2 lb per week. Gym Geek recommends checking your calorie deficit using an online calorie calculator.
+   125→   125→
+   126→   126→How many calories do women need to lose weight?
+   127→   127→
+   128→   128→The calorie deficit for a woman losing weight will depend on her age, height, current weight and activity level. Because women tend to have carry less fat-free mass (muscle) than men, they generally need to eat fewer calories than men to lose weight. This is because muscle is more metabolically active that fat tissue.
+   129→   129→
+   130→   130→To lose 1 lb per week, an overweight woman of average height might eat 1,300 calories per day if she was sedentary, and up to 1,800 calories per day if she was moderately active. Since calorie intake will depend on each individual, you should use a calorie calculator for a personalized result. A woman should never eat fewer than 1,200 calories per day unless instructed and medically supervised by a doctor.
+   131→   131→
+   132→   132→How many calories do men need to lose weight?
+   133→   133→
+   134→   134→Men typically need more calories per day than women because they carry more fat-free mass (muscle). Muscle is more metabolically active than fat, which increases a man's resting metabolic rate compared to a typical woman of the same age, height and weight.
+   135→   135→
+   136→   136→To lose 1 lb per week, an overweight man of average height might eat 1,700 calories per day if he was sedentary, and up to 2,400 calories per day if he was moderately active. The exact calorie goal will depend on his current weight, height, age and activity level. You can use a calorie calculator for a personalized result. A man should not eat fewer than 1,500 calories per day unless instructed and medically supervised by a doctor.
+   137→   137→
+   138→   138→How many calories should I eat to lose 2 pounds a week?
+   139→   139→
+   140→   140→Provided you are physically active, it's possible to lose 2 pounds per week using a calorie deficit of 1,000 calories per day. Because a person's maintenance calories depends on their age, gender, height and weight, it's not possible to provide a single calorie goal for everyone. You should use a calorie calculator for an accurate estimate. 
+   141→   141→
+   142→   142→How many calories should a 220 lb woman eat to lose weight?
+   143→   143→
+   144→   144→For a 30-year old woman of average height (5'3") weighing 220 lbs, to lose 1 lb a week you should aim to eat 1,500 calories per day if you are sedentary and 2,100 calories per day if you are moderately active. A woman should never eat fewer than 1,200 calories per day unless instructed and medically supervised by a doctor. 
+   145→   145→
+   146→   146→ 
+   147→   147→ 
+   148→   148→
+   149→   149→What is the calorie calculator?
+   150→   150→
+   151→   151→Our calorie calculator helps you understand how many calories you burn each day and estimates how many calories you should consume to maintain your weight or to achieve a weight loss or weight gain goal. It outputs up to 4 levels of weight loss or gain and provides an estimated number of weeks it will take to hit your target weight.
+   152→   152→
+   153→   153→ 
+   154→   154→ 
+   155→   155→
+   156→   156→It outputs your maintenance calories and calorie deficit in kilocalories (kcal) or kilojoules (kJ). kcal is the standard measure of calories in most countries around the world, including the United States, while kJ is more common in Australia and New Zealand.
+   157→   157→
+   158→   158→The calculation is based on your age, gender, height, weight and your level of physical activity. This produces a fairly accurate estimate for most people looking to lose or gain weight, although individuals with high muscle mass or a slower or faster metabolism than average may need to adjust the estimate.
+   159→   159→
+   160→   160→ 
+   161→   161→ 
+   162→   162→
+   163→   163→How to use the calorie calculator
+   164→   164→
+   165→   165→ 
+   166→   166→ 
+   167→   167→
+   168→   168→Before you start, you’ll need a recent weight measurement. We use your current weight to calculate your total daily energy expenditure (TDEE). This is also known as your maintenance calories.
+   169→   169→
+   170→   170→You can provide your weight in kilograms, pounds or stone and pounds.
+   171→   171→
+   172→   172→ 
+   173→   173→ 
+   174→   174→
+   175→   175→Enter your details
+   176→   176→
+   177→   177→Input the information about your current weight, height, gender, age and activity level into the calculator. This will be used to calculate your TDEE. You will also need to enter your target weight, which we'll use to calculate your weight goal (calorie deficit if you are trying to lose weight, and a calorie surplus if you are bulking).
+   178→   178→
+   179→   179→Our calorie calculator requires the following information to produce an accurate result:
+   180→   180→
+   181→   181→Height - Input your height in imperial units (feet and inches) or metric units (centimeters).
+   182→   182→
+   183→   183→Current and target weight - Input your current weight and target weight in kilograms (metric units), pounds (US imperial units) or stone and pounds (British imperial units).
+   184→   184→
+   185→   185→Gender - Select either "Male" or "Female". Our calculator is based on scientific research that currently use male and female gender categories. To provide the most accurate results, please choose your sex assigned at birth or the option that best matches your physiology. If you are non-binary, you may prefer to use our calorie tracker app which adapts to your unique metabolism irrespective of your gender.
+   186→   186→
+   187→   187→Age - Select your age. You need to be 18 or over to use our calculator, since BMR and TDEE estimates are not a suitable measure for children and teens under the age of 18.
+   188→   188→
+   189→   189→Activity level - Select the activity level that most closely matches your lifestyle, based on the descriptions of typical activity provided.
+   190→   190→
+   191→   191→Using your TDEE along with your target weight, the calorie calculator will output up to 4 weight loss or weight gain goals, from 0.5 lb per week to 2 lb per week. If you are bulking (eating a surplus to gain muscle via resistance training), you typically want to gain 0.5 to 1 lb per week. Gaining 2 lb a week will typically see you gain fat, regardless of your resistance training routine.
+   192→   192→
+   193→   193→ 
+   194→   194→ 
+   195→   195→
+   196→   196→Choose your activity level
+   197→   197→
+   198→   198→Our calorie calculator estimates your maintenance calories by multiplying your BMR by an activity level. The activity levels are called Harris-Benedict Standard Activity Factors (SAF) or Physical Activity Levels (PAL), and they range from 1.2 (+20%) to 1.9 (+90%), depending on your level of physical activity.
+   199→   199→
+   200→   200→To perform the calorie calculation, you will need to determine which SAF score fits your lifestyle best:
+   201→   201→
+   202→   202→Sedentary (SAF = 1.2) – Your daily life involves little to no exercise. You may work a desk-based job and spend your spare time indoors with little physical activity.
+   203→   203→
+   204→   204→Light Activity (SAF = 1.375) – You take part in light exercise or sports 1-3 days per week. If you work in a job where you spend time on your feet for most of the day, this may be an appropriate factor.
+   205→   205→
+   206→   206→Moderate Activity (SAF = 1.55) – You take part in moderate exercise or sports 3-5 days per week. This can include activities like jogging, cycling or swimming for at least 30 minutes each day.
+   207→   207→
+   208→   208→Very Active (SAF = 1.725) – You take part in moderate-to-vigorous exercise or sports 6-7 days per week. This can include running or playing competitive sports.
+   209→   209→
+   210→   210→Extra Active (SAF = 1.9) – You take part in vigorous training two times a day or have job requiring hard physical labor.
+   211→   211→
+   212→   212→Around 1 in 2 Gym Geek users describe themselves as "moderately active", meaning they exercise 3-5 days per week. This includes activities like jogging, cycling and swimming.
+   213→   213→
+   214→   214→Easily adjust your inputs
+   215→   215→
+   216→   216→Once you've entered the required information into the form, click the "Calculate calories" button to see your results. To see the impact that activity has on your weight plan, click the "-" (minus) and "+" (plus) buttons next to the "Activity Level" control. You can also adjust your target weight to see how it impacts your progress.
+   217→   217→
+   218→   218→ 
+   219→   219→ 
+   220→   220→
+   221→   221→To change any other value, simply scroll back up to the form and adjust your inputs. You'll need to click the "Calculate calories" button again when you change any input in the form.
+   222→   222→
+   223→   223→Calorie calculator results
+   224→   224→
+   225→   225→1. BMR
+   226→   226→
+   227→   227→This first step of the calculation is estimating your Basal Metabolic Rate (BMR). This is the number of calories your body burns at rest. This does not include the calories you burn through physical activity nor the impact of digesting food after you have eaten.
+   228→   228→
+   229→   229→2. TDEE
+   230→   230→
+   231→   231→Once we have an estimate of your BMR, we then calculate your Total Daily Energy Expenditure (TDEE) estimate. TDEE is a measure of how many calories you burn per day, adding together your BMR along with the calories you burn through physical activity and the calories you burn while digesting food (thermic effect).
+   232→   232→
+   233→   233→Because TDEE takes into account your activity level (i.e. whether you are sedentary, lightly active, moderately active, etc), it's a more accurate estimate of your daily calorie burn.
+   234→   234→
+   235→   235→ 
+   236→   236→ 
+   237→   237→
+   238→   238→In your calorie calculator results, the first number you see is your TDEE. Your TDEE is shown in kcal (kilocalories) but you can switch to kJ (kilojoules) if you prefer. One calorie (1 kcal) is equivalent to 4.184 kilojoules (4.184 kJ).
+   239→   239→
+   240→   240→If you entered a weight loss goal, you will see a range of calories, with the higher number representing your TDEE.
+   241→   241→
+   242→   242→3. Weight loss or gain
+   243→   243→
+   244→   244→If you have a weight loss or weight gain goal, the calculator will show results for 0.5 lb, 1 lb, 1.5 lb and 2 lb increments of weight loss or gain per week. For each of these increments, it will display the number of calories needed to reach your goal. It will also estimate the number of weeks it will take to reach your goal.
+   245→   245→
+   246→   246→Around 1 in 3 Gym Geek dieters aim to lose 2 lbs per week, although we suggest that most people looking to lose weight should aim to lose 0.5 lb to 1 lb per week. Losing more than 2 lb per week is dangerous and can have serious health consequences. In general, most people should not attempt to lose more than 2 lb per week without medical supervision.
+   247→   247→
+   248→   248→The calorie calculator will not display any estimates below 1,200 calories for women and 1,500 calories for men. Eating at or below these number of calories is unsafe and you should always consult a doctor or suitably-qualified medical professional before engaging in extreme weight loss plans.
+   249→   249→
+   250→   250→How is BMR calculated?
+   251→   251→
+   252→   252→BMR, or Basal Metabolic Rate, is the number of calories your body needs at total rest to power your most basic functions. This includes the baseline activity of your organs, but does not include the digestion of food. It also doesn’t include any calories you need for physical activity and exercise.
+   253→   253→
+   254→   254→ 
+   255→   255→ 
+   256→   256→
+   257→   257→BMR typically increases with your weight and height, because you have a larger body mass to support. However, you can expect your BMR to decrease over time as you age. This is because most people lose muscle mass and gain fat as they age.
+   258→   258→
+   259→   259→A number of formulas for estimating BMR have been created over time. These formulas are produced by statistical studies that look at representative populations, measuring their BMR and crunching the data to build accurate formulas.
+   260→   260→
+   261→   261→Our calorie calculator uses the Mifflin-St Jeor equation, which came out of a 1990 study of 498 people across both genders, all adult age groups and normal weight and obese persons. The study introduced a formula based on a person’s weight, height, age and gender.
+   262→   262→
+   263→   263→For men, the formula is 9.99 x Weight + 6.25 x Height – 4.92 x Age + 5.
+   264→   264→
+   265→   265→For women, the formula is 9.99 x Weight + 6.25 x Height – 4.92 x Age – 161.
+   266→   266→
+   267→   267→Sometimes, you may see these formulas simplified to 10 x Weight + 6.25 x Height - 5 x Age + 5 for men and 10 x Weight + 6.25 x Height - 5 x Age - 161 for women. These minor differences in rounding make only a tiny difference in the final result.
+   268→   268→
+   269→   269→Is Mifflin-St Jeor accurate?
+   270→   270→
+   271→   271→BMR calculators using Mifflin-St Jeor are fairly accurate for most people. The formula, however, does not account for specific factors like muscle mass. Specifically, if you have a high muscle mass, you may find that Mifflin-St Jeor underestimates your BMR. This is because muscle burns more calories than fat cells at rest.
+   272→   272→
+   273→   273→A study published in the Journal of the American Dietetic Association concluded that the Mifflin-St Jeor equation was more likely to estimate calorie needs to within 10% compared to other equations.
+   274→   274→
+   275→   275→ 
+   276→   276→ 
+   277→   277→
+   278→   278→How are maintenance calories adjusted for weight loss and gain?
+   279→   279→
+   280→   280→When it comes to losing or gaining weight, creating a calorie deficit or surplus relative to your maintenance calories is key to achieving your goal. There are a number of ways to adjust your calories to reflect a weight loss or weight gain goal.
+   281→   281→
+   282→   282→ 
+   283→   283→ 
+   284→   284→
+   285→   285→A popular rule-of-thumb relies on the idea that 1 lb (0.45 kg) of fat is equivalent to 3,500 calories. Many people therefore believe that maintaining a calorie deficit of 500 calories per day (3,500 divided by 7) will allow you to lose 1 lb per week. You can use this idea to adjust the deficit or excess up and down to evaluate the impact it will have on your weight loss or weight gain goal.
+   286→   286→
+   287→   287→In reality, weight loss is not that simple and it is impossible to estimate an accurate deficit or excess for most people. This rule has some disadvantages and may not be accurate for long-term weight loss plans. However, it is a reasonable starting point for many people.
+   288→   288→
+   289→   289→Our calorie calculator uses this principle to produce its estimates. Once you have started your weight plan, you should review your progress after 3-4 weeks and adjust your calorie intake accordingly.
+   290→   290→
+   291→   291→Increasing your daily energy expenditure
+   292→   292→
+   293→   293→Calories in, calories out (CICO) is the key concept behind any weight loss or weight gain strategy. The idea is that any weight loss or gain is determined by the balance of calories eaten ("calories in") against how many calories you burn ("calories out", or "total daily energy expenditure").
+   294→   294→
+   295→   295→The easiest way to create a calorie deficit is on the calories in side of the equation, i.e. by eating fewer calories each day. But it’s also possible to create a calorie deficit with the calories out side of CICO. This is possible because, although you can do little to change your BMR, you do have total control over your physical activity.
+   296→   296→
+   297→   297→Doing exercise burns calories, and the more you do the more calories get added onto your daily energy expenditure. Since a calorie deficit is just the difference between calories in and calories out, this allows you to create a deficit simply by doing more exercise.
+   298→   298→
+   299→   299→ 
+   300→   300→ 
+   301→   301→
+   302→   302→Even a small amount of exercise can have a big impact on your daily energy expenditure. If you burn an extra 100 calories per day, over a week you will have burned 700 calories. That’s equivalent to 0.2 pounds of extra weight lost. Compound this over months and it starts to have a real impact on your weight loss journey.
+   303→   303→
+   304→   304→Our 100 calorie fat burners are small amounts of exercise or physical activity that burn 100 calories in a short amount of time. Doing these exercises every day can increase your daily energy expenditure, making it just a little easier to stay in deficit.
+   305→   305→
+   306→   306→What about my metabolism?
+   307→   307→
+   308→   308→Some people argue that calorie calculators don’t work because each person has a unique metabolism. Everyone’s metabolism is different, and there are many situations that cause a person’s metabolism to higher or lower than average:
+   309→   309→
+   310→   310→Muscle mass – Muscle is more “metabolically active” than fat tissue. That means people with more muscle mass have higher basal metabolic rates compared to those who have a high body fat percentage.
+   311→   311→
+   312→   312→Genetics – A person’s genetics is known to affect their metabolism. This is something that can’t be measured, so formulas like Mifflin-St Jeor effectively “average out” across all groups of people.
+   313→   313→
+   314→   314→Hormones – Many kinds of hormones have an impact on your body’s metabolism. Every person has slightly different levels of hormones, which can impact your metabolic rate. Conditions like hypothyroidism or hyperthyroidism can substantially decrease or increase a person’s metabolism.
+   315→   315→
+   316→   316→Diet – A high protein diet is associated with slightly higher TDEEs. This is because digesting proteins requires more energy than digesting carbs or fats.
+   317→   317→
+   318→   318→But just because you have a lower or higher metabolism than average doesn’t mean that calorie deficit diets don't work. You just need to account for this in the estimate of your maintenance calories. If your metabolism is substantially different to average, you’ll need to adjust your maintenance calories up or down as appropriate.
+   319→   319→
+   320→   320→If you have a slower metabolism, this means reducing your TDEE estimate. Because of this, you’ll also need to reduce your calories in to maintain the same deficit. In other words, you’ll need to eat less food than if you had an average metabolism.
+   321→   321→
+   322→   322→It's not easy to measure your metabolism or maintenance calories directly, which is why most people rely on simple calorie calculators or apps that use a formula to make an estimate.
+   323→   323→
+   324→   324→ 
+   325→   325→ 
+   326→   326→
+   327→   327→Calorie goal that adjusts to your metabolism
+   328→   328→
+   329→   329→Another way to estimate your daily energy expenditure is using a method called adaptive TDEE. Adaptive TDEE is a range of methods that use your own data to improve the estimate of your TDEE and calorie goal.
+   330→   330→
+   331→   331→Most adaptive TDEE algorithms are based on your calorie intake and bodyweight data over an extended period of time. They crunch this data to figure out a personalized and accurate number for your specific circumstances.
+   332→   332→
+   333→   333→Gym Geek’s calorie tracker mobile app uses some clever statistics to combine the Mifflin-St Jeor estimate with your own data. As you collect more of your own calorie and bodyweight data, the adaptive calorie goal adjusts up or down over time.
+   334→   334→
+   335→   335→Tracking your calories
+   336→   336→
+   337→   337→Most people are bad at estimating how many calories they eat per day. In fact, if you had to guess, it’s not unusual to be 50% or more off the true value. A person could think they were eating 1,500 calories per day, when reality could be more like 2,200 calories.
+   338→   338→
+   339→   339→To make the most of a calorie deficit diet, you need to understand the numbers on both sides of the CICO equation. On the calories in (CI) side, this means tracking exactly what you eat and drink. There are a number of ways you can do this:
+   340→   340→
+   341→   341→Using an app – Gym Geek recommends tracking your calories with a calorie tracking mobile app. With apps like Gym Geek, you use a food diary to catalog all the food and drink you consume. You can use Gym Geek to track calories by scanning barcodes, searching our food database or using Quick Track to track in a single tap. Smart Calorie Adjustments™ adapt to your metabolism keep you on track.
+   342→   342→
+   343→   343→Smart kitchen scales – Smart kitchen scales allow you to measure your food, and enter a nutritional code at the same time. They typically come with a code booklet that contains different categories of food and drink. You enter the code, measure your food and record the calories from the scale.
+   344→   344→
+   345→   345→Pen and paper – If you find apps and kitchen scales a bit awkward, you can just use a pen and paper food diary. For each day, write out what you consumed and keep a running total.
+   346→   346→
+   347→   347→Hidden calories
+   348→   348→
+   349→   349→For the best results, you’ll need to track every single calorie (within reason). If you’re new to calorie counting, it’s tempting to just record the ‘big items’ in your diet. This makes some sense, but you might be surprised to find large numbers of calories in foods you didn’t even think about.
+   350→   350→
+   351→   351→We call these foods hidden calories. Here are the most common:
+   352→   352→
+   353→   353→Cooking fats – Cooking oils, butters and other fats are incredibly calorie dense. You might not think to track the oils in a recipe, but a single tablespoon of cooking oil can contain over 100 calories.
+   354→   354→
+   355→   355→Condiments and sauces – Ketchup can contain 20 calories per tablespoon, so it quickly adds up. Mayonnaise, ranch dressing and other fatty sauces can contain up to 100 calories per tablespoon.
+   356→   356→
+   357→   357→Nuts and dried fruit – Nuts and dried fruit can be healthy snacks, but it’s important to eat in moderation. Single servings can contain 200-300 calories. Granola bars can also be calorie dense.
+   358→   358→
+   359→   359→Fruit juice – Fruit juice, soda and other sweet drinks can contain hundreds of calories per serving.
+   360→   360→
+   361→   361→Honey and syrups – Primarily made up of sugars, these can contain 70-100 calories per tablespoon.
+   362→   362→
+   363→   363→Calories in popular food and drink items
+   364→   364→
+   365→   365→Counting calories of the food and drink items you consume is the recommended way to stay in a calorie deficit over time. Using anonymized search data from the Gym Geek calorie tracker mobile app, we've created this handy reference of calories in the most frequently tracked food and drink items.
+   366→   366→
+   367→   367→ 
+   368→   368→ 
+   369→   369→
+   370→   370→You can also check calories and macros in any food or drink item by searching our 3.8 million item food database, containing data from Open Food Facts and verified nutrition profiles from the USDA.
+   371→   371→
+   372→   372→Fruits and vegetables
+   373→   373→
+   374→   374→Item nameTypical portion sizeCalories per portion
+   375→   375→
+   376→   376→Banana1 medium banana105 kcal
+   377→   377→
+   378→   378→Strawberries1 cup46 kcal
+   379→   379→
+   380→   380→Broccoli1 cup (chopped)30 kcal
+   381→   381→
+   382→   382→Avocado1 fruit (without skin or seeds)364 kcal
+   383→   383→
+   384→   384→Apples1 medium apple94 kcal
+   385→   385→
+   386→   386→Blueberries1 cup84 kcal
+   387→   387→
+   388→   388→Grapes1 cup104 kcal
+   389→   389→
+   390→   390→Tomatoes1 cup (chopped)32 kcal
+   391→   391→
+   392→   392→Cucumber0.5 cup (slices)7 kcal
+   393→   393→
+   394→   394→Sweetcorn1 cup (kernels)132 kcal
+   395→   395→
+   396→   396→Carbohydrates
+   397→   397→
+   398→   398→Item nameTypical portion sizeCalories per portion
+   399→   399→
+   400→   400→Long grain white rice1 cup (cooked)205 kcal
+   401→   401→
+   402→   402→Potato1 potato (large)284 kcal
+   403→   403→
+   404→   404→White bread1 slice77 kcal
+   405→   405→
+   406→   406→Oats0.5 cup (serving)150 kcal
+   407→   407→
+   408→   408→Spaghetti1 cup (cooked)238 kcal
+   409→   409→
+   410→   410→Bagel1 large bagel345 kcal
+   411→   411→
+   412→   412→Cous cous0.25 cup (dry)160 kcal
+   413→   413→
+   414→   414→Fish, meat and other proteins
+   415→   415→
+   416→   416→Item nameTypical portion sizeCalories per portion
+   417→   417→
+   418→   418→Chicken breast1 breast (4 oz)135 kcal
+   419→   419→
+   420→   420→Egg1 egg (large)71 kcal
+   421→   421→
+   422→   422→Bacon1 slice53 kcal
+   423→   423→
+   424→   424→Whey protein powder0.33 cup (1 scoop)112 kcal
+   425→   425→
+   426→   426→Chickpeas0.5 cup serving120 kcal
+   427→   427→
+   428→   428→Turkey meat4 oz166 kcal
+   429→   429→
+   430→   430→Ground beef4 oz223 kcal
+   431→   431→
+   432→   432→Pork sausage1 link72 kcal
+   433→   433→
+   434→   434→Salmon3 oz serving130 kcal
+   435→   435→
+   436→   436→Tuna3 oz serving98 kcal
+   437→   437→
+   438→   438→Dairy and alternatives
+   439→   439→
+   440→   440→Item nameTypical portion sizeCalories per portion
+   441→   441→
+   442→   442→Skimmed milk (0% fat)1 cup85 kcal
+   443→   443→
+   444→   444→Reduced fat milk (2% fat)1 cup123 kcal
+   445→   445→
+   446→   446→Whole fat milk (3.25% fat)1 cup148 kcal
+   447→   447→
+   448→   448→Greek yogurt5.3 oz159 kcal
+   449→   449→
+   450→   450→Mozzarella cheese1 slice (1 oz)78 kcal
+   451→   451→
+   452→   452→Cheddar cheese1 slice (1 oz)112 kcal
+   453→   453→
+   454→   454→American cheese1 slice64 kcal
+   455→   455→
+   456→   456→Cottage cheese4 oz110 kcal
+   457→   457→
+   458→   458→Soymilk1 cup109 kcal
+   459→   459→
+   460→   460→Oils and spreads
+   461→   461→
+   462→   462→Item nameTypical portion sizeCalories per portion
+   463→   463→
+   464→   464→Peanut butter2 tbsp188 kcal
+   465→   465→
+   466→   466→Lard1 tbsp115 kcal
+   467→   467→
+   468→   468→Butter1 tbsp101 kcal
+   469→   469→
+   470→   470→Olive oil1 tbsp123 kcal
+   471→   471→
+   472→   472→Margarine spread1 tbsp84 kcal
+   473→   473→
+   474→   474→Snacks and fast food
+   475→   475→
+   476→   476→Item nameTypical portion sizeCalories per portion
+   477→   477→
+   478→   478→French fries1 medium serving377 kcal
+   479→   479→
+   480→   480→Pepperoni pizza1 slice (14" regular crust)313 kcal
+   481→   481→
+   482→   482→Chocolate3 block squares193 kcal
+   483→   483→
+   484→   484→Chocolate chip cookies2 cookies171 kcal
+   485→   485→
+   486→   486→Protein bar1 bar190 kcal
+   487→   487→
+   488→   488→Popcorn1 oz serving141 kcal
+   489→   489→
+   490→   490→Plain donut1 donut308 kcal
+   491→   491→
+   492→   492→Drinks
+   493→   493→
+   494→   494→Item nameTypical portion sizeCalories per portion
+   495→   495→
+   496→   496→Black coffee1 cup4 kcal
+   497→   497→
+   498→   498→Iced mocha coffee1 cup159 kcal
+   499→   499→
+   500→   500→Water1 cup0 kcal
+   501→   501→
+   502→   502→Large cola21 fl oz179 kcal
+   503→   503→
+   504→   504→Energy drink8 fl oz148 kcal
+   505→   505→
+   506→   506→Macro breakdown
+   507→   507→
+   508→   508→When planning your diet, your macros are essential. Your macro breakdown is the proportion of your diet made up of carbohydrates, proteins and fats. Carbs provide your body with easy-to-use energy, proteins are the essential building blocks for your muscles and other body tissue and fats help support cell growth, nutrient absorption and the production of hormones.
+   509→   509→
+   510→   510→Our macro calculator is a simple way to get macro estimates (in grams per day) of each macro. It takes into account your current body weight, and sets a minimum protein intake based on nutritional recommendations. It then adjusts your fat and carbohydrate macros to make your overall intake as balanced as possible given your calorie deficit or excess.
+   511→   511→
+   512→   512→Maintaining muscle mass on a calorie deficit diet
+   513→   513→
+   514→   514→Losing muscle mass is a concern with any weight loss plan. Losing too much muscle can lead to general weakness, which can adversely impact your day-to-day activities. It can also affect your strength and energy levels. A lower muscle mass is associated with a slower metabolism, since more energy is needed to maintain muscle compared with fat.
+   515→   515→
+   516→   516→While achieving rapid weight loss may seem like an attractive goal, it can often result in negative outcomes. When we subject our bodies to rapid weight loss, it responds by breaking down more muscle tissue to meet its energy needs. This is a situation to avoid, because maintaining muscle mass is key to a strong body and good metabolic health.
+   517→   517→
+   518→   518→ 
+   519→   519→ 
+   520→   520→
+   521→   521→Losing weight while maintaining muscle needs both a calorie deficit and a sufficient amount of exercise. Aim to include both resistance training and regular cardio into your weight loss plan.
+   522→   522→
+   523→   523→Resistance training promotes the growth of muscle, increases metabolic rate and increases bone density. Doing regular resistance training while losing weight can offset the muscle mass your body uses for energy. Resistance training also continues to burn calories long after you've completed your session. This phenomenon is known as the "afterburn effect".
+   524→   524→
+   525→   525→ 
+   526→   526→ 
+   527→   527→
+   528→   528→Cardio complements this by promoting heart health, burning calories and improving your overall fitness level. Cardio exercises like running or cycling typically burn more calories during the workout itself when compared with resistance training.
+   529→   529→
+   530→   530→The Physical Activity Guidelines recommend that healthy adults do at least 150 minutes of moderate aerobic activity or 75 minutes of vigorous aerobic activity each week.
+   531→   531→
+   532→   532→ 
+   533→   533→ 
+   534→   534→
+   535→   535→Tips for safe weight loss
+   536→   536→
+   537→   537→Minimum calorie intake
+   538→   538→
+   539→   539→If you are pregnant, have an eating disorder or have any pre-existing medical condition, you should consult a doctor or suitably-qualified medical professional for advice.
+   540→   540→
+   541→   541→In all cases, extreme methods of weight loss can be dangerous and have serious health consequences. You should never consume less than 1,200 calories per day if you are a woman and never less than 1,500 calories if you are a man.
+   542→   542→
+   543→   543→Is it safe to lose more than 2 lb per week?
+   544→   544→
+   545→   545→Most people looking to lose weight should try to lose around 0.5 lb to 2 lb per week. Losing 2 lb per week is equivalent to a daily calorie deficit of 1,000 kcal.
+   546→   546→
+   547→   547→Losing weight quickly is dangerous and can have serious health consequences. In general, most people should not attempt to lose more than 2 lb per week without medical supervision.
+   548→   548→
+   549→   549→Can I lose weight without cutting calories?
+   550→   550→
+   551→   551→For most people, eating less food is the easiest way to create a calorie deficit. For example, if you calculate your maintenance calories as 2,500 per day, you can simply eat 2,000 calories per day to lose around 1 pound per week.
+   552→   552→
+   553→   553→The key to weight loss is maintaining a calorie deficit relative to your maintenance calories (TDEE). That means you have two tools for weight loss - reducing your calorie intake or increasing your TDEE. You can increase your TDEE by increasing your activity level. Engaging in regular physical exercise will increase your TDEE.
+   554→   554→
+   555→   555→Who should not use the calorie calculator?
+   556→   556→
+   557→   557→Do not use our calorie calculator:
+   558→   558→
+   559→   559→If you are pregnant – Our calorie calculator will not provide an accurate reflection of your health status as your body undergoes significant changes during pregnancy. Consult a doctor or medical professional if you are concerned about your weight.
+   560→   560→
+   561→   561→If you have an eating disorder – Always consult a medical professional about your weight.
+   562→   562→
+   563→   563→If you are under the age of 18 – BMR and TDEE estimates are not a suitable measure for children and teens under the age of 18.
+   564→   564→
+   565→   565→References
+   566→   566→
+   567→   567→Keys, A., Taylor, H. L., & Grande, F. (1973). Basal metabolism and age of adult man. Metabolism, 22(4), 579-587.
+   568→   568→
+   569→   569→ 
+   570→   570→ 
+   571→   571→
+   572→   572→Fabio Comana, M. S., & PES, C. Comparing Energy Expenditure Prediction Equations.
+   573→   573→
+   574→   574→Mifflin, M. D., St Jeor, S. T., Hill, L. A., Scott, B. J., Daugherty, S. A., & Koh, Y. O. (1990). A new predictive equation for resting energy expenditure in healthy individuals. The American journal of clinical nutrition, 51(2), 241-247.
+   575→   575→
+   576→   576→Frankenfield, D., Roth-Yousey, L., Compher, C., & Evidence Analysis Working Group. (2005). Comparison of predictive equations for resting metabolic rate in healthy nonobese and obese adults: a systematic review. Journal of the American Dietetic association, 105(5), 775-789.
+   577→   577→
+   578→   578→About this page
+   579→   579→
+   580→   580→Changelog
+   581→   581→
+   582→   582→2 January 2024 - New version of the calorie calculator experience published by Brendon Boshell and Jane Litfin (copy).
+   583→   583→
+   584→   584→30 May 2024 - Added optional email capture to the calorie calculator form. Also added a CTA to the AI workout plan generator after showing the calculator results.
+   585→   585→
+   586→   586→8 June 2024 - Added support for weight input in stones and pounds (for the UK users). Also added links to the most popular calculators.
+   587→   587→
+   588→   588→9 June 2024 - Added support for kilojoules output (for Australia and New Zealand users).
+   589→   589→
+   590→   590→10 June 2024 - Added feature to detect common typos in email addresses.
+   591→   591→
+   592→   592→18 June 2024 - Minor content update to improve the page's ad experience.
+   593→   593→
+   594→   594→16 July 2024 - Added "How to use the calorie calculator" guide video to the page.
+   595→   595→
+   596→   596→17 July 2024 - Improved the mobile experience by splitting the form into a multi-step form, with each screen asking one question at a time. Also added help links to provide more information about activity levels.
+   597→   597→
+   598→   598→18 July 2024 - Added a share button to the calculator results, allowing users to easily share on social media, direct message or saving with a bookmark.
+   599→   599→
+   600→   600→22 July 2024 - Added ability for other websites to embed the calorie calculator on their own websites.
+   601→   601→
+   602→   602→19 August 2024 - If user inputted their weight or target weight in lbs, the calculator will now output it's calorie deficits in lbs only. This avoids confusion with displaying kgs.
+   603→   603→
+   604→   604→20 August 2024 - Updated calculator to output a range of calories for weight loss or gain as it's summary value, rather than simply the maintenance calories.
+   605→   605→
+   606→   606→6 September 2024 - Changed the most popular calculators links because most users are interested in the BMI calculator after completing their calorie deficit calculation.
+   607→   607→
+   608→   608→12 September 2024 - Made the "next calculator" buttons much larger so users don't miss them when scrolling.
+   609→   609→
+   610→   610→26 September 2024 - In the results, prompt users to perform a macro calculation after looking at their calorie calculator results.
+   611→   611→
+   612→   612→14 October 2024 - Added FAQs to the calorie calculator page. Content provided by Jane Litfin.
+   613→   613→
+   614→   614→20 October 2024 - Move FAQs above the long-form content as an A/B test found users engage more with the FAQs and stay for longer on the page.
+   615→   615→
+   616→   616→27 November 2024 - Added header and footer to the calculator results table, added some Gym Geek branding so users know where the results come from when taking screenshots (common).
+   617→   617→
+   618→   618→5 December 2024 - Allow users to install the PWA on Android and save their results to their homescreen for quick future access.
+   619→   619→
+   620→   620→1 March 2025 - Updated calculator to make it obvious how to calculate maintenance calories. Content update by Jane Litfin to add more information about maintenance calories. Replaced technical "TDEE" terms with "maintenance calories". Updated page title and description.
+   621→   621→
+   622→   622→2 March 2025 - Added infographics for calorie deficits and maintenance calories.
+   623→   623→
+   624→   624→3 March 2025 - Added screenshots of the calculator results, an infographic illustrating the typical TDEE components and an infographic for the Mifflin-St Jeor study.
+   625→   625→
+   626→   626→16 August 2025 - Refocus page onto calorie deficit calculator, move maintenance content into the maintenance calorie calculator page.
+   627→   627→
+   628→   628→28 September 2025 - Reworked content to add a "How to use the calorie calculator" section. Added some help information on inputting information into the calculator. Added fact check for Mifflin-St Jeor being an accurate way to measure BMR.
+   629→   629→
+   630→   630→30 September 2025 - Added section on CICO (calories in, calories out) and explained how increasing your activity level impacts a calorie deficit diet. Added section about metabolism and adaptive TDEE (Gym Geek mobile app). Added section on maintaining muscle with a calorie deficit diet. Added section on tracking calories and hidden sources of calories. Added reference calories for popular food items from Gym Geek's food database.
+   631→   631→
+   632→   632→1 October 2025 - Added app screenshots and additional infographics to the page.
+   633→   633→
+   634→   634→2 October 2025 - Added weight loss stats from Gym Geek users, including data on activity levels.
+   635→   635→
+   636→   636→7 February 2026 - Update page title and description.
+   637→   637→
+   638→   638→10 March 2026 - Update page description and copy.
+   639→   639→
+   640→   640→6 April 2026 - Update title and description.
+   641→   641→
+   642→   642→7 April 2026 - Medical review. Add additional information about minimum calorie intakes and low or very low calorie diets (VLCD). Add additional information about Standard Activity Factors/Physical Activity Level. Fix minor errors and add clarity to content for Mifflin-St Jeor equation. 
+   643→   643→
+   644→   644→ 
+   645→   645→ 
+   646→   646→
+   647→   647→Embed this calculator on your website
+   648→   648→
+   649→   649→Gym Geek’s calculators can be embedded on any website or blog, making it easy for your clients to calculate directly on your website. Using WordPress? Simply add a new block to your post or page and select ‘Custom HTML’ as the type:
+   650→   650→
+   651→   651→Get code
+   652→   652→
+   653→   653→Written by Jane Litfin
+   654→   654→
+   655→   655→Gym Geek’s health and fitness editor.
+   656→   656→
+   657→   657→Updated 7 April 2026
+   658→   658→
+   659→   659→ 
+   660→   660→ 
+   661→   661→ 
+   662→   662→
+   663→   663→ 
+   664→   664→ 
+   665→   665→ 
+   666→   666→ 
+   667→   667→ 
+   668→   668→
+   669→   669→DO NOT SELL OR SHARE MY PERSONAL INFORMATION
