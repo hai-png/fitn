@@ -1,2 +1,38 @@
+# Skills and node modules
 skills/
 node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Tool results (ephemeral)
+tool-results/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Large fetched HTML/JSON resources (regenerable via scripts/fetch_resources.py)
+resources/raw/
