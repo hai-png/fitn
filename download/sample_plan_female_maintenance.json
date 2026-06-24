@@ -19,6 +19,24 @@
     "cut_rate_tier": null,
     "bulk_aggressiveness": null
   },
+  "preferences": {
+    "exercise_hours_per_day": 1.0,
+    "exercise_intensity": "moderate",
+    "climate": "temperate",
+    "in_active_deficit": false,
+    "weight_reduced_pct": 0.0,
+    "plan_type": null,
+    "muscle_focus": [
+      "glutes",
+      "shoulders"
+    ],
+    "program_duration_weeks": null,
+    "meal_frequency": 3,
+    "cuisine_preference": null,
+    "allergens_to_avoid": null,
+    "excluded_ingredients": null,
+    "include_pre_post_workout": false
+  },
   "assessment": {
     "body_composition": {
       "body_fat_pct": 22,
@@ -430,9 +448,45 @@
                       "rest_sec": 60,
                       "rpe_target": 6.0,
                       "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Seated Dumbbell Lateral Raise",
+                        "slug": "seated-dumbbell-lateral-raise",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders"
+                        ],
+                        "secondary_muscles": [],
+                        "equipment": "dumbbell",
+                        "experience_level": "Beginner",
+                        "force_type": "Pull",
+                        "mechanics": "Isolation",
+                        "instructions": [
+                          "Grab a pair of dumbbells\u00a0with a neutral grip and sit on the edge of a flat bench with your feet around shoulder width apart. This is the starting position for the exercise.",
+                          "Slowly raise the dumbbells to around shoulder height.",
+                          "Pause and slowly lower the dumbbell back to the starting position.",
+                          "Repeat for desired reps."
+                        ],
+                        "tips": [
+                          "Focus on keeping the reps slow and controlled. Because this is\u00a0an isolation exercise, the focus should be on correctly working the muscle - not moving as much weight as possible.",
+                          "Don't bring your arms up too high -\u00a0up to shoulder height is far enough.",
+                          "If you encounter pain in the shoulder while performing the movement, consider implementing one of the following tweaks:\n\nTilt your pinkies slightly higher than your thumbs. Imagine you\u2019re pouring out a cup of water.",
+                          "Turn your palms forward so that your thumbs are pointing away from your body. This will put the shoulder in a more externally rotated position and potentially open up the shoulder joint to allow for a bit more movement."
+                        ],
+                        "overview": "Grab a pair of dumbbells with a neutral grip and sit on the edge of a flat bench with your feet around shoulder width apart. This is the starting position for the exercise. Slowly raise the dumbbells to around shoulder height. Pause and slowly lower the dumbbell back to the starting position. Repeat for desired reps.",
+                        "video_url": "https://player.vimeo.com/video/760002728?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/seated-dumbbell-lateral-raise.html"
+                      },
+                      "sets": 4,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6.0,
+                      "notes": "focus emphasis"
                     }
                   ],
-                  "estimated_duration_min": 85,
+                  "estimated_duration_min": 93,
                   "notes": ""
                 },
                 {
@@ -645,9 +699,51 @@
                       "rest_sec": 60,
                       "rpe_target": 6.0,
                       "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Bent Over Dumbbell Reverse Fly",
+                        "slug": "bent-over-dumbbell-reverse-fly",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "shoulders"
+                        ],
+                        "secondary_muscles": [
+                          "traps",
+                          "triceps"
+                        ],
+                        "equipment": "dumbbell",
+                        "experience_level": "Beginner",
+                        "force_type": "Pull (Bilateral)",
+                        "mechanics": "Isolation",
+                        "instructions": [
+                          "Select the desired weight from the rack then take a few steps back into an open area.",
+                          "Hinge from the hips until your body is almost parallel to the floor and allow the arms to hang straight down from the shoulders with a neutral grip.",
+                          "Take a deep breath and pull the dumbbells towards the ceiling using the rear deltoids.",
+                          "Slowly lower the dumbbells back to the starting position under control.",
+                          "Repeat for the desired number of repetitions."
+                        ],
+                        "tips": [
+                          "Ideally we want to focus on the rear deltoids, not the scapular retractors so movement at the shoulder blade should be limited. Move the shoulder within the joint, not the shoulder blade on the ribcage.",
+                          "Keep the abs braced and don\u2019t arch the back at the top of the movement.",
+                          "If you can\u2019t hinge to 90 degrees, then hinge as far as comfortably possible while completing the exercise. Or, you could also take a seated position to complete the exercise as well.",
+                          "If you experience shoulder pain during the movement then it may be beneficial to rotate the dumbbells until the thumbs are pointing away from one another and the palms are facing forward. This is also known as a supinated grip and will externally rotate the shoulder.",
+                          "Don\u2019t jut your head forward during the movement - this about stimulation for a small muscle group. Focus during the movement and don\u2019t just rely on momentum.",
+                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                        ],
+                        "overview": "Select the desired weight from the rack then take a few steps back into an open area. Hinge from the hips until your body is almost parallel to the floor and allow the arms to hang straight down from the shoulders with a neutral grip. Take a deep breath and pull the dumbbells towards the ceiling using the rear deltoids. Slowly lower the dumbbells back to the starting position under control. Repeat for the desired number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/Fgz_FdzDukE?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/Fgz_FdzDukE/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/bent-over-dumbbell-reverse-fly.html"
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6.0,
+                      "notes": "focus emphasis"
                     }
                   ],
-                  "estimated_duration_min": 85,
+                  "estimated_duration_min": 93,
                   "notes": ""
                 },
                 {
@@ -882,9 +978,53 @@
                       "rest_sec": 60,
                       "rpe_target": 6.0,
                       "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Barbell Quarter Squat",
+                        "slug": "1-4-squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads"
+                        ],
+                        "secondary_muscles": [
+                          "calves",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "experience_level": "Beginner",
+                        "force_type": "Push",
+                        "mechanics": "Compound",
+                        "instructions": [
+                          "The 1/4 squat is a variation of the regular squat;\u00a0the difference being that you only squat down 1/4 of the way. Set up for the exercise by setting the barbell to just below shoulder height and loading the weight you want to use.",
+                          "Stand under the bar with your feet at about shoulder width apart.",
+                          "Position the bar so that it is resting on the muscles on the top of your back, not on the back of your neck. The bar should feel comfortable. If it doesn't, try adding some padding to the bar.",
+                          "Now take your hands over the back and grip the bar with a wide grip for stability.",
+                          "You should now bend at the knees and straighten your back in preparation to take the weight off the rack.",
+                          "Keeping your back straight and eyes up, push up through the legs and take the weight off the rack.",
+                          "Take a small step back and stabilize yourself.",
+                          "Keeping your eyes facing forwards, slowly lower your body down. Don't lean forward as you come down. Your buttocks should come out and drop straight down.",
+                          "Squat down around 6-12 inches, pause, and then slowly raise your body back up pushing through your heels.",
+                          "Do not lock the knees out when you stand up, and then repeat the movement.",
+                          "Generally, for building lower body mass the regular squat is much more effective.",
+                          "The quarter squat is often used as a shock technique, build strength with heavier weights, and\u00a0for focusing solely on the quads.",
+                          "Check out the tips on squatting by visiting the Squats page."
+                        ],
+                        "tips": [],
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/877885839?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/1-4-squat.html"
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6.5,
+                      "notes": "focus emphasis"
                     }
                   ],
-                  "estimated_duration_min": 85,
+                  "estimated_duration_min": 93,
                   "notes": ""
                 },
                 {
@@ -1406,9 +1546,48 @@
                       "rest_sec": 60,
                       "rpe_target": 6.0,
                       "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Hyperextension",
+                        "slug": "hyperextension",
+                        "category": "accessory",
+                        "muscle_groups": [
+                          "glutes"
+                        ],
+                        "secondary_muscles": [
+                          "hamstrings",
+                          "lower_back"
+                        ],
+                        "equipment": "bodyweight",
+                        "experience_level": "Beginner",
+                        "force_type": "Hinge (Bilateral)",
+                        "mechanics": "Isolation",
+                        "instructions": [
+                          "Setup in a hyperextension machine with your feet anchored and torso roughly perpendicular to your legs at a 45 degree angle.",
+                          "Begin in a hinged position with your arms crossed and initiate the movement by flexing your glutes.",
+                          "Extend the hips and finish with your body in a straight line.",
+                          "Repeat for the desired number of repetitions."
+                        ],
+                        "tips": [
+                          "Keep in mind that there are two ways to do hyperextensions. For the vast majority of folks (outside of a sport specific application - ex. Gymnastics or Olympic weight lifting), they stick with the first rather than the second option.\n\n\n\t\t\t\tGlutecentric: Slightly flex your upper back and extend your hips until your body is in a straight line and focus entirely on gluteal activation.",
+                          "Erector-centric: Arch globally through the spine and focus entirely on erector activation.",
+                          "If you can\u2019t seem to feel your glutes activating, palpate the musculature with your hands and focus on pausing the movement at the peak of contraction.",
+                          "If you find one glute has less contractility than another, perform twice as much volume on that side relative to the other with unilateral variations until you have established an efficient mind/muscle connection."
+                        ],
+                        "overview": "Setup in a hyperextension machine with your feet anchored and torso roughly perpendicular to your legs at a 45 degree angle. Begin in a hinged position with your arms crossed and initiate the movement by flexing your glutes. Extend the hips and finish with your body in a straight line. Repeat for the desired number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/BZMnTSobIAQ?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/BZMnTSobIAQ/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hyperextension.html"
+                      },
+                      "sets": 3,
+                      "reps": "10-15",
+                      "rest_sec": 60,
+                      "rpe_target": 6.0,
+                      "notes": "focus emphasis"
                     }
                   ],
-                  "estimated_duration_min": 85,
+                  "estimated_duration_min": 93,
                   "notes": ""
                 }
               ],
@@ -1425,24 +1604,27 @@
         }
       ],
       "total_duration_weeks": 0,
-      "muscle_focus": [],
+      "muscle_focus": [
+        "glutes",
+        "shoulders"
+      ],
       "weekly_volume_summary": {
         "chest": 13,
-        "shoulders": 22,
-        "triceps": 17,
+        "shoulders": 30,
+        "triceps": 18,
         "upper_back": 18,
         "abs": 16,
         "biceps": 14,
         "lats": 15,
-        "lower_back": 10,
-        "quads": 17,
+        "lower_back": 11,
+        "traps": 4,
+        "quads": 20,
         "adductors": 4,
-        "calves": 12,
-        "glutes": 12,
-        "hamstrings": 18,
+        "calves": 13,
+        "glutes": 16,
+        "hamstrings": 20,
         "hip_flexors": 2,
-        "forearms": 3,
-        "traps": 3
+        "forearms": 3
       },
       "notes": [
         "Plan type: STANDARD (ongoing rotation)",
@@ -1451,10 +1633,11 @@
         "Progression: dup (suitable for intermediate)",
         "Equipment: full_gym (20 equipment types allowed)",
         "Exercise library: 1217 exercises loaded",
+        "Muscle focus: glutes, shoulders (extra accessory volume added)",
         "Volume target: 10-20 hard sets per muscle group per week.",
         "Compound movements as foundation; progressive overload primary driver.",
         "Each exercise includes instructions, tips, and video URL.",
-        "\u26a0 shoulders volume = 22 sets/wk (above 20-set ceiling). Recovery may be compromised."
+        "\u26a0 shoulders volume = 30 sets/wk (above 20-set ceiling). Recovery may be compromised."
       ]
     },
     "meal": {
@@ -3999,6 +4182,6 @@
         "Phase-5 best-fit scoring + acceptable scaling + filler system + swap alternatives."
       ]
     },
-    "summary": "=== Fitness Plan Summary ===\nUser: female, 32y, 170cm, 62.0kg\nAssessment: BF=22.0% (fitness), BMI=21.5, FFMI=16.7\nStrategy: MAINTENANCE\n  \u2014 User goal is maintenance.\nNutrition:\n  \u2022 TDEE: 2617 kcal\n  \u2022 Target: 2617 kcal (+0 vs TDEE)\n  \u2022 Macros: P107g / C384g / F73g\n  \u2022 Hydration: 2.4 L/day\n  \u2022 Fiber: 37 g/day\n  \u2022 Timeline: ~12 weeks to goal\nTraining:\n  \u2022 Plan type: STANDARD (ongoing rotation)\n  \u2022 Goal: maintenance\n  \u2022 Split: pplul (5d/wk)\n  \u2022 Progression: dup\n  \u2022 Mesocycles: 1 \u00d7 1w (with deload)\n  \u2022 Workouts per cycle: 5\nMeal plan:\n  \u2022 Frequency: 3 meals/day\n  \u2022 Template: 7-day rotation\n  \u2022 Daily target: 2617 kcal"
+    "summary": "=== Fitness Plan Summary ===\nUser: female, 32y, 170cm, 62.0kg\nAssessment: BF=22.0% (fitness), BMI=21.5, FFMI=16.7\nStrategy: MAINTENANCE\n  \u2014 User goal is maintenance.\n\nNutrition:\n  \u2022 TDEE: 2617 kcal\n  \u2022 Target: 2617 kcal (+0 vs TDEE)\n  \u2022 Macros: P107g / C384g / F73g\n  \u2022 Hydration: 2.4 L/day\n  \u2022 Fiber: 37 g/day\n  \u2022 Timeline: ~12 weeks to goal\n\nTraining:\n  \u2022 Plan type: STANDARD (ongoing rotation)\n  \u2022 Goal: maintenance\n  \u2022 Split: pplul (5d/wk)\n  \u2022 Progression: dup\n  \u2022 Mesocycles: 1 \u00d7 1w (with deload)\n  \u2022 Workouts per cycle: 5\n  \u2022 Muscle focus: glutes, shoulders\n\nMeal plan:\n  \u2022 Frequency: 3 meals/day\n  \u2022 Template: 7-day rotation\n  \u2022 Daily target: 2617 kcal"
   }
 }

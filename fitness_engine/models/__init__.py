@@ -15,13 +15,15 @@ from .nutrition import (
     MacroSplit, HydrationTarget, MicronutrientTargets, NutritionPlan,
 )
 from .training import (
-    SplitType, ProgressionScheme, ExerciseCategory, Exercise,
-    WorkoutExercise, Workout, Microcycle, Mesocycle, TrainingPlan,
+    PlanType, TrainingGoal, SplitType, ProgressionScheme, ExerciseCategory,
+    ExperienceLevel, Exercise, WorkoutExercise, Workout, Microcycle,
+    Mesocycle, TrainingPlan,
 )
 from .meal import (
     MealType, FoodCategory, FoodItem, MealFood, Meal, DayPlan,
     MealPlan, FitnessPlan,
 )
+from .preferences import PlanPreferences
 
 __all__ = [
     # Profile
@@ -36,9 +38,12 @@ __all__ = [
     "CalorieTargets", "MacroSplit", "HydrationTarget",
     "MicronutrientTargets", "NutritionPlan",
     # Training
-    "SplitType", "ProgressionScheme", "ExerciseCategory", "Exercise",
-    "WorkoutExercise", "Workout", "Microcycle", "Mesocycle", "TrainingPlan",
+    "PlanType", "TrainingGoal", "SplitType", "ProgressionScheme",
+    "ExerciseCategory", "ExperienceLevel", "Exercise", "WorkoutExercise",
+    "Workout", "Microcycle", "Mesocycle", "TrainingPlan",
     # Meal
     "MealType", "FoodCategory", "FoodItem", "MealFood", "Meal",
     "DayPlan", "MealPlan", "FitnessPlan",
+    # Preferences (Phase-6 unified config)
+    "PlanPreferences",
 ]

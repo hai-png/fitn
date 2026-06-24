@@ -1,14 +1,27 @@
 """
 Fitness Engine — comprehensive fitness assessment + plan generation.
 
-Public API:
-    from fitness_engine import UserProfile, assess_profile, propose_plan
+Clean information flow:
+
+    from fitness_engine import (
+        UserProfile, assess_profile, propose_plan, PlanPreferences,
+    )
 
     profile = UserProfile(age=30, sex="male", height_cm=178, weight_kg=82, ...)
     assessment = assess_profile(profile)
+
+    # Option A: default preferences
     plan = propose_plan(profile, assessment)
 
-    # Or get a quick dict for JSON serialization
+    # Option B: custom preferences
+    preferences = PlanPreferences(
+        meal_frequency=4,
+        include_pre_post_workout=True,
+        muscle_focus=["chest", "arms"],
+    )
+    plan = propose_plan(profile, assessment, preferences)
+
+    # Serialize
     assessment_dict = assessment.to_dict()
     plan_dict = plan.to_dict()
 """
@@ -25,11 +38,12 @@ from .models.training import (
     TrainingPlan, PlanType, TrainingGoal, SplitType, ProgressionScheme,
 )
 from .models.meal import MealPlan, FitnessPlan
+from .models.preferences import PlanPreferences
 
 from .assessment.assessor import assess_profile
 from .engine import propose_plan
 
-__version__ = "2.0.0"
+__version__ = "3.0.0"
 
 __all__ = [
     "__version__",
@@ -41,8 +55,10 @@ __all__ = [
     "MuscularPotential", "RecommendedStrategy",
     # Plans
     "NutritionPlan", "TrainingPlan", "MealPlan", "FitnessPlan",
-    # Phase-3 training types
+    # Training types
     "PlanType", "TrainingGoal", "SplitType", "ProgressionScheme",
+    # Preferences (unified config)
+    "PlanPreferences",
     # Engine API
     "assess_profile", "propose_plan",
 ]

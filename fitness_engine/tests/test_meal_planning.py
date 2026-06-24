@@ -50,7 +50,7 @@ from fitness_engine.meal_plan import (
     PRE_POST_WORKOUT_RECIPES,
     # Allocator + planner
     allocate_meal, SelectedMeal, selected_meal_to_dict,
-    build_meal_plan as build_meal_plan_v2,
+    build_meal_plan,
     # Recipe loader
     load_recipes, get_recipe_by_id, recipes_by_filters,
 )
@@ -661,7 +661,7 @@ class TestPlanner:
         from fitness_engine.nutrition.planner import build_nutrition_plan
         assessment = assess_profile(cut_profile)
         nutrition = build_nutrition_plan(cut_profile, assessment)
-        plan = build_meal_plan_v2(
+        plan = build_meal_plan(
             cut_profile, assessment, nutrition, meal_frequency=3,
         )
         assert len(plan.days) == 7
@@ -674,7 +674,7 @@ class TestPlanner:
         from fitness_engine.nutrition.planner import build_nutrition_plan
         assessment = assess_profile(cut_profile)
         nutrition = build_nutrition_plan(cut_profile, assessment)
-        plan = build_meal_plan_v2(
+        plan = build_meal_plan(
             cut_profile, assessment, nutrition,
             meal_frequency=3, include_pre_post_workout=True,
         )
@@ -692,7 +692,7 @@ class TestPlanner:
         from fitness_engine.nutrition.planner import build_nutrition_plan
         assessment = assess_profile(cut_profile)
         nutrition = build_nutrition_plan(cut_profile, assessment)
-        plan = build_meal_plan_v2(
+        plan = build_meal_plan(
             cut_profile, assessment, nutrition, meal_frequency=3,
         )
         assert "weekly_kcal_match_pct" in plan.recipe_source_summary
@@ -703,7 +703,7 @@ class TestPlanner:
         from fitness_engine.nutrition.planner import build_nutrition_plan
         assessment = assess_profile(vegan_profile)
         nutrition = build_nutrition_plan(vegan_profile, assessment)
-        plan = build_meal_plan_v2(
+        plan = build_meal_plan(
             vegan_profile, assessment, nutrition, meal_frequency=3,
         )
         for day in plan.days:

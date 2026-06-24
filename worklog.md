@@ -488,3 +488,97 @@ Stage Summary:
   • /home/z/my-project/fitn/scripts/recipe_curator.py (new)
   • /home/z/my-project/fitn/scripts/sample_runner.py (updated with 6 demo profiles)
   • 6 sample plans regenerated in /home/z/my-project/fitn/download/
+
+---
+Task ID: 6
+Agent: Super Z (Phase-6 cleanup + unified information flow)
+Task: Tidy up information flow from initial user input through assessment and recommendation to final planning output. Unified and smooth flow across all systems. Tidy up files — no versioned files, no legacy files.
+
+Work Log:
+- Wrote cleanup plan at reports/CLEANUP_PLAN.md identifying:
+  * 12 legacy/versioned files to delete
+  * 2 v2 files to rename to canonical names
+  * 4 test files to rename from phase-suffix to functional names
+  * Parameter passing inconsistency in propose_plan (13 params → 1 PlanPreferences)
+- Deleted legacy files:
+  * fitness_engine/meal_plan/allocator.py (legacy Phase-2 allocator)
+  * fitness_engine/meal_plan/planner.py (shim re-exporting from planner_v2)
+  * fitness_engine/training/planner.py (shim re-exporting from architect)
+  * fitness_engine/training/splits.py (shim with select_split/select_progression)
+  * scripts/extract_text.py, scripts/fetch_resources.py, scripts/fetch_resources_retry.py (Phase-1 scraping)
+  * CRITICAL_ANALYSIS.md (superseded by reports/)
+  * download/README.md, download/fitness_engine_reference_guide.md (stale Phase-1 docs)
+- Renamed v2 files to canonical names:
+  * fitness_engine/meal_plan/allocator_v2.py → allocator.py
+  * fitness_engine/meal_plan/planner_v2.py → planner.py
+- Renamed test files to functional names:
+  * tests/test_phase2.py → tests/test_recipes_and_exercises.py
+  * tests/test_phase3.py → tests/test_training_architect.py
+  * tests/test_phase4.py → tests/test_rippedbody_enhancements.py
+  * tests/test_phase5.py → tests/test_meal_planning.py
+- Created fitness_engine/models/preferences.py (NEW, 90 lines):
+  * PlanPreferences dataclass groups all 13 user-tunable preferences
+  * Fields grouped by consumer: nutrition (5), training (3), meal (5)
+  * from_kwargs() classmethod for backward compat (filters unknown keys)
+  * to_dict() for JSON serialization
+- Updated fitness_engine/models/__init__.py to export PlanPreferences + Phase-3 training types
+- Rewrote fitness_engine/engine.py with clean unified flow:
+  * propose_plan(profile, assessment, preferences?, **backward_compat_kwargs)
+  * Accepts PlanPreferences OR flat kwargs (deprecated but working)
+  * Flat kwargs override PlanPreferences when both passed
+  * _build_summary() helper formats unified output
+- Updated fitness_engine/__init__.py:
+  * Exports PlanPreferences at top level
+  * Bumped version to 3.0.0
+  * Updated docstring with clean usage example
+- Updated fitness_engine/meal_plan/__init__.py:
+  * Removed imports of deleted allocator.py + planner.py legacy code
+  * Imports from canonical allocator.py + planner.py
+- Updated fitness_engine/training/__init__.py:
+  * Removed imports of deleted planner.py + splits.py shims
+  * Clean exports of all training types + functions
+- Updated fitness_engine/meal_plan/planner.py:
+  * Fixed import: from .allocator_v2 → from .allocator
+  * Updated docstring to remove "Phase-5" + "v2" references
+- Updated fitness_engine/tests/test_meal_planning.py:
+  * Replaced build_meal_plan_v2 → build_meal_plan (4 occurrences)
+  * Updated import to use canonical name
+- Created fitness_engine/tests/test_engine_flow.py (NEW, 15 tests):
+  * TestPlanPreferences (4 tests): defaults, custom, from_kwargs, to_dict
+  * TestEngineFlow (8 tests): default prefs, custom prefs, flat kwargs compat,
+    override behavior, pass-through to meal/training/nutrition, serialization
+  * TestFileCleanup (3 tests): no v2 files, no shims, no legacy allocator
+- Updated scripts/sample_runner.py to use clean PlanPreferences API:
+  * Each profile now has a "preferences": PlanPreferences(...) field
+  * Demonstrates the new 3-parameter propose_plan(profile, assessment, preferences)
+- Regenerated 6 sample plans with clean API
+
+Stage Summary:
+- File structure cleaned:
+  * 0 files with _v2 suffix
+  * 0 shim files (planner.py that just re-exports)
+  * 0 phase-suffixed test files
+  * 0 legacy scraping scripts
+  * 0 stale docs in download/
+- Information flow unified:
+  * UserProfile → assess_profile() → AssessmentResult
+  * AssessmentResult + PlanPreferences → propose_plan()
+  * propose_plan() delegates to build_nutrition_plan / build_training_plan / build_meal_plan
+  * All 3 sub-planners receive preferences via clean parameter passing
+- Public API simplified:
+  * propose_plan(profile, assessment, preferences?) — 3 params (was 13)
+  * PlanPreferences dataclass groups all tunables
+  * Backward compat: flat kwargs still work (deprecated)
+- All 300 tests passing (285 existing + 15 new flow tests)
+- Version bumped to 3.0.0
+- Deliverables:
+  * /home/z/my-project/fitn/reports/CLEANUP_PLAN.md (design doc)
+  * /home/z/my-project/fitn/fitness_engine/models/preferences.py (new)
+  * /home/z/my-project/fitn/fitness_engine/engine.py (rewritten)
+  * /home/z/my-project/fitn/fitness_engine/__init__.py (updated)
+  * /home/z/my-project/fitn/fitness_engine/models/__init__.py (updated)
+  * /home/z/my-project/fitn/fitness_engine/meal_plan/__init__.py (cleaned)
+  * /home/z/my-project/fitn/fitness_engine/training/__init__.py (cleaned)
+  * /home/z/my-project/fitn/fitness_engine/tests/test_engine_flow.py (new — 15 tests)
+  * /home/z/my-project/fitn/scripts/sample_runner.py (updated to PlanPreferences API)
+  * 6 sample plans regenerated

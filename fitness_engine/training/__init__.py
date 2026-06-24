@@ -1,17 +1,22 @@
 """
-Training module — Phase-4 clean architecture with RippedBody-informed enhancements.
+Training module — clean architecture with RippedBody-informed enhancements.
 
 Public API:
-  - build_training_plan(profile, assessment, plan_type?, muscle_focus?, duration?)
+  - build_training_plan(profile, assessment, plan_type?, muscle_focus?, duration?) → TrainingPlan
   - PlanType, TrainingGoal, SplitType, ProgressionScheme
   - All split designs + exercise library + progression helpers
 
-Phase-4 additions:
-  - exercise_categorization: 24 movement patterns + swap system + environment preferences
-  - volume_landmarks: MEV/MAV/MRV/ML + fractional counting + 11-set cap + VolumeTier
-  - intensity_model: RIR ranges per (rep range × intensity tier) + warm-up generator + reactive deload
-
-The architect (architect.py) is the single entry point for plan construction.
+Modules:
+  - architect: top-level orchestrator (the single entry point)
+  - split_designs: 8 declarative split patterns
+  - exercise_selector: 6-tier fallback slot filler
+  - exercise_categorization: 24 movement patterns + swap system
+  - exercise_library: loads 1,217 exercises from JSON
+  - exercise_loader: JSON loading + normalization
+  - periodization: rep/RPE/rest rules per goal × progression
+  - intensity_model: RIR ranges + warm-up generator + reactive deload
+  - volume_landmarks: MEV/MAV/MRV/ML + fractional counting + 11-set cap
+  - progression: linear + DUP progression helpers
 """
 from ..models.training import (
     PlanType, TrainingGoal,
@@ -114,9 +119,6 @@ from .progression import (
 )
 from .architect import build_training_plan
 
-# Backward-compat: planner.py is now a shim but still importable
-from .splits import select_split, select_progression, filter_exercises_by_equipment
-
 __all__ = [
     # Models
     "PlanType", "TrainingGoal",
@@ -136,13 +138,13 @@ __all__ = [
     "normalize_equipment", "normalize_muscle", "derive_category",
     # Selector
     "select_exercise_for_slot", "get_equipment_allowed_set",
-    # Phase-4: Categorization + swap system
+    # Categorization + swap system
     "PatternFamily", "MovementPatternSpec", "ExerciseCategoryInfo",
     "MOVEMENT_PATTERNS",
     "categorize_exercise", "get_movement_pattern", "get_pattern_family",
     "get_volume_family", "get_environment_preferred_equipment",
     "get_swappable_exercises",
-    # Phase-4: Volume landmarks
+    # Volume landmarks
     "VolumeTier", "TIER_SET_RANGES", "TIER_HOURS_RANGES",
     "MuscleVolumeLandmarks", "DEFAULT_MUSCLE_LANDMARKS", "get_muscle_landmarks",
     "StrengthLiftLandmarks", "STRENGTH_LIFT_LANDMARKS",
@@ -152,7 +154,7 @@ __all__ = [
     "get_recommended_weekly_sets", "validate_weekly_volume",
     "SpecializationConfig", "SPECIALIZATION_BALANCED", "SPECIALIZATION_FOCUS",
     "get_specialization_program",
-    # Phase-4: Intensity model + warm-up + reactive deload
+    # Intensity model + warm-up + reactive deload
     "ExerciseIntensityTier", "get_exercise_intensity_tier",
     "RIR_TABLE", "get_rir_range", "rir_to_rpe", "rpe_to_rir",
     "WarmUpSet", "WARMUP_LEQ_6_REP", "WARMUP_GEQ_6_REP",
@@ -177,6 +179,4 @@ __all__ = [
     "linear_progression_next", "dup_next",
     # Architect (main entry point)
     "build_training_plan",
-    # Backward-compat
-    "select_split", "select_progression", "filter_exercises_by_equipment",
 ]
