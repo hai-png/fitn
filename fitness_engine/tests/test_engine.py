@@ -140,11 +140,20 @@ class TestScenarios:
         plan = propose_plan(recomp_profile, assessment)
         # Recomp target should be slightly below TDEE
         assert plan.nutrition.calories.target_calories_kcal <= plan.nutrition.tdee.final_tdee_kcal
-        # Home gym equipment → check exercises filtered
+        # Home gym equipment → check exercises filtered to home-friendly equipment
+        # Phase-2 expanded home_gym allowed set: barbell, dumbbell, kettlebell,
+        # bodyweight, bands, ez_bar, landmine, trap_bar, exercise_ball
+        home_gym_allowed = {
+            "barbell", "dumbbell", "kettlebell", "bodyweight",
+            "bands", "ez_bar", "landmine", "trap_bar", "exercise_ball",
+        }
         for w in plan.training.mesocycles[0].microcycles[0].workouts:
             for we in w.exercises:
-                # No machine-only exercises when home_gym
-                assert we.exercise.equipment in {"barbell", "dumbbell", "kettlebell", "bodyweight"}
+                # No machine/cable-only exercises when home_gym
+                assert we.exercise.equipment in home_gym_allowed, (
+                    f"Exercise {we.exercise.name} uses {we.exercise.equipment} "
+                    f"which is not in home_gym allowed set"
+                )
 
     def test_obese_beginner_habit_change_first(self):
         """35yo male beginner, 32% BF, maintenance goal → habit_change_first."""

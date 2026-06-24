@@ -154,11 +154,12 @@ class UserProfile:
                 f"body_fat_pct must be 2-60 if provided, got {self.body_fat_pct}"
             )
 
-        # Diet type enforcement (Phase-1)
-        if self.diet_type != DietType.OMNIVORE:
+        # Diet type — Phase-2 supports OMNIVORE, VEGAN, VEGETARIAN
+        # (KETO/PALEO still pending nutrition-side support)
+        if self.diet_type not in (DietType.OMNIVORE, DietType.VEGAN, DietType.VEGETARIAN):
             raise ValueError(
-                f"Phase-1 only supports omnivore diet; got {self.diet_type}. "
-                "Vegan/vegetarian/keto support arrives in Phase-2."
+                f"Phase-2 supports omnivore / vegan / vegetarian diets; "
+                f"got {self.diet_type}. Keto/paleo support arrives in Phase-3."
             )
 
     # === Convenience properties ===

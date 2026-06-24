@@ -1,24 +1,24 @@
 """
-Workout split selection logic.
+Workout split selection — backward-compat shim.
 
-Phase-1 implements 4 default split patterns. Future versions will support
-custom splits from the user-supplied exercise resources.
+The new split definitions live in split_designs.py as declarative data.
+This module re-exports the helpers that other modules still import.
 """
 from __future__ import annotations
 
-from ..models.profile import UserProfile, EquipmentAccess
+from ..models.profile import EquipmentAccess
 from ..models.training import SplitType
+from .exercise_selector import get_equipment_allowed_set
+from .split_designs import ALL_SPLITS, get_splits_for_days, get_split
 
 
 def select_split(training_days_per_week: int) -> SplitType:
     """
     Select a workout split based on training days per week.
 
-    Days → Split mapping:
-      2-3  → Full Body (3x/week alternate days)
-      4    → Upper/Lower (2x cycle)
-      5    → Push/Pull/Legs/Upper/Lower
-      6    → Push/Pull/Legs ×2
+    DEPRECATED: use architect._pick_split() for richer selection logic
+    that considers experience + goal. This function is kept for any
+    downstream code that calls it directly.
     """
     if training_days_per_week <= 3:
         return SplitType.FULL_BODY
@@ -31,44 +31,25 @@ def select_split(training_days_per_week: int) -> SplitType:
 
 
 def select_progression(training_status) -> str:
-    """
-    Select progression scheme based on training status.
-
-    - Beginner → Linear progression (add load weekly)
-    - Novice → Linear (slow) or DUP
-    - Intermediate → Daily Undulating Periodization (DUP)
-    - Advanced → Block periodization
-    """
+    """Map training status to progression scheme name."""
     from ..models.profile import TrainingStatus
-    if training_status == TrainingStatus.BEGINNER:
-        return "linear"
-    elif training_status == TrainingStatus.NOVICE:
-        return "linear"     # still linear, but with smaller jumps
-    elif training_status == TrainingStatus.INTERMEDIATE:
-        return "dup"
-    else:  # ADVANCED
-        return "block"
+    return {
+        TrainingStatus.BEGINNER: "linear",
+        TrainingStatus.NOVICE: "linear",
+        TrainingStatus.INTERMEDIATE: "dup",
+        TrainingStatus.ADVANCED: "block",
+    }.get(training_status, "linear")
 
 
-def filter_exercises_by_equipment(
-    exercises: list, equipment_access: EquipmentAccess
-) -> list:
+def filter_exercises_by_equipment(exercises: list, equipment_access: EquipmentAccess) -> list:
     """
-    Filter the exercise library based on equipment access.
+    Filter exercises by equipment access — kept for backward compat.
 
-    - full_gym: all exercises
-    - home_gym: barbell, dumbbell, kettlebell, bodyweight (no machine/cable)
-    - bodyweight_only: bodyweight only
+    New code should use exercise_selector.select_exercise_for_slot which
+    applies the filter inline during slot filling.
     """
-    if equipment_access == EquipmentAccess.FULL_GYM:
-        return exercises
-
-    if equipment_access == EquipmentAccess.HOME_GYM:
-        allowed = {"barbell", "dumbbell", "kettlebell", "bodyweight"}
-        return [ex for ex in exercises if ex.equipment in allowed]
-
-    # bodyweight_only
-    return [ex for ex in exercises if ex.equipment == "bodyweight"]
+    allowed = get_equipment_allowed_set(equipment_access)
+    return [ex for ex in exercises if ex.equipment in allowed]
 
 
 __all__ = [

@@ -21,13 +21,15 @@ from .models.assessment import (
     MuscularPotential, RecommendedStrategy,
 )
 from .models.nutrition import NutritionPlan
-from .models.training import TrainingPlan
+from .models.training import (
+    TrainingPlan, PlanType, TrainingGoal, SplitType, ProgressionScheme,
+)
 from .models.meal import MealPlan, FitnessPlan
 
 from .assessment.assessor import assess_profile
 from .engine import propose_plan
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 
 __all__ = [
     "__version__",
@@ -39,6 +41,8 @@ __all__ = [
     "MuscularPotential", "RecommendedStrategy",
     # Plans
     "NutritionPlan", "TrainingPlan", "MealPlan", "FitnessPlan",
+    # Phase-3 training types
+    "PlanType", "TrainingGoal", "SplitType", "ProgressionScheme",
     # Engine API
     "assess_profile", "propose_plan",
 ]
