@@ -1,16 +1,17 @@
 """
-Training module — Phase-3 clean architecture.
+Training module — Phase-4 clean architecture with RippedBody-informed enhancements.
 
 Public API:
   - build_training_plan(profile, assessment, plan_type?, muscle_focus?, duration?)
   - PlanType, TrainingGoal, SplitType, ProgressionScheme
   - All split designs + exercise library + progression helpers
 
-The architect (architect.py) is the single entry point for plan
-construction. It composes:
-  - split_designs.py    (declarative split templates)
-  - exercise_selector.py (fills templates with exercises from the JSON DB)
-  - periodization.py    (applies reps/rest/RPE based on goal + progression)
+Phase-4 additions:
+  - exercise_categorization: 24 movement patterns + swap system + environment preferences
+  - volume_landmarks: MEV/MAV/MRV/ML + fractional counting + 11-set cap + VolumeTier
+  - intensity_model: RIR ranges per (rep range × intensity tier) + warm-up generator + reactive deload
+
+The architect (architect.py) is the single entry point for plan construction.
 """
 from ..models.training import (
     PlanType, TrainingGoal,
@@ -38,6 +39,60 @@ from .exercise_loader import (
 from .exercise_selector import (
     select_exercise_for_slot,
     get_equipment_allowed_set,
+)
+from .exercise_categorization import (
+    PatternFamily,
+    MovementPatternSpec,
+    ExerciseCategoryInfo,
+    MOVEMENT_PATTERNS,
+    categorize_exercise,
+    get_movement_pattern,
+    get_pattern_family,
+    get_volume_family,
+    get_environment_preferred_equipment,
+    get_swappable_exercises,
+)
+from .volume_landmarks import (
+    VolumeTier,
+    TIER_SET_RANGES,
+    TIER_HOURS_RANGES,
+    MuscleVolumeLandmarks,
+    DEFAULT_MUSCLE_LANDMARKS,
+    get_muscle_landmarks,
+    StrengthLiftLandmarks,
+    STRENGTH_LIFT_LANDMARKS,
+    get_recommended_frequency,
+    PER_SESSION_SET_CAP,
+    check_session_volume_cap,
+    count_sets_toward_muscle,
+    compute_weekly_volume_per_muscle,
+    compute_session_volume_per_muscle,
+    get_recommended_weekly_sets,
+    validate_weekly_volume,
+    SpecializationConfig,
+    SPECIALIZATION_BALANCED,
+    SPECIALIZATION_FOCUS,
+    get_specialization_program,
+)
+from .intensity_model import (
+    ExerciseIntensityTier,
+    get_exercise_intensity_tier,
+    RIR_TABLE,
+    get_rir_range,
+    rir_to_rpe,
+    rpe_to_rir,
+    WarmUpSet,
+    WARMUP_LEQ_6_REP,
+    WARMUP_GEQ_6_REP,
+    generate_warmup_sets,
+    generate_warmup_for_workout,
+    REACTIVE_DELOAD_QUESTIONS,
+    should_deload,
+    apply_deload,
+    StrengthPhase,
+    StrengthPhaseSpec,
+    STRENGTH_PHASE_SPECS,
+    get_peak_phase_duration,
 )
 from .split_designs import (
     MovementPatternSlot, WorkoutTemplate, SplitDesign,
@@ -81,6 +136,30 @@ __all__ = [
     "normalize_equipment", "normalize_muscle", "derive_category",
     # Selector
     "select_exercise_for_slot", "get_equipment_allowed_set",
+    # Phase-4: Categorization + swap system
+    "PatternFamily", "MovementPatternSpec", "ExerciseCategoryInfo",
+    "MOVEMENT_PATTERNS",
+    "categorize_exercise", "get_movement_pattern", "get_pattern_family",
+    "get_volume_family", "get_environment_preferred_equipment",
+    "get_swappable_exercises",
+    # Phase-4: Volume landmarks
+    "VolumeTier", "TIER_SET_RANGES", "TIER_HOURS_RANGES",
+    "MuscleVolumeLandmarks", "DEFAULT_MUSCLE_LANDMARKS", "get_muscle_landmarks",
+    "StrengthLiftLandmarks", "STRENGTH_LIFT_LANDMARKS",
+    "get_recommended_frequency", "PER_SESSION_SET_CAP",
+    "check_session_volume_cap", "count_sets_toward_muscle",
+    "compute_weekly_volume_per_muscle", "compute_session_volume_per_muscle",
+    "get_recommended_weekly_sets", "validate_weekly_volume",
+    "SpecializationConfig", "SPECIALIZATION_BALANCED", "SPECIALIZATION_FOCUS",
+    "get_specialization_program",
+    # Phase-4: Intensity model + warm-up + reactive deload
+    "ExerciseIntensityTier", "get_exercise_intensity_tier",
+    "RIR_TABLE", "get_rir_range", "rir_to_rpe", "rpe_to_rir",
+    "WarmUpSet", "WARMUP_LEQ_6_REP", "WARMUP_GEQ_6_REP",
+    "generate_warmup_sets", "generate_warmup_for_workout",
+    "REACTIVE_DELOAD_QUESTIONS", "should_deload", "apply_deload",
+    "StrengthPhase", "StrengthPhaseSpec", "STRENGTH_PHASE_SPECS",
+    "get_peak_phase_duration",
     # Split designs
     "MovementPatternSlot", "WorkoutTemplate", "SplitDesign",
     "ALL_SPLITS", "get_splits_for_days", "get_split",

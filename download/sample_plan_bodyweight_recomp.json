@@ -360,32 +360,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -569,14 +577,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -584,20 +592,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -1053,32 +1062,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -1262,14 +1279,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -1277,20 +1294,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -1746,32 +1764,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -1955,14 +1981,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -1970,20 +1996,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -2439,32 +2466,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -2648,14 +2683,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -2663,20 +2698,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -3132,32 +3168,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 2,
                       "reps": "10-15",
@@ -3341,14 +3385,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -3356,20 +3400,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 2,
                       "reps": "10-15",
@@ -3834,32 +3879,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -4043,14 +4096,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -4058,20 +4111,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -4527,32 +4581,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -4736,14 +4798,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -4751,20 +4813,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -5220,32 +5283,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -5429,14 +5500,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -5444,20 +5515,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -5913,32 +5985,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -6122,14 +6202,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -6137,20 +6217,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -6606,32 +6687,40 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lying Floor Leg Raise",
-                        "slug": "lying-floor-leg-raise",
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
                         "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Bilateral)",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support.",
-                          "Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling.",
-                          "Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position.",
-                          "Complete for the assigned number of repetitions."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Exhale hard like you\u2019re blowing out candles on a cake and hold the contraction for a second in order to improve mind muscle connection.",
-                          "If your lower back bothers you during this exercise, choose more anti extension and anti rotation based movements.",
-                          "Avoid putting the hands behind the head as this can lead to excess strain upon the neck."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Lay supine in a relaxed position with your legs straight and your hands underneath your low back for support. Keep your legs straight and raise them towards your forehead while contracting your abdominals and exhaling. Once your abs are fully contracted and your legs are slightly above parallel, slowly lower your legs back to the starting position. Complete for the assigned number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/r24ntO4IvKc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/r24ntO4IvKc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lying-floor-leg-raise.html"
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 2,
                       "reps": "10-15",
@@ -6815,14 +6904,14 @@
                     },
                     {
                       "exercise": {
-                        "name": "Banded Lateral Raise",
-                        "slug": "banded-lateral-raise",
+                        "name": "Half Kneeling Banded Face Pull",
+                        "slug": "half-kneeling-banded-face-pull",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [
-                          "traps",
+                          "abs",
                           "upper_back"
                         ],
                         "equipment": "bands",
@@ -6830,20 +6919,21 @@
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Stand on a band with a shoulder width stance and your arms hanging at your sides.",
-                          "Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent.",
-                          "Slowly lower the band back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip.",
+                          "Inhale, and pull the band towards your face with the elbows high and wide.",
+                          "Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides."
                         ],
                         "tips": [
-                          "If you want to keep more tension through the side delts, control the eccentric (lowering) portion of the movement.",
-                          "Keep the abs braced and don\u2019t lean back or arch the back at the top of the movement.",
-                          "Allow the arms to move freely but don\u2019t lock out the elbows."
+                          "If you find yourself leaning back or arching your back as you pull, utilize a half kneeling stance.",
+                          "As you pull, ensure the elbows stay high and the band remains at eye level.",
+                          "Focus on contracting the rear delts and ensure you don\u2019t jut the head forward to meet the band.",
+                          "Ensure you set the band at face height rather than at the top of the machine as this may over recruit the lats and negate some of the scapular upward rotation benefits.",
+                          "Don\u2019t rely upon momentum, keep the motion smooth and controlled from start to finish."
                         ],
-                        "overview": "Stand on a band with a shoulder width stance and your arms hanging at your sides. Inhale and raise the arms laterally to shoulder height using a pronated grip (palms facing down) while keeping the elbows slightly bent. Slowly lower the band back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/7_bIc8s_YDY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/7_bIc8s_YDY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/banded-lateral-raise.html"
+                        "overview": "Assume a half kneeling position with the arms straight out in front of you utilizing a pronated grip. Inhale, and pull the band towards your face with the elbows high and wide. Slowly lower the band back to the starting position and repeat for the desired number of repetitions on both sides.",
+                        "video_url": "https://www.youtube.com/embed/fGHPV99eGZU?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/fGHPV99eGZU/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-kneeling-banded-face-pull.html"
                       },
                       "sets": 2,
                       "reps": "10-15",
@@ -7135,11 +7225,10 @@
         "chest": 6,
         "shoulders": 16,
         "lats": 14,
-        "abs": 12,
+        "abs": 13,
         "biceps": 7,
         "upper_back": 10,
-        "lower_back": 3,
-        "traps": 2,
+        "lower_back": 4,
         "calves": 2
       },
       "notes": [

@@ -12,6 +12,7 @@ The selector is the bridge between declarative split templates (which say
   4. Variety           — don't reuse the same exercise within a workout
 
 Selection priority (when multiple matches):
+  - Environment-preferred equipment first (Phase-4 enhancement)
   - Beginner-friendly first (Beginner > Intermediate > Advanced)
   - Then by popularity (views count, descending)
   - Then alphabetically for stable ordering
@@ -26,13 +27,18 @@ from __future__ import annotations
 import logging
 from typing import Optional
 
-from ..models.profile import TrainingStatus
+from ..models.profile import TrainingStatus, EquipmentAccess
 from ..models.training import (
     Exercise,
     ExerciseCategory,
     ExperienceLevel,
 )
 from .exercise_library import EXERCISES
+from .exercise_categorization import (
+    get_movement_pattern,
+    get_environment_preferred_equipment,
+    _infer_environment,
+)
 
 
 _log = logging.getLogger(__name__)
@@ -80,6 +86,9 @@ _PATTERN_TO_FORCE_TYPE = {
     "tricep_dip": None,
     "core_anti_extension": None,
     "core_anti_rotation": None,
+    "core_flexion": None,
+    "hip_flexion": None,
+    "mobility": None,
 }
 
 
@@ -105,8 +114,6 @@ _BODYWEIGHT_EQUIPMENT = {
 
 def get_equipment_allowed_set(equipment_access) -> set[str]:
     """Return the set of allowed equipment strings for a given access level."""
-    # Import locally to avoid circular dep
-    from ..models.profile import EquipmentAccess
     if equipment_access == EquipmentAccess.FULL_GYM:
         return set(_FULL_GYM_EQUIPMENT)
     elif equipment_access == EquipmentAccess.HOME_GYM:
@@ -160,13 +167,16 @@ def _matches_pattern(ex: Exercise, pattern: str) -> bool:
     """
     Check if an exercise matches a movement pattern.
 
-    We use the slot's pattern + primary_muscle together to identify
-    candidates. The logic:
-      - If pattern has a known force_type (Push/Pull/Hinge), the exercise's
-        force_type must match (stripped of bilateral/unilateral qualifier).
-      - The exercise's primary muscle must match the slot's primary_muscle
-        OR the slot's primary_muscle must be in the exercise's secondary_muscles.
+    Phase-4 enhancement: uses the exercise_categorization system to
+    detect the exercise's canonical pattern, then compares to the slot's
+    pattern. Falls back to force_type matching if categorization fails.
     """
+    # Phase-4: use canonical pattern detection
+    ex_pattern = get_movement_pattern(ex)
+    if ex_pattern == pattern:
+        return True
+
+    # Fallback: force_type matching (Phase-3 logic)
     expected_force = _PATTERN_TO_FORCE_TYPE.get(pattern)
     if expected_force:
         if not ex.force_type:
@@ -174,7 +184,8 @@ def _matches_pattern(ex: Exercise, pattern: str) -> bool:
         ex_force_root = ex.force_type.split("(")[0].strip().lower()
         if ex_force_root != expected_force.lower():
             return False
-    return True
+        return True
+    return False
 
 
 def _matches_muscle(ex: Exercise, primary_muscle: str) -> bool:
@@ -198,6 +209,31 @@ def _matches_category(ex: Exercise, slot_category: ExerciseCategory) -> bool:
     return ex.category == slot_category
 
 
+# === Equipment preference ranking (Phase-4) ===
+
+def _equipment_preference_rank(
+    ex: Exercise,
+    pattern: str,
+    equipment_allowed: set[str],
+) -> int:
+    """
+    Rank an exercise's equipment for the given pattern + environment.
+
+    Lower = better. Uses the environment-aware preference list from
+    exercise_categorization.MOVEMENT_PATTERNS.
+
+    Returns:
+      - 0..N-1: rank in the preferred list (0 = best)
+      - 99: equipment not in preferred list (still allowed, but last priority)
+    """
+    env = _infer_environment(equipment_allowed)
+    preferred = get_environment_preferred_equipment(pattern, env)
+    try:
+        return preferred.index(ex.equipment)
+    except ValueError:
+        return 99
+
+
 # === Main selector ===
 
 def select_exercise_for_slot(
@@ -218,9 +254,10 @@ def select_exercise_for_slot(
       6. Any exercise in allowed equipment (last resort — keeps workout non-empty)
 
     Within each tier, sort by:
-      a. Beginner-friendliness (Beginner > Intermediate > Advanced)
-      b. Popularity (views, desc)
-      c. Alphabetical name (stable tiebreaker)
+      a. Environment-preferred equipment (Phase-4)
+      b. Beginner-friendliness (Beginner > Intermediate > Advanced)
+      c. Popularity (views, desc)
+      d. Alphabetical name (stable tiebreaker)
     """
     max_rank = _user_max_experience_rank(user_experience)
     expected_force = _PATTERN_TO_FORCE_TYPE.get(slot.pattern)
@@ -251,6 +288,7 @@ def select_exercise_for_slot(
         if not pool:
             return None
         pool.sort(key=lambda ex: (
+            _equipment_preference_rank(ex, slot.pattern, equipment_allowed),
             _experience_rank(ex),
             -_view_count(ex),
             ex.name.lower(),

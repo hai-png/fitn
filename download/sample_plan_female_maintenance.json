@@ -186,8 +186,8 @@
                   "exercises": [
                     {
                       "exercise": {
-                        "name": "Dumbbell Bench Press",
-                        "slug": "dumbbell-bench-press",
+                        "name": "Decline Bench Press",
+                        "slug": "decline-bench-press",
                         "category": "compound_primary",
                         "muscle_groups": [
                           "chest"
@@ -196,32 +196,44 @@
                           "shoulders",
                           "triceps"
                         ],
-                        "equipment": "dumbbell",
+                        "equipment": "barbell",
                         "experience_level": "Beginner",
                         "force_type": "Push (Bilateral)",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Pick up the dumbbells off the floor using a neutral grip (palms facing in). Position the ends of the dumbbells in your hip crease, and sit down on the bench.",
-                          "To get into position, lay back and keep the weights close to your chest. Once you are in position, take a deep breath, and press the dumbbells to lockout at the top.",
-                          "Slowly lower the dumbbells under control as far as comfortably possible (the handles should be about level with your chest).",
-                          "Contract the chest and push the dumbbells back up to the starting position.",
+                          "Lie flat on an decline bench, set your hands just outside of shoulder width, and hook your feet underneath the pad.",
+                          "Set your shoulder blades by pinching them together and driving them into the bench.",
+                          "Take a deep breath and allow your spotter to help you with the lift off in order to maintain tightness through your upper back.",
+                          "Let the weight settle and ensure your upper back remains tight after lift off.",
+                          "Inhale and allow the bar to descend slowly by unlocking the elbows.",
+                          "Lower the bar in a straight line to just below your sternum (breastbone) and touch the chest.",
+                          "Push the bar back up in a straight line by pressing yourself into the bench and extending the elbows.",
                           "Repeat for the desired number of repetitions."
                         ],
                         "tips": [
-                          "Maintain more tension through the pecs by not locking out the elbows entirely.",
-                          "Keep the weights slightly tilted at a 45 degree angle in order to keep the elbows in a neutral position.",
-                          "Don\u2019t allow the dumbbells to collide at the top of each rep - bouncing them together may cause you to lose stability within the shoulder and injure yourself.",
-                          "Squeeze the dumbbells as tight as possible to improve a phenomenon known as \u201cirradiation\u201d which promotes greater shoulder stability.",
-                          "Keep your shoulder blades pinched together to ensure the shoulders remain in a safe position.",
-                          "Imagine you\u2019re trying to push yourself away from the weights rather than pushing the weights away from yourself.",
-                          "If you\u2019re feeling pain within the shoulder joint itself (specifically at the front), ensure your shoulder blades are slightly retracted and try to keep the shoulder girdle \u201cpacked\u201d.",
-                          "Ensure you maintain some tension in your abs and don\u2019t allow your lower back to arch excessively.",
-                          "Keep your feet flat on the floor and don\u2019t allow the lower body to move during the set."
+                          "Technique first, weight second - no one cares how much you bench if you get injured.",
+                          "Keep the bar in line with your wrist and elbows and ensure it travels in a straight line. In order to keep the wrist straight, try to position the bar as low in the palm as possible while still being able to wrap the thumb.",
+                          "If you want to keep more tension through the triceps and chest, stop each repetition just short of lockout at the top.",
+                          "Don\u2019t worry about tucking the elbows excessively, much of this advice is from geared lifters using suits. A slight tuck on the way down may be advisable for some lifters but other lifters can use an excellent cue from Greg Nuckols that will accomplish the same thing: \u201cFlare and push\u201d.",
+                          "Arching may be advisable depending upon your goals but ensure that most of the arch comes from the mid to upper back and not your lower back. If your lower back is cramping as you set up for the lift, you\u2019re out of position and putting yourself at risk for potential injury.",
+                          "The bar should touch your chest with every single repetition. If you want to overload specific ranges of motion, look into board presses or accommodating resistance with chains or bands.",
+                          "As the bar descends, aim for your sternum (breastbone) or slightly below depending upon the length of your upper arm in order to promote a linear bar path.",
+                          "Intermediate and advanced lifters may use a thumbless or \u201csuicide\u201d grip but for the majority of lifters, it would be wiser to learn how to bench with the thumb wrapped around the bar at first.",
+                          "Fight the urge to allow the wrists to roll back into extension, think about rolling your knuckles toward the ceiling.",
+                          "Experiment with grip width - if your have longer arms you may need to use a slightly wider grip. However, if you\u2019re feeling pressure in the front of the shoulder during the exercise, you may need to widen your grip, improve scapular retraction, or slightly lessen the range of motion via exercises such as floor or board presses.",
+                          "Squeeze the bar as tightly as possible to help enhance shoulder stability.",
+                          "Ensure the shoulder blades remain retracted and don\u2019t allow them to change position as you press.",
+                          "The bar should descend under control and touch the lifter\u2019s chest - no bouncing or excess momentum.",
+                          "Think about trying to push yourself away from the bar instead of pushing the bar off of you.",
+                          "Tightness through the upper back should be one of your main priorities throughout the course of the lift.",
+                          "Ideally, use a spotter to help assist with the lift off in order to maintain tension through the upper back.",
+                          "Focus on pulling the bar apart or trying to \u201cbend the bar\u201d in order to activate some of the intrinsic stabilizers in the shoulder.",
+                          "The glutes and shoulder blades should maintain contact with the bench throughout the entirety of the movement."
                         ],
-                        "overview": "Pick up the dumbbells off the floor using a neutral grip (palms facing in). Position the ends of the dumbbells in your hip crease, and sit down on the bench. To get into position, lay back and keep the weights close to your chest. Once you are in position, take a deep breath, and press the dumbbells to lockout at the top. Slowly lower the dumbbells under control as far as comfortably possible (the handles should be about level with your chest). Contract the chest and push the dumbbells back up to the starting position. Repeat for the desired number of repetitions. **Dropping the dumbbells to the side is discouraged unless you are experienced with the technique or using excessively heavy weights. **Ideally you should twist the dumbbells back to neutral (palms facing each other), bring your knees up so the ends of the dumbbells are touching your thighs, then use the weight of the dumbbells to rock back to an upright, seated position.",
-                        "video_url": "https://www.youtube.com/embed/dGqI0Z5ul4k?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/dGqI0Z5ul4k/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/dumbbell-bench-press.html"
+                        "overview": "Lie flat on an decline bench, set your hands just outside of shoulder width, and hook your feet underneath the pad. Set your shoulder blades by pinching them together and driving them into the bench. Take a deep breath and allow your spotter to help you with the lift off in order to maintain tightness through your upper back. Let the weight settle and ensure your upper back remains tight after lift off. Inhale and allow the bar to descend slowly by unlocking the elbows. Lower the bar in a straight line to just below your sternum (breastbone) and touch the chest. Push the bar back up in a straight line by pressing yourself into the bench and extending the elbows. Repeat for the desired number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/oIgci8aNsG0?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/oIgci8aNsG0/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/decline-bench-press.html"
                       },
                       "sets": 4,
                       "reps": "6-10",
@@ -473,8 +485,8 @@
                     },
                     {
                       "exercise": {
-                        "name": "Lat Pull Down",
-                        "slug": "lat-pull-down",
+                        "name": "Chin Up",
+                        "slug": "chin-up",
                         "category": "compound_primary",
                         "muscle_groups": [
                           "lats"
@@ -485,28 +497,31 @@
                           "shoulders",
                           "upper_back"
                         ],
-                        "equipment": "cable",
+                        "equipment": "bodyweight",
                         "experience_level": "Beginner",
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Attach a wide grip handle to the lat pulldown machine and assume a seated position.",
-                          "Grasp the handle with a pronated grip (double overhand) and initiate the movement by depressing the shoulder blade and then flexing the elbow while extending the shoulder.",
-                          "Pull the handle towards your body until the elbows are in line with your torso and then slowly lower the handle back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Using a supinated grip, grasp the bar with a shoulder width grip.",
+                          "Take a deep breath, squeeze your glutes and brace your abs. Depress the shoulder blades and then drive the elbows straight down to the floor while activating the lats.",
+                          "Pull your chin towards the bar until the lats are fully contracted, then slowly lower yourself back to the start position and repeat for the assigned number of repetitions."
                         ],
                         "tips": [
-                          "Keep some tone through your abdominals as you pull the bar into your body to ensure you don\u2019t arch excessively through the spine.",
-                          "Don\u2019t allow momentum to dictate the movement, control the dumbbells throughout the entirety of each rep.",
-                          "If you feel your biceps being overused and your back remaining under active, consider utilizing a false grip (i.e. don\u2019t wrap the thumb around the dumbbell).",
-                          "Don\u2019t allow the head to jut forward as you pull.",
-                          "Similarly, ensure the shoulder blade moves on the rib cage. Don\u2019t lock the shoulder blade down and just move through the glenohumeral joint.",
-                          "Allow the shoulder to internally rotate and shrug slightly at the top of the movement. You will obviously reverse the movement and depress the shoulder blade before you pull with the arm."
+                          "To decrease bicep involvement, use a false (thumbless grip).",
+                          "Try to keep a neutral head position (looking straight ahead or slightly up) as hyperextending the neck can lead to compensations throughout the spine.",
+                          "If the bar is high enough, keep the legs straight and in front of the body.",
+                          "Avoid falling into overextension of the lumbar spine by squeezing your glutes and bracing your abs.",
+                          "The chin-up is completed when the lats are fully flexed, don\u2019t continue pulling and compensate with the pecs.",
+                          "Imagine you\u2019re trying to drive the elbows down as you pull.",
+                          "Keep your shoulders down and back, if they round forward at the top then you\u2019ve pulled too far.",
+                          "A lifter\u2019s segment length will determine whether or not they can actually get their chin over the bar, it\u2019s not an absolute for everyone.",
+                          "Lower to almost full extension of the elbow but avoid locking out completely as this can place excessive strain on the ligamentous structures within the elbow and shoulder.",
+                          "If you can\u2019t complete a single bodyweight chinup, start with slow negatives or flexed arm hangs at the top position."
                         ],
-                        "overview": "Attach a wide grip handle to the lat pulldown machine and assume a seated position. Grasp the handle with a pronated grip (double overhand) and initiate the movement by depressing the shoulder blade and then flexing the elbow while extending the shoulder. Pull the handle towards your body until the elbows are in line with your torso and then slowly lower the handle back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/iKrKgWR9wbY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/iKrKgWR9wbY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/lat-pull-down.html"
+                        "overview": "Using a supinated grip, grasp the bar with a shoulder width grip. Take a deep breath, squeeze your glutes and brace your abs. Depress the shoulder blades and then drive the elbows straight down to the floor while activating the lats. Pull your chin towards the bar until the lats are fully contracted, then slowly lower yourself back to the start position and repeat for the assigned number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/1EJ3A3rEtlo?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/1EJ3A3rEtlo/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/chin-up.html"
                       },
                       "sets": 4,
                       "reps": "6-10",
@@ -516,41 +531,39 @@
                     },
                     {
                       "exercise": {
-                        "name": "One Arm Dumbbell Row",
-                        "slug": "one-arm-dumbbell-row",
+                        "name": "Seated Cable Row",
+                        "slug": "seated-row",
                         "category": "compound_secondary",
                         "muscle_groups": [
                           "upper_back"
                         ],
                         "secondary_muscles": [
-                          "abs",
                           "biceps",
                           "lats",
                           "shoulders"
                         ],
-                        "equipment": "dumbbell",
+                        "equipment": "cable",
                         "experience_level": "Beginner",
-                        "force_type": "Pull (Unilateral)",
+                        "force_type": "Pull",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Assume a standing position while holding a dumbbell in one hand with a neutral grip.",
-                          "Hinge forward until your torso is roughly parallel with the floor (or slightly above) and then begin the movement by driving the elbow behind the body while retracting the shoulder blade.",
-                          "Pull the dumbbell towards your body until the elbow is at (or just past) the midline and then slowly lower the dumbbell back to the starting position under control.",
-                          "Repeat for the desired number of repetitions on both sides."
+                          "Set the appropriate weight on the weight stack and attach a close-grip bar or V-bar to the seated row machine.",
+                          "Grasp the bar with a neutral grip (palms facing in).",
+                          "Keeping your legs slightly bent and your back straight, pull the weight up slightly off the stack. You should be sitting straight upright with your shoulders back. This is the starting position.",
+                          "Keeping your body in position, pull the handle into your stomach.",
+                          "Pull your shoulder blades back, squeeze, pause, and then slowly lower the weight back to the starting position.",
+                          "Repeat for desired reps."
                         ],
                         "tips": [
-                          "Experiment with head position and see which option (looking forward vs. packing the neck) works better for you.",
-                          "Fight the urge to use your opposing arm to brace against your leg or any other implement.",
-                          "Keep some tone through your abdominals as you pull the dumbbell\u00a0into your body to ensure you don\u2019t arch excessively through your spine.",
-                          "Don\u2019t allow momentum to dictate the movement, control the dumbbells throughout the entirety of each rep.",
-                          "If you feel your biceps being overused and your back remaining under active, consider utilizing a false grip (i.e. don\u2019t wrap the thumb around the dumbbell).",
-                          "Don\u2019t allow the head to jut forward as you pull.",
-                          "Similarly, ensure the shoulder blade moves on the rib cage. Don\u2019t lock the shoulder blade down and just move through the glenohumeral joint."
+                          "Your back must remain straight at all times. Your torso should be kept still throughout the entire set.",
+                          "Don't let your shoulders hunch over when your arms are extended.",
+                          "Use the back muscles to move the weight - do not lean forward and use momentum to swing the weight back.",
+                          "Pausing and squeezing at the top of the movement for a 1-2 count will increase intensity and results."
                         ],
-                        "overview": "Assume a standing position while holding a dumbbell in one hand with a neutral grip. Hinge forward until your torso is roughly parallel with the floor (or slightly above) and then begin the movement by driving the elbow behind the body while retracting the shoulder blade. Pull the dumbbell towards your body until the elbow is at (or just past) the midline and then slowly lower the dumbbell back to the starting position under control. Repeat for the desired number of repetitions on both sides.",
-                        "video_url": "https://www.youtube.com/embed/YZgVEy6cmaY?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/YZgVEy6cmaY/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/one-arm-dumbbell-row.html"
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/756788734?h=145dc3923d",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/seated-row.html"
                       },
                       "sets": 3,
                       "reps": "8-12",
@@ -560,33 +573,34 @@
                     },
                     {
                       "exercise": {
-                        "name": "Dumbbell Lateral Raise",
-                        "slug": "dumbbell-lateral-raise",
+                        "name": "One-Arm Bent-Over Cable Reverse Fly",
+                        "slug": "one-arm-cable-reverse-fly",
                         "category": "accessory",
                         "muscle_groups": [
                           "shoulders"
                         ],
                         "secondary_muscles": [],
-                        "equipment": "dumbbell",
+                        "equipment": "cable",
                         "experience_level": "Beginner",
                         "force_type": "Pull",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Select the desired weight from the rack, then take a few steps back into an open area.",
-                          "Take a deep breath and raise the dumbbells\u00a0to shoulder height using a neutral grip (palms facing in) while keeping the elbows slightly bent.",
-                          "Slowly lower the dumbbells\u00a0back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Set the pulley of a dual cable machine to the low setting and select the weight you wish to use.",
+                          "Stand facing away from the machine and grasp the opposite handle with one hand.",
+                          "With a slight bend in your knees,\u00a0bring your torso forward by bending at the waist. This is the starting position.",
+                          "Moving only at the shoulder, uncross your arms by lifting your working arm in a semi-circular motion out to your side\u00a0until your arm\u00a0is parallel to the floor. Keep a slight bend in your elbows throughout the movement.",
+                          "Squeeze your shoulder blades at the height of the movement and then begin slowly lowering the handle\u00a0back to the starting position.",
+                          "Repeat for desired reps, and repeat with your other hand."
                         ],
                         "tips": [
-                          "Focus on keeping the reps slow and controlled. Because this is\u00a0an isolation exercise, the focus should be on correctly working the muscle - not moving as much weight as possible.",
-                          "Don't bring your arms up too high -\u00a0up to shoulder height is far enough.",
-                          "If you encounter pain in the shoulder while performing the movement, consider implementing one of the following tweaks:\n\nTilt your pinkies slightly higher than your thumbs. Imagine you\u2019re pouring out a cup of water.",
-                          "Turn your palms forward so that your thumbs are pointing away from your body. This will put the shoulder in a more externally rotated position and potentially open up the shoulder joint to allow for a bit more movement."
+                          "Practice good form with a lighter weight.",
+                          "Squeeze your shoulder blades and pause for a moment at the top of the movement.",
+                          "Focus on moving only at the shoulders. The rest of your body should be kept as still as possible and your arms should hold the same form throughout the movement."
                         ],
-                        "overview": "Select the desired weight from the rack, then take a few steps back into an open area. Take a deep breath and raise the dumbbells to shoulder height using a neutral grip (palms facing in) while keeping the elbows slightly bent. Slowly lower the dumbbells back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://player.vimeo.com/video/760008500?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/877881387?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
                         "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/dumbbell-lateral-raise.html"
+                        "source_url": "https://www.muscleandstrength.com/exercises/one-arm-cable-reverse-fly.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -596,31 +610,35 @@
                     },
                     {
                       "exercise": {
-                        "name": "Standing Barbell Curl",
-                        "slug": "standing-barbell-curl",
+                        "name": "Standing Dumbbell Curl",
+                        "slug": "standing-dumbbell-curl",
                         "category": "accessory",
                         "muscle_groups": [
                           "biceps"
                         ],
                         "secondary_muscles": [],
-                        "equipment": "barbell",
+                        "equipment": "dumbbell",
                         "experience_level": "Beginner",
                         "force_type": "Pull",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Grasp a barbell\u00a0or EZ bar with an underhand grip and stand with your feet around shoulder-width apart.\u00a0This is the starting position for the exercise.",
-                          "Bending at the elbows, slowly curl the weight up as far as possible.",
-                          "Squeeze the biceps, and then slowly lower the weight back to the starting position. This is one rep.",
+                          "Assume the starting position for the standing dumbbell curl by grasping a pair of dumbbells and standing straight up, feet together, and\u00a0dumbbells by your side. The dumbbells should not be touching your body.",
+                          "Your palms should\u00a0face\u00a0upwards.",
+                          "Take up the slack by bending the elbows slightly. Tension should be on the biceps.",
+                          "Slowly curl the dumbbells up as far as possible.",
+                          "Squeeze the biceps hard, and then slowly lower the dumbbells back down to the starting position.",
                           "Repeat for desired reps."
                         ],
                         "tips": [
-                          "Keep your elbows\u00a0at your sides throughout the movement and only move your forearms.",
-                          "Keep the movement slow and controlled.\u00a0Do not swing\u00a0the weight."
+                          "The tension should be on the biceps at all times.\u00a0Do not let them \"hang\" at the bottom of the exercise.",
+                          "Keep the rep timing slow and control the weight throughout the set.",
+                          "Do not let the dumbbells touch your body.",
+                          "And finally, do not swing the body back as you curl up the weight.\u00a0The body should stay fixed throughout the movement. Focus on only moving your forearms."
                         ],
-                        "overview": "Grasp a barbell or EZ bar with an underhand grip and stand with your feet around shoulder-width apart. This is the starting position for the exercise. Bending at the elbows, slowly curl the weight up as far as possible. Squeeze the biceps, and then slowly lower the weight back to the starting position. This is one rep. Repeat for desired reps.",
-                        "video_url": "https://player.vimeo.com/video/760008460?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/756794078?badge=0&amp;autopause=0&amp;quality_selector=1&amp;player_id=0&amp;app_id=58479",
                         "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/standing-barbell-curl.html"
+                        "source_url": "https://www.muscleandstrength.com/exercises/standing-dumbbell-curl.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -639,9 +657,113 @@
                   "exercises": [
                     {
                       "exercise": {
-                        "name": "Machine Hack Squat",
-                        "slug": "hack-squat",
+                        "name": "Front Squat",
+                        "slug": "front-squat",
                         "category": "compound_primary",
+                        "muscle_groups": [
+                          "quads"
+                        ],
+                        "secondary_muscles": [
+                          "abs",
+                          "adductors",
+                          "calves",
+                          "glutes",
+                          "hamstrings",
+                          "hip_flexors",
+                          "upper_back"
+                        ],
+                        "equipment": "barbell",
+                        "experience_level": "Intermediate",
+                        "force_type": "Push (Bilateral)",
+                        "mechanics": "Compound",
+                        "instructions": [
+                          "Position the safety stops at roughly waist height and then place the bar just underneath shoulder height.",
+                          "Position the hands just outside of shoulder width, step underneath the bar, and allow it to sit on the shoulders while driving the elbows high in front of the body.",
+                          "Take a breath and unrack the bar by pushing your hips forward and extending your knees.",
+                          "Take 2-3 steps back and position your feet just inside of shoulder width.",
+                          "Sit directly between your legs by simultaneously bending your knees and pushing your hips back.",
+                          "Once your thighs reach parallel with the floor, begin to reverse the movement.",
+                          "Keep your abs braced and drive your feet through the floor.",
+                          "Finish the lift by exhaling as you fully extend the hips and knees."
+                        ],
+                        "tips": [
+                          "Toe angle is highly individual - experiment to see what feels best for you.",
+                          "You can use either 2 or 3 fingers when front squatting in the front rack position as it will take some stress off the wrist.",
+                          "In order to keep the torso upright, focus on driving the elbows up out of the hole.",
+                          "If you can\u2019t get into a front rack position to front squat, then use the cross arm grip.",
+                          "Drive through the whole foot - you want 3 points of contact: big toe, little toe, and heel.",
+                          "Some forward translation of the knees over the toes is alright provided that the knees don\u2019t deviate excessively inward or outward. Those with longer femurs will have to allow their knees to come farther forward if they want to remain upright.",
+                          "Neck position is highly individual as well - some prefer a neutral neck position (i.e. keeping the chin tucked throughout the lift) while others do well with looking straight ahead. Experiment with each and see which one works best for your anatomy.",
+                          "Don\u2019t push the knees out excessively but ensure they track roughly over or slightly outside the 2nd toe."
+                        ],
+                        "overview": "Position the safety stops at roughly waist height and then place the bar just underneath shoulder height. Position the hands just outside of shoulder width, step underneath the bar, and allow it to sit on the shoulders while driving the elbows high in front of the body. Take a breath and unrack the bar by pushing your hips forward and extending your knees. Take 2-3 steps back and position your feet just inside of shoulder width. Sit directly between your legs by simultaneously bending your knees and pushing your hips back. Once your thighs reach parallel with the floor, begin to reverse the movement. Keep your abs braced and drive your feet through the floor. Finish the lift by exhaling as you fully extend the hips and knees.",
+                        "video_url": "https://www.youtube.com/embed/9xAkoz95IFE?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/9xAkoz95IFE/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/front-squat.html"
+                      },
+                      "sets": 4,
+                      "reps": "6-10",
+                      "rest_sec": 150,
+                      "rpe_target": 7.0,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Barbell Sumo Romanian Deadlift",
+                        "slug": "barbell-sumo-romanian-deadlift",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "hamstrings"
+                        ],
+                        "secondary_muscles": [
+                          "abs",
+                          "forearms",
+                          "glutes",
+                          "lats",
+                          "lower_back",
+                          "traps",
+                          "upper_back"
+                        ],
+                        "equipment": "barbell",
+                        "experience_level": "Beginner",
+                        "force_type": "Hinge (Bilateral)",
+                        "mechanics": "Compound",
+                        "instructions": [
+                          "Position the bar over the top of your shoelaces and assume a wide stance (determined by your hip structure and limb length).",
+                          "Assume a double overhand grip directly underneath your shoulders and deadlift the weight into position at the top with the hips and knees locked out.",
+                          "Begin the RDL by pushing your hips back and hinging forward until the bar is just below knee height.",
+                          "Drive through the whole foot and focus on pushing the floor away.",
+                          "Return to the starting position and repeat for the desired number of repetitions."
+                        ],
+                        "tips": [
+                          "Typically the RDL begins with the bar set in a rack but for the sumo variation, it will likely be easier to start with the bar on the floor to get your feet in a comfortable position during the setup.",
+                          "Range of motion in the lift will largely be determined by an individual\u2019s mobility as well as their ability to maintain a neutral spine. Standing on a box or bench is likely counterproductive as most won\u2019t have the mobility to control that much range of motion effectively.",
+                          "It is typically recommended that you utilize straps or hook grip when going excessively heavy if grip is the limiting factor as you could run into issues with the bar drifting if using mixed grip.",
+                          "Neck position is highly individual - Some prefer a neutral neck position (i.e. keeping the chin tucked throughout the lift) while others do well with looking slightly up. Here\u2019s some factors to consider:\n\n\n\t\t\t\tIf you\u2019re someone who is more globally extended (i.e. athletic background), then you will likely be able to keep a neutral position more effectively by packing the chin.",
+                          "On the opposite end of the spectrum, if you tend to be more flexion dominant (especially in your thoracic spine - upper back) then it would behoove you to look up slightly as this will drive more extension.",
+                          "Experiment with each and see which one works best for your individual anatomy and biomechanics.",
+                          "Do not allow the bar to drift away from the body, it should graze your legs during the eccentric portion of the lift.",
+                          "Make sure you wrap your thumbs around the bar and don\u2019t utilize a false grip. Squeeze the bar as tight as possible like you\u2019re trying to leave an imprint of your fingerprints on the bar.",
+                          "Your weight will naturally shift to your heels as you hinge; however, it\u2019s important that you keep the weight distributed over your whole foot and don\u2019t allow the toes to rise. To combat this, you should focus on maintaining 3 points of contact: big toe, little toe, and heel.",
+                          "Ensure the elbows stay locked out. Don\u2019t actively flex the triceps but make sure that your elbow doesn\u2019t break neutral as this can potentially put you at risk for a bicep tear under maximal weights.",
+                          "Ideally the knees should be tracking out over the foot. If you find that you have trouble keeping this neutral knee position, focus on spreading the floor by trying to push your feet apart as you push into the floor. In other words, imagine there is a crack in the floor and you\u2019re trying to spread it open by pushing your heels away from each other. This will help to activate your glutes more during the movement and stabilize the knee joint."
+                        ],
+                        "overview": "Position the bar over the top of your shoelaces and assume a wide stance (determined by your hip structure and limb length). Assume a double overhand grip directly underneath your shoulders and deadlift the weight into position at the top with the hips and knees locked out. Begin the RDL by pushing your hips back and hinging forward until the bar is just below knee height. Drive through the whole foot and focus on pushing the floor away. Return to the starting position and repeat for the desired number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/1J_wFYwv2Dg?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/1J_wFYwv2Dg/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/barbell-sumo-romanian-deadlift.html"
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6.5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Leg Press",
+                        "slug": "45-degree-leg-press",
+                        "category": "compound_secondary",
                         "muscle_groups": [
                           "quads"
                         ],
@@ -658,120 +780,27 @@
                         "force_type": "Push (Bilateral)",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Load the machine with the desired weight and position your shoulders and back against the pads.",
-                          "Position your feet at shoulder width, extend your legs, and release the safety handles.",
-                          "Slowly lower the weight by bending your knees until your thighs are approximately at 90 degrees.",
-                          "Reverse the movement by driving into the platform and extending the knees and hips.",
+                          "Load the machine with the desired weight and take a seat.",
+                          "Sit down and position your feet on the sled with a shoulder width stance.",
+                          "Take a deep breath, extend your legs, and unlock the safeties.",
+                          "Lower the weight under control until the legs are roughly 45 degrees or slightly below.",
+                          "Drive the weight back to the starting position by extending the knees but don\u2019t forcefully lockout.",
                           "Repeat for the desired number of repetitions."
                         ],
                         "tips": [
                           "To keep tension on the quads, keep the knees just shy of lockout.",
-                          "In order to emphasize the glutes more, push through the heels.",
-                          "In order to emphasize the quads more, push through the balls of the feet.",
+                          "To emphasize the glutes more, push through the heels.",
+                          "To emphasize the quads more, push through the balls of the feet.",
                           "Don\u2019t allow the hips to posteriorly tilt and roll off the pad.",
                           "Keep your low back flat against the pad throughout the movement.",
-                          "Ensure the head does not jut forward excessively.",
+                          "Maintain a neutral head position by not looking up or down excessively.",
                           "Self spotting is possible by simply applying pressure to the knees with the hands. Use only when necessary.",
                           "Toe angle is individual and will depend upon each individual\u2019s hip anatomy and ankle mobility - experiment and adjust based upon feel."
                         ],
-                        "overview": "Load the machine with the desired weight and position your shoulders and back against the pads. Position your feet at shoulder width, extend your legs, and release the safety handles. Slowly lower the weight by bending your knees until your thighs are approximately at 90 degrees. Reverse the movement by driving into the platform and extending the knees and hips. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/63tboDKQksc?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/63tboDKQksc/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/hack-squat.html"
-                      },
-                      "sets": 4,
-                      "reps": "6-10",
-                      "rest_sec": 150,
-                      "rpe_target": 7.0,
-                      "notes": ""
-                    },
-                    {
-                      "exercise": {
-                        "name": "Kettlebell Swing",
-                        "slug": "kettlebell-swing",
-                        "category": "compound_secondary",
-                        "muscle_groups": [
-                          "hamstrings"
-                        ],
-                        "secondary_muscles": [
-                          "abs",
-                          "adductors",
-                          "calves",
-                          "forearms",
-                          "glutes",
-                          "lats",
-                          "lower_back",
-                          "quads",
-                          "traps",
-                          "upper_back"
-                        ],
-                        "equipment": "kettlebell",
-                        "experience_level": "Beginner",
-                        "force_type": "Hinge (Bilateral)",
-                        "mechanics": "Compound",
-                        "instructions": [
-                          "Assume a hinged position with your knees slightly bent, both hands on the kettlebell handle, chin tucked, and weight centered over your foot.",
-                          "Begin the movement by hiking the kettlebell between your legs and keeping your spine neutral.",
-                          "Drive the kettlebell back to the starting position by extending the hips, pushing through the floor, and keeping the arms straight.",
-                          "Repeat the movement for the desired number of repetitions."
-                        ],
-                        "tips": [
-                          "The swing should be a fairly explosive and snappy movement, the point is to generate hip extension as rapidly as possible followed by a subsequent contraction.",
-                          "Imagine you\u2019re trying to hike a football between your legs as the kettlebell descends.",
-                          "Your weight will obviously shift to your heels during the bottom portion of the exercise but you shouldn\u2019t allow the toes to rise.",
-                          "Your chin should follow your chest, don\u2019t worry about looking up in the bottom of the movement.",
-                          "Keep a soft bend in your knee and don\u2019t allow your arches to collapse as you complete the movement.",
-                          "Make sure you wrap your thumbs around the handle and don\u2019t utilize a false grip."
-                        ],
-                        "overview": "Assume a hinged position with your knees slightly bent, both hands on the kettlebell handle, chin tucked, and weight centered over your foot. Begin the movement by hiking the kettlebell between your legs and keeping your spine neutral. Drive the kettlebell back to the starting position by extending the hips, pushing through the floor, and keeping the arms straight. Repeat the movement for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/wMBWFIn4ddg?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/wMBWFIn4ddg/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/kettlebell-swing.html"
-                      },
-                      "sets": 3,
-                      "reps": "8-12",
-                      "rest_sec": 120,
-                      "rpe_target": 6.5,
-                      "notes": ""
-                    },
-                    {
-                      "exercise": {
-                        "name": "Dumbbell Squat",
-                        "slug": "dumbbell-squat",
-                        "category": "compound_secondary",
-                        "muscle_groups": [
-                          "quads"
-                        ],
-                        "secondary_muscles": [
-                          "calves",
-                          "glutes",
-                          "hamstrings",
-                          "lower_back"
-                        ],
-                        "equipment": "dumbbell",
-                        "experience_level": "Beginner",
-                        "force_type": "Push",
-                        "mechanics": "Compound",
-                        "instructions": [
-                          "Hold dumbbells by your sides or at your shoulders.",
-                          "Stand with feet shoulder-width apart, toes slightly out.",
-                          "Brace your core and keep your chest up.",
-                          "Squat down by pushing your hips back and bending your knees.",
-                          "Go as low as comfortable (thighs parallel or lower).",
-                          "Stand up by pushing through your heels and squeezing your glutes.",
-                          "Repeat for your desired reps."
-                        ],
-                        "tips": [
-                          "Use lighter dumbbells until you\u2019re confident with your form. Focus on control over weight.",
-                          "Engage your abs throughout the movement to support your spine and improve balance.",
-                          "Press into your heels (not your toes) as you stand up to better activate your glutes.",
-                          "Keep your knees aligned with your toes\u2014avoid letting them collapse inward.",
-                          "Inhale as you lower, exhale as you push up\u2014this helps maintain core stability and rhythm."
-                        ],
-                        "overview": "Hold dumbbells by your sides or at your shoulders. Stand with feet shoulder-width apart, toes slightly out. Brace your core and keep your chest up. Squat down by pushing your hips back and bending your knees. Go as low as comfortable (thighs parallel or lower). Stand up by pushing through your heels and squeezing your glutes. Repeat for your desired reps.",
-                        "video_url": "https://player.vimeo.com/video/1077314446?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
-                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/dumbbell-squat.html"
+                        "overview": "Load the machine with the desired weight and take a seat. Sit down and position your feet on the sled with a shoulder width stance. Take a deep breath, extend your legs, and unlock the safeties. Lower the weight under control until the legs are roughly 45 degrees or slightly below. Drive the weight back to the starting position by extending the knees but don\u2019t forcefully lockout. Repeat for the desired number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/sEM_zo9w2ss?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/sEM_zo9w2ss/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/45-degree-leg-press.html"
                       },
                       "sets": 3,
                       "reps": "8-12",
@@ -1026,41 +1055,42 @@
                     },
                     {
                       "exercise": {
-                        "name": "Bent Over Dumbbell Row",
-                        "slug": "bent-over-dumbbell-row",
+                        "name": "Wide Grip Pull Up",
+                        "slug": "wide-grip-pull-up",
                         "category": "compound_secondary",
                         "muscle_groups": [
-                          "upper_back"
+                          "lats"
                         ],
                         "secondary_muscles": [
                           "abs",
                           "biceps",
-                          "lats",
-                          "lower_back",
-                          "shoulders"
+                          "shoulders",
+                          "upper_back"
                         ],
-                        "equipment": "dumbbell",
+                        "equipment": "bodyweight",
                         "experience_level": "Beginner",
                         "force_type": "Pull (Bilateral)",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Assume a standing position while holding a dumbbell in each hand with a neutral grip.",
-                          "Hinge forward until your torso is roughly parallel with the floor (or slightly above) and then begin the movement by driving the elbows behind the body while retracting the shoulder blades.",
-                          "Pull the dumbbells towards your body until the elbows are at (or just past) the midline and then slowly lower the dumbbells back to the starting position under control.",
-                          "Repeat for the desired number of repetitions."
+                          "Using a pronated grip, grasp the pull bar with a wider than shoulder width grip.",
+                          "Take a deep breath, squeeze your glutes and brace your abs. Depress the shoulder blades and then drive the elbows straight down to the floor while activating the lats.",
+                          "Pull your chin towards the bar until the lats are fully contracted, then slowly lower yourself back to the start position and repeat for the assigned number of repetitions."
                         ],
                         "tips": [
-                          "Experiment with head position and see which option (looking forward vs. packing the neck) works better for you.",
-                          "Keep some tone through your abdominals as you pull the dumbbells\u00a0into your body to ensure you don\u2019t arch excessively through your spine.",
-                          "Don\u2019t allow momentum to dictate the movement, control the dumbbells throughout the entirety of each rep.",
-                          "If you feel your biceps being overused and your back remaining under active, consider utilizing a false grip (i.e. don\u2019t wrap the thumb around the dumbbell).",
-                          "Don\u2019t allow the head to jut forward as you pull.",
-                          "Similarly, ensure the shoulder blade moves on the rib cage. Don\u2019t lock the shoulder blade down and just move through the glenohumeral joint."
+                          "To decrease bicep involvement, use a false (thumbless grip).",
+                          "Try to keep a neutral head position (looking straight ahead or slightly up) as hyperextending the neck can lead to compensations throughout the spine.",
+                          "If the bar is high enough, keep the legs straight and in front of the body in a hollow body position.",
+                          "Avoid falling into overextension of the lumbar spine by squeezing your glutes and bracing your abs.",
+                          "The pullup is completed when the lats are fully flexed, don\u2019t continue pulling and compensate with the pecs. When this occurs, the elbows will flare up behind the body, the shoulder will round forward, and you\u2019ll begin to feel pressure in the front of your shoulders.",
+                          "A lifter\u2019s segment length will determine whether or not they can actually get their chin over the bar, it\u2019s not an absolute for everyone.",
+                          "Lower to almost full extension of the elbow but avoid locking out completely as this can place excessive strain on the ligamentous structures within the elbow and shoulder.",
+                          "If you can\u2019t complete a single bodyweight pullup, start with slow negatives (add weight when these can be accomplished under control) or flexed arm hangs in the top position.",
+                          "Ditch the straps and kips, neither one is necessary or recommended."
                         ],
-                        "overview": "Assume a standing position while holding a dumbbell in each hand with a neutral grip. Hinge forward until your torso is roughly parallel with the floor (or slightly above) and then begin the movement by driving the elbows behind the body while retracting the shoulder blades. Pull the dumbbells towards your body until the elbows are at (or just past) the midline and then slowly lower the dumbbells back to the starting position under control. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/DhewkuU_95s?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/DhewkuU_95s/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/bent-over-dumbbell-row.html"
+                        "overview": "Using a pronated grip, grasp the pull bar with a wider than shoulder width grip. Take a deep breath, squeeze your glutes and brace your abs. Depress the shoulder blades and then drive the elbows straight down to the floor while activating the lats. Pull your chin towards the bar until the lats are fully contracted, then slowly lower yourself back to the start position and repeat for the assigned number of repetitions.",
+                        "video_url": "https://www.youtube.com/embed/5oxviYmdHCY?rel=0",
+                        "video_thumbnail": "https://i.ytimg.com/vi/5oxviYmdHCY/maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/wide-grip-pull-up.html"
                       },
                       "sets": 3,
                       "reps": "8-12",
@@ -1070,31 +1100,35 @@
                     },
                     {
                       "exercise": {
-                        "name": "Standing Barbell Curl",
-                        "slug": "standing-barbell-curl",
+                        "name": "Standing Dumbbell Curl",
+                        "slug": "standing-dumbbell-curl",
                         "category": "accessory",
                         "muscle_groups": [
                           "biceps"
                         ],
                         "secondary_muscles": [],
-                        "equipment": "barbell",
+                        "equipment": "dumbbell",
                         "experience_level": "Beginner",
                         "force_type": "Pull",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Grasp a barbell\u00a0or EZ bar with an underhand grip and stand with your feet around shoulder-width apart.\u00a0This is the starting position for the exercise.",
-                          "Bending at the elbows, slowly curl the weight up as far as possible.",
-                          "Squeeze the biceps, and then slowly lower the weight back to the starting position. This is one rep.",
+                          "Assume the starting position for the standing dumbbell curl by grasping a pair of dumbbells and standing straight up, feet together, and\u00a0dumbbells by your side. The dumbbells should not be touching your body.",
+                          "Your palms should\u00a0face\u00a0upwards.",
+                          "Take up the slack by bending the elbows slightly. Tension should be on the biceps.",
+                          "Slowly curl the dumbbells up as far as possible.",
+                          "Squeeze the biceps hard, and then slowly lower the dumbbells back down to the starting position.",
                           "Repeat for desired reps."
                         ],
                         "tips": [
-                          "Keep your elbows\u00a0at your sides throughout the movement and only move your forearms.",
-                          "Keep the movement slow and controlled.\u00a0Do not swing\u00a0the weight."
+                          "The tension should be on the biceps at all times.\u00a0Do not let them \"hang\" at the bottom of the exercise.",
+                          "Keep the rep timing slow and control the weight throughout the set.",
+                          "Do not let the dumbbells touch your body.",
+                          "And finally, do not swing the body back as you curl up the weight.\u00a0The body should stay fixed throughout the movement. Focus on only moving your forearms."
                         ],
-                        "overview": "Grasp a barbell or EZ bar with an underhand grip and stand with your feet around shoulder-width apart. This is the starting position for the exercise. Bending at the elbows, slowly curl the weight up as far as possible. Squeeze the biceps, and then slowly lower the weight back to the starting position. This is one rep. Repeat for desired reps.",
-                        "video_url": "https://player.vimeo.com/video/760008460?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/756794078?badge=0&amp;autopause=0&amp;quality_selector=1&amp;player_id=0&amp;app_id=58479",
                         "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/standing-barbell-curl.html"
+                        "source_url": "https://www.muscleandstrength.com/exercises/standing-dumbbell-curl.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -1150,8 +1184,8 @@
                   "exercises": [
                     {
                       "exercise": {
-                        "name": "Dumbbell Squat",
-                        "slug": "dumbbell-squat",
+                        "name": "Barbell Quarter Squat",
+                        "slug": "1-4-squat",
                         "category": "compound_secondary",
                         "muscle_groups": [
                           "quads"
@@ -1159,33 +1193,32 @@
                         "secondary_muscles": [
                           "calves",
                           "glutes",
-                          "hamstrings",
-                          "lower_back"
+                          "hamstrings"
                         ],
-                        "equipment": "dumbbell",
+                        "equipment": "barbell",
                         "experience_level": "Beginner",
                         "force_type": "Push",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Hold dumbbells by your sides or at your shoulders.",
-                          "Stand with feet shoulder-width apart, toes slightly out.",
-                          "Brace your core and keep your chest up.",
-                          "Squat down by pushing your hips back and bending your knees.",
-                          "Go as low as comfortable (thighs parallel or lower).",
-                          "Stand up by pushing through your heels and squeezing your glutes.",
-                          "Repeat for your desired reps."
+                          "The 1/4 squat is a variation of the regular squat;\u00a0the difference being that you only squat down 1/4 of the way. Set up for the exercise by setting the barbell to just below shoulder height and loading the weight you want to use.",
+                          "Stand under the bar with your feet at about shoulder width apart.",
+                          "Position the bar so that it is resting on the muscles on the top of your back, not on the back of your neck. The bar should feel comfortable. If it doesn't, try adding some padding to the bar.",
+                          "Now take your hands over the back and grip the bar with a wide grip for stability.",
+                          "You should now bend at the knees and straighten your back in preparation to take the weight off the rack.",
+                          "Keeping your back straight and eyes up, push up through the legs and take the weight off the rack.",
+                          "Take a small step back and stabilize yourself.",
+                          "Keeping your eyes facing forwards, slowly lower your body down. Don't lean forward as you come down. Your buttocks should come out and drop straight down.",
+                          "Squat down around 6-12 inches, pause, and then slowly raise your body back up pushing through your heels.",
+                          "Do not lock the knees out when you stand up, and then repeat the movement.",
+                          "Generally, for building lower body mass the regular squat is much more effective.",
+                          "The quarter squat is often used as a shock technique, build strength with heavier weights, and\u00a0for focusing solely on the quads.",
+                          "Check out the tips on squatting by visiting the Squats page."
                         ],
-                        "tips": [
-                          "Use lighter dumbbells until you\u2019re confident with your form. Focus on control over weight.",
-                          "Engage your abs throughout the movement to support your spine and improve balance.",
-                          "Press into your heels (not your toes) as you stand up to better activate your glutes.",
-                          "Keep your knees aligned with your toes\u2014avoid letting them collapse inward.",
-                          "Inhale as you lower, exhale as you push up\u2014this helps maintain core stability and rhythm."
-                        ],
-                        "overview": "Hold dumbbells by your sides or at your shoulders. Stand with feet shoulder-width apart, toes slightly out. Brace your core and keep your chest up. Squat down by pushing your hips back and bending your knees. Go as low as comfortable (thighs parallel or lower). Stand up by pushing through your heels and squeezing your glutes. Repeat for your desired reps.",
-                        "video_url": "https://player.vimeo.com/video/1077314446?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "tips": [],
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/877885839?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
                         "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/dumbbell-squat.html"
+                        "source_url": "https://www.muscleandstrength.com/exercises/1-4-squat.html"
                       },
                       "sets": 4,
                       "reps": "8-12",
@@ -1245,64 +1278,13 @@
                     },
                     {
                       "exercise": {
-                        "name": "Leg Press",
-                        "slug": "45-degree-leg-press",
+                        "name": "Dumbbell Squat",
+                        "slug": "dumbbell-squat",
                         "category": "compound_secondary",
                         "muscle_groups": [
                           "quads"
                         ],
                         "secondary_muscles": [
-                          "abs",
-                          "adductors",
-                          "calves",
-                          "glutes",
-                          "hamstrings",
-                          "lower_back"
-                        ],
-                        "equipment": "machine",
-                        "experience_level": "Beginner",
-                        "force_type": "Push (Bilateral)",
-                        "mechanics": "Compound",
-                        "instructions": [
-                          "Load the machine with the desired weight and take a seat.",
-                          "Sit down and position your feet on the sled with a shoulder width stance.",
-                          "Take a deep breath, extend your legs, and unlock the safeties.",
-                          "Lower the weight under control until the legs are roughly 45 degrees or slightly below.",
-                          "Drive the weight back to the starting position by extending the knees but don\u2019t forcefully lockout.",
-                          "Repeat for the desired number of repetitions."
-                        ],
-                        "tips": [
-                          "To keep tension on the quads, keep the knees just shy of lockout.",
-                          "To emphasize the glutes more, push through the heels.",
-                          "To emphasize the quads more, push through the balls of the feet.",
-                          "Don\u2019t allow the hips to posteriorly tilt and roll off the pad.",
-                          "Keep your low back flat against the pad throughout the movement.",
-                          "Maintain a neutral head position by not looking up or down excessively.",
-                          "Self spotting is possible by simply applying pressure to the knees with the hands. Use only when necessary.",
-                          "Toe angle is individual and will depend upon each individual\u2019s hip anatomy and ankle mobility - experiment and adjust based upon feel."
-                        ],
-                        "overview": "Load the machine with the desired weight and take a seat. Sit down and position your feet on the sled with a shoulder width stance. Take a deep breath, extend your legs, and unlock the safeties. Lower the weight under control until the legs are roughly 45 degrees or slightly below. Drive the weight back to the starting position by extending the knees but don\u2019t forcefully lockout. Repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/sEM_zo9w2ss?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/sEM_zo9w2ss/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/45-degree-leg-press.html"
-                      },
-                      "sets": 3,
-                      "reps": "8-12",
-                      "rest_sec": 120,
-                      "rpe_target": 6.5,
-                      "notes": ""
-                    },
-                    {
-                      "exercise": {
-                        "name": "Dumbbell Goblet Squat",
-                        "slug": "dumbbell-goblet-squat",
-                        "category": "compound_secondary",
-                        "muscle_groups": [
-                          "quads"
-                        ],
-                        "secondary_muscles": [
-                          "abs",
-                          "adductors",
                           "calves",
                           "glutes",
                           "hamstrings",
@@ -1310,29 +1292,28 @@
                         ],
                         "equipment": "dumbbell",
                         "experience_level": "Beginner",
-                        "force_type": "Push (Bilateral)",
+                        "force_type": "Push",
                         "mechanics": "Compound",
                         "instructions": [
-                          "Select a dumbbell and position it at chest height with one hand under each edge of the dumbbell.",
-                          "Take a deep breath and descend by simultaneously pushing the hips back and bending the knees.",
-                          "Once your thighs reach parallel with the floor, begin to reverse the movement.",
-                          "Keep your abs braced and drive your feet through the floor.",
-                          "Drive back to the starting position and repeat for the desired number of repetitions."
+                          "Hold dumbbells by your sides or at your shoulders.",
+                          "Stand with feet shoulder-width apart, toes slightly out.",
+                          "Brace your core and keep your chest up.",
+                          "Squat down by pushing your hips back and bending your knees.",
+                          "Go as low as comfortable (thighs parallel or lower).",
+                          "Stand up by pushing through your heels and squeezing your glutes.",
+                          "Repeat for your desired reps."
                         ],
                         "tips": [
-                          "If you struggle with squatting with a barbell then this is the best version for learning how to squat in a vertical fashion.",
-                          "Toe angle is highly individual - experiment to see what feels best for you.",
-                          "Experiment with a \u201cfalse\u201d (i.e. thumbless) grip as this helps to eliminate elbow and wrist issues in some folks.",
-                          "Drive through the whole foot - you want 3 points of contact: big toe, little toe, and heel.",
-                          "Imagine you\u2019re trying to drop your back pockets straight towards your heels. Down, not back.",
-                          "Some forward translation of the knees over the toes is alright provided that the knees don\u2019t deviate excessively inward or outward. Those with longer femurs will have to allow their knees to come farther forward if they want to remain upright.",
-                          "Neck position is highly individual as well - some prefer a neutral neck position (i.e. keeping the chin tucked throughout the lift) while others do well with looking straight ahead. Experiment with each and see which one works best for your anatomy.",
-                          "Don\u2019t push the knees out excessively but ensure they track roughly over or slightly outside the 2nd toe."
+                          "Use lighter dumbbells until you\u2019re confident with your form. Focus on control over weight.",
+                          "Engage your abs throughout the movement to support your spine and improve balance.",
+                          "Press into your heels (not your toes) as you stand up to better activate your glutes.",
+                          "Keep your knees aligned with your toes\u2014avoid letting them collapse inward.",
+                          "Inhale as you lower, exhale as you push up\u2014this helps maintain core stability and rhythm."
                         ],
-                        "overview": "Select a dumbbell and position it at chest height with one hand under each edge of the dumbbell. Take a deep breath and descend by simultaneously pushing the hips back and bending the knees. Once your thighs reach parallel with the floor, begin to reverse the movement. Keep your abs braced and drive your feet through the floor. Drive back to the starting position and repeat for the desired number of repetitions.",
-                        "video_url": "https://www.youtube.com/embed/5Y3KW5rWMh4?rel=0",
-                        "video_thumbnail": "https://i.ytimg.com/vi/5Y3KW5rWMh4/maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/dumbbell-goblet-squat.html"
+                        "overview": "Hold dumbbells by your sides or at your shoulders. Stand with feet shoulder-width apart, toes slightly out. Brace your core and keep your chest up. Squat down by pushing your hips back and bending your knees. Go as low as comfortable (thighs parallel or lower). Stand up by pushing through your heels and squeezing your glutes. Repeat for your desired reps.",
+                        "video_url": "https://player.vimeo.com/video/1077314446?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/dumbbell-squat.html"
                       },
                       "sets": 3,
                       "reps": "8-12",
@@ -1342,36 +1323,83 @@
                     },
                     {
                       "exercise": {
-                        "name": "Cable Crunch",
-                        "slug": "cable-crunch",
+                        "name": "Barbell Half Squat",
+                        "slug": "half-squat",
+                        "category": "compound_secondary",
+                        "muscle_groups": [
+                          "quads"
+                        ],
+                        "secondary_muscles": [
+                          "calves",
+                          "glutes",
+                          "hamstrings"
+                        ],
+                        "equipment": "barbell",
+                        "experience_level": "Beginner",
+                        "force_type": "Push",
+                        "mechanics": "Compound",
+                        "instructions": [
+                          "The 1/2 squat is a variation of the regular squat.\u00a0Set up for the exercise by setting the barbell to just below shoulder height and loading the weight you want to use.",
+                          "Stand under the bar with your feet at about shoulder width apart.",
+                          "Position the bar so that it is resting on the muscles on the top of your back, not on the back of your neck. The bar should feel comfortable. If it doesn't, try adding some padding to the bar.",
+                          "Now take your hands over the back and grip the bar with a wide grip for stability.",
+                          "You should now bend at the knees and straighten your back in preparation to take the weight off the rack.",
+                          "Keeping your back straight and eyes up, push up through the legs and take the weight off the rack.",
+                          "Take a small step back and stabilize yourself.",
+                          "Keeping your eyes facing forwards, slowly lower your body down. Don't lean forward as you come down.\u00a0Your buttocks should come out and drop straight down.",
+                          "Squat down around 12 inches, pause, and then slowly raise your body back up pushing through your heels.",
+                          "Do not lock the knees out when you stand up, and then repeat the movement.",
+                          "Generally, for building lower body mass, the regular or deep squat is much more effective.",
+                          "The quarter squat is often used as a shock technique to\u00a0build strength with heavier weights, and\u00a0for focusing solely on the quads."
+                        ],
+                        "tips": [],
+                        "overview": null,
+                        "video_url": "https://player.vimeo.com/video/877885816?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
+                        "source_url": "https://www.muscleandstrength.com/exercises/half-squat.html"
+                      },
+                      "sets": 3,
+                      "reps": "8-12",
+                      "rest_sec": 120,
+                      "rpe_target": 6.5,
+                      "notes": ""
+                    },
+                    {
+                      "exercise": {
+                        "name": "Plank",
+                        "slug": "hover",
                         "category": "accessory",
                         "muscle_groups": [
                           "abs"
                         ],
-                        "secondary_muscles": [],
-                        "equipment": "cable",
+                        "secondary_muscles": [
+                          "lower_back"
+                        ],
+                        "equipment": "bodyweight",
                         "experience_level": "Beginner",
-                        "force_type": "Pull",
+                        "force_type": "Static",
                         "mechanics": "Isolation",
                         "instructions": [
-                          "Attach a rope handle to the high pulley of a cable machine.",
-                          "Kneel in front of the machine and hold the rope with both hands, bringing it around your head.",
-                          "Keep your knees slightly bent and your hips stationary. This is the starting position.",
-                          "Engage your core and pull the rope down by crunching your torso forward.",
-                          "Continue to pull the rope towards your knees, focusing on contracting your abs. Keep your elbows fixed.",
-                          "Release the tension and slowly return to the starting position. This is one rep.",
-                          "Perform the desired number of reps while maintaining control and good form."
+                          "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders.",
+                          "Position your feet hip-width apart with your toes tucked under.",
+                          "Push through your forearms and toes to lift your body off the floor.",
+                          "Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward.",
+                          "Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising.",
+                          "Hold the position for as long as you can while maintaining good form."
                         ],
                         "tips": [
-                          "Use controlled movements. Perform the crunch slowly and with control to maximize muscle engagement and avoid injury.",
-                          "Focus on crunching with your abs, not pulling with your arms. The arms should only guide the rope.",
-                          "Avoid arching your back too much. Keep the motion in your torso to protect your spine.",
-                          "Avoid using your hips or legs to assist in the movement. Focus on flexing your spine using your abs."
+                          "If you're new to planks, it's important to build strength and endurance gradually. Here\u2019s a beginner progression to help you work up to a full plank:\n\nWall Plank:\u00a0Stand facing a wall and place your hands on it at shoulder height. Step your feet back slightly and bend your elbows to create a straight line from your head to your heels. Hold for 30 seconds, focusing on keeping your core tight.",
+                          "Incline Plank:\u00a0Use a bench or sturdy surface. Place your forearms on the bench and your feet on the floor, forming a straight line from head to heels. Engage your core and hold for 30 seconds.",
+                          "Knee Plank:\u00a0Start in a standard plank position but with your knees on the ground instead of your toes. Keep your body in a straight line from head to knees, engaging your core. Hold for 30 seconds.",
+                          "Keep breathing steadily through the nose and mouth.",
+                          "Keep your body in a straight line, and avoid letting your hips sag or rise.",
+                          "Gradually increase your hold time by 5-10 seconds as you build strength.",
+                          "If holding for longer is too difficult, try breaking it into shorter sets (e.g., 2 sets of 20 seconds)."
                         ],
-                        "overview": "Attach a rope handle to the high pulley of a cable machine. Kneel in front of the machine and hold the rope with both hands, bringing it around your head. Keep your knees slightly bent and your hips stationary. This is the starting position. Engage your core and pull the rope down by crunching your torso forward. Continue to pull the rope towards your knees, focusing on contracting your abs. Keep your elbows fixed. Release the tension and slowly return to the starting position. This is one rep. Perform the desired number of reps while maintaining control and good form.",
-                        "video_url": "https://player.vimeo.com/video/760008287?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
+                        "overview": "Start by lying face down on the floor. Place your forearms on the ground, elbows directly below your shoulders. Position your feet hip-width apart with your toes tucked under. Push through your forearms and toes to lift your body off the floor. Your body should form a straight line from your head to your heels. Keep your neck neutral by looking straight down, not forward. Tighten your core (imagine pulling your belly button toward your spine) and squeeze your glutes to prevent your hips from sagging or rising. Hold the position for as long as you can while maintaining good form.",
+                        "video_url": "https://player.vimeo.com/video/877881002?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479",
                         "video_thumbnail": "https://i.ytimg.com/vi//maxresdefault.jpg",
-                        "source_url": "https://www.muscleandstrength.com/exercises/cable-crunch.html"
+                        "source_url": "https://www.muscleandstrength.com/exercises/hover.html"
                       },
                       "sets": 3,
                       "reps": "10-15",
@@ -1403,15 +1431,16 @@
         "shoulders": 22,
         "triceps": 17,
         "upper_back": 18,
-        "abs": 20,
+        "abs": 16,
         "biceps": 14,
-        "lats": 14,
-        "lower_back": 15,
-        "quads": 18,
-        "adductors": 6,
-        "calves": 13,
+        "lats": 15,
+        "lower_back": 10,
+        "quads": 17,
+        "adductors": 4,
+        "calves": 12,
         "glutes": 12,
         "hamstrings": 18,
+        "hip_flexors": 2,
         "forearms": 3,
         "traps": 3
       },
