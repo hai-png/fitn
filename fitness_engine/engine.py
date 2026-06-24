@@ -41,8 +41,11 @@ def propose_plan(
     plan_type: PlanType | None = None,
     muscle_focus: list[str] | None = None,
     program_duration_weeks: int | None = None,
-    # Phase-2 meal parameter
+    # Phase-5 meal planning parameters
     cuisine_preference: str | None = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+    include_pre_post_workout: bool = False,
 ) -> FitnessPlan:
     """
     Build the complete fitness plan: nutrition + training + meal plan.
@@ -62,7 +65,11 @@ def propose_plan(
       muscle_focus: optional list of muscle groups to emphasize
                     (e.g. ["chest", "arms"]).
       program_duration_weeks: override the auto-computed program duration.
+
       cuisine_preference: optional recipe cuisine filter (e.g. "ethiopian").
+      allergens_to_avoid: list of allergens to exclude from meal plan.
+      excluded_ingredients: list of ingredients to exclude from meal plan.
+      include_pre_post_workout: add PRE/POST workout meals on training days.
 
     Returns FitnessPlan.
     """
@@ -86,13 +93,16 @@ def propose_plan(
         program_duration_weeks=program_duration_weeks,
     )
 
-    # 3. Meal plan
+    # 3. Meal plan (Phase-5 clean implementation)
     meal = build_meal_plan(
         profile=profile,
         assessment=assessment,
         nutrition=nutrition,
         meal_frequency=meal_frequency,
         cuisine_preference=cuisine_preference,
+        allergens_to_avoid=allergens_to_avoid,
+        excluded_ingredients=excluded_ingredients,
+        include_pre_post_workout=include_pre_post_workout,
     )
 
     # 4. Build summary

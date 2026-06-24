@@ -331,3 +331,160 @@ Stage Summary:
   • /home/z/my-project/fitn/fitness_engine/engine.py (pass-through new params)
   • /home/z/my-project/fitn/fitness_engine/tests/test_phase3.py (new — 38 tests)
   • 6 sample plans regenerated in /home/z/my-project/fitn/download/
+
+---
+Task ID: 5
+Agent: Super Z (Phase-5 clean meal planning system)
+Task: Cleanup legacy meal planning implementation. Create detailed profiles, categorize nutritional requirements, analyze recipe database coverage, curate for maximum coverage with minimum recipes, devise ultimate meal selection/allocation algorithm (best-fit scoring, acceptable scaling, fillers, swap alternatives, Pre/Post Workout meals). Support 4 diet types: vegan, omni, vegan+ethiopian, omni+ethiopian.
+
+Work Log:
+- Wrote design document at reports/meal_planning/DESIGN.md covering:
+  * 12 reference profiles spanning all dimensions (age/sex/goal/diet/equipment)
+  * Nutritional requirements matrix (RMR/TDEE/macros/per-meal allocation/pre-post workout)
+  * Coverage matrix: 4 diets × 7 meal_types × 3-4 kcal bins = 96 cells, min 2 recipes/cell
+  * Best-fit scoring algorithm (10 components, weighted 0-100 scale)
+  * Acceptable scaling (0.7x-1.5x serving multiplier)
+  * Filler system (protein/carb/fat/veg fillers for macro gaps)
+  * Swap alternatives (recipe swaps + ingredient swaps)
+- Created fitness_engine/meal_plan/profile_requirements.py (NEW, 290 lines):
+  * MealSlotTarget dataclass (per-slot kcal + macros + fiber + timing)
+  * MealPlanRequirements dataclass (full requirements for 7-day plan)
+  * compute_meal_plan_requirements() orchestrator
+  * compute_pre_workout_target() / compute_post_workout_target()
+  * get_meal_allocation() with PRE/POST workout support
+  * get_recipe_diet_tag() maps DietType → recipe tag (handles ethiopian override)
+  * STANDARD_ALLOCATIONS table (2/3/4/5 meal frequencies)
+- Created fitness_engine/meal_plan/recipe_scorer.py (NEW, 320 lines):
+  * 10-component best-fit scoring algorithm (kcal/protein/carb/fat/diet/goal/fiber/variety/cuisine/allergen)
+  * WEIGHTS table (kcal=30, protein=25, carb=15, fat=10, diet=15, goal=5, fiber=5, variety=5, cuisine=5)
+  * MIN_ACCEPTABLE_SCORE = 60
+  * _band_score() helper: 100 within tight_pct, 50 within loose_pct, 0 outside
+  * score_diet_match() with VEGAN/OMNI/VEGAN_ETHIOPIAN/OMNI_ETHIOPIAN logic
+  * score_variety() rewards unused recipes (100 if not in last 3 days, 50 if 7 days, 0 if 3 days)
+  * check_allergens() with ALLERGEN_KEYWORDS table (dairy/gluten/soy/nuts/peanuts/eggs/shellfish/fish/sesame)
+  * check_excluded_ingredients() for free-text ingredient exclusion
+- Created fitness_engine/meal_plan/recipe_scaler.py (NEW, 410 lines):
+  * ScaledRecipe dataclass (recipe + scale_factor + scaled macros)
+  * compute_scale_factor() with [0.7, 1.5] clamping, 1.0 within ±10%
+  * scale_recipe() returns ScaledRecipe
+  * FillerGap dataclass (remaining macros after scaling)
+  * compute_filler_gap()
+  * FillerResult dataclass (fillers + their macros + notes)
+  * select_fillers_for_meal() orchestrator (protein → carb → fat → veg priority)
+  * select_protein_filler() / select_carb_filler() / select_fat_filler() / select_veg_filler()
+  * FILLER_THRESHOLDS (don't add fillers for <50 kcal / <5g protein / <3g fat / <3g fiber gaps)
+  * PROTEIN_FILLERS / CARB_FILLERS / FAT_FILLERS / VEG_FILLERS food option tables (diet-aware)
+- Created fitness_engine/meal_plan/swap_system.py (NEW, 290 lines):
+  * IngredientSwap dataclass (original + alternatives + ratio + notes)
+  * INGREDIENT_SWAPS table: 40+ ingredients with multiple swap options each
+    (chicken↔tofu, rice↔quinoa, milk↔oat milk, injera↔teff injera, berbere↔garam masala, etc.)
+  * get_ingredient_swaps() — case-insensitive, partial match
+  * get_swaps_for_recipe_ingredients() — returns swaps for every swappable ingredient
+  * get_recipe_swaps() — returns alternative recipes in same (diet, meal_type, kcal_bin)
+  * get_recipe_swaps_for_plan() — serializable dict format for plan output
+- Created fitness_engine/meal_plan/pre_post_workout.py (NEW, 350 lines):
+  * 16 engine-generated Pre/Post Workout recipes (4 diets × 2 meal_types × 2 kcal_bins)
+  * Coverage: OMNI/VEGAN/OMNI_ETHIOPIAN/VEGAN_ETHIOPIAN × pre_workout/post_workout × <200/200-400/<300/300-500 kcal
+  * Hand-crafted nutrition (verified macros per serving)
+  * Each recipe includes full ingredients + instructions + timing notes
+  * Examples: Banana & Honey Toast, Oatmeal Power Bowl, Whey & Banana Shake, Chicken & Rice Bowl, Injera & Honey Roll, Ful Medames, Doro Wat Mini, Tibs Plate, Kolo Trail Mix, Misir Wat, Shiro Wat
+- Created fitness_engine/meal_plan/allocator_v2.py (NEW, 230 lines):
+  * SelectedMeal dataclass (recipe + scale_factor + scaled macros + fillers + swap options + score)
+  * allocate_meal() — single-slot orchestrator:
+    1. Query candidates by meal_type + diet
+    2. Score each candidate (recipe_scorer)
+    3. Pick highest score
+    4. Scale recipe if needed (recipe_scaler)
+    5. Compute filler gap; add fillers (recipe_scaler)
+    6. Attach swap options (swap_system)
+    7. Return SelectedMeal
+  * selected_meal_to_dict() — serializable format
+- Created fitness_engine/meal_plan/planner_v2.py (NEW, 230 lines):
+  * build_meal_plan() — clean 7-day orchestrator:
+    1. Compute MealPlanRequirements
+    2. Determine training days (spread evenly across week)
+    3. For each day: pick slot_targets (training vs rest day)
+    4. For each slot: allocate_meal with variety tracking (3-day + 7-day used sets)
+    5. Track weekly totals (kcal + macros)
+    6. Compute weekly match percentages
+    7. Return MealPlan with 7 DayPlans
+  * _compute_training_days() — common splits (3d → Mon/Wed/Fri, 4d → Mon/Tue/Thu/Fri, etc.)
+- Updated fitness_engine/meal_plan/recipe_loader.py:
+  * load_recipes() now merges Pre/Post Workout recipes (16 engine-generated)
+  * Total recipes: 386 (107 curated + 263 uncurated + 16 Pre/Post workout)
+- Replaced fitness_engine/meal_plan/planner.py with backward-compat shim (re-exports build_meal_plan from planner_v2)
+- Updated fitness_engine/meal_plan/__init__.py to export all Phase-5 modules
+- Updated fitness_engine/engine.py:propose_plan to pass through:
+  * cuisine_preference
+  * allergens_to_avoid
+  * excluded_ingredients
+  * include_pre_post_workout
+- Updated fitness_engine/models/meal.py:MealFood — added fiber_g property (needed for filler tracking)
+- Created scripts/recipe_curator.py — one-time coverage analysis script
+  * Analyzes (diet × meal_type × kcal_bin) coverage matrix
+  * Output: reports/meal_planning/coverage_analysis.json + .md
+  * Current coverage: 57.3% (55/96 cells fully covered, 11 under-covered, 30 empty)
+  * Empty cells identified for future curation (high-kcal breakfast, high-kcal lunch/dinner, etc.)
+- Created fitness_engine/tests/test_phase5.py (NEW, 59 tests):
+  * TestProfileRequirements (7 tests)
+  * TestRecipeScorer (12 tests)
+  * TestRecipeScaler (5 tests)
+  * TestFillerSystem (6 tests)
+  * TestSwapSystem (6 tests)
+  * TestPrePostWorkoutRecipes (6 tests)
+  * TestAllocator (5 tests)
+  * TestPlanner (4 tests)
+  * TestIntegration (3 tests)
+- All 285 tests passing (81 original + 35 Phase-2 + 38 Phase-3 + 72 Phase-4 + 59 Phase-5)
+- Updated scripts/sample_runner.py with 6 demo profiles:
+  * sample_plan_cut (with PRE/POST workout)
+  * sample_plan_bulk (with PRE/POST workout)
+  * sample_plan_recomp (home gym)
+  * sample_plan_female_maintenance
+  * sample_plan_vegan_ethiopian_maintenance (VEGAN + ethiopian cuisine + PRE/POST)
+  * sample_plan_bodyweight_recomp_prepost (bodyweight + PRE/POST + dairy-free)
+- Regenerated 6 sample plans in download/
+
+Stage Summary:
+- Legacy Phase-2 meal planner (planner.py 287 lines + allocator.py 434 lines) replaced with clean 7-module architecture:
+  • profile_requirements.py (290 lines) — per-slot nutritional targets
+  • recipe_scorer.py (320 lines) — best-fit scoring (10 components, 0-100 scale)
+  • recipe_scaler.py (410 lines) — acceptable scaling + filler system
+  • swap_system.py (290 lines) — recipe swaps + ingredient swaps
+  • pre_post_workout.py (350 lines) — 16 engine-generated recipes
+  • allocator_v2.py (230 lines) — clean slot allocator
+  • planner_v2.py (230 lines) — clean 7-day orchestrator
+  • planner.py + allocator.py — backward-compat shims
+- New capabilities:
+  • Best-fit scoring algorithm with 10 weighted components
+  • Acceptable scaling (0.7x-1.5x serving multiplier)
+  • Filler system (protein/carb/fat/veg fillers for macro gaps)
+  • Recipe swaps (alternative recipes in same cell)
+  • Ingredient swaps (40+ ingredients with substitution options)
+  • Pre/Post Workout meals (16 recipes covering 4 diets × 2 meal types × 2 kcal bins)
+  • Allergen filtering (9 allergen categories with keyword detection)
+  • Excluded ingredients (free-text filtering)
+  • Variety tracking (3-day + 7-day used sets)
+  • Weekly match percentages (kcal + protein match reporting)
+- 4 diet types fully supported: OMNI, VEGAN, OMNI_ETHIOPIAN, VEGAN_ETHIOPIAN
+- Coverage analysis: 57.3% (96 cells, 55 fully covered, 11 under-covered, 30 empty)
+- Public API: propose_plan(profile, assessment, cuisine_preference?, allergens_to_avoid?, excluded_ingredients?, include_pre_post_workout?)
+- Backward compatible: all 226 pre-Phase-5 tests still pass
+- Deliverables:
+  • /home/z/my-project/fitn/reports/meal_planning/DESIGN.md (design document)
+  • /home/z/my-project/fitn/reports/meal_planning/coverage_analysis.json + .md
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/profile_requirements.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/recipe_scorer.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/recipe_scaler.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/swap_system.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/pre_post_workout.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/allocator_v2.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/planner_v2.py (new)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/planner.py (replaced with shim)
+  • /home/z/my-project/fitn/fitness_engine/meal_plan/__init__.py (updated exports)
+  • /home/z/my-project/fitn/fitness_engine/engine.py (passes through new params)
+  • /home/z/my-project/fitn/fitness_engine/models/meal.py (added fiber_g to MealFood)
+  • /home/z/my-project/fitn/fitness_engine/tests/test_phase5.py (new — 59 tests)
+  • /home/z/my-project/fitn/scripts/recipe_curator.py (new)
+  • /home/z/my-project/fitn/scripts/sample_runner.py (updated with 6 demo profiles)
+  • 6 sample plans regenerated in /home/z/my-project/fitn/download/

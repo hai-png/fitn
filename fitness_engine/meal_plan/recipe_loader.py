@@ -251,10 +251,11 @@ def _load_raw_dbs() -> tuple[dict, dict]:
 
 def load_recipes() -> list[Recipe]:
     """
-    Load all recipes from both databases.
+    Load all recipes from both databases + Pre/Post Workout recipes.
 
     Returns a list of Recipe dataclasses. Curated recipes appear first
-    (and override uncurated on ID collision).
+    (and override uncurated on ID collision). Pre/Post Workout recipes
+    are appended last (Phase-5).
     """
     curated_db, uncurated_db = _load_raw_dbs()
 
@@ -278,6 +279,18 @@ def load_recipes() -> list[Recipe]:
         if r.id:
             seen_ids.add(r.id)
         out.append(r)
+
+    # Phase-5: Pre/Post Workout recipes (engine-generated)
+    try:
+        from .pre_post_workout import get_pre_post_workout_recipes
+        for r in get_pre_post_workout_recipes():
+            if r.id and r.id in seen_ids:
+                continue
+            if r.id:
+                seen_ids.add(r.id)
+            out.append(r)
+    except ImportError:
+        pass  # pre_post_workout module not available
 
     return out
 

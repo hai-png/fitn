@@ -1,6 +1,6 @@
 {
   "name": "sample_plan_recomp",
-  "description": "28yo female beginner, 28% BF, recomp goal, home gym 3 days/week, omnivore",
+  "description": "28yo female beginner, 28% BF, recomp, home gym 3 days/week, omnivore",
   "profile": {
     "age": 28,
     "sex": "female",
@@ -3356,15 +3356,15 @@
           "meals": [
             {
               "meal_type": "breakfast",
-              "name": "10-Minute Tofu Scramble",
+              "name": "The Best Belgian Waffles",
               "recipe": {
-                "name": "10-Minute Tofu Scramble",
-                "id": "R001",
-                "source": "https://www.forksoverknives.com/recipes/vegan-breakfast/10-minute-tofu-scramble/",
-                "source_file": "forksoverknives.com__recipes-vegan-breakfast-10-minute-tofu-scramble.json",
-                "legacy_id": "R142",
-                "cuisine": "indian",
-                "category": "",
+                "name": "The Best Belgian Waffles",
+                "id": "R014",
+                "source": "https://www.food.com/recipe/the-best-belgian-waffles-63071",
+                "source_file": "food.com__recipe-the-best-belgian-waffles-63071.json",
+                "legacy_id": "R139",
+                "cuisine": "international",
+                "category": "breakfast",
                 "recipe_kind": "meal",
                 "meal_types": [
                   "breakfast"
@@ -3373,133 +3373,195 @@
                   "VEGAN"
                 ],
                 "goal_fit": [
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 1,
-                "prep_time_min": null,
-                "cook_time_min": null,
+                "servings": 6,
+                "prep_time_min": 15,
+                "cook_time_min": 25,
                 "ingredients": [
-                  "2 scallions, thinly sliced",
-                  "1 14- to 16-oz. package extra-firm tofu, drained",
-                  "\u00bd teaspoon ground turmeric",
-                  "\u00bc teaspoon sea salt",
-                  "\u00bc teaspoon freshly ground black pepper",
-                  "1 15-oz. can no-salt-added pinto beans, rinsed and drained (1\u00bd cups)",
-                  "\u00bd to \u00be cup jarred oil-free salsa",
-                  "8 6-inch corn tortillas, warmed"
+                  "2   cups    flour",
+                  "4   teaspoons    baking powder",
+                  "1/2  teaspoon    salt",
+                  "1/4  cup    sugar",
+                  "2       eggs",
+                  "1/2  cup    vegetable oil",
+                  "2   cups    milk",
+                  "1   teaspoon    vanilla"
                 ],
                 "instructions": [
-                  "In a large skillet cook scallions over medium 2 minutes, stirring occasionally and adding water, 1 to 2 tsp. at a time, as needed to prevent sticking.",
-                  "Meanwhile, pat tofu with paper towels until well-dried. Add turmeric, salt, pepper, and \u00bc cup water to skillet; stir until well-combined. Crumble tofu into skillet; toss to coat.",
-                  "Cook, uncovered, 3 to 4 minutes or until heated through, stirring frequently and adding water, 1 to 2 Tbsp. at a time, as needed to prevent sticking.",
-                  "Add beans and salsa to tofu mixture; cook and stir 1 to 2 minutes or until heated through. Serve with tortillas."
+                  "Oil the waffle maker.",
+                  "Sift the dry ingredients together in a large bowl.",
+                  "In separate bowl, separate egg whites and beat until stiff peaks form.",
+                  "In a separate bowl, mix together the egg yolks, milk, oil , and vanilla, stir slightly.",
+                  "Add to dry ingredients and mix well.",
+                  "Fold in egg whites.",
+                  "Cook in waffle iron on medium-high heat for around 5-10 minutes."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 324.0,
-                  "protein_g": 18.0,
-                  "carb_g": 50.0,
-                  "fat_g": 8.0,
-                  "fiber_g": 11.0,
-                  "sugar_g": 2.0
+                  "kcal": 636.0,
+                  "protein_g": 13.6,
+                  "carb_g": 67.3,
+                  "fat_g": 34.7,
+                  "fiber_g": 1.7,
+                  "sugar_g": 12.9
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 180.0,
-                "protein_density": "medium",
+                "serving_size_g": 353.0,
+                "protein_density": "low",
                 "calorie_density": "medium",
                 "allergens": [
-                  "corn",
-                  "soy"
+                  "dairy",
+                  "gluten",
+                  "wheat"
                 ],
-                "alternative_recipe_ids": [
-                  "R111",
-                  "R135",
-                  "R143",
-                  "R145",
-                  "R146",
-                  "R256",
-                  "R272",
-                  "R324"
-                ],
+                "alternative_recipe_ids": [],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.forksoverknives.com/uploads/2026/02/10-minute-tofu-scramble-widened.jpg?auto=webp",
-                "notes": "[curated]",
+                "image_url": "https://img.sndimg.com/food/image/upload/q_92,fl_progressive,w_1200,c_scale/v1/img/recipes/63/07/1/Oey61BTvKAEV0tVQz4gU_untitled-1868.jpg",
+                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 23.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 117.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
               "target_kcal": 671.0,
               "target_protein_g": 32.0,
               "target_carb_g": 102.0,
               "target_fat_g": 15.0,
-              "actual_kcal": 324.0,
-              "actual_protein_g": 18.0,
-              "actual_carb_g": 50.0,
-              "actual_fat_g": 8.0,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 324 kcal, P18g/C50g/F8g | Cuisine: indian | Curated"
+              "actual_kcal": 636.0,
+              "actual_protein_g": 13.6,
+              "actual_carb_g": 67.3,
+              "actual_fat_g": 34.7,
+              "notes": "Score: 61.3/100; + 23g Whey Protein Powder (protein filler: +18g P); + 117g White Rice (cooked) (carb filler: +33g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
-              "name": "Air-Fryer Pub Fries with Vinegar",
+              "name": "African Yam Stew",
               "recipe": {
-                "name": "Air-Fryer Pub Fries with Vinegar",
-                "id": "R074",
-                "source": "https://www.forksoverknives.com/recipes/vegan-salads-sides/air-fryer-pub-fries-with-vinegar/",
-                "source_file": "forksoverknives.com__recipes-vegan-salads-sides-air-fryer-pub-fries-with-vinegar.json",
-                "legacy_id": "R149",
-                "cuisine": "english",
-                "category": "vegan salads &amp; side dish recipes",
+                "name": "African Yam Stew",
+                "id": "R018",
+                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/african-yam-stew/",
+                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-african-yam-stew.json",
+                "legacy_id": "R162",
+                "cuisine": "ethiopian",
+                "category": "vegan soups &amp; stew recipes",
                 "recipe_kind": "meal",
                 "meal_types": [
-                  "lunch",
-                  "side"
+                  "dinner",
+                  "lunch"
                 ],
                 "diet_types": [
                   "VEGAN"
                 ],
                 "goal_fit": [
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 7,
+                "servings": 6,
                 "prep_time_min": null,
                 "cook_time_min": null,
                 "ingredients": [
-                  "2 lb. russet potatoes, cut lengthwise into \u00bd-inch wedges",
-                  "2 cups malt vinegar or distilled white vinegar",
-                  "2 cups ice cubes",
-                  "\u00bc teaspoon sea salt",
-                  "Chopped fresh chives"
+                  "\u00bd cup water",
+                  "1 onion, chopped",
+                  "1-2 tablespoon(s) Anaheim or jalapeno pepper, minced",
+                  "1 tablespoon ginger, ground",
+                  "1 tablespoon garlic granules",
+                  "2 teaspoons cumin, ground",
+                  "2 teaspoons coriander, ground",
+                  "\u00bc teaspoon crushed red pepper",
+                  "6 yams, peeled and chopped",
+                  "2 cups vegetable broth",
+                  "24 ounces tomatoes, chopped",
+                  "14 ounces garbanzo beans, drained and rinsed",
+                  "14 ounces black eyed peas, drained and rinsed",
+                  "\u00bd cup almond or peanut butter, unsweetened",
+                  "1\u00bd cup corn",
+                  "6 cups collards, chopped"
                 ],
                 "instructions": [
-                  "Place potatoes in a large bowl. Add vinegar, ice cubes, and enough cold water to cover. Chill in the refrigerator at least 30 minutes or up to 1 hour. Drain potatoes; blot dry with paper towels. Sprinkle with salt.",
-                  "Preheat air fryer to 400\u00b0F. Working in batches, arrange potato wedges in a single layer on a double-thickness of foil trimmed to fit air-fryer basket. Transfer wedges with foil to air-fryer basket. Air-fry 18 minutes or until browned and crispy, turning once halfway through cooking. Keep warm in a 200\u00b0F oven while air-frying the rest.",
-                  "Sprinkle fries with chives and serve with additional malt vinegar for dipping."
+                  "In a large pot, saut\u00e9 onion and pepper with water for 5 minutes or until onions are translucent, stirring occasionally",
+                  "Add ginger, garlic, cumin, coriander and red pepper.",
+                  "Cook and stir for 1 minute.",
+                  "Mix in yams, vegetable broth, tomatoes, beans and nut butter.",
+                  "Bring to a boil, reduce heat and simmer for 20 minutes.",
+                  "Stir in corn and collards and cook for about 10 more minutes, until yams and greens are tender.",
+                  "Serve over brown rice or other whole grain."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 179.0,
-                  "protein_g": 5.0,
-                  "carb_g": 41.0,
-                  "fat_g": 0.0,
-                  "fiber_g": 3.0,
-                  "sugar_g": 1.0
+                  "kcal": 700.0,
+                  "protein_g": 29.5,
+                  "carb_g": 115.3,
+                  "fat_g": 13.4,
+                  "fiber_g": 32.4,
+                  "sugar_g": 13.1
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 119.0,
-                "protein_density": "low",
+                "serving_size_g": 389.0,
+                "protein_density": "medium",
                 "calorie_density": "medium",
-                "allergens": [],
+                "allergens": [
+                  "corn",
+                  "dairy",
+                  "nuts"
+                ],
                 "alternative_recipe_ids": [
-                  "R104",
-                  "R159",
-                  "R170",
-                  "R176",
-                  "R182",
-                  "R184",
-                  "R207",
-                  "R239"
+                  "R012",
+                  "R017",
+                  "R025",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R072",
+                  "R088"
                 ],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.forksoverknives.com/uploads/2025/07/Vinegar-Pub-Fries-Wordpress.jpg?auto=webp",
+                "image_url": "https://www.forksoverknives.com/uploads/African-Yam-Stew-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
@@ -3508,23 +3570,23 @@
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 179.0,
-              "actual_protein_g": 5.0,
-              "actual_carb_g": 41.0,
-              "actual_fat_g": 0.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 179 kcal, P5g/C41g/F0g | Cuisine: english | Curated"
+              "actual_kcal": 700.0,
+              "actual_protein_g": 29.5,
+              "actual_carb_g": 115.3,
+              "actual_fat_g": 13.4,
+              "notes": "Score: 93.4/100; Scaled to 1.12 servings (1.12x)"
             },
             {
               "meal_type": "dinner",
-              "name": "Vegan Beyond Burger Tacos",
+              "name": "Vegan Buffalo Pizza",
               "recipe": {
-                "name": "Vegan Beyond Burger Tacos",
-                "id": "R066",
-                "source": "https://www.trifectanutrition.com/blog/the-only-vegan-taco-recipe-youll-ever-need",
-                "source_file": "trifectanutrition.com__blog-the-only-vegan-taco-recipe-youll-ever-need.json",
-                "legacy_id": "R349",
-                "cuisine": "mexican, american",
-                "category": "entree",
+                "name": "Vegan Buffalo Pizza",
+                "id": "R067",
+                "source": "https://www.thecuriouschickpea.com/buffalo-soy-curl-pizza/",
+                "source_file": "thecuriouschickpea.com__buffalo-soy-curl-pizza.json",
+                "legacy_id": "R276",
+                "cuisine": "american",
+                "category": "pizza",
                 "recipe_kind": "meal",
                 "meal_types": [
                   "dinner"
@@ -3533,84 +3595,101 @@
                   "VEGAN"
                 ],
                 "goal_fit": [
-                  "cut",
-                  "recomp",
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 8,
-                "prep_time_min": 8,
-                "cook_time_min": 10,
+                "servings": 3,
+                "prep_time_min": 30,
+                "cook_time_min": 15,
                 "ingredients": [
-                  "16 ounces Beyond Meat or 4 Trifecta Beyond Meat burgers",
-                  "1 tablespoon avocado oil",
-                  "1/2 cup yellow onion, diced",
-                  "3 garlic cloves, minced",
-                  "1/2 cup vegetable stock",
-                  "8 taco shells, hard or soft",
-                  "1/2 cup pico de gallo",
-                  "1 avocado",
-                  "1/4 cup cilantro, chopped",
-                  "1 lime, cut into wedges",
-                  "4 tablespoons smoked paprika",
-                  "3 tablespoons chili powder",
-                  "2 tablespoons onion powder",
-                  "2 teaspoons black pepper",
-                  "1 teaspoon coriander",
-                  "1 teaspoon allspice",
-                  "1 tablespoon oregano"
+                  "2 cups (100g) soy curls",
+                  "boiling hot water",
+                  "6 tbsp (90g) Franks RedHot hot sauce, or a similar hot sauce",
+                  "3 tbsp (35g) vegan butter, melted",
+                  "1/8 tsp granulated garlic",
+                  "1/8 tsp salt",
+                  "2 tsp canola oil",
+                  "3 10oz balls of pizza dough, homemade or store bought",
+                  "Vegan Ranch Dressing (recipe below, or use store bought)",
+                  "Extra virgin olive oil",
+                  "2-3 cloves garlic, minced or pressed",
+                  "7oz vegan mozzarella",
+                  "2-3 scallions, sliced with the white and green parts divided",
+                  "Additional hot sauce"
                 ],
                 "instructions": [
-                  "Blend your taco seasoning by whisking together the spices until evenly combined.",
-                  "To prepare your taco filling first place your skillet over medium-high heat. Add in the oil, and saute the minced onion and garlic for 3 minutes until they begin to brown. Add your beyond meat and cook for 4 minutes then mix in 2-3 tablespoons taco spice and continue to cook until meat is golden brown.",
-                  "Add 1/2 cup vegetable stock and saute meat and spices for 1-2 minutes until the stock has been reduced by half.",
-                  "To prepare your taco toppings, rinse the cilantro and roughly chop then set aside in a small bowl. Slice the lime into wedges and set aside as well.",
-                  "Now you're ready to plate your tacos or package it up to enjoy later on!"
+                  "Place the soy curls in a heat safe bowl, then pour in enough hot water to cover. Let sit at least 15 minutes, or until cool enough to touch, then drain them, squeezing out extra water by hand.",
+                  "In a small mixing bowl whisk together the melted vegan butter, the hot sauce, granulated garlic, and salt to make the buffalo sauce. Set aside.",
+                  "Heat a large skillet over medium heat. Add the two teaspoons of oil and drained soy curls. Saut\u00e9 until the soy curls are lightly browned, about 5-7 minutes. Pour in the buffalo sauce and cook an additional 2-3 minutes until the sauce is absorbed. Remove from the heat and set aside until ready to make the pizza.",
+                  "One hour before you're ready to bake, preheat your oven to 550 \u00baF, or as hot as it will go. Place a rack 1/3 way down from the top of the oven, and place a baking steel or baking stone on that rack if using. You want the oven to saturate with heat for 1 hour before baking pizza for best results.",
+                  "When the oven is nice and hot, prepare your pizzas. Stretch the dough into a 12-inch round and place in a lightly oiled large cast iron skillet. Drizzle a little olive oil over the dough and spread it with your fingers to coat the dough. Top with the minced garlic, then add the vegan mozzarella followed by about 1/3 of the soy curls. Lastly add the sliced white and light green parts of the scallions. Place the entire cast iron skillet on rack, and bake for 8-15 minutes, or until the crust has darkened and turned dark brown or black in spots.",
+                  "Alternatively you can bake the dough straight on a pizza stone or baking steel, just place the dough on a prepared pizza peel, then top the pizza and slide into the oven on the stone or steel and bake for 7-10 minutes.",
+                  "When the pizza is cooked, remove from oven and drizzle some of the chilled ranch over top and extra hot sauce if desired. Then finish with some of the green parts of the scallions. Slice and enjoy while hot!"
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 500.0,
-                  "protein_g": 30.0,
-                  "carb_g": 38.0,
-                  "fat_g": 24.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 2.0
+                  "kcal": 714.0,
+                  "protein_g": 33.0,
+                  "carb_g": 78.0,
+                  "fat_g": 31.0,
+                  "fiber_g": 8.0,
+                  "sugar_g": 9.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 278.0,
+                "serving_size_g": 397.0,
                 "protein_density": "medium",
                 "calorie_density": "medium",
-                "allergens": [],
+                "allergens": [
+                  "dairy",
+                  "soy"
+                ],
                 "alternative_recipe_ids": [
-                  "R003",
-                  "R029",
-                  "R107",
-                  "R164",
-                  "R175",
-                  "R195",
-                  "R198",
-                  "R292"
+                  "R013",
+                  "R025",
+                  "R072",
+                  "R082",
+                  "R086",
+                  "R101",
+                  "R162",
+                  "R304"
                 ],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/vegan-taco-recipe-002.jpg",
+                "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2017/12/vegan-buffalo-pizza-11-480x480.jpg",
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 145.0
+                }
+              ],
               "target_kcal": 783.0,
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 500.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 38.0,
-              "actual_fat_g": 24.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 500 kcal, P30g/C38g/F24g | Cuisine: mexican, american | Curated"
+              "actual_kcal": 714.0,
+              "actual_protein_g": 33.0,
+              "actual_carb_g": 78.0,
+              "actual_fat_g": 31.0,
+              "notes": "Score: 89.2/100; + 145g White Rice (cooked) (carb filler: +41g C)"
             }
           ],
-          "total_kcal": 1003.0,
-          "total_protein_g": 53.0,
-          "total_carb_g": 129.0,
-          "total_fat_g": 32.0
+          "total_kcal": 2050.0,
+          "total_protein_g": 76.1,
+          "total_carb_g": 260.6,
+          "total_fat_g": 79.10000000000001
         },
         {
           "day_number": 2,
@@ -3618,59 +3697,59 @@
           "meals": [
             {
               "meal_type": "breakfast",
-              "name": "Best Huevos Rancheros Recipe",
+              "name": "The Best Belgian Waffles",
               "recipe": {
-                "name": "Best Huevos Rancheros Recipe",
-                "id": "R002",
-                "source": "https://www.aspicyperspective.com/best-huevos-rancheros-recipe/",
-                "source_file": "aspicyperspective.com__best-huevos-rancheros-recipe.json",
-                "legacy_id": "R009",
-                "cuisine": "mexican",
+                "name": "The Best Belgian Waffles",
+                "id": "R139",
+                "source": "https://www.food.com/recipe/the-best-belgian-waffles-63071",
+                "source_file": "food.com__recipe-the-best-belgian-waffles-63071.json",
+                "legacy_id": null,
+                "cuisine": "american",
                 "category": "breakfast",
                 "recipe_kind": "meal",
                 "meal_types": [
                   "breakfast"
                 ],
                 "diet_types": [
-                  "OMNI"
+                  "VEGAN"
                 ],
                 "goal_fit": [
-                  "bulk",
                   "maintenance"
                 ],
-                "servings": 5,
-                "prep_time_min": 5,
-                "cook_time_min": 20,
+                "servings": 6,
+                "prep_time_min": 15,
+                "cook_time_min": 25,
                 "ingredients": [
-                  "The Best Ranchero Sauce Recipe",
-                  "2 tablespoons vegetable oil",
-                  "10  Old El Paso Flour Tortillas",
-                  "15 ounce Mexican chorizo",
-                  "15 ounces black beans",
-                  "2  ripe avocados (sliced)",
-                  "1/2 cup crumbled queso fresco",
-                  "10  large eggs",
-                  "Possible Add-Ons: cilantro, (salsa verde, pico de gallo, sour cream)"
+                  "2   cups    flour",
+                  "4   teaspoons    baking powder",
+                  "1/2  teaspoon    salt",
+                  "1/4  cup    sugar",
+                  "2       eggs",
+                  "1/2  cup    vegetable oil",
+                  "2   cups    milk",
+                  "1   teaspoon    vanilla"
                 ],
                 "instructions": [
-                  "Warm the ranchero sauce on the stovetop. Pour the beans in a small sauce pot. Warm over medium heat until simmering, then turn off the heat.",
-                  "Place the chorizo in a large nonstick skillet and set over medium-high heat. Break the chorizo apart with a wooden spoon, and brown for 5-10 minutes, until the chorizo starts to turn crispy. Pour the chorizo onto a plate.",
-                  "Wipe the skillet out with a paper towel, then add 2 tablespoons oil and set back over medium-high heat. One at a time, add the tortillas. Let them puff up for 3-5 seconds, flip and repeat. Then remove the tortillas, and set on paper towels to drain. Repeat until all the tortillas are puffy and golden.",
-                  "Using the same skillet, cook the eggs to order. Traditional Huevos Rancheros are made with sunny side up eggs, but I personally like scrambled eggs in this dish.",
-                  "To Serve: Place two tortillas each, on five plates. Top with warm black beans, eggs cooked to order, chorizo, ample ranchero sauce, sliced avocado, and queso fresco."
+                  "Oil the waffle maker.",
+                  "Sift the dry ingredients together in a large bowl.",
+                  "In separate bowl, separate egg whites and beat until stiff peaks form.",
+                  "In a separate bowl, mix together the egg yolks, milk, oil , and vanilla, stir slightly.",
+                  "Add to dry ingredients and mix well.",
+                  "Fold in egg whites.",
+                  "Cook in waffle iron on medium-high heat for around 5-10 minutes."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 1019.0,
-                  "protein_g": 47.0,
-                  "carb_g": 60.0,
-                  "fat_g": 65.0,
-                  "fiber_g": 14.0,
-                  "sugar_g": 3.0
+                  "kcal": 636.0,
+                  "protein_g": 13.6,
+                  "carb_g": 67.3,
+                  "fat_g": 34.7,
+                  "fiber_g": 1.7,
+                  "sugar_g": 12.9
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 566.0,
+                "serving_size_g": null,
                 "protein_density": "medium",
-                "calorie_density": "medium",
+                "calorie_density": "high",
                 "allergens": [
                   "dairy",
                   "gluten",
@@ -3679,119 +3758,184 @@
                 "alternative_recipe_ids": [],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2017/10/the-best-huevos-ranchero-recipe-16.jpg",
-                "notes": "[curated]",
+                "image_url": "https://img.sndimg.com/food/image/upload/q_92,fl_progressive,w_1200,c_scale/v1/img/recipes/63/07/1/Oey61BTvKAEV0tVQz4gU_untitled-1868.jpg",
+                "notes": "[diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 23.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 117.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
               "target_kcal": 671.0,
               "target_protein_g": 32.0,
               "target_carb_g": 102.0,
               "target_fat_g": 15.0,
-              "actual_kcal": 1019.0,
-              "actual_protein_g": 47.0,
-              "actual_carb_g": 60.0,
-              "actual_fat_g": 65.0,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 1019 kcal, P47g/C60g/F65g | Cuisine: mexican | Curated"
+              "actual_kcal": 636.0,
+              "actual_protein_g": 13.6,
+              "actual_carb_g": 67.3,
+              "actual_fat_g": 34.7,
+              "notes": "Score: 61.3/100; + 23g Whey Protein Powder (protein filler: +18g P); + 117g White Rice (cooked) (carb filler: +33g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
-              "name": "Azefa - Ethiopian Lentil Salad",
+              "name": "Beef and Butternut Squash Stew",
               "recipe": {
-                "name": "Azefa - Ethiopian Lentil Salad",
-                "id": "R075",
-                "source": "https://globalkitchentravels.com/azefa-ehiopian-lentil-salad/",
-                "source_file": "globalkitchentravels.com__azefa-ehiopian-lentil-salad.json",
-                "legacy_id": "R192",
-                "cuisine": "ethiopian",
-                "category": "salad",
+                "name": "Beef and Butternut Squash Stew",
+                "id": "R020",
+                "source": "https://www.daringgourmet.com/beef-and-butternut-squash-stew/",
+                "source_file": "daringgourmet.com__beef-and-butternut-squash-stew.json",
+                "legacy_id": "R101",
+                "cuisine": "mediterranean",
+                "category": "main course",
                 "recipe_kind": "meal",
                 "meal_types": [
-                  "lunch",
-                  "side"
+                  "dinner",
+                  "lunch"
                 ],
                 "diet_types": [
-                  "VEGAN_ETHIOPIAN"
+                  "VEGAN"
                 ],
                 "goal_fit": [
+                  "bulk",
+                  "recomp",
                   "maintenance"
                 ],
-                "servings": 8,
+                "servings": 6,
                 "prep_time_min": 10,
-                "cook_time_min": 35,
+                "cook_time_min": 70,
                 "ingredients": [
-                  "1 cup brown lentils",
-                  "1 teaspoon brown mustard seed",
-                  "4  black peppercorns",
-                  "1/4 teaspoon cayenne pepper",
-                  "3 tablespoons lemon juice",
-                  "3 tablespoons olive oil",
-                  "1 small bell pepper (chopped)",
-                  "2 tablespoons cilantro (finely chopped)",
-                  "salt (to taste)"
+                  "4 tablespoon olive oil",
+                  "2  medium onions (, peeled and chopped)",
+                  "4 cloves garlic (, chopped)",
+                  "2 teaspoons dried rosemary",
+                  "2 teaspoons dried thyme",
+                  "2 1/2 pounds stewing beef (e.g. chuck) (, cut into 1-inch cubes)",
+                  "1 teaspoon salt (, plus more to taste)",
+                  "1 teaspoon freshly ground black pepper (, plus more to taste)",
+                  "4 tablespoons all-purpose flour",
+                  "1 1/2 cup Marsala wine (, dry white wine can be substituted)",
+                  "3 pounds butternut squash (, trimmed and cut into 1-inch cubes)",
+                  "1/2 cup chopped sun-dried tomatoes",
+                  "4 to 5 cups beef broth",
+                  "a few shots of Worcestershire sauce according to taste",
+                  "4 tablespoons chopped parsley for serving"
                 ],
                 "instructions": [
-                  "Bring lentils and 4 cups of water to a boil.",
-                  "Reduce to a simmer and cook for 30 minutes, until lentils are just tender.",
-                  "Drain immediately and run with cold water.",
-                  "Using a coffee/spice grinder, grind mustard seed, black pepper and cayenne pepper to a fine powder.",
-                  "Transfer the spice powder to a bowl and add boiling water. Stir to combine.",
-                  "Add lemon juice and slowly drizzle in olive oil, while whisking constantly.",
-                  "In a large bowl, combine lentils, bell pepper, cilantro and salt.",
-                  "Add dressing and stir to combine.",
-                  "Serve chilled or at room temperature."
+                  "Heat 3 tablespoons of olive oil in a Dutch oven over medium heat. Add the onions, garlic, rosemary, and thyme and saute until the onions are tender, about 2 minutes.Coat the beef cubes in salt and pepper and flour. Increase the heat to med-high and add the beef to the Dutch oven. Cook until the beef is browned and golden around the edges, about 5 minutes. Add the Marsala wine and deglaze the bottom of the pan. Add the sun-dried tomatoes and stir to combine. Add enough beef broth to just cover the beef. Bring the stew to a boil over high heat, then reduce the heat to low and simmer, covered, for 40 minutes. Add the butternut squash and add another cup of beef broth. Return to a boil, reduce heat and simmer for another 25 minutes or until the squash is tender. Season the stew with additional salt and pepper to taste.Sprinkle with the chopped parsley. Serve with some good crusty bread."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 136.0,
-                  "protein_g": 6.0,
-                  "carb_g": 15.0,
-                  "fat_g": 6.0,
-                  "fiber_g": 8.0,
-                  "sugar_g": 1.0
+                  "kcal": 693.0,
+                  "protein_g": 43.0,
+                  "carb_g": 48.0,
+                  "fat_g": 32.0,
+                  "fiber_g": 7.0,
+                  "sugar_g": 15.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 91.0,
+                "serving_size_g": 385.0,
                 "protein_density": "medium",
-                "calorie_density": "low",
-                "allergens": [],
-                "alternative_recipe_ids": [
-                  "R061",
-                  "R100",
-                  "R124",
-                  "R150",
-                  "R155",
-                  "R156",
-                  "R193",
-                  "R200"
+                "calorie_density": "medium",
+                "allergens": [
+                  "gluten",
+                  "wheat"
                 ],
-                "fasting_yetsom": true,
-                "injera_accompaniment": true,
-                "image_url": "https://globalkitchentravels.com/wp-content/uploads/2013/01/Azefa-LR-FB.jpg",
-                "notes": "[curated]",
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R013",
+                  "R017",
+                  "R024",
+                  "R025",
+                  "R033",
+                  "R051",
+                  "R061"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/01/Beef-Butternut-Squash-Stew-Recipe-2.jpg",
+                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 230.0
+                }
+              ],
               "target_kcal": 783.0,
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 136.0,
-              "actual_protein_g": 6.0,
-              "actual_carb_g": 15.0,
-              "actual_fat_g": 6.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 136 kcal, P6g/C15g/F6g | Cuisine: ethiopian | Curated"
+              "actual_kcal": 693.0,
+              "actual_protein_g": 43.0,
+              "actual_carb_g": 48.0,
+              "actual_fat_g": 32.0,
+              "notes": "Score: 87.5/100; Scaled to 1.13 servings (1.13x); + 230g White Rice (cooked) (carb filler: +65g C)"
             },
             {
               "meal_type": "dinner",
-              "name": "Vegan California Burger Recipe",
+              "name": "Vegan Buffalo Pizza",
               "recipe": {
-                "name": "Vegan California Burger Recipe",
-                "id": "R068",
-                "source": "https://www.trifectanutrition.com/blog/vegan-california-burger-recipe",
-                "source_file": "trifectanutrition.com__blog-vegan-california-burger-recipe.json",
-                "legacy_id": "R352",
+                "name": "Vegan Buffalo Pizza",
+                "id": "R276",
+                "source": "https://www.thecuriouschickpea.com/buffalo-soy-curl-pizza/",
+                "source_file": "thecuriouschickpea.com__buffalo-soy-curl-pizza.json",
+                "legacy_id": null,
                 "cuisine": "american",
-                "category": "entree",
+                "category": "pizza",
                 "recipe_kind": "meal",
                 "meal_types": [
                   "dinner"
@@ -3800,86 +3944,101 @@
                   "VEGAN"
                 ],
                 "goal_fit": [
-                  "cut",
                   "bulk",
-                  "recomp",
                   "maintenance"
                 ],
-                "servings": 4,
-                "prep_time_min": 10,
-                "cook_time_min": 8,
+                "servings": 3,
+                "prep_time_min": 30,
+                "cook_time_min": 15,
                 "ingredients": [
-                  "4 Beyond Meat burgers",
-                  "4 burger buns",
-                  "1 cup fresh sprouts (alfalfa, broccoli, mung bean, etc).",
-                  "1 head bib lettuce, cleaned and split into individual leaves",
-                  "1 roma tomato, sliced",
-                  "Garlic guacamole",
-                  "Kiwi salsa",
-                  "4 kiwis, peeled and chopped",
-                  "1/4 cup pomegranate seeds",
-                  "1 teaspoon fresh ginger, grated",
-                  "1/2 lime juiced",
-                  "1/4 cup cilantro",
-                  "1 avocado",
-                  "3 cloves garlic",
-                  "1/2 lime, juiced",
-                  "Pinch of sea salt",
-                  "Pinch of smoked paprika"
+                  "2 cups (100g) soy curls",
+                  "boiling hot water",
+                  "6 tbsp (90g) Franks RedHot hot sauce, or a similar hot sauce",
+                  "3 tbsp (35g) vegan butter, melted",
+                  "1/8 tsp granulated garlic",
+                  "1/8 tsp salt",
+                  "2 tsp canola oil",
+                  "3 10oz balls of pizza dough, homemade or store bought",
+                  "Vegan Ranch Dressing (recipe below, or use store bought)",
+                  "Extra virgin olive oil",
+                  "2-3 cloves garlic, minced or pressed",
+                  "7oz vegan mozzarella",
+                  "2-3 scallions, sliced with the white and green parts divided",
+                  "Additional hot sauce"
                 ],
                 "instructions": [
-                  "Prepare the guacamole by removing the seed from the avocado and mashing together with minced garlic, lime, a pinch of salt, and paprika.",
-                  "Prepare the kiwi pomegranate salsa by small dicing the kiwi, then mixing with the pomegranate seeds, cilantro, and minced ginger.",
-                  "Set aside all of your burger toppings: sprouts, lettuce, sliced tomato, guacamole, and salsa.",
-                  "Toast your burger buns in the oven or toaster oven.",
-                  "Grill the Beyond Meat burgers for 3 minutes on each side; if using Trifecta a la carte Beyond burgers, heat for 1-2 minutes on each side.",
-                  "Build your burger and dig in!"
+                  "Place the soy curls in a heat safe bowl, then pour in enough hot water to cover. Let sit at least 15 minutes, or until cool enough to touch, then drain them, squeezing out extra water by hand.",
+                  "In a small mixing bowl whisk together the melted vegan butter, the hot sauce, granulated garlic, and salt to make the buffalo sauce. Set aside.",
+                  "Heat a large skillet over medium heat. Add the two teaspoons of oil and drained soy curls. Saut\u00e9 until the soy curls are lightly browned, about 5-7 minutes. Pour in the buffalo sauce and cook an additional 2-3 minutes until the sauce is absorbed. Remove from the heat and set aside until ready to make the pizza.",
+                  "One hour before you're ready to bake, preheat your oven to 550 \u00baF, or as hot as it will go. Place a rack 1/3 way down from the top of the oven, and place a baking steel or baking stone on that rack if using. You want the oven to saturate with heat for 1 hour before baking pizza for best results.",
+                  "When the oven is nice and hot, prepare your pizzas. Stretch the dough into a 12-inch round and place in a lightly oiled large cast iron skillet. Drizzle a little olive oil over the dough and spread it with your fingers to coat the dough. Top with the minced garlic, then add the vegan mozzarella followed by about 1/3 of the soy curls. Lastly add the sliced white and light green parts of the scallions. Place the entire cast iron skillet on rack, and bake for 8-15 minutes, or until the crust has darkened and turned dark brown or black in spots.",
+                  "Alternatively you can bake the dough straight on a pizza stone or baking steel, just place the dough on a prepared pizza peel, then top the pizza and slide into the oven on the stone or steel and bake for 7-10 minutes.",
+                  "When the pizza is cooked, remove from oven and drizzle some of the chilled ranch over top and extra hot sauce if desired. Then finish with some of the green parts of the scallions. Slice and enjoy while hot!"
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 530.0,
-                  "protein_g": 30.0,
-                  "carb_g": 42.0,
-                  "fat_g": 28.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 6.0
+                  "kcal": 714.0,
+                  "protein_g": 33.0,
+                  "carb_g": 78.0,
+                  "fat_g": 31.0,
+                  "fiber_g": 8.0,
+                  "sugar_g": 9.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 294.0,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [],
+                "serving_size_g": null,
+                "protein_density": "high",
+                "calorie_density": "high",
+                "allergens": [
+                  "dairy",
+                  "soy"
+                ],
                 "alternative_recipe_ids": [
+                  "R013",
                   "R025",
-                  "R107",
+                  "R072",
+                  "R082",
+                  "R086",
+                  "R101",
                   "R162",
-                  "R164",
-                  "R175",
-                  "R198",
-                  "R292",
-                  "R349"
+                  "R304"
                 ],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/VeganCaliforniaBurgerRecipesquare0004.jpg",
-                "notes": "[curated]",
+                "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2017/12/vegan-buffalo-pizza-11-480x480.jpg",
+                "notes": "",
                 "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 145.0
+                }
+              ],
               "target_kcal": 783.0,
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 530.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 42.0,
-              "actual_fat_g": 28.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 530 kcal, P30g/C42g/F28g | Cuisine: american | Curated"
+              "actual_kcal": 714.0,
+              "actual_protein_g": 33.0,
+              "actual_carb_g": 78.0,
+              "actual_fat_g": 31.0,
+              "notes": "Score: 89.2/100; + 145g White Rice (cooked) (carb filler: +41g C)"
             }
           ],
-          "total_kcal": 1685.0,
-          "total_protein_g": 83.0,
-          "total_carb_g": 117.0,
-          "total_fat_g": 99.0
+          "total_kcal": 2043.0,
+          "total_protein_g": 89.6,
+          "total_carb_g": 193.3,
+          "total_fat_g": 97.7
         },
         {
           "day_number": 3,
@@ -3887,242 +4046,202 @@
           "meals": [
             {
               "meal_type": "breakfast",
-              "name": "Chechebsa",
+              "name": "High-Protein French Toast Recipe",
               "recipe": {
-                "name": "Chechebsa",
-                "id": "R003",
-                "source": "https://ethiopian-food.org/chechebsa-recipe/",
-                "source_file": "chechebsa_",
-                "legacy_id": "ETH004",
-                "cuisine": "ethiopian",
-                "category": "",
+                "name": "High-Protein French Toast Recipe",
+                "id": "R339",
+                "source": "https://www.trifectanutrition.com/blog/high-protein-french-toast-recipe",
+                "source_file": "trifectanutrition.com__blog-high-protein-french-toast-recipe.json",
+                "legacy_id": null,
+                "cuisine": "american",
+                "category": "entree, appetizer, breakfast",
                 "recipe_kind": "meal",
                 "meal_types": [
                   "breakfast"
                 ],
                 "diet_types": [
-                  "OMNI_ETHIOPIAN"
+                  "OMNI"
                 ],
                 "goal_fit": [
+                  "cut",
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 1,
-                "prep_time_min": null,
-                "cook_time_min": null,
+                "servings": 6,
+                "prep_time_min": 5,
+                "cook_time_min": 15,
                 "ingredients": [
-                  "1 cup (240 ml / 120g) of all-purpose wheat flour",
-                  "3 tbsp (45 ml / 42g) niter kibbeh (Ethiopian clarified butter)",
-                  "2 tbsp (30 ml / 12g) berbere",
-                  "1 tsp (5 ml / 5g) salt",
-                  "1 cup (240 ml) water"
+                  "6 Slices of high protein bread-like P28 Protein Bread",
+                  "6 tablespoons liquid egg whites",
+                  "2 Whole eggs",
+                  "1/2 cup dairy-free milk",
+                  "1 tablespoon Vanilla Extract",
+                  "2 tablespoons maple syrup",
+                  "1 teaspoon Cinnamon",
+                  "1 teaspoon Ginger",
+                  "3 tablespoons almond butter powder or peanut butter powder"
                 ],
                 "instructions": [
-                  "Making the Kita (Flat Bread)"
+                  "In a shallow dish combine the egg whites, whole egg, dairy-free milk, cinnamon, ginger, almond powder, maple syrup, and vanilla extract to the dish. Mix together ingredients until even.",
+                  "To make this recipe quick and easy, set yourself up with a baking sheet, the shallow dish of batter, and a non-stick skillet. Additionally, you will need a spatula and some non-stick spray.",
+                  "Heat the skillet over medium heat, while it is heating, dip the bread into the batter on both sides and soak for at least 1 minute, ensuring it is heavily saturated with the batter.",
+                  "Spray the pan with nonstick cooking spray and place in the toast, you should hear a gentle sizzle sound; maintain a medium heat throughout the cooking time to ensure your french toast doesn\u2019t burn. Flip the toast when one side is lightly browned and crispy, about 2-3 minutes per side. Then remove from the skillet once each side is golden brown."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 210.0,
-                  "protein_g": 3.0,
-                  "carb_g": 23.0,
-                  "fat_g": 10.5,
-                  "fiber_g": 1.0,
-                  "sugar_g": 0.0
+                  "kcal": 370.0,
+                  "protein_g": 32.0,
+                  "carb_g": 49.0,
+                  "fat_g": 17.0,
+                  "fiber_g": 0.0,
+                  "sugar_g": 6.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 117.0,
-                "protein_density": "low",
+                "serving_size_g": null,
+                "protein_density": "high",
                 "calorie_density": "medium",
                 "allergens": [
                   "dairy",
+                  "eggs",
+                  "gluten",
+                  "nuts",
                   "wheat"
                 ],
-                "alternative_recipe_ids": [],
+                "alternative_recipe_ids": [
+                  "R343"
+                ],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://ethiopian-food.org/wp-content/uploads/1_Chechebsa-1024x576-150x150.jpg",
-                "notes": "[curated]",
-                "_extraction_method": null
+                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20A%20La%20Carte%20Recipe%20Photos/proteinfrenchtoastrecipe.jpg",
+                "notes": "",
+                "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 101.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
               "target_kcal": 671.0,
               "target_protein_g": 32.0,
               "target_carb_g": 102.0,
               "target_fat_g": 15.0,
-              "actual_kcal": 210.0,
-              "actual_protein_g": 3.0,
-              "actual_carb_g": 23.0,
-              "actual_fat_g": 10.5,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 210 kcal, P3g/C23g/F10g | Cuisine: ethiopian | Curated"
+              "actual_kcal": 370.0,
+              "actual_protein_g": 32.0,
+              "actual_carb_g": 49.0,
+              "actual_fat_g": 17.0,
+              "notes": "Score: 60.0/100; Scaled to 1.50 servings (1.50x); + 101g White Rice (cooked) (carb filler: +28g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
-              "name": "Beef and Cabbage Soup",
+              "name": "African Yam Stew",
               "recipe": {
-                "name": "Beef and Cabbage Soup",
-                "id": "R076",
-                "source": "https://www.daringgourmet.com/beef-and-cabbage-soup/",
-                "source_file": "daringgourmet.com__beef-and-cabbage-soup.json",
-                "legacy_id": "R102",
-                "cuisine": "international",
-                "category": "main course",
+                "name": "African Yam Stew",
+                "id": "R162",
+                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/african-yam-stew/",
+                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-african-yam-stew.json",
+                "legacy_id": null,
+                "cuisine": "american",
+                "category": "vegan soups &amp; stew recipes",
                 "recipe_kind": "meal",
                 "meal_types": [
-                  "lunch",
-                  "side"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 6,
-                "prep_time_min": 10,
-                "cook_time_min": 70,
-                "ingredients": [
-                  "1 pound stewing beef (e.g., chuck roast) (, diced)",
-                  "1 tablespoon oil ((I use avocado oil or ghee for high heat cooking))",
-                  "1  large yellow onion (, chopped)",
-                  "3 cloves garlic (, minced)",
-                  "2 tablespoons tomato paste",
-                  "30 ounces canned fire-roasted tomatoes",
-                  "1 tablespoon Worcestershire sauce",
-                  "1 teaspoon onion powder",
-                  "1/2 teaspoon dried thyme",
-                  "2 teaspoons paprika",
-                  "1/2 teaspoon smoked paprika",
-                  "1 teaspoon salt",
-                  "1/2 teaspoon freshly ground black pepper",
-                  "1  bay leaf",
-                  "6 cups good beef broth",
-                  "1  small head green cabbage  (, roughly chopped )",
-                  "1/2 cup packed drained sauerkraut ((you can add more if you prefer))",
-                  "optional:  1/4 cup rice for added bulk",
-                  "fresh chopped parsley for serving"
-                ],
-                "instructions": [
-                  "Heat the oil in a Dutch oven or heavy soup pot over medium-high heat and sear the beef on all sides.  Transfer to a plate.  Add the onions to the pot and cook until soft and translucent, 4-5 minutes.  Add the garlic and cook for another minute.  Stir in the tomato paste, Worcestershire sauce and seasonings.  Return the beef to the pot.  Add fire roasted tomatoes and the broth and bring to a boil.  Reduce the heat, cover and simmer for 45 minutes.  Add the cabbage and sauerkraut (if using rice add it now), return to a simmer, and simmer for another 20 minutes or until the beef and cabbage are tender.  Add salt and pepper to taste.  Discard the bay leaf.Ladle soup into bowls and sprinkle with parsley.  Serve with crusty bread and/or a green salad or a sweet and refreshing Waldorf Salad."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 262.0,
-                  "protein_g": 22.0,
-                  "carb_g": 20.0,
-                  "fat_g": 11.0,
-                  "fiber_g": 6.0,
-                  "sugar_g": 10.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 175.0,
-                "protein_density": "high",
-                "calorie_density": "low",
-                "allergens": [
-                  "dairy"
-                ],
-                "alternative_recipe_ids": [
-                  "R025",
-                  "R036",
-                  "R051",
-                  "R060",
-                  "R065",
-                  "R135",
-                  "R140",
-                  "R141"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2025/02/Beef-and-Cabbage-Soup-Recipe-4.jpg",
-                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 262.0,
-              "actual_protein_g": 22.0,
-              "actual_carb_g": 20.0,
-              "actual_fat_g": 11.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 262 kcal, P22g/C20g/F11g | Cuisine: international | Curated"
-            },
-            {
-              "meal_type": "dinner",
-              "name": "Vegan Beyond Burger Tacos",
-              "recipe": {
-                "name": "Vegan Beyond Burger Tacos",
-                "id": "R066",
-                "source": "https://www.trifectanutrition.com/blog/the-only-vegan-taco-recipe-youll-ever-need",
-                "source_file": "trifectanutrition.com__blog-the-only-vegan-taco-recipe-youll-ever-need.json",
-                "legacy_id": "R349",
-                "cuisine": "mexican, american",
-                "category": "entree",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "dinner"
+                  "dinner",
+                  "lunch"
                 ],
                 "diet_types": [
                   "VEGAN"
                 ],
                 "goal_fit": [
                   "cut",
-                  "recomp",
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 8,
-                "prep_time_min": 8,
-                "cook_time_min": 10,
+                "servings": 6,
+                "prep_time_min": null,
+                "cook_time_min": null,
                 "ingredients": [
-                  "16 ounces Beyond Meat or 4 Trifecta Beyond Meat burgers",
-                  "1 tablespoon avocado oil",
-                  "1/2 cup yellow onion, diced",
-                  "3 garlic cloves, minced",
-                  "1/2 cup vegetable stock",
-                  "8 taco shells, hard or soft",
-                  "1/2 cup pico de gallo",
-                  "1 avocado",
-                  "1/4 cup cilantro, chopped",
-                  "1 lime, cut into wedges",
-                  "4 tablespoons smoked paprika",
-                  "3 tablespoons chili powder",
-                  "2 tablespoons onion powder",
-                  "2 teaspoons black pepper",
-                  "1 teaspoon coriander",
-                  "1 teaspoon allspice",
-                  "1 tablespoon oregano"
+                  "\u00bd cup water",
+                  "1 onion, chopped",
+                  "1-2 tablespoon(s) Anaheim or jalapeno pepper, minced",
+                  "1 tablespoon ginger, ground",
+                  "1 tablespoon garlic granules",
+                  "2 teaspoons cumin, ground",
+                  "2 teaspoons coriander, ground",
+                  "\u00bc teaspoon crushed red pepper",
+                  "6 yams, peeled and chopped",
+                  "2 cups vegetable broth",
+                  "24 ounces tomatoes, chopped",
+                  "14 ounces garbanzo beans, drained and rinsed",
+                  "14 ounces black eyed peas, drained and rinsed",
+                  "\u00bd cup almond or peanut butter, unsweetened",
+                  "1\u00bd cup corn",
+                  "6 cups collards, chopped"
                 ],
                 "instructions": [
-                  "Blend your taco seasoning by whisking together the spices until evenly combined.",
-                  "To prepare your taco filling first place your skillet over medium-high heat. Add in the oil, and saute the minced onion and garlic for 3 minutes until they begin to brown. Add your beyond meat and cook for 4 minutes then mix in 2-3 tablespoons taco spice and continue to cook until meat is golden brown.",
-                  "Add 1/2 cup vegetable stock and saute meat and spices for 1-2 minutes until the stock has been reduced by half.",
-                  "To prepare your taco toppings, rinse the cilantro and roughly chop then set aside in a small bowl. Slice the lime into wedges and set aside as well.",
-                  "Now you're ready to plate your tacos or package it up to enjoy later on!"
+                  "In a large pot, saut\u00e9 onion and pepper with water for 5 minutes or until onions are translucent, stirring occasionally",
+                  "Add ginger, garlic, cumin, coriander and red pepper.",
+                  "Cook and stir for 1 minute.",
+                  "Mix in yams, vegetable broth, tomatoes, beans and nut butter.",
+                  "Bring to a boil, reduce heat and simmer for 20 minutes.",
+                  "Stir in corn and collards and cook for about 10 more minutes, until yams and greens are tender.",
+                  "Serve over brown rice or other whole grain."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 500.0,
-                  "protein_g": 30.0,
-                  "carb_g": 38.0,
-                  "fat_g": 24.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 2.0
+                  "kcal": 593.0,
+                  "protein_g": 29.5,
+                  "carb_g": 115.3,
+                  "fat_g": 13.4,
+                  "fiber_g": 32.4,
+                  "sugar_g": 13.1
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 278.0,
-                "protein_density": "medium",
+                "serving_size_g": null,
+                "protein_density": "high",
                 "calorie_density": "medium",
-                "allergens": [],
+                "allergens": [
+                  "corn",
+                  "dairy",
+                  "nuts"
+                ],
                 "alternative_recipe_ids": [
-                  "R003",
-                  "R029",
-                  "R107",
-                  "R164",
-                  "R175",
-                  "R195",
-                  "R198",
-                  "R292"
+                  "R012",
+                  "R017",
+                  "R025",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R072",
+                  "R088"
                 ],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/vegan-taco-recipe-002.jpg",
-                "notes": "[curated]",
+                "image_url": "https://www.forksoverknives.com/uploads/African-Yam-Stew-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
+                "notes": "",
                 "_extraction_method": "jsonld"
               },
               "foods": [],
@@ -4130,17 +4249,137 @@
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 500.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 38.0,
-              "actual_fat_g": 24.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 500 kcal, P30g/C38g/F24g | Cuisine: mexican, american | Curated"
+              "actual_kcal": 593.0,
+              "actual_protein_g": 29.5,
+              "actual_carb_g": 115.3,
+              "actual_fat_g": 13.4,
+              "notes": "Score: 87.0/100; Scaled to 1.32 servings (1.32x)"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Doro Wat (Ethiopian Spiced Chicken)",
+              "recipe": {
+                "name": "Doro Wat (Ethiopian Spiced Chicken)",
+                "id": "R030",
+                "source": "https://www.daringgourmet.com/doro-wat-spicy-ethiopian-chicken-stew/comment-page-14/",
+                "source_file": "daringgourmet.com__doro-wat-spicy-ethiopian-chicken-stew-comment-page-14.json",
+                "legacy_id": "R113",
+                "cuisine": "african, ethiopian",
+                "category": "main course",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner"
+                ],
+                "diet_types": [
+                  "OMNI_ETHIOPIAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "recomp",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 10,
+                "cook_time_min": 150,
+                "ingredients": [
+                  "3 lbs chicken thighs (, cut into 1 inch pieces, or 3 chicken breasts, cut into 1/2 inch pieces)",
+                  "2 tablespoons fresh lemon juice",
+                  "2 tablespoons niter kibbeh",
+                  "2 tablespoons extra virgin olive oil",
+                  "3 cups chopped yellow onions",
+                  "3 tablespoons butter",
+                  "1 tablespoon finely minced garlic",
+                  "1 tablespoon finely minced ginger",
+                  "1/4 cup Ethiopian berbere",
+                  "or use HOMEMADE BERBERE ((HIGHLY recommended!))",
+                  "1 1/2 teaspoons salt",
+                  "1/2 cup Tej (Ethiopian honey wine) ((alternatively you can substitute white wine mixed with 1 teaspoon honey))",
+                  "1 cup chicken stock",
+                  "4  hard-boiled eggs (, pierced all over with fork about 1/4 inch deep)"
+                ],
+                "instructions": [
+                  "Place the onions in a food processor and finely mince them to a chunky puree.  Set aside.Place the chicken pieces in a bowl and pour lemon juice over. Let sit at room temperature for at least 30 minutes.",
+                  "Heat the niter kibbeh or butter along with the olive oil in a Dutch oven or heavy pot. Add the onions and saute, covered, over low heat for 45 minutes, stirring occasionally.Add the garlic, ginger, and 1 tablespoon butter and continue to saute, covered, for another 20 minutes, stirring occasionally.  Add the berbere and the 2 remaining tablespoons of butter and saute, covered, over low heat for another 30 minutes, stirring occasionally.Add the chicken, broth, salt and wine and bring to a boil. Reduce the heat to low, cover, and simmer for 45 minutes, stirring occasionally.Adjust the seasonings, adding more berbere according to heat preference. Add the boiled eggs and simmer on low heat, covered, for another 15 minutes.",
+                  "Half or quarter the eggs and arrange on the plates with the stew.  Serve hot with injera, bread or rice."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 647.0,
+                  "protein_g": 43.0,
+                  "carb_g": 11.0,
+                  "fat_g": 53.0,
+                  "fiber_g": 1.0,
+                  "sugar_g": 5.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 359.0,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "dairy"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R088",
+                  "R101",
+                  "R112"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": true,
+                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/08/Doro-Wat-5_edited.jpg",
+                "notes": "[curated]",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 375.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 647.0,
+              "actual_protein_g": 43.0,
+              "actual_carb_g": 11.0,
+              "actual_fat_g": 53.0,
+              "notes": "Score: 83.4/100; Scaled to 1.21 servings (1.21x); + 375g White Rice (cooked) (carb filler: +106g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 972.0,
-          "total_protein_g": 55.0,
-          "total_carb_g": 81.0,
-          "total_fat_g": 45.5
+          "total_kcal": 1610.0,
+          "total_protein_g": 104.5,
+          "total_carb_g": 175.3,
+          "total_fat_g": 83.4
         },
         {
           "day_number": 4,
@@ -4148,838 +4387,13 @@
           "meals": [
             {
               "meal_type": "breakfast",
-              "name": "Cheese Grits Recipe + Video",
-              "recipe": {
-                "name": "Cheese Grits Recipe + Video",
-                "id": "R004",
-                "source": "https://www.aspicyperspective.com/the-creamiest-cheese-grits/",
-                "source_file": "aspicyperspective.com__the-creamiest-cheese-grits.json",
-                "legacy_id": "R057",
-                "cuisine": "american, southern",
-                "category": "breakfast, main, main course, side dish",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "breakfast",
-                  "side"
-                ],
-                "diet_types": [
-                  "OMNI"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 6,
-                "prep_time_min": 5,
-                "cook_time_min": 20,
-                "ingredients": [
-                  "3 cups milk (2% or whole)",
-                  "2 cups water",
-                  "1 \u00bc cups old fashioned corn grits ((coarse white cornmeal_)",
-                  "2 teaspoons salt",
-                  "1 teaspoon garlic powder",
-                  "\u00bc teaspoon cayenne pepper",
-                  "\u00bc teaspoon smoked paprika",
-                  "6 tablespoons butter",
-                  "1 \u00bd cups shredded sharp cheddar cheese ((or I like half cheddar and half pepper jack))"
-                ],
-                "instructions": [
-                  "Mix the milk, water, salt, garlic powder, cayenne pepper, and paprika in a large 6 quart sauce pot. Set over medium-high heat and bring to a boil.",
-                  "Once boiling, whisk in the grits, until there are no clumps. Lower the heat to medium-low. Cover and simmer for 12-20 minutes, (depending on the package instructions) stirring occasionally.",
-                  "Once the grits seem soft and thick, stir in the butter and shredded cheese. Taste, then season as needed.",
-                  "If the grits are thicker than desired, stir in another \u00bc - \u00be cup water. They will continue to thicken as they cool."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 411.0,
-                  "protein_g": 14.0,
-                  "carb_g": 33.0,
-                  "fat_g": 25.0,
-                  "fiber_g": 1.0,
-                  "sugar_g": 7.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 228.0,
-                "protein_density": "low",
-                "calorie_density": "medium",
-                "allergens": [
-                  "corn",
-                  "dairy"
-                ],
-                "alternative_recipe_ids": [
-                  "R007",
-                  "R010",
-                  "R038",
-                  "R047",
-                  "R131",
-                  "R223",
-                  "R335",
-                  "R343"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2020/06/cheese-grits-18.jpg",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 671.0,
-              "target_protein_g": 32.0,
-              "target_carb_g": 102.0,
-              "target_fat_g": 15.0,
-              "actual_kcal": 411.0,
-              "actual_protein_g": 14.0,
-              "actual_carb_g": 33.0,
-              "actual_fat_g": 25.0,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 411 kcal, P14g/C33g/F25g | Cuisine: american, southern | Curated"
-            },
-            {
-              "meal_type": "lunch",
-              "name": "Belizean Escabeche Soup Recipe",
-              "recipe": {
-                "name": "Belizean Escabeche Soup Recipe",
-                "id": "R077",
-                "source": "https://boondockingrecipes.com/belizean-escabeche-soup-recipe/",
-                "source_file": "boondockingrecipes.com__belizean-escabeche-soup-recipe.json",
-                "legacy_id": "R065",
-                "cuisine": "belizean",
-                "category": "soup",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "lunch"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "cut",
-                  "maintenance"
-                ],
-                "servings": 8,
-                "prep_time_min": 10,
-                "cook_time_min": 30,
-                "ingredients": [
-                  "2 pounds chicken (cut into pieces)",
-                  "1  onion (sliced)",
-                  "3 cloves garlic (minced)",
-                  "1  bell pepper (sliced)",
-                  "2  carrots (sliced)",
-                  "1  tomato (chopped)",
-                  "1 tablespoon fresh thyme leaves",
-                  "2  bay leaves",
-                  "4 cups chicken broth",
-                  "1 cup vinegar",
-                  "1 cup water",
-                  "2 tablespoons vegetable oil",
-                  "Salt and pepper to taste",
-                  "Hot sauce (optional)",
-                  "Corn tortillas or bread (for serving)"
-                ],
-                "instructions": [
-                  "Heat the vegetable oil in a large pot or Dutch oven over medium heat.",
-                  "Add the chicken pieces to the pot and cook until browned on all sides. Remove the chicken from the pot and set aside.",
-                  "3.In the same pot, add the onion, garlic, bell pepper, and carrots. Saut\u00e9 for about 5 minutes, or until the vegetables start to soften.",
-                  "Add the chopped tomato, thyme leaves, and bay leaves to the pot. Cook for another 2 minutes.",
-                  "Return the chicken to the pot and pour in the chicken broth, vinegar, and water. Season with salt and pepper to taste. If you like it spicy, add some hot sauce according to your preference.",
-                  "Bring the soup to a boil, then reduce the heat to low. Cover the pot and simmer for about 45 minutes to 1 hour, or until the chicken is cooked through and tender.",
-                  "Once the soup is ready, remove the bay leaves and discard them.",
-                  "Serve the Belizean Escabeche Soup hot with corn tortillas or bread on the side."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 247.0,
-                  "protein_g": 36.0,
-                  "carb_g": 6.0,
-                  "fat_g": 8.0,
-                  "fiber_g": 1.0,
-                  "sugar_g": 3.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 165.0,
-                "protein_density": "high",
-                "calorie_density": "low",
-                "allergens": [
-                  "corn",
-                  "gluten",
-                  "wheat"
-                ],
-                "alternative_recipe_ids": [
-                  "R051",
-                  "R102",
-                  "R116",
-                  "R165",
-                  "R242",
-                  "R244",
-                  "R245",
-                  "R341"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://boondockingrecipes.com/wp-content/uploads/2026/05/Belizean-Escabeche-Soup-Recipe-3.png",
-                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 247.0,
-              "actual_protein_g": 36.0,
-              "actual_carb_g": 6.0,
-              "actual_fat_g": 8.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 247 kcal, P36g/C6g/F8g | Cuisine: belizean | Curated"
-            },
-            {
-              "meal_type": "dinner",
-              "name": "Vegan California Burger Recipe",
-              "recipe": {
-                "name": "Vegan California Burger Recipe",
-                "id": "R068",
-                "source": "https://www.trifectanutrition.com/blog/vegan-california-burger-recipe",
-                "source_file": "trifectanutrition.com__blog-vegan-california-burger-recipe.json",
-                "legacy_id": "R352",
-                "cuisine": "american",
-                "category": "entree",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "dinner"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "cut",
-                  "bulk",
-                  "recomp",
-                  "maintenance"
-                ],
-                "servings": 4,
-                "prep_time_min": 10,
-                "cook_time_min": 8,
-                "ingredients": [
-                  "4 Beyond Meat burgers",
-                  "4 burger buns",
-                  "1 cup fresh sprouts (alfalfa, broccoli, mung bean, etc).",
-                  "1 head bib lettuce, cleaned and split into individual leaves",
-                  "1 roma tomato, sliced",
-                  "Garlic guacamole",
-                  "Kiwi salsa",
-                  "4 kiwis, peeled and chopped",
-                  "1/4 cup pomegranate seeds",
-                  "1 teaspoon fresh ginger, grated",
-                  "1/2 lime juiced",
-                  "1/4 cup cilantro",
-                  "1 avocado",
-                  "3 cloves garlic",
-                  "1/2 lime, juiced",
-                  "Pinch of sea salt",
-                  "Pinch of smoked paprika"
-                ],
-                "instructions": [
-                  "Prepare the guacamole by removing the seed from the avocado and mashing together with minced garlic, lime, a pinch of salt, and paprika.",
-                  "Prepare the kiwi pomegranate salsa by small dicing the kiwi, then mixing with the pomegranate seeds, cilantro, and minced ginger.",
-                  "Set aside all of your burger toppings: sprouts, lettuce, sliced tomato, guacamole, and salsa.",
-                  "Toast your burger buns in the oven or toaster oven.",
-                  "Grill the Beyond Meat burgers for 3 minutes on each side; if using Trifecta a la carte Beyond burgers, heat for 1-2 minutes on each side.",
-                  "Build your burger and dig in!"
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 530.0,
-                  "protein_g": 30.0,
-                  "carb_g": 42.0,
-                  "fat_g": 28.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 6.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 294.0,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [],
-                "alternative_recipe_ids": [
-                  "R025",
-                  "R107",
-                  "R162",
-                  "R164",
-                  "R175",
-                  "R198",
-                  "R292",
-                  "R349"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/VeganCaliforniaBurgerRecipesquare0004.jpg",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 530.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 42.0,
-              "actual_fat_g": 28.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 530 kcal, P30g/C42g/F28g | Cuisine: american | Curated"
-            }
-          ],
-          "total_kcal": 1188.0,
-          "total_protein_g": 80.0,
-          "total_carb_g": 81.0,
-          "total_fat_g": 61.0
-        },
-        {
-          "day_number": 5,
-          "day_name": "Day 5",
-          "meals": [
-            {
-              "meal_type": "breakfast",
-              "name": "Cured Salmon Gravlax",
-              "recipe": {
-                "name": "Cured Salmon Gravlax",
-                "id": "R005",
-                "source": "https://www.daringgourmet.com/cured-salmon-gravlax-recipe/",
-                "source_file": "daringgourmet.com__cured-salmon-gravlax-recipe.json",
-                "legacy_id": "R111",
-                "cuisine": "nordic, scandinavian, swedish",
-                "category": "appetizer, breakfast, brunch",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "breakfast"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 8,
-                "prep_time_min": 10,
-                "cook_time_min": null,
-                "ingredients": [
-                  "2 pounds side of salmon, skin on",
-                  "1 cup coarse kosher salt",
-                  "1 cup granulated sugar",
-                  "1 tablespoon crushed peppercorns ((black or combination of black and white))",
-                  "2 teaspoons coriander",
-                  "1-2 teaspoons red pepper flakes (, optional if you like spicy gravlax)",
-                  "1  large bunch dill (, roughly chopped or left whole)",
-                  "zest of one lemon",
-                  "optional seasonings: fennel fronds or crushed fennel seed, juniper berries, splash of aquavit"
-                ],
-                "instructions": [
-                  "In a small bowl, combine the salt, sugar, crushed peppercorns, coriander and lemon zest. Cut the salmon in half. Sprinkle half of the salt mixture over the skin side of the salmon. Sprinkle the other half on the tops of the salmon. Lay one piece of the salmon, skin side down, on a large piece of plastic wrap. Lay the dill on top of the salmon.Take the other piece of salmon and lay it on top of the salmon, skin side up, so the two fleshy sides are touching each other.Tightly wrap the salmon in plastic wrap.",
-                  "Place it in a baking dish or something with sides so that the liquid can\u2019t leak out. Put something heavy on top of the salmon. Place the salmon in the refrigerator to cure.  Flip the salmon over at least twice during the curing time to redistribute the seasonings and developing juices. (Alternatively, instead of stacking the two fillets, you can lay them side by side, skin down, or leave the salmon whole.  I like the space-saving compactness of the former method.) Let it cure for anywhere between 36 to 48 hours (I like the flavor and texture of a full 48 hour cure. It also keeps longer because it is cured longer.  Experiment and see what you prefer.).",
-                  "Remove the plastic and thoroughly rinse the salmon with cold water. Pat it dry with paper towels.Use a very sharp knife and slice the gravlax very thinly against the grain. Avoid cutting through the skin, it is not eaten.Store the cured salmon in the fridge, tightly wrapped, where it will keep for up to a week, potentially 10 days (monitor for signs of &quot;off&quot; odors).  Gravlax can also be frozen for up 2 months, though the longer it is frozen its texture will change. Thaw in the fridge before serving."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 131.0,
-                  "protein_g": 11.0,
-                  "carb_g": 13.0,
-                  "fat_g": 4.0,
-                  "fiber_g": 0.3,
-                  "sugar_g": 12.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 73.0,
-                "protein_density": "high",
-                "calorie_density": "medium",
-                "allergens": [
-                  "fish"
-                ],
-                "alternative_recipe_ids": [
-                  "R135",
-                  "R142",
-                  "R143",
-                  "R144",
-                  "R146",
-                  "R189",
-                  "R324"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2025/03/Gravlax-Recipe-11.jpg",
-                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 671.0,
-              "target_protein_g": 32.0,
-              "target_carb_g": 102.0,
-              "target_fat_g": 15.0,
-              "actual_kcal": 131.0,
-              "actual_protein_g": 11.0,
-              "actual_carb_g": 13.0,
-              "actual_fat_g": 4.0,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 131 kcal, P11g/C13g/F4g | Cuisine: nordic, scandinavian, swedish | Curated"
-            },
-            {
-              "meal_type": "lunch",
-              "name": "Chopped Brisket Recipe",
-              "recipe": {
-                "name": "Chopped Brisket Recipe",
-                "id": "R078",
-                "source": "https://www.aspicyperspective.com/crock-pot-brisket-sandwiches-texas-bbq-beef/",
-                "source_file": "aspicyperspective.com__crock-pot-brisket-sandwiches-texas-bbq-beef.json",
-                "legacy_id": "R024",
-                "cuisine": "american",
-                "category": "main course, sandwiches",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "lunch"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "bulk",
-                  "recomp",
-                  "maintenance"
-                ],
-                "servings": 8,
-                "prep_time_min": 15,
-                "cook_time_min": 450,
-                "ingredients": [
-                  "4-4.5 pounds beef brisket",
-                  "3 tablespoons brown sugar",
-                  "2 tablespoons smoked paprika ((or sweet paprika + 2 tsp liquid smoke))",
-                  "1 tablespoon salt",
-                  "1 1/2 teaspoons ground cumin",
-                  "1 teaspoon  cayenne pepper",
-                  "1 teaspoon garlic powder",
-                  "1/2 teaspoon onion powder",
-                  "1/2 teaspoon  black pepper",
-                  "18 ounces spicy bbq sauce ((Texas-style))",
-                  "8  sandwich rolls ((I used brioche buns.))",
-                  "1 cup sliced dill pickles"
-                ],
-                "instructions": [
-                  "In a small bowl, mix the brown sugar, paprika, salt, and all spices together. Rub the spice blend over the entire surface of the brisket.",
-                  "Set out a large 6-8 quart slow cooker. Place the brisket in the slow cooker, cover, and set on high for 6-7 hours, or on low for 11-13 hours.",
-                  "Once the brisket is fork-tender (shreddable) place it on a cutting board and slice it into thin strips, against the grain. Then chop the brisket strips into fine pieces.",
-                  "Move the chopped beef brisket back into the slow cooker. Add the spicy bbq sauce to the slow cooker, and stir the chopped beef, juices, and bbq sauce together.",
-                  "Cover and slow cook until ready to serve. *Give it at least 30 minutes, but the longer the beef cooks in the sauce the better.",
-                  "When ready to serve, scoop the chopped beef onto the buns and top with pickles."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 657.0,
-                  "protein_g": 54.0,
-                  "carb_g": 63.0,
-                  "fat_g": 20.0,
-                  "fiber_g": 3.0,
-                  "sugar_g": 27.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 438.0,
-                "protein_density": "high",
-                "calorie_density": "medium",
-                "allergens": [],
-                "alternative_recipe_ids": [
-                  "R101",
-                  "R148"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2020/01/Crock-Pot-Brisket-Sandwiches-Texas-BBQ-Beef-20.jpg",
-                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 657.0,
-              "actual_protein_g": 54.0,
-              "actual_carb_g": 63.0,
-              "actual_fat_g": 20.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 657 kcal, P54g/C63g/F20g | Cuisine: american | Curated"
-            },
-            {
-              "meal_type": "dinner",
-              "name": "Vegan Beyond Burger Tacos",
-              "recipe": {
-                "name": "Vegan Beyond Burger Tacos",
-                "id": "R066",
-                "source": "https://www.trifectanutrition.com/blog/the-only-vegan-taco-recipe-youll-ever-need",
-                "source_file": "trifectanutrition.com__blog-the-only-vegan-taco-recipe-youll-ever-need.json",
-                "legacy_id": "R349",
-                "cuisine": "mexican, american",
-                "category": "entree",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "dinner"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "cut",
-                  "recomp",
-                  "maintenance"
-                ],
-                "servings": 8,
-                "prep_time_min": 8,
-                "cook_time_min": 10,
-                "ingredients": [
-                  "16 ounces Beyond Meat or 4 Trifecta Beyond Meat burgers",
-                  "1 tablespoon avocado oil",
-                  "1/2 cup yellow onion, diced",
-                  "3 garlic cloves, minced",
-                  "1/2 cup vegetable stock",
-                  "8 taco shells, hard or soft",
-                  "1/2 cup pico de gallo",
-                  "1 avocado",
-                  "1/4 cup cilantro, chopped",
-                  "1 lime, cut into wedges",
-                  "4 tablespoons smoked paprika",
-                  "3 tablespoons chili powder",
-                  "2 tablespoons onion powder",
-                  "2 teaspoons black pepper",
-                  "1 teaspoon coriander",
-                  "1 teaspoon allspice",
-                  "1 tablespoon oregano"
-                ],
-                "instructions": [
-                  "Blend your taco seasoning by whisking together the spices until evenly combined.",
-                  "To prepare your taco filling first place your skillet over medium-high heat. Add in the oil, and saute the minced onion and garlic for 3 minutes until they begin to brown. Add your beyond meat and cook for 4 minutes then mix in 2-3 tablespoons taco spice and continue to cook until meat is golden brown.",
-                  "Add 1/2 cup vegetable stock and saute meat and spices for 1-2 minutes until the stock has been reduced by half.",
-                  "To prepare your taco toppings, rinse the cilantro and roughly chop then set aside in a small bowl. Slice the lime into wedges and set aside as well.",
-                  "Now you're ready to plate your tacos or package it up to enjoy later on!"
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 500.0,
-                  "protein_g": 30.0,
-                  "carb_g": 38.0,
-                  "fat_g": 24.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 2.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 278.0,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [],
-                "alternative_recipe_ids": [
-                  "R003",
-                  "R029",
-                  "R107",
-                  "R164",
-                  "R175",
-                  "R195",
-                  "R198",
-                  "R292"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/vegan-taco-recipe-002.jpg",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 500.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 38.0,
-              "actual_fat_g": 24.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 500 kcal, P30g/C38g/F24g | Cuisine: mexican, american | Curated"
-            }
-          ],
-          "total_kcal": 1288.0,
-          "total_protein_g": 95.0,
-          "total_carb_g": 114.0,
-          "total_fat_g": 48.0
-        },
-        {
-          "day_number": 6,
-          "day_name": "Day 6",
-          "meals": [
-            {
-              "meal_type": "breakfast",
-              "name": "Enkulal Firfir",
-              "recipe": {
-                "name": "Enkulal Firfir",
-                "id": "R006",
-                "source": "https://ethiopian-food.org/enkulal-firfir-recipe/",
-                "source_file": "enkulal_firfir_",
-                "legacy_id": "ETH006",
-                "cuisine": "ethiopian",
-                "category": "",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "breakfast"
-                ],
-                "diet_types": [
-                  "OMNI_ETHIOPIAN"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 1,
-                "prep_time_min": null,
-                "cook_time_min": null,
-                "ingredients": [
-                  "2 eggs",
-                  "3 tbsp (45 ml / 45g) tomato, finely chopped",
-                  "3 tbsp (45 ml / 45g) onions, finely chopped",
-                  "3 tbsp (45 ml / 15g) jalape\u00f1o pepper, finely chopped",
-                  "\u00bd tbsp (7.5 ml / 3g) berbere",
-                  "\u00bc tbsp (3.75 ml / 1g) cardamom",
-                  "1 tbsp (15 ml / 14g) niter kibbeh (Ethiopian clarified butter)"
-                ],
-                "instructions": [
-                  "Start by melting the niter kibbeh in a skillet. Then add the finely chopped tomatoes, onions, and jalape\u00f1o peppers into the skillet and cook them for a few minutes, until they start getting soft.",
-                  "Add berbere to the mix and stir. Let the mixture heat up for 1 or 2 min.",
-                  "In the end, add the 2 eggs into the skillet. You don't need to scramble the eggs. Just add them to the mix and stir up the mixture some more.",
-                  "When it's done, serve the Enkulal Firfir with injera and enjoy!"
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 240.0,
-                  "protein_g": 14.0,
-                  "carb_g": 5.0,
-                  "fat_g": 18.0,
-                  "fiber_g": 1.0,
-                  "sugar_g": 0.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 133.0,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [
-                  "dairy",
-                  "eggs"
-                ],
-                "alternative_recipe_ids": [],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://ethiopian-food.org/wp-content/uploads/Enkulal-Tibs-1-1-150x150.jpg",
-                "notes": "[curated]",
-                "_extraction_method": null
-              },
-              "foods": [],
-              "target_kcal": 671.0,
-              "target_protein_g": 32.0,
-              "target_carb_g": 102.0,
-              "target_fat_g": 15.0,
-              "actual_kcal": 240.0,
-              "actual_protein_g": 14.0,
-              "actual_carb_g": 5.0,
-              "actual_fat_g": 18.0,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 240 kcal, P14g/C5g/F18g | Cuisine: ethiopian | Curated"
-            },
-            {
-              "meal_type": "lunch",
-              "name": "Creamy Chicken Tortilla Soup",
-              "recipe": {
-                "name": "Creamy Chicken Tortilla Soup",
-                "id": "R079",
-                "source": "https://www.daringgourmet.com/creamy-chicken-tortilla-soup/",
-                "source_file": "daringgourmet.com__creamy-chicken-tortilla-soup.json",
-                "legacy_id": "R109",
-                "cuisine": "mexican",
-                "category": "main course, soup",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "lunch"
-                ],
-                "diet_types": [
-                  "OMNI"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 4,
-                "prep_time_min": 15,
-                "cook_time_min": 25,
-                "ingredients": [
-                  "Shredded chicken from 1 large chicken breast ((1-1 1/2 pounds))",
-                  "2 tablespoons butter",
-                  "1  small yellow onions (,chopped)",
-                  "1 clove garlic (,minced)",
-                  "2 tablespoons masa harina",
-                  "2 tablespoons all-purpose flour",
-                  "2 cups good quality chicken broth",
-                  "1  12 oz can evaporated milk",
-                  "1 1/4 cup salsa",
-                  "1  15 oz can whole kernel corn",
-                  "1  15 oz can black beans (drained and rinsed to prevent soup discoloration)",
-                  "1 teaspoon cumin",
-                  "1 1/2 teaspoons ancho chili powder",
-                  "or Best Homemade Chili Powder ((recommended))",
-                  "1 1/2 teaspoon salt",
-                  "1/4  freshly ground black pepper",
-                  "1 1/2 cups shredded cheddar cheese",
-                  "1/2 cup sour cream",
-                  "1/4 cup fresh cilantro (,chopped)",
-                  "sour cream, shredded cheddar cheese, cilantro and tortilla chips for serving"
-                ],
-                "instructions": [
-                  "Heat the butter in a Dutch oven over medium-high heat and saute the onion until tender, about 7 minutes. Add the garlic and saute for another minute.",
-                  "Add the masa harina and flour and stir to combine. Cook for 1 minute. Gradually add the broth, whisking constantly to prevent clumping. Add the evaporated milk and simmer until slightly thickened.",
-                  "Add the shredded chicken, salsa, corn, beans, and all the spices. Stir to combine, bring to a boil, reduce the heat to low, cover and simmer for 15 minutes, stirring frequently. Add the shredded cheese, sour cream, and cilantro, stir to combine and warm through for another minute. Add salt and pepper to taste.",
-                  "Serve hot topped with sour cream, shredded cheddar cheese, chopped fresh cilantro and crumbled tortilla chips.",
-                  "Note: Leftovers will be thicker when reheated. Add some extra chicken broth or milk accordingly."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 483.375,
-                  "protein_g": 19.349999999999998,
-                  "carb_g": 31.8,
-                  "fat_g": 32.6625,
-                  "fiber_g": 0.0,
-                  "sugar_g": 0.0
-                },
-                "nutrition_source": "estimated",
-                "serving_size_g": 322.0,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [
-                  "corn",
-                  "dairy",
-                  "gluten",
-                  "wheat"
-                ],
-                "alternative_recipe_ids": [
-                  "R010",
-                  "R012",
-                  "R017",
-                  "R023",
-                  "R211",
-                  "R223",
-                  "R224",
-                  "R249"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/09/Chicken-Tortilla-Soup-2.jpg",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 483.375,
-              "actual_protein_g": 19.349999999999998,
-              "actual_carb_g": 31.8,
-              "actual_fat_g": 32.6625,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 483 kcal, P19g/C32g/F33g | Cuisine: mexican | Curated"
-            },
-            {
-              "meal_type": "dinner",
-              "name": "Vegan California Burger Recipe",
-              "recipe": {
-                "name": "Vegan California Burger Recipe",
-                "id": "R068",
-                "source": "https://www.trifectanutrition.com/blog/vegan-california-burger-recipe",
-                "source_file": "trifectanutrition.com__blog-vegan-california-burger-recipe.json",
-                "legacy_id": "R352",
-                "cuisine": "american",
-                "category": "entree",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "dinner"
-                ],
-                "diet_types": [
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "cut",
-                  "bulk",
-                  "recomp",
-                  "maintenance"
-                ],
-                "servings": 4,
-                "prep_time_min": 10,
-                "cook_time_min": 8,
-                "ingredients": [
-                  "4 Beyond Meat burgers",
-                  "4 burger buns",
-                  "1 cup fresh sprouts (alfalfa, broccoli, mung bean, etc).",
-                  "1 head bib lettuce, cleaned and split into individual leaves",
-                  "1 roma tomato, sliced",
-                  "Garlic guacamole",
-                  "Kiwi salsa",
-                  "4 kiwis, peeled and chopped",
-                  "1/4 cup pomegranate seeds",
-                  "1 teaspoon fresh ginger, grated",
-                  "1/2 lime juiced",
-                  "1/4 cup cilantro",
-                  "1 avocado",
-                  "3 cloves garlic",
-                  "1/2 lime, juiced",
-                  "Pinch of sea salt",
-                  "Pinch of smoked paprika"
-                ],
-                "instructions": [
-                  "Prepare the guacamole by removing the seed from the avocado and mashing together with minced garlic, lime, a pinch of salt, and paprika.",
-                  "Prepare the kiwi pomegranate salsa by small dicing the kiwi, then mixing with the pomegranate seeds, cilantro, and minced ginger.",
-                  "Set aside all of your burger toppings: sprouts, lettuce, sliced tomato, guacamole, and salsa.",
-                  "Toast your burger buns in the oven or toaster oven.",
-                  "Grill the Beyond Meat burgers for 3 minutes on each side; if using Trifecta a la carte Beyond burgers, heat for 1-2 minutes on each side.",
-                  "Build your burger and dig in!"
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 530.0,
-                  "protein_g": 30.0,
-                  "carb_g": 42.0,
-                  "fat_g": 28.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 6.0
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 294.0,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [],
-                "alternative_recipe_ids": [
-                  "R025",
-                  "R107",
-                  "R162",
-                  "R164",
-                  "R175",
-                  "R198",
-                  "R292",
-                  "R349"
-                ],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/VeganCaliforniaBurgerRecipesquare0004.jpg",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
-              },
-              "foods": [],
-              "target_kcal": 783.0,
-              "target_protein_g": 38.0,
-              "target_carb_g": 119.0,
-              "target_fat_g": 18.0,
-              "actual_kcal": 530.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 42.0,
-              "actual_fat_g": 28.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 530 kcal, P30g/C42g/F28g | Cuisine: american | Curated"
-            }
-          ],
-          "total_kcal": 1253.375,
-          "total_protein_g": 63.349999999999994,
-          "total_carb_g": 78.8,
-          "total_fat_g": 78.6625
-        },
-        {
-          "day_number": 7,
-          "day_name": "Day 7",
-          "meals": [
-            {
-              "meal_type": "breakfast",
               "name": "Gluten-Free Crepes",
               "recipe": {
                 "name": "Gluten-Free Crepes",
-                "id": "R007",
+                "id": "R145",
                 "source": "https://www.forksoverknives.com/recipes/vegan-breakfast/gluten-free-crepes/",
                 "source_file": "forksoverknives.com__recipes-vegan-breakfast-gluten-free-crepes.json",
-                "legacy_id": "R145",
+                "legacy_id": null,
                 "cuisine": "french",
                 "category": "vegan breakfast recipes",
                 "recipe_kind": "meal",
@@ -4990,7 +4404,8 @@
                   "VEGAN"
                 ],
                 "goal_fit": [
-                  "bulk",
+                  "cut",
+                  "recomp",
                   "maintenance"
                 ],
                 "servings": 8,
@@ -5019,8 +4434,8 @@
                   "sugar_g": 9.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 208.0,
-                "protein_density": "low",
+                "serving_size_g": null,
+                "protein_density": "medium",
                 "calorie_density": "medium",
                 "allergens": [
                   "dairy",
@@ -5039,10 +4454,41 @@
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
                 "image_url": "https://www.forksoverknives.com/uploads/2024/03/Classic-French-Crepes-Wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
-                "notes": "[curated]",
+                "notes": "",
                 "_extraction_method": "jsonld"
               },
-              "foods": [],
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 18.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 100.0
+                }
+              ],
               "target_kcal": 671.0,
               "target_protein_g": 32.0,
               "target_carb_g": 102.0,
@@ -5051,75 +4497,468 @@
               "actual_protein_g": 12.0,
               "actual_carb_g": 62.0,
               "actual_fat_g": 12.0,
-              "notes": "Target: 671 kcal, P32g/C102g/F15g | Actual: 375 kcal, P12g/C62g/F12g | Cuisine: french | Curated"
+              "notes": "Score: 43.1/100; Scaled to 1.50 servings (1.50x); + 18g Whey Protein Powder (protein filler: +14g P); + 100g White Rice (cooked) (carb filler: +28g C)"
             },
             {
               "meal_type": "lunch",
-              "name": "Ethiopian Collard Greens and Chard",
+              "name": "Doro Wat (Ethiopian Chicken Stew)",
               "recipe": {
-                "name": "Ethiopian Collard Greens and Chard",
-                "id": "R080",
-                "source": "https://www.forksoverknives.com/recipes/vegan-salads-sides/ethiopian-collard-greens-and-chard/",
-                "source_file": "forksoverknives.com__recipes-vegan-salads-sides-ethiopian-collard-greens-and-chard.json",
-                "legacy_id": "R150",
-                "cuisine": "ethiopian",
-                "category": "vegan salads &amp; side dish recipes",
+                "name": "Doro Wat (Ethiopian Chicken Stew)",
+                "id": "R240",
+                "source": "https://lowcarbafrica.com/doro-wat-spicy-ethiopian-chicken-stew/",
+                "source_file": "lowcarbafrica.com__doro-wat-spicy-ethiopian-chicken-stew.json",
+                "legacy_id": null,
+                "cuisine": "african, ethiopian",
+                "category": "main course",
                 "recipe_kind": "meal",
                 "meal_types": [
-                  "lunch",
-                  "side"
+                  "dinner",
+                  "lunch"
                 ],
                 "diet_types": [
-                  "VEGAN_ETHIOPIAN"
+                  "OMNI_ETHIOPIAN"
                 ],
                 "goal_fit": [
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 2,
-                "prep_time_min": null,
-                "cook_time_min": null,
+                "servings": 6,
+                "prep_time_min": 10,
+                "cook_time_min": 55,
                 "ingredients": [
-                  "6 cloves garlic, minced",
-                  "\u00bc cup unsweetened, unflavored plant-based milk",
-                  "\u00bc teaspoon ground coriander",
-                  "\u00bc teaspoon ground cumin",
-                  "Pinch ground cardamom",
-                  "1 bunch collard greens, stems removed and leaves chopped (4 cups)",
-                  "1 bunch Swiss chard, chopped (6 cups)",
-                  "Sea salt, to taste"
+                  "2.5 lbs chicken thighs",
+                  "4 tbsp niter kibbeh",
+                  "1  onion (chopped)",
+                  "4 cloves garlic (minced)",
+                  "1 tbsp ginger",
+                  "1-2 cups chicken stock",
+                  "6  eggs (boiled and peeled)",
+                  "4 tbsp berbere spice",
+                  "1 tbsp smoked paprika",
+                  "1 tsp black pepper",
+                  "1/2 tsp cumin",
+                  "1 tbsp tomato paste",
+                  "1 tsp salt (or to taste)"
                 ],
                 "instructions": [
-                  "Heat a large skillet over medium. Add garlic; cook and stir 1 minute. Add milk, coriander, cumin, and cardamom; cook and stir 1 minute. Add collard greens; cook 10 minutes or until greens are wilted, stirring frequently.",
-                  "Add Swiss chard; cook 10 minutes or until all greens are wilted and tender, stirring frequently. Season with salt."
+                  "In a large pot over medium-low heat, add the niter kibbeh and allow it to melt.",
+                  "Add the chopped onions, garlic, and ginger, and cook until caramelized.",
+                  "Add the berbere spice, smoked paprika, black pepper, cumin, and salt. Stir for 2-3 minutes.",
+                  "Pour in the chicken stock, add the tomato paste, and chicken thighs.",
+                  "Cook for 30-40 minutes or till the chicken is tender.",
+                  "Add in the boiled eggs and simmer for 10 mins on low heat.",
+                  "Taste for spices &amp; adjust."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 174.0,
-                  "protein_g": 6.6,
-                  "carb_g": 17.4,
-                  "fat_g": 8.7,
-                  "fiber_g": 8.1,
-                  "sugar_g": 1.9
+                  "kcal": 608.0,
+                  "protein_g": 39.0,
+                  "carb_g": 9.0,
+                  "fat_g": 45.0,
+                  "fiber_g": 2.0,
+                  "sugar_g": 3.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 116.0,
-                "protein_density": "low",
-                "calorie_density": "medium",
+                "serving_size_g": null,
+                "protein_density": "high",
+                "calorie_density": "high",
                 "allergens": [
                   "dairy"
                 ],
                 "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R033",
+                  "R051",
                   "R061",
-                  "R100",
-                  "R115",
-                  "R124",
-                  "R155",
-                  "R156",
-                  "R161",
-                  "R192"
+                  "R088",
+                  "R101",
+                  "R112"
                 ],
-                "fasting_yetsom": true,
+                "fasting_yetsom": false,
+                "injera_accompaniment": true,
+                "image_url": "https://lowcarbafrica.com/wp-content/uploads/2023/09/Doro-Wat-Spicy-Ethiopian-Chicken-Stew-IG-1.jpg",
+                "notes": "",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 381.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 608.0,
+              "actual_protein_g": 39.0,
+              "actual_carb_g": 9.0,
+              "actual_fat_g": 45.0,
+              "notes": "Score: 78.3/100; Scaled to 1.29 servings (1.29x); + 381g White Rice (cooked) (carb filler: +107g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Doro Wat (Ethiopian Spiced Chicken)",
+              "recipe": {
+                "name": "Doro Wat (Ethiopian Spiced Chicken)",
+                "id": "R113",
+                "source": "https://www.daringgourmet.com/doro-wat-spicy-ethiopian-chicken-stew/comment-page-14/",
+                "source_file": "daringgourmet.com__doro-wat-spicy-ethiopian-chicken-stew-comment-page-14.json",
+                "legacy_id": null,
+                "cuisine": "african, ethiopian",
+                "category": "main course",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner"
+                ],
+                "diet_types": [
+                  "OMNI_ETHIOPIAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 10,
+                "cook_time_min": 150,
+                "ingredients": [
+                  "3 lbs chicken thighs (, cut into 1 inch pieces, or 3 chicken breasts, cut into 1/2 inch pieces)",
+                  "2 tablespoons fresh lemon juice",
+                  "2 tablespoons niter kibbeh",
+                  "2 tablespoons extra virgin olive oil",
+                  "3 cups chopped yellow onions",
+                  "3 tablespoons butter",
+                  "1 tablespoon finely minced garlic",
+                  "1 tablespoon finely minced ginger",
+                  "1/4 cup Ethiopian berbere",
+                  "or use HOMEMADE BERBERE ((HIGHLY recommended!))",
+                  "1 1/2 teaspoons salt",
+                  "1/2 cup Tej (Ethiopian honey wine) ((alternatively you can substitute white wine mixed with 1 teaspoon honey))",
+                  "1 cup chicken stock",
+                  "4  hard-boiled eggs (, pierced all over with fork about 1/4 inch deep)"
+                ],
+                "instructions": [
+                  "Place the onions in a food processor and finely mince them to a chunky puree.  Set aside.Place the chicken pieces in a bowl and pour lemon juice over. Let sit at room temperature for at least 30 minutes.",
+                  "Heat the niter kibbeh or butter along with the olive oil in a Dutch oven or heavy pot. Add the onions and saute, covered, over low heat for 45 minutes, stirring occasionally.Add the garlic, ginger, and 1 tablespoon butter and continue to saute, covered, for another 20 minutes, stirring occasionally.  Add the berbere and the 2 remaining tablespoons of butter and saute, covered, over low heat for another 30 minutes, stirring occasionally.Add the chicken, broth, salt and wine and bring to a boil. Reduce the heat to low, cover, and simmer for 45 minutes, stirring occasionally.Adjust the seasonings, adding more berbere according to heat preference. Add the boiled eggs and simmer on low heat, covered, for another 15 minutes.",
+                  "Half or quarter the eggs and arrange on the plates with the stew.  Serve hot with injera, bread or rice."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 647.0,
+                  "protein_g": 43.0,
+                  "carb_g": 11.0,
+                  "fat_g": 53.0,
+                  "fiber_g": 1.0,
+                  "sugar_g": 5.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": null,
+                "protein_density": "high",
+                "calorie_density": "high",
+                "allergens": [
+                  "dairy"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R088",
+                  "R101",
+                  "R112"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": true,
+                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/08/Doro-Wat-5_edited.jpg",
+                "notes": "",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 375.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 647.0,
+              "actual_protein_g": 43.0,
+              "actual_carb_g": 11.0,
+              "actual_fat_g": 53.0,
+              "notes": "Score: 80.9/100; Scaled to 1.21 servings (1.21x); + 375g White Rice (cooked) (carb filler: +106g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+            }
+          ],
+          "total_kcal": 1630.0,
+          "total_protein_g": 94.0,
+          "total_carb_g": 82.0,
+          "total_fat_g": 110.0
+        },
+        {
+          "day_number": 5,
+          "day_name": "Day 5",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "The Best Belgian Waffles",
+              "recipe": {
+                "name": "The Best Belgian Waffles",
+                "id": "R014",
+                "source": "https://www.food.com/recipe/the-best-belgian-waffles-63071",
+                "source_file": "food.com__recipe-the-best-belgian-waffles-63071.json",
+                "legacy_id": "R139",
+                "cuisine": "international",
+                "category": "breakfast",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "breakfast"
+                ],
+                "diet_types": [
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 15,
+                "cook_time_min": 25,
+                "ingredients": [
+                  "2   cups    flour",
+                  "4   teaspoons    baking powder",
+                  "1/2  teaspoon    salt",
+                  "1/4  cup    sugar",
+                  "2       eggs",
+                  "1/2  cup    vegetable oil",
+                  "2   cups    milk",
+                  "1   teaspoon    vanilla"
+                ],
+                "instructions": [
+                  "Oil the waffle maker.",
+                  "Sift the dry ingredients together in a large bowl.",
+                  "In separate bowl, separate egg whites and beat until stiff peaks form.",
+                  "In a separate bowl, mix together the egg yolks, milk, oil , and vanilla, stir slightly.",
+                  "Add to dry ingredients and mix well.",
+                  "Fold in egg whites.",
+                  "Cook in waffle iron on medium-high heat for around 5-10 minutes."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 636.0,
+                  "protein_g": 13.6,
+                  "carb_g": 67.3,
+                  "fat_g": 34.7,
+                  "fiber_g": 1.7,
+                  "sugar_g": 12.9
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 353.0,
+                "protein_density": "low",
+                "calorie_density": "medium",
+                "allergens": [
+                  "dairy",
+                  "gluten",
+                  "wheat"
+                ],
+                "alternative_recipe_ids": [],
+                "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.forksoverknives.com/uploads/Easy-Sauteed-Collards-and-Chard-3x2-1.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
+                "image_url": "https://img.sndimg.com/food/image/upload/q_92,fl_progressive,w_1200,c_scale/v1/img/recipes/63/07/1/Oey61BTvKAEV0tVQz4gU_untitled-1868.jpg",
+                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 23.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 117.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 671.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 102.0,
+              "target_fat_g": 15.0,
+              "actual_kcal": 636.0,
+              "actual_protein_g": 13.6,
+              "actual_carb_g": 67.3,
+              "actual_fat_g": 34.7,
+              "notes": "Score: 58.8/100; + 23g Whey Protein Powder (protein filler: +18g P); + 117g White Rice (cooked) (carb filler: +33g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "African Yam Stew",
+              "recipe": {
+                "name": "African Yam Stew",
+                "id": "R018",
+                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/african-yam-stew/",
+                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-african-yam-stew.json",
+                "legacy_id": "R162",
+                "cuisine": "ethiopian",
+                "category": "vegan soups &amp; stew recipes",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner",
+                  "lunch"
+                ],
+                "diet_types": [
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": null,
+                "cook_time_min": null,
+                "ingredients": [
+                  "\u00bd cup water",
+                  "1 onion, chopped",
+                  "1-2 tablespoon(s) Anaheim or jalapeno pepper, minced",
+                  "1 tablespoon ginger, ground",
+                  "1 tablespoon garlic granules",
+                  "2 teaspoons cumin, ground",
+                  "2 teaspoons coriander, ground",
+                  "\u00bc teaspoon crushed red pepper",
+                  "6 yams, peeled and chopped",
+                  "2 cups vegetable broth",
+                  "24 ounces tomatoes, chopped",
+                  "14 ounces garbanzo beans, drained and rinsed",
+                  "14 ounces black eyed peas, drained and rinsed",
+                  "\u00bd cup almond or peanut butter, unsweetened",
+                  "1\u00bd cup corn",
+                  "6 cups collards, chopped"
+                ],
+                "instructions": [
+                  "In a large pot, saut\u00e9 onion and pepper with water for 5 minutes or until onions are translucent, stirring occasionally",
+                  "Add ginger, garlic, cumin, coriander and red pepper.",
+                  "Cook and stir for 1 minute.",
+                  "Mix in yams, vegetable broth, tomatoes, beans and nut butter.",
+                  "Bring to a boil, reduce heat and simmer for 20 minutes.",
+                  "Stir in corn and collards and cook for about 10 more minutes, until yams and greens are tender.",
+                  "Serve over brown rice or other whole grain."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 700.0,
+                  "protein_g": 29.5,
+                  "carb_g": 115.3,
+                  "fat_g": 13.4,
+                  "fiber_g": 32.4,
+                  "sugar_g": 13.1
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 389.0,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "corn",
+                  "dairy",
+                  "nuts"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R025",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R072",
+                  "R088"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://www.forksoverknives.com/uploads/African-Yam-Stew-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
@@ -5128,23 +4967,23 @@
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 174.0,
-              "actual_protein_g": 6.6,
-              "actual_carb_g": 17.4,
-              "actual_fat_g": 8.7,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 174 kcal, P7g/C17g/F9g | Cuisine: ethiopian | Curated"
+              "actual_kcal": 700.0,
+              "actual_protein_g": 29.5,
+              "actual_carb_g": 115.3,
+              "actual_fat_g": 13.4,
+              "notes": "Score: 90.9/100; Scaled to 1.12 servings (1.12x)"
             },
             {
               "meal_type": "dinner",
-              "name": "Vegan Beyond Burger Tacos",
+              "name": "Vegan Buffalo Pizza",
               "recipe": {
-                "name": "Vegan Beyond Burger Tacos",
-                "id": "R066",
-                "source": "https://www.trifectanutrition.com/blog/the-only-vegan-taco-recipe-youll-ever-need",
-                "source_file": "trifectanutrition.com__blog-the-only-vegan-taco-recipe-youll-ever-need.json",
-                "legacy_id": "R349",
-                "cuisine": "mexican, american",
-                "category": "entree",
+                "name": "Vegan Buffalo Pizza",
+                "id": "R067",
+                "source": "https://www.thecuriouschickpea.com/buffalo-soy-curl-pizza/",
+                "source_file": "thecuriouschickpea.com__buffalo-soy-curl-pizza.json",
+                "legacy_id": "R276",
+                "cuisine": "american",
+                "category": "pizza",
                 "recipe_kind": "meal",
                 "meal_types": [
                   "dinner"
@@ -5153,66 +4992,653 @@
                   "VEGAN"
                 ],
                 "goal_fit": [
-                  "cut",
-                  "recomp",
+                  "bulk",
                   "maintenance"
                 ],
-                "servings": 8,
-                "prep_time_min": 8,
-                "cook_time_min": 10,
+                "servings": 3,
+                "prep_time_min": 30,
+                "cook_time_min": 15,
                 "ingredients": [
-                  "16 ounces Beyond Meat or 4 Trifecta Beyond Meat burgers",
-                  "1 tablespoon avocado oil",
-                  "1/2 cup yellow onion, diced",
-                  "3 garlic cloves, minced",
-                  "1/2 cup vegetable stock",
-                  "8 taco shells, hard or soft",
-                  "1/2 cup pico de gallo",
-                  "1 avocado",
-                  "1/4 cup cilantro, chopped",
-                  "1 lime, cut into wedges",
-                  "4 tablespoons smoked paprika",
-                  "3 tablespoons chili powder",
-                  "2 tablespoons onion powder",
-                  "2 teaspoons black pepper",
-                  "1 teaspoon coriander",
-                  "1 teaspoon allspice",
-                  "1 tablespoon oregano"
+                  "2 cups (100g) soy curls",
+                  "boiling hot water",
+                  "6 tbsp (90g) Franks RedHot hot sauce, or a similar hot sauce",
+                  "3 tbsp (35g) vegan butter, melted",
+                  "1/8 tsp granulated garlic",
+                  "1/8 tsp salt",
+                  "2 tsp canola oil",
+                  "3 10oz balls of pizza dough, homemade or store bought",
+                  "Vegan Ranch Dressing (recipe below, or use store bought)",
+                  "Extra virgin olive oil",
+                  "2-3 cloves garlic, minced or pressed",
+                  "7oz vegan mozzarella",
+                  "2-3 scallions, sliced with the white and green parts divided",
+                  "Additional hot sauce"
                 ],
                 "instructions": [
-                  "Blend your taco seasoning by whisking together the spices until evenly combined.",
-                  "To prepare your taco filling first place your skillet over medium-high heat. Add in the oil, and saute the minced onion and garlic for 3 minutes until they begin to brown. Add your beyond meat and cook for 4 minutes then mix in 2-3 tablespoons taco spice and continue to cook until meat is golden brown.",
-                  "Add 1/2 cup vegetable stock and saute meat and spices for 1-2 minutes until the stock has been reduced by half.",
-                  "To prepare your taco toppings, rinse the cilantro and roughly chop then set aside in a small bowl. Slice the lime into wedges and set aside as well.",
-                  "Now you're ready to plate your tacos or package it up to enjoy later on!"
+                  "Place the soy curls in a heat safe bowl, then pour in enough hot water to cover. Let sit at least 15 minutes, or until cool enough to touch, then drain them, squeezing out extra water by hand.",
+                  "In a small mixing bowl whisk together the melted vegan butter, the hot sauce, granulated garlic, and salt to make the buffalo sauce. Set aside.",
+                  "Heat a large skillet over medium heat. Add the two teaspoons of oil and drained soy curls. Saut\u00e9 until the soy curls are lightly browned, about 5-7 minutes. Pour in the buffalo sauce and cook an additional 2-3 minutes until the sauce is absorbed. Remove from the heat and set aside until ready to make the pizza.",
+                  "One hour before you're ready to bake, preheat your oven to 550 \u00baF, or as hot as it will go. Place a rack 1/3 way down from the top of the oven, and place a baking steel or baking stone on that rack if using. You want the oven to saturate with heat for 1 hour before baking pizza for best results.",
+                  "When the oven is nice and hot, prepare your pizzas. Stretch the dough into a 12-inch round and place in a lightly oiled large cast iron skillet. Drizzle a little olive oil over the dough and spread it with your fingers to coat the dough. Top with the minced garlic, then add the vegan mozzarella followed by about 1/3 of the soy curls. Lastly add the sliced white and light green parts of the scallions. Place the entire cast iron skillet on rack, and bake for 8-15 minutes, or until the crust has darkened and turned dark brown or black in spots.",
+                  "Alternatively you can bake the dough straight on a pizza stone or baking steel, just place the dough on a prepared pizza peel, then top the pizza and slide into the oven on the stone or steel and bake for 7-10 minutes.",
+                  "When the pizza is cooked, remove from oven and drizzle some of the chilled ranch over top and extra hot sauce if desired. Then finish with some of the green parts of the scallions. Slice and enjoy while hot!"
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 500.0,
-                  "protein_g": 30.0,
-                  "carb_g": 38.0,
-                  "fat_g": 24.0,
-                  "fiber_g": 0.0,
-                  "sugar_g": 2.0
+                  "kcal": 714.0,
+                  "protein_g": 33.0,
+                  "carb_g": 78.0,
+                  "fat_g": 31.0,
+                  "fiber_g": 8.0,
+                  "sugar_g": 9.0
                 },
                 "nutrition_source": "published",
-                "serving_size_g": 278.0,
+                "serving_size_g": 397.0,
                 "protein_density": "medium",
                 "calorie_density": "medium",
-                "allergens": [],
+                "allergens": [
+                  "dairy",
+                  "soy"
+                ],
                 "alternative_recipe_ids": [
-                  "R003",
-                  "R029",
-                  "R107",
-                  "R164",
-                  "R175",
-                  "R195",
-                  "R198",
-                  "R292"
+                  "R013",
+                  "R025",
+                  "R072",
+                  "R082",
+                  "R086",
+                  "R101",
+                  "R162",
+                  "R304"
                 ],
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
-                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/vegan-taco-recipe-002.jpg",
+                "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2017/12/vegan-buffalo-pizza-11-480x480.jpg",
                 "notes": "[curated]",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 145.0
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 714.0,
+              "actual_protein_g": 33.0,
+              "actual_carb_g": 78.0,
+              "actual_fat_g": 31.0,
+              "notes": "Score: 86.7/100; + 145g White Rice (cooked) (carb filler: +41g C)"
+            }
+          ],
+          "total_kcal": 2050.0,
+          "total_protein_g": 76.1,
+          "total_carb_g": 260.6,
+          "total_fat_g": 79.10000000000001
+        },
+        {
+          "day_number": 6,
+          "day_name": "Day 6",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "The Best Belgian Waffles",
+              "recipe": {
+                "name": "The Best Belgian Waffles",
+                "id": "R139",
+                "source": "https://www.food.com/recipe/the-best-belgian-waffles-63071",
+                "source_file": "food.com__recipe-the-best-belgian-waffles-63071.json",
+                "legacy_id": null,
+                "cuisine": "american",
+                "category": "breakfast",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "breakfast"
+                ],
+                "diet_types": [
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 15,
+                "cook_time_min": 25,
+                "ingredients": [
+                  "2   cups    flour",
+                  "4   teaspoons    baking powder",
+                  "1/2  teaspoon    salt",
+                  "1/4  cup    sugar",
+                  "2       eggs",
+                  "1/2  cup    vegetable oil",
+                  "2   cups    milk",
+                  "1   teaspoon    vanilla"
+                ],
+                "instructions": [
+                  "Oil the waffle maker.",
+                  "Sift the dry ingredients together in a large bowl.",
+                  "In separate bowl, separate egg whites and beat until stiff peaks form.",
+                  "In a separate bowl, mix together the egg yolks, milk, oil , and vanilla, stir slightly.",
+                  "Add to dry ingredients and mix well.",
+                  "Fold in egg whites.",
+                  "Cook in waffle iron on medium-high heat for around 5-10 minutes."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 636.0,
+                  "protein_g": 13.6,
+                  "carb_g": 67.3,
+                  "fat_g": 34.7,
+                  "fiber_g": 1.7,
+                  "sugar_g": 12.9
+                },
+                "nutrition_source": "published",
+                "serving_size_g": null,
+                "protein_density": "medium",
+                "calorie_density": "high",
+                "allergens": [
+                  "dairy",
+                  "gluten",
+                  "wheat"
+                ],
+                "alternative_recipe_ids": [],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://img.sndimg.com/food/image/upload/q_92,fl_progressive,w_1200,c_scale/v1/img/recipes/63/07/1/Oey61BTvKAEV0tVQz4gU_untitled-1868.jpg",
+                "notes": "[diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 23.0
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 117.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 671.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 102.0,
+              "target_fat_g": 15.0,
+              "actual_kcal": 636.0,
+              "actual_protein_g": 13.6,
+              "actual_carb_g": 67.3,
+              "actual_fat_g": 34.7,
+              "notes": "Score: 58.8/100; + 23g Whey Protein Powder (protein filler: +18g P); + 117g White Rice (cooked) (carb filler: +33g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Beef and Butternut Squash Stew",
+              "recipe": {
+                "name": "Beef and Butternut Squash Stew",
+                "id": "R020",
+                "source": "https://www.daringgourmet.com/beef-and-butternut-squash-stew/",
+                "source_file": "daringgourmet.com__beef-and-butternut-squash-stew.json",
+                "legacy_id": "R101",
+                "cuisine": "mediterranean",
+                "category": "main course",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner",
+                  "lunch"
+                ],
+                "diet_types": [
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "recomp",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 10,
+                "cook_time_min": 70,
+                "ingredients": [
+                  "4 tablespoon olive oil",
+                  "2  medium onions (, peeled and chopped)",
+                  "4 cloves garlic (, chopped)",
+                  "2 teaspoons dried rosemary",
+                  "2 teaspoons dried thyme",
+                  "2 1/2 pounds stewing beef (e.g. chuck) (, cut into 1-inch cubes)",
+                  "1 teaspoon salt (, plus more to taste)",
+                  "1 teaspoon freshly ground black pepper (, plus more to taste)",
+                  "4 tablespoons all-purpose flour",
+                  "1 1/2 cup Marsala wine (, dry white wine can be substituted)",
+                  "3 pounds butternut squash (, trimmed and cut into 1-inch cubes)",
+                  "1/2 cup chopped sun-dried tomatoes",
+                  "4 to 5 cups beef broth",
+                  "a few shots of Worcestershire sauce according to taste",
+                  "4 tablespoons chopped parsley for serving"
+                ],
+                "instructions": [
+                  "Heat 3 tablespoons of olive oil in a Dutch oven over medium heat. Add the onions, garlic, rosemary, and thyme and saute until the onions are tender, about 2 minutes.Coat the beef cubes in salt and pepper and flour. Increase the heat to med-high and add the beef to the Dutch oven. Cook until the beef is browned and golden around the edges, about 5 minutes. Add the Marsala wine and deglaze the bottom of the pan. Add the sun-dried tomatoes and stir to combine. Add enough beef broth to just cover the beef. Bring the stew to a boil over high heat, then reduce the heat to low and simmer, covered, for 40 minutes. Add the butternut squash and add another cup of beef broth. Return to a boil, reduce heat and simmer for another 25 minutes or until the squash is tender. Season the stew with additional salt and pepper to taste.Sprinkle with the chopped parsley. Serve with some good crusty bread."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 693.0,
+                  "protein_g": 43.0,
+                  "carb_g": 48.0,
+                  "fat_g": 32.0,
+                  "fiber_g": 7.0,
+                  "sugar_g": 15.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 385.0,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "gluten",
+                  "wheat"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R013",
+                  "R017",
+                  "R024",
+                  "R025",
+                  "R033",
+                  "R051",
+                  "R061"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/01/Beef-Butternut-Squash-Stew-Recipe-2.jpg",
+                "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 230.0
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 693.0,
+              "actual_protein_g": 43.0,
+              "actual_carb_g": 48.0,
+              "actual_fat_g": 32.0,
+              "notes": "Score: 85.0/100; Scaled to 1.13 servings (1.13x); + 230g White Rice (cooked) (carb filler: +65g C)"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Vegan Buffalo Pizza",
+              "recipe": {
+                "name": "Vegan Buffalo Pizza",
+                "id": "R276",
+                "source": "https://www.thecuriouschickpea.com/buffalo-soy-curl-pizza/",
+                "source_file": "thecuriouschickpea.com__buffalo-soy-curl-pizza.json",
+                "legacy_id": null,
+                "cuisine": "american",
+                "category": "pizza",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner"
+                ],
+                "diet_types": [
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "maintenance"
+                ],
+                "servings": 3,
+                "prep_time_min": 30,
+                "cook_time_min": 15,
+                "ingredients": [
+                  "2 cups (100g) soy curls",
+                  "boiling hot water",
+                  "6 tbsp (90g) Franks RedHot hot sauce, or a similar hot sauce",
+                  "3 tbsp (35g) vegan butter, melted",
+                  "1/8 tsp granulated garlic",
+                  "1/8 tsp salt",
+                  "2 tsp canola oil",
+                  "3 10oz balls of pizza dough, homemade or store bought",
+                  "Vegan Ranch Dressing (recipe below, or use store bought)",
+                  "Extra virgin olive oil",
+                  "2-3 cloves garlic, minced or pressed",
+                  "7oz vegan mozzarella",
+                  "2-3 scallions, sliced with the white and green parts divided",
+                  "Additional hot sauce"
+                ],
+                "instructions": [
+                  "Place the soy curls in a heat safe bowl, then pour in enough hot water to cover. Let sit at least 15 minutes, or until cool enough to touch, then drain them, squeezing out extra water by hand.",
+                  "In a small mixing bowl whisk together the melted vegan butter, the hot sauce, granulated garlic, and salt to make the buffalo sauce. Set aside.",
+                  "Heat a large skillet over medium heat. Add the two teaspoons of oil and drained soy curls. Saut\u00e9 until the soy curls are lightly browned, about 5-7 minutes. Pour in the buffalo sauce and cook an additional 2-3 minutes until the sauce is absorbed. Remove from the heat and set aside until ready to make the pizza.",
+                  "One hour before you're ready to bake, preheat your oven to 550 \u00baF, or as hot as it will go. Place a rack 1/3 way down from the top of the oven, and place a baking steel or baking stone on that rack if using. You want the oven to saturate with heat for 1 hour before baking pizza for best results.",
+                  "When the oven is nice and hot, prepare your pizzas. Stretch the dough into a 12-inch round and place in a lightly oiled large cast iron skillet. Drizzle a little olive oil over the dough and spread it with your fingers to coat the dough. Top with the minced garlic, then add the vegan mozzarella followed by about 1/3 of the soy curls. Lastly add the sliced white and light green parts of the scallions. Place the entire cast iron skillet on rack, and bake for 8-15 minutes, or until the crust has darkened and turned dark brown or black in spots.",
+                  "Alternatively you can bake the dough straight on a pizza stone or baking steel, just place the dough on a prepared pizza peel, then top the pizza and slide into the oven on the stone or steel and bake for 7-10 minutes.",
+                  "When the pizza is cooked, remove from oven and drizzle some of the chilled ranch over top and extra hot sauce if desired. Then finish with some of the green parts of the scallions. Slice and enjoy while hot!"
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 714.0,
+                  "protein_g": 33.0,
+                  "carb_g": 78.0,
+                  "fat_g": 31.0,
+                  "fiber_g": 8.0,
+                  "sugar_g": 9.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": null,
+                "protein_density": "high",
+                "calorie_density": "high",
+                "allergens": [
+                  "dairy",
+                  "soy"
+                ],
+                "alternative_recipe_ids": [
+                  "R013",
+                  "R025",
+                  "R072",
+                  "R082",
+                  "R086",
+                  "R101",
+                  "R162",
+                  "R304"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2017/12/vegan-buffalo-pizza-11-480x480.jpg",
+                "notes": "",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 145.0
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 714.0,
+              "actual_protein_g": 33.0,
+              "actual_carb_g": 78.0,
+              "actual_fat_g": 31.0,
+              "notes": "Score: 86.7/100; + 145g White Rice (cooked) (carb filler: +41g C)"
+            }
+          ],
+          "total_kcal": 2043.0,
+          "total_protein_g": 89.6,
+          "total_carb_g": 193.3,
+          "total_fat_g": 97.7
+        },
+        {
+          "day_number": 7,
+          "day_name": "Day 7",
+          "meals": [
+            {
+              "meal_type": "breakfast",
+              "name": "High-Protein French Toast Recipe",
+              "recipe": {
+                "name": "High-Protein French Toast Recipe",
+                "id": "R339",
+                "source": "https://www.trifectanutrition.com/blog/high-protein-french-toast-recipe",
+                "source_file": "trifectanutrition.com__blog-high-protein-french-toast-recipe.json",
+                "legacy_id": null,
+                "cuisine": "american",
+                "category": "entree, appetizer, breakfast",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "breakfast"
+                ],
+                "diet_types": [
+                  "OMNI"
+                ],
+                "goal_fit": [
+                  "cut",
+                  "bulk",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 5,
+                "cook_time_min": 15,
+                "ingredients": [
+                  "6 Slices of high protein bread-like P28 Protein Bread",
+                  "6 tablespoons liquid egg whites",
+                  "2 Whole eggs",
+                  "1/2 cup dairy-free milk",
+                  "1 tablespoon Vanilla Extract",
+                  "2 tablespoons maple syrup",
+                  "1 teaspoon Cinnamon",
+                  "1 teaspoon Ginger",
+                  "3 tablespoons almond butter powder or peanut butter powder"
+                ],
+                "instructions": [
+                  "In a shallow dish combine the egg whites, whole egg, dairy-free milk, cinnamon, ginger, almond powder, maple syrup, and vanilla extract to the dish. Mix together ingredients until even.",
+                  "To make this recipe quick and easy, set yourself up with a baking sheet, the shallow dish of batter, and a non-stick skillet. Additionally, you will need a spatula and some non-stick spray.",
+                  "Heat the skillet over medium heat, while it is heating, dip the bread into the batter on both sides and soak for at least 1 minute, ensuring it is heavily saturated with the batter.",
+                  "Spray the pan with nonstick cooking spray and place in the toast, you should hear a gentle sizzle sound; maintain a medium heat throughout the cooking time to ensure your french toast doesn\u2019t burn. Flip the toast when one side is lightly browned and crispy, about 2-3 minutes per side. Then remove from the skillet once each side is golden brown."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 370.0,
+                  "protein_g": 32.0,
+                  "carb_g": 49.0,
+                  "fat_g": 17.0,
+                  "fiber_g": 0.0,
+                  "sugar_g": 6.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": null,
+                "protein_density": "high",
+                "calorie_density": "medium",
+                "allergens": [
+                  "dairy",
+                  "eggs",
+                  "gluten",
+                  "nuts",
+                  "wheat"
+                ],
+                "alternative_recipe_ids": [
+                  "R343"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20A%20La%20Carte%20Recipe%20Photos/proteinfrenchtoastrecipe.jpg",
+                "notes": "",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 101.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 671.0,
+              "target_protein_g": 32.0,
+              "target_carb_g": 102.0,
+              "target_fat_g": 15.0,
+              "actual_kcal": 370.0,
+              "actual_protein_g": 32.0,
+              "actual_carb_g": 49.0,
+              "actual_fat_g": 17.0,
+              "notes": "Score: 57.5/100; Scaled to 1.50 servings (1.50x); + 101g White Rice (cooked) (carb filler: +28g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "African Yam Stew",
+              "recipe": {
+                "name": "African Yam Stew",
+                "id": "R162",
+                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/african-yam-stew/",
+                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-african-yam-stew.json",
+                "legacy_id": null,
+                "cuisine": "american",
+                "category": "vegan soups &amp; stew recipes",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner",
+                  "lunch"
+                ],
+                "diet_types": [
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "cut",
+                  "bulk",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": null,
+                "cook_time_min": null,
+                "ingredients": [
+                  "\u00bd cup water",
+                  "1 onion, chopped",
+                  "1-2 tablespoon(s) Anaheim or jalapeno pepper, minced",
+                  "1 tablespoon ginger, ground",
+                  "1 tablespoon garlic granules",
+                  "2 teaspoons cumin, ground",
+                  "2 teaspoons coriander, ground",
+                  "\u00bc teaspoon crushed red pepper",
+                  "6 yams, peeled and chopped",
+                  "2 cups vegetable broth",
+                  "24 ounces tomatoes, chopped",
+                  "14 ounces garbanzo beans, drained and rinsed",
+                  "14 ounces black eyed peas, drained and rinsed",
+                  "\u00bd cup almond or peanut butter, unsweetened",
+                  "1\u00bd cup corn",
+                  "6 cups collards, chopped"
+                ],
+                "instructions": [
+                  "In a large pot, saut\u00e9 onion and pepper with water for 5 minutes or until onions are translucent, stirring occasionally",
+                  "Add ginger, garlic, cumin, coriander and red pepper.",
+                  "Cook and stir for 1 minute.",
+                  "Mix in yams, vegetable broth, tomatoes, beans and nut butter.",
+                  "Bring to a boil, reduce heat and simmer for 20 minutes.",
+                  "Stir in corn and collards and cook for about 10 more minutes, until yams and greens are tender.",
+                  "Serve over brown rice or other whole grain."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 593.0,
+                  "protein_g": 29.5,
+                  "carb_g": 115.3,
+                  "fat_g": 13.4,
+                  "fiber_g": 32.4,
+                  "sugar_g": 13.1
+                },
+                "nutrition_source": "published",
+                "serving_size_g": null,
+                "protein_density": "high",
+                "calorie_density": "medium",
+                "allergens": [
+                  "corn",
+                  "dairy",
+                  "nuts"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R025",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R072",
+                  "R088"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": "https://www.forksoverknives.com/uploads/African-Yam-Stew-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
+                "notes": "",
                 "_extraction_method": "jsonld"
               },
               "foods": [],
@@ -5220,56 +5646,181 @@
               "target_protein_g": 38.0,
               "target_carb_g": 119.0,
               "target_fat_g": 18.0,
-              "actual_kcal": 500.0,
-              "actual_protein_g": 30.0,
-              "actual_carb_g": 38.0,
-              "actual_fat_g": 24.0,
-              "notes": "Target: 783 kcal, P38g/C119g/F18g | Actual: 500 kcal, P30g/C38g/F24g | Cuisine: mexican, american | Curated"
+              "actual_kcal": 593.0,
+              "actual_protein_g": 29.5,
+              "actual_carb_g": 115.3,
+              "actual_fat_g": 13.4,
+              "notes": "Score: 84.5/100; Scaled to 1.32 servings (1.32x)"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Doro Wat (Ethiopian Spiced Chicken)",
+              "recipe": {
+                "name": "Doro Wat (Ethiopian Spiced Chicken)",
+                "id": "R030",
+                "source": "https://www.daringgourmet.com/doro-wat-spicy-ethiopian-chicken-stew/comment-page-14/",
+                "source_file": "daringgourmet.com__doro-wat-spicy-ethiopian-chicken-stew-comment-page-14.json",
+                "legacy_id": "R113",
+                "cuisine": "african, ethiopian",
+                "category": "main course",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner"
+                ],
+                "diet_types": [
+                  "OMNI_ETHIOPIAN"
+                ],
+                "goal_fit": [
+                  "bulk",
+                  "recomp",
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": 10,
+                "cook_time_min": 150,
+                "ingredients": [
+                  "3 lbs chicken thighs (, cut into 1 inch pieces, or 3 chicken breasts, cut into 1/2 inch pieces)",
+                  "2 tablespoons fresh lemon juice",
+                  "2 tablespoons niter kibbeh",
+                  "2 tablespoons extra virgin olive oil",
+                  "3 cups chopped yellow onions",
+                  "3 tablespoons butter",
+                  "1 tablespoon finely minced garlic",
+                  "1 tablespoon finely minced ginger",
+                  "1/4 cup Ethiopian berbere",
+                  "or use HOMEMADE BERBERE ((HIGHLY recommended!))",
+                  "1 1/2 teaspoons salt",
+                  "1/2 cup Tej (Ethiopian honey wine) ((alternatively you can substitute white wine mixed with 1 teaspoon honey))",
+                  "1 cup chicken stock",
+                  "4  hard-boiled eggs (, pierced all over with fork about 1/4 inch deep)"
+                ],
+                "instructions": [
+                  "Place the onions in a food processor and finely mince them to a chunky puree.  Set aside.Place the chicken pieces in a bowl and pour lemon juice over. Let sit at room temperature for at least 30 minutes.",
+                  "Heat the niter kibbeh or butter along with the olive oil in a Dutch oven or heavy pot. Add the onions and saute, covered, over low heat for 45 minutes, stirring occasionally.Add the garlic, ginger, and 1 tablespoon butter and continue to saute, covered, for another 20 minutes, stirring occasionally.  Add the berbere and the 2 remaining tablespoons of butter and saute, covered, over low heat for another 30 minutes, stirring occasionally.Add the chicken, broth, salt and wine and bring to a boil. Reduce the heat to low, cover, and simmer for 45 minutes, stirring occasionally.Adjust the seasonings, adding more berbere according to heat preference. Add the boiled eggs and simmer on low heat, covered, for another 15 minutes.",
+                  "Half or quarter the eggs and arrange on the plates with the stew.  Serve hot with injera, bread or rice."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 647.0,
+                  "protein_g": 43.0,
+                  "carb_g": 11.0,
+                  "fat_g": 53.0,
+                  "fiber_g": 1.0,
+                  "sugar_g": 5.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 359.0,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "dairy"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R033",
+                  "R051",
+                  "R061",
+                  "R088",
+                  "R101",
+                  "R112"
+                ],
+                "fasting_yetsom": false,
+                "injera_accompaniment": true,
+                "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/08/Doro-Wat-5_edited.jpg",
+                "notes": "[curated]",
+                "_extraction_method": "jsonld"
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 375.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200
+                }
+              ],
+              "target_kcal": 783.0,
+              "target_protein_g": 38.0,
+              "target_carb_g": 119.0,
+              "target_fat_g": 18.0,
+              "actual_kcal": 647.0,
+              "actual_protein_g": 43.0,
+              "actual_carb_g": 11.0,
+              "actual_fat_g": 53.0,
+              "notes": "Score: 80.9/100; Scaled to 1.21 servings (1.21x); + 375g White Rice (cooked) (carb filler: +106g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 1049.0,
-          "total_protein_g": 48.6,
-          "total_carb_g": 117.4,
-          "total_fat_g": 44.7
+          "total_kcal": 1610.0,
+          "total_protein_g": 104.5,
+          "total_carb_g": 175.3,
+          "total_fat_g": 83.4
         }
       ],
       "meal_frequency": 3,
-      "macro_allocation": {
-        "breakfast": 0.3,
-        "lunch": 0.35,
-        "dinner": 0.35
-      },
+      "macro_allocation": {},
       "cuisine_mix": {
-        "mexican, american": 4,
-        "ethiopian": 4,
-        "american": 4,
-        "mexican": 2,
-        "indian": 1,
-        "english": 1,
-        "international": 1,
-        "american, southern": 1,
-        "belizean": 1,
-        "nordic, scandinavian, swedish": 1,
+        "american": 10,
+        "african, ethiopian": 4,
+        "international": 2,
+        "ethiopian": 2,
+        "mediterranean": 2,
         "french": 1
       },
       "recipe_source_summary": {
-        "curated_used": 21,
-        "uncurated_used": 0,
+        "curated_used": 10,
+        "uncurated_used": 11,
         "fallback_to_raw_foods": 0,
-        "unique_recipes_used": 16,
-        "database_total": 370,
-        "database_curated": 107,
-        "database_uncurated": 263
+        "unique_recipes_used": 12,
+        "database_total": 386,
+        "database_curated": 123,
+        "database_uncurated": 263,
+        "weekly_avg_kcal": 2905.2,
+        "weekly_avg_protein_g": 140.2,
+        "weekly_avg_carb_g": 374.3,
+        "weekly_avg_fat_g": 106.4,
+        "weekly_kcal_match_pct": 70.2,
+        "weekly_protein_match_pct": 70.2,
+        "training_days": [
+          1,
+          3,
+          5
+        ],
+        "include_pre_post_workout": false
       },
       "notes": [
         "Meal frequency: 3 meals/day",
-        "Daily target: 2238 kcal, P108g / C340g / F50g",
-        "7-day rotating template \u2014 recipes vary daily for variety.",
-        "Recipe database: 370 recipes loaded (107 curated + 263 uncurated).",
-        "Week summary: 21 curated + 0 uncurated recipes used; 0 meal(s) fell back to raw-foods allocator.",
-        "Cuisine mix this week: {'mexican, american': 4, 'ethiopian': 4, 'american': 4, 'mexican': 2, 'indian': 1, 'english': 1, 'international': 1, 'american, southern': 1, 'belizean': 1, 'nordic, scandinavian, swedish': 1}.",
-        "Each meal includes full ingredients, instructions, and nutrition per serving.",
-        "Phase-2 recipe-based planner. Swap groups honored when available."
+        "Daily target: 2238 kcal, P108g / C340g / F50g / Fiber 31g",
+        "Weekly average: 2905 kcal (70.2% match), P140g (70.2% match), C374g, F106g",
+        "Diet: OMNI",
+        "Recipe database: 386 recipes loaded",
+        "Week summary: 10 curated + 11 uncurated recipes used; 0 meal(s) had no recipe match",
+        "Unique recipes used: 12 (target: \u226514 for variety)",
+        "Cuisine mix: {'american': 10, 'african, ethiopian': 4, 'international': 2, 'ethiopian': 2, 'mediterranean': 2, 'french': 1}",
+        "Training days: [1, 3, 5]",
+        "Phase-5 best-fit scoring + acceptable scaling + filler system + swap alternatives."
       ]
     },
     "summary": "=== Fitness Plan Summary ===\nUser: female, 28y, 165cm, 68.0kg\nAssessment: BF=28.0% (acceptable), BMI=25.0, FFMI=18.0\nStrategy: RECOMP\n  \u2014 BF%=28.0 \u2014 good recomp potential (0-10% deficit).\nNutrition:\n  \u2022 TDEE: 2355 kcal\n  \u2022 Target: 2238 kcal (-118 vs TDEE)\n  \u2022 Macros: P108g / C340g / F50g\n  \u2022 Hydration: 2.5 L/day\n  \u2022 Fiber: 31 g/day\n  \u2022 Timeline: ~12 weeks to goal\nTraining:\n  \u2022 Plan type: PROGRAM (4 weeks)\n  \u2022 Goal: recomp\n  \u2022 Split: full_body (3d/wk)\n  \u2022 Progression: linear\n  \u2022 Mesocycles: 1 \u00d7 4w (with deload)\n  \u2022 Workouts per cycle: 3\nMeal plan:\n  \u2022 Frequency: 3 meals/day\n  \u2022 Template: 7-day rotation\n  \u2022 Daily target: 2238 kcal"

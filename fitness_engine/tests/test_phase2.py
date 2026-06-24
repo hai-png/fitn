@@ -184,7 +184,8 @@ class TestRecipeLoader:
         assert "uncurated_count" in stats
         assert "swap_group_count" in stats
         assert stats["total_recipes"] == stats["curated_count"] + stats["uncurated_count"]
-        assert stats["curated_count"] == 107
+        # Phase-5: curated count is 107 original + 16 Pre/Post Workout = 123
+        assert stats["curated_count"] == 123
         assert stats["uncurated_count"] > 200
 
     def test_get_recipe_by_id_returns_recipe(self):

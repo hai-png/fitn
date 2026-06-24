@@ -1,25 +1,19 @@
 #!/usr/bin/env python3
 """
-Sample runner — demonstrates the fitness engine end-to-end with multiple profiles.
+Sample runner — Phase-5 demo with clean meal planning system.
 
-Phase-2: 6 demo profiles covering all combinations of (cut / bulk / recomp /
-maintenance) × (full_gym / home_gym / bodyweight_only) × (omnivore / vegan).
+Generates 6 demo plans showcasing:
+  - Standard cut/bulk/recomp/maintenance
+  - Vegan + Ethiopian cuisine preference
+  - Bodyweight-only training
+  - Pre/Post workout meals on training days
 
 Run: python /home/z/my-project/fitn/scripts/sample_runner.py
-
-Outputs (in /home/z/my-project/fitn/download/):
-  - sample_plan_cut.json
-  - sample_plan_bulk.json
-  - sample_plan_recomp.json
-  - sample_plan_female_maintenance.json
-  - sample_plan_vegan_maintenance.json       (Phase-2 new)
-  - sample_plan_bodyweight_recomp.json       (Phase-2 new)
 """
 import json
 import sys
 from pathlib import Path
 
-# Add project root to path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
@@ -38,7 +32,7 @@ DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 SAMPLE_PROFILES = {
     "sample_plan_cut": {
-        "description": "30yo male novice, 18% BF, fat loss goal, 4 days/week, full gym, omnivore",
+        "description": "30yo male novice, 18% BF, fat loss, 4 days/week, full gym, omnivore",
         "profile": UserProfile(
             age=30, sex=Sex.MALE, height_cm=178, weight_kg=82,
             body_fat_pct=18, neck_cm=38, waist_cm=86, hip_cm=98,
@@ -49,22 +43,24 @@ SAMPLE_PROFILES = {
             equipment_access=EquipmentAccess.FULL_GYM,
             diet_type=DietType.OMNIVORE,
         ),
+        "plan_kwargs": {"include_pre_post_workout": True},
     },
     "sample_plan_bulk": {
-        "description": "25yo male beginner, 12% BF, muscle gain goal, 4 days/week, full gym, omnivore",
+        "description": "25yo male beginner, 12% BF, muscle gain, 3 days/week, full gym, omnivore",
         "profile": UserProfile(
             age=25, sex=Sex.MALE, height_cm=183, weight_kg=75,
             body_fat_pct=12, neck_cm=36, waist_cm=78, hip_cm=95,
             activity_level=ActivityLevel.LIGHTLY_ACTIVE,
             training_status=TrainingStatus.BEGINNER,
             primary_goal=PrimaryGoal.MUSCLE_GAIN,
-            training_days_per_week=4,
+            training_days_per_week=3,
             equipment_access=EquipmentAccess.FULL_GYM,
             diet_type=DietType.OMNIVORE,
         ),
+        "plan_kwargs": {"include_pre_post_workout": True},
     },
     "sample_plan_recomp": {
-        "description": "28yo female beginner, 28% BF, recomp goal, home gym 3 days/week, omnivore",
+        "description": "28yo female beginner, 28% BF, recomp, home gym 3 days/week, omnivore",
         "profile": UserProfile(
             age=28, sex=Sex.FEMALE, height_cm=165, weight_kg=68,
             body_fat_pct=28, neck_cm=33, waist_cm=75, hip_cm=100,
@@ -75,9 +71,10 @@ SAMPLE_PROFILES = {
             equipment_access=EquipmentAccess.HOME_GYM,
             diet_type=DietType.OMNIVORE,
         ),
+        "plan_kwargs": {},
     },
     "sample_plan_female_maintenance": {
-        "description": "32yo female intermediate, 22% BF, maintenance goal, 5 days/week, full gym, omnivore",
+        "description": "32yo female intermediate, 22% BF, maintenance, 5 days/week, full gym, omnivore",
         "profile": UserProfile(
             age=32, sex=Sex.FEMALE, height_cm=170, weight_kg=62,
             body_fat_pct=22, neck_cm=32, waist_cm=68, hip_cm=92,
@@ -88,11 +85,13 @@ SAMPLE_PROFILES = {
             equipment_access=EquipmentAccess.FULL_GYM,
             diet_type=DietType.OMNIVORE,
         ),
+        "plan_kwargs": {},
     },
-    "sample_plan_vegan_maintenance": {
+    "sample_plan_vegan_ethiopian_maintenance": {
         "description": (
-            "Phase-2 demo: 27yo male novice, 14% BF, maintenance goal, "
-            "3 days/week, full gym, VEGAN diet (uses vegan + vegan_ethiopian recipes)"
+            "Phase-5 demo: 27yo male novice, 14% BF, maintenance, "
+            "3 days/week, full gym, VEGAN + ETHIOPIAN cuisine preference. "
+            "Tests the 4 diet types (vegan+ethiopian) + cuisine filter."
         ),
         "profile": UserProfile(
             age=27, sex=Sex.MALE, height_cm=180, weight_kg=78,
@@ -104,13 +103,16 @@ SAMPLE_PROFILES = {
             equipment_access=EquipmentAccess.FULL_GYM,
             diet_type=DietType.VEGAN,
         ),
+        "plan_kwargs": {
+            "cuisine_preference": "ethiopian",
+            "include_pre_post_workout": True,
+        },
     },
-    "sample_plan_bodyweight_recomp": {
+    "sample_plan_bodyweight_recomp_prepost": {
         "description": (
-            "Phase-2 demo: 30yo male intermediate, 16% BF, recomp goal, "
-            "3 days/week, BODYWEIGHT_ONLY equipment (tests Issue 4 fix — "
-            "all template barbell/dumbbell/cable/machine exercises are "
-            "dynamically substituted with bodyweight + bands equivalents)"
+            "Phase-5 demo: 30yo male intermediate, 16% BF, recomp, "
+            "3 days/week, BODYWEIGHT_ONLY equipment, omnivore. "
+            "Tests Pre/Post workout + bodyweight training."
         ),
         "profile": UserProfile(
             age=30, sex=Sex.MALE, height_cm=178, weight_kg=80,
@@ -122,31 +124,33 @@ SAMPLE_PROFILES = {
             equipment_access=EquipmentAccess.BODYWEIGHT_ONLY,
             diet_type=DietType.OMNIVORE,
         ),
+        "plan_kwargs": {
+            "include_pre_post_workout": True,
+            "allergens_to_avoid": ["dairy"],   # demo allergen filter
+        },
     },
 }
 
 
-def run_profile(name: str, description: str, profile: UserProfile) -> dict:
+def run_profile(name: str, spec: dict) -> dict:
     """Run a single profile through the engine and return the full result."""
     print(f"\n{'='*60}")
     print(f"Profile: {name}")
-    print(f"  {description}")
+    print(f"  {spec['description']}")
     print(f"{'='*60}")
 
-    # Assessment
-    assessment = assess_profile(profile)
-    print(f"\n--- Assessment Summary ---")
-    print(assessment.summary)
+    profile = spec["profile"]
+    plan_kwargs = spec.get("plan_kwargs", {})
 
-    # Plan
-    plan = propose_plan(profile, assessment)
+    assessment = assess_profile(profile)
+    plan = propose_plan(profile, assessment, **plan_kwargs)
+
     print(f"\n--- Plan Summary ---")
     print(plan.summary)
 
-    # Build full output dict
     return {
         "name": name,
-        "description": description,
+        "description": spec["description"],
         "profile": profile.to_dict(),
         "assessment": assessment.to_dict(),
         "plan": plan.to_dict(),
@@ -155,11 +159,11 @@ def run_profile(name: str, description: str, profile: UserProfile) -> dict:
 
 def main():
     print("=" * 60)
-    print("FITNESS ENGINE — Sample Runner (Phase-2: recipe + exercise DB wired)")
+    print("FITNESS ENGINE — Sample Runner (Phase-5: clean meal planning)")
     print("=" * 60)
 
     for name, spec in SAMPLE_PROFILES.items():
-        result = run_profile(name, spec["description"], spec["profile"])
+        result = run_profile(name, spec)
         out_path = DOWNLOAD_DIR / f"{name}.json"
         with open(out_path, "w") as f:
             json.dump(result, f, indent=2, default=str)

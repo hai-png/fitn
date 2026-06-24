@@ -114,6 +114,11 @@ class MealFood:
     def fat_g(self) -> float:
         return self.food.fat_g_per_100g * self.grams / 100
 
+    @property
+    def fiber_g(self) -> float:
+        """Fiber grams (Phase-5: needed for filler tracking)."""
+        return getattr(self.food, 'fiber_g_per_100g', 0.0) * self.grams / 100
+
 
 # === Phase-2 Recipe model ===
 
