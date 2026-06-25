@@ -68,6 +68,10 @@ def decide_strategy(
     Tier 4.44: `has_measurements` parameter is accepted for backward compat
     but not used (was previously dead — the function never consulted it).
 
+    Phase-6 cleanup: DEPRECATION — ``has_measurements`` will be removed in a
+    future major version. New callers should omit it. Existing callers (e.g.
+    ``assessor.py``) are tolerated but the value is discarded silently.
+
     Returns (strategy, rationale).
     """
     # Tier 4.44: suppress unused-parameter warning; the param is kept so

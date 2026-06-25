@@ -20,7 +20,7 @@ Modules:
 """
 from ..models.training import (
     PlanType, TrainingGoal,
-    SplitType, SplitPattern,
+    SplitType,
     ProgressionScheme,
     ExerciseCategory, ExperienceLevel,
     Exercise, WorkoutExercise, Workout, Microcycle, Mesocycle, TrainingPlan,
@@ -77,7 +77,6 @@ from .volume_landmarks import (
     SpecializationConfig,
     SPECIALIZATION_BALANCED,
     SPECIALIZATION_FOCUS,
-    get_specialization_program,
 )
 from .intensity_model import (
     ExerciseIntensityTier,
@@ -93,11 +92,9 @@ from .intensity_model import (
     generate_warmup_for_workout,
     REACTIVE_DELOAD_QUESTIONS,
     should_deload,
-    apply_deload,
     StrengthPhase,
     StrengthPhaseSpec,
     STRENGTH_PHASE_SPECS,
-    get_peak_phase_duration,
 )
 from .split_designs import (
     MovementPatternSlot, WorkoutTemplate, SplitDesign,
@@ -122,7 +119,7 @@ from .architect import build_training_plan
 __all__ = [
     # Models
     "PlanType", "TrainingGoal",
-    "SplitType", "SplitPattern",
+    "SplitType",
     "ProgressionScheme",
     "ExerciseCategory", "ExperienceLevel",
     "Exercise", "WorkoutExercise", "Workout", "Microcycle", "Mesocycle", "TrainingPlan",
@@ -153,15 +150,13 @@ __all__ = [
     "compute_weekly_volume_per_muscle", "compute_session_volume_per_muscle",
     "get_recommended_weekly_sets", "validate_weekly_volume",
     "SpecializationConfig", "SPECIALIZATION_BALANCED", "SPECIALIZATION_FOCUS",
-    "get_specialization_program",
     # Intensity model + warm-up + reactive deload
     "ExerciseIntensityTier", "get_exercise_intensity_tier",
     "RIR_TABLE", "get_rir_range", "rir_to_rpe", "rpe_to_rir",
     "WarmUpSet", "WARMUP_LEQ_6_REP", "WARMUP_GEQ_6_REP",
     "generate_warmup_sets", "generate_warmup_for_workout",
-    "REACTIVE_DELOAD_QUESTIONS", "should_deload", "apply_deload",
+    "REACTIVE_DELOAD_QUESTIONS", "should_deload",
     "StrengthPhase", "StrengthPhaseSpec", "STRENGTH_PHASE_SPECS",
-    "get_peak_phase_duration",
     # Split designs
     "MovementPatternSlot", "WorkoutTemplate", "SplitDesign",
     "ALL_SPLITS", "get_splits_for_days", "get_split",

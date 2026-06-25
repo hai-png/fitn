@@ -15,6 +15,8 @@ from typing import Optional
 from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal
 from ..models.assessment import RecommendedStrategy
 from ..models.nutrition import MacroSplit, CalorieTargets, CalorieStrategy
+# Phase-6 cleanup: hoisted from inside ``compute_protein`` (no circular dep).
+from ..assessment.decision import CUT_BULK_BOUNDARIES
 
 
 # === Energy densities (kcal/g) ===
@@ -89,7 +91,7 @@ def compute_protein(
     # flagged as obese and got protein capped at 1 g/cm height (~175g instead
     # of the LBM-based ~250g). Now we use the same `obese_threshold` from
     # CUT_BULK_BOUNDARIES that the assessment subsystem uses (25% M / 32% F).
-    from ..assessment.decision import CUT_BULK_BOUNDARIES
+    # Phase-6 cleanup: ``CUT_BULK_BOUNDARIES`` now imported at module top.
     obese_threshold = CUT_BULK_BOUNDARIES[profile.sex]["obese_threshold"]
     obese = effective_bf is not None and effective_bf >= obese_threshold
 

@@ -128,7 +128,9 @@ class MealFood:
     @property
     def fiber_g(self) -> float:
         """Fiber grams (Phase-5: needed for filler tracking)."""
-        return getattr(self.food, 'fiber_g_per_100g', 0.0) * self.grams / 100
+        # Phase-6 cleanup: ``fiber_g_per_100g`` is a required field on FoodItem
+        # (default 0.0), so the getattr shim was unnecessary.
+        return self.food.fiber_g_per_100g * self.grams / 100
 
 
 # === Phase-2 Recipe model ===
@@ -157,7 +159,8 @@ class Recipe:
     id: Optional[str] = None               # e.g. "R001"
     source: Optional[str] = None            # URL
     source_file: Optional[str] = None
-    legacy_id: Optional[str] = None
+    # Phase-6 cleanup: removed ``legacy_id`` field (no consumers — the loader
+    # set it but nothing ever read it).
 
     # === Classification ===
     cuisine: str = "american"
@@ -196,7 +199,8 @@ class Recipe:
 
     # === Misc ===
     notes: str = ""
-    _extraction_method: Optional[str] = None
+    # Phase-6 cleanup: removed ``_extraction_method`` field (no consumers —
+    # the loader set it from a JSON key but nothing ever read it).
 
     @property
     def total_time_min(self) -> Optional[int]:

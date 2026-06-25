@@ -268,37 +268,12 @@ ALLERGEN_KEYWORDS: dict[str, list[str]] = {
 # the ingredient is dairy-free/egg-free (e.g. "almond milk", "vegan butter",
 # "just egg", "flax egg"). For these allergens, a qualifier match suppresses
 # the violation.
-_PLANT_QUALIFIERS_FOR_ALLERGENS = (
-    "almond", "soy", "oat", "rice", "coconut", "cashew", "hemp", "flax",
-    "macadamia", "pea", "vegan", "plant", "dairy-free", "dairy free",
-    "non-dairy", "nondairy", "peanut", "cocoa", "shea", "sunflower",
-    "avocado", "apple", "agave", "maple", "date", "molasses",
-    "vegenaise", "just egg", "egg replacer", "flax egg", "chia egg",
-    "beyond", "impossible", "gardein", "tofu", "tempeh", "seitan",
-    "vegetable", "veggie", "mushroom", "no-chicken", "no chicken",
-    "chicken-style", "chicken style",
-    "vegan beef", "vegan chicken", "vegan pork", "vegan fish",
-)
-
-# Plant-named phrases that contain a dairy/egg keyword as a substring but
-# are themselves plant-based and safe for dairy/egg-allergic users.
-# Tier 1.4 fix: includes "just egg", "flax egg", "chia egg", "egg replacer"
-# as full phrases so the word-boundary egg match doesn't fire on them
-# (the 25-char context check can't see "just egg" because "egg" is the
-# matched word itself).
-_PLANT_NAMED_PHRASES_FOR_ALLERGENS = (
-    "eggplant", "eggsplant",
-    "butter lettuce", "butterleaf", "buttercup squash",
-    "cocoa butter", "shea butter",
-    "cream of tartar", "creamed corn", "coconut cream",
-    "almond butter", "peanut butter", "cashew butter", "sunflower butter",
-    "apple butter", "pumpkin butter",
-    "milk thistle", "milkweed",
-    "honeydew", "honeycrisp",
-    # Egg substitutes (plant-based):
-    "just egg", "just eggs", "flax egg", "flax eggs", "chia egg", "chia eggs",
-    "egg replacer", "egg substitute", "vegan egg", "vegan eggs",
-)
+# Phase-6 cleanup: PLANT_QUALIFIERS / PLANT_NAMED_PHRASES now live in
+# ``_allergen_constants`` (single source of truth — previously this tuple was
+# duplicated across recipe_loader, recipe_scorer and swap_system and had
+# drifted). Imported here under the original local name for minimal diff.
+from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS_FOR_ALLERGENS
+from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES_FOR_ALLERGENS
 
 # Pre-compile a word-boundary regex per allergen category for fast matching.
 _ALLERGEN_REGEXES: dict[str, list[tuple[re.Pattern, str]]] = {

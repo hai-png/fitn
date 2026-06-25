@@ -6,6 +6,8 @@ from __future__ import annotations
 from ..models.profile import UserProfile, Sex
 from ..models.assessment import AssessmentResult, RecommendedStrategy
 from ..models.nutrition import NutritionPlan
+# Phase-6 cleanup: hoisted from inside ``_estimate_timeline`` (no circular dep).
+from ..assessment.decision import CUT_BULK_BOUNDARIES
 from .rmr import compute_rmr
 from .tdee import compute_tdee
 from .calories import compute_calorie_targets, BULK_RATE_BY_STATUS
@@ -135,8 +137,7 @@ def _estimate_timeline(
     - Bulk: time to reach FFMI ceiling or operational_hi BF%
     - Maintenance / Recomp: 12 weeks (typical mesocycle)
     """
-    from ..assessment.decision import CUT_BULK_BOUNDARIES
-
+    # Phase-6 cleanup: ``CUT_BULK_BOUNDARIES`` now imported at module top.
     strategy = assessment.recommended_strategy
     b = CUT_BULK_BOUNDARIES[profile.sex]
     # Tier 4.53 fix: extracted magic numbers to named constants.

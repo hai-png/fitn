@@ -37,9 +37,8 @@ from .meal_templates import (
     # Tier 3.41 fix: removed `get_meal_allocation` from this import — it was
     # imported from BOTH meal_templates AND profile_requirements, with the
     # profile_requirements version (which has the richer signature) winning.
-    # Now only the profile_requirements version is exported. The meal_templates
-    # version is still accessible directly via meal_templates.get_meal_allocation
-    # if anyone needs the legacy 1-arg form.
+    # Phase-6 cleanup: the meal_templates version has now been deleted entirely
+    # (Batch 6). Only the profile_requirements version is exported.
     get_meal_plan_template, get_meal_name,
 )
 # Allocator + planner (clean implementation)
@@ -101,7 +100,10 @@ __all__ = [
     "database_stats",
     # Templates
     "MEAL_ALLOCATIONS", "MEAL_ORDER", "MEAL_NAMES",
-    "get_meal_allocation", "get_meal_plan_template", "get_meal_name",
+    # Phase-6 cleanup: removed ``get_meal_allocation`` from __all__ — the
+    # meal_templates version was deleted; the canonical version is exported
+    # under the "Profile requirements" section below.
+    "get_meal_plan_template", "get_meal_name",
     # Allocator + planner
     "SelectedMeal", "allocate_meal", "selected_meal_to_dict",
     "build_meal_plan",

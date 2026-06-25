@@ -31,7 +31,7 @@ from .recipe_scorer import (
 )
 from .recipe_scaler import (
     scale_recipe, compute_filler_gap, select_fillers_for_meal,
-    ScaledRecipe, FillerResult,
+    ScaledRecipe, FillerResult, is_recipe_scalable_to_target,
 )
 from .swap_system import get_recipe_swaps_for_plan, get_swaps_for_recipe_ingredients
 from .recipe_loader import recipes_by_filters
@@ -260,12 +260,7 @@ def allocate_meal(
             )
 
     # Phase-6: if the best recipe cannot be scaled to within
-    # SCALE_DEVIATION_LIMIT of the slot target, fall back to fillers-only
-    # (returns SelectedMeal with recipe=None). This prevents the previous
-    # behavior where a 500-kcal recipe was clamped to MIN_SCALE=0.7 → 350 kcal
-    # for a 100-kcal slot, leaving the user 250% over target with no fillers
-    # to compensate.
-    from .recipe_scaler import is_recipe_scalable_to_target
+    # SCALE_DEVIATION_LIMIT of the slot target, fall back to fillers-only.
     if not is_recipe_scalable_to_target(best.recipe.kcal, slot.target_kcal):
         return SelectedMeal(
             meal_type=slot.meal_type,
@@ -388,7 +383,9 @@ def selected_meal_to_dict(selected: SelectedMeal) -> dict:
             {
                 "food": {
                     "name": mf.food.name,
-                    "category": mf.food.category.value if hasattr(mf.food.category, 'value') else str(mf.food.category),
+                    # Phase-6 cleanup: FoodCategory is a (str, Enum) and always
+                    # has ``.value``; the hasattr shim was unnecessary.
+                    "category": mf.food.category.value,
                     "kcal_per_100g": mf.food.kcal_per_100g,
                     "protein_g_per_100g": mf.food.protein_g_per_100g,
                     "carb_g_per_100g": mf.food.carb_g_per_100g,

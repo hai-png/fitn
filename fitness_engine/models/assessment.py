@@ -7,6 +7,14 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Optional
 
+# Phase-6 cleanup: hoisted from inside BodyComposition.__post_init__ and
+# MuscularPotential.__post_init__ (was a deferred import for no reason).
+import math
+
+# Phase-6 cleanup: shared JSON-serializer replaces the per-class ``_convert``
+# helper that was duplicated across assessment / nutrition models.
+from ..utils.serialize import convert_for_json
+
 
 class BodyFatMethod(str, Enum):
     """Method used to compute body fat %."""
@@ -72,7 +80,6 @@ class BodyComposition:
     def __post_init__(self):
         """Tier 3.32 fix: validate output ranges to catch bugs that would
         silently propagate impossible values (e.g. BF%=250, FFMI=-5)."""
-        import math
         if math.isnan(self.body_fat_pct) or not (0 <= self.body_fat_pct <= 100):
             raise ValueError(
                 f"BodyComposition.body_fat_pct must be in [0, 100]; got {self.body_fat_pct}"
@@ -137,7 +144,6 @@ class MuscularPotential:
 
     def __post_init__(self):
         """Tier 3.32 fix: validate output ranges."""
-        import math
         if math.isnan(self.current_ffmi) or self.current_ffmi < 0:
             raise ValueError(f"MuscularPotential.current_ffmi must be non-negative; got {self.current_ffmi}")
         if math.isnan(self.current_normalized_ffmi) or self.current_normalized_ffmi < 0:
@@ -173,15 +179,9 @@ class AssessmentResult:
 
     def to_dict(self) -> dict:
         """JSON-serializable view."""
-        def _convert(obj):
-            if isinstance(obj, Enum):
-                return obj.value
-            if hasattr(obj, "__dataclass_fields__"):
-                return {k: _convert(v) for k, v in asdict(obj).items()}
-            if isinstance(obj, list):
-                return [_convert(x) for x in obj]
-            return obj
-        return _convert(self)
+        # Phase-6 cleanup: uses the shared ``convert_for_json`` helper from
+        # ``utils.serialize`` (was a duplicated local ``_convert`` function).
+        return convert_for_json(self)
 
 
 __all__ = [

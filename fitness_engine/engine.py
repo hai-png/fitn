@@ -32,6 +32,8 @@ Backward compatibility: the flat-kwargs signature still works:
 """
 from __future__ import annotations
 
+import warnings
+
 from .models.profile import UserProfile
 from .models.assessment import AssessmentResult, RecommendedStrategy
 from .models.training import PlanType
@@ -80,42 +82,53 @@ def propose_plan(
     Returns FitnessPlan.
     """
     # === Resolve preferences ===
-    # If caller passed flat kwargs, merge them into a PlanPreferences.
     if preferences is None:
         preferences = PlanPreferences()
-    # Override with any explicitly-passed flat kwargs.
-    # Phase-6: re-coerce enum-typed fields after override so string kwargs
-    # (e.g. exercise_intensity="intense") are converted to ExerciseIntensity.
+
+    # Collect any flat kwargs and merge via from_kwargs (single coercion path).
+    # Phase-6 cleanup: consolidated 13 inline conditionals + 2 deferred imports
+    # into one dict + one from_kwargs call. Emits DeprecationWarning.
+    flat_kwargs: dict = {}
     if meal_frequency is not None:
-        preferences.meal_frequency = meal_frequency
+        flat_kwargs["meal_frequency"] = meal_frequency
     if exercise_hours_per_day is not None:
-        preferences.exercise_hours_per_day = exercise_hours_per_day
+        flat_kwargs["exercise_hours_per_day"] = exercise_hours_per_day
     if exercise_intensity is not None:
-        preferences.exercise_intensity = exercise_intensity
-        from .models.preferences import _coerce_intensity
-        preferences.exercise_intensity = _coerce_intensity(preferences.exercise_intensity)
+        flat_kwargs["exercise_intensity"] = exercise_intensity
     if climate is not None:
-        preferences.climate = climate
-        from .models.preferences import _coerce_climate
-        preferences.climate = _coerce_climate(preferences.climate)
+        flat_kwargs["climate"] = climate
     if in_active_deficit is not None:
-        preferences.in_active_deficit = in_active_deficit
+        flat_kwargs["in_active_deficit"] = in_active_deficit
     if weight_reduced_pct is not None:
-        preferences.weight_reduced_pct = weight_reduced_pct
+        flat_kwargs["weight_reduced_pct"] = weight_reduced_pct
     if plan_type is not None:
-        preferences.plan_type = plan_type
+        flat_kwargs["plan_type"] = plan_type
     if muscle_focus is not None:
-        preferences.muscle_focus = muscle_focus
+        flat_kwargs["muscle_focus"] = muscle_focus
     if program_duration_weeks is not None:
-        preferences.program_duration_weeks = program_duration_weeks
+        flat_kwargs["program_duration_weeks"] = program_duration_weeks
     if cuisine_preference is not None:
-        preferences.cuisine_preference = cuisine_preference
+        flat_kwargs["cuisine_preference"] = cuisine_preference
     if allergens_to_avoid is not None:
-        preferences.allergens_to_avoid = allergens_to_avoid
+        flat_kwargs["allergens_to_avoid"] = allergens_to_avoid
     if excluded_ingredients is not None:
-        preferences.excluded_ingredients = excluded_ingredients
+        flat_kwargs["excluded_ingredients"] = excluded_ingredients
     if include_pre_post_workout is not None:
-        preferences.include_pre_post_workout = include_pre_post_workout
+        flat_kwargs["include_pre_post_workout"] = include_pre_post_workout
+
+    if flat_kwargs:
+        warnings.warn(
+            "propose_plan() flat kwargs are deprecated. Pass a PlanPreferences "
+            "dataclass as the third argument instead. Flat kwargs will be "
+            "removed in a future major version.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        # Build a fresh PlanPreferences from the flat kwargs (handles enum
+        # coercion via __post_init__), then overlay onto existing preferences.
+        from_kwargs_prefs = PlanPreferences.from_kwargs(**flat_kwargs)
+        for field_name in flat_kwargs:
+            setattr(preferences, field_name, getattr(from_kwargs_prefs, field_name))
 
     # === 1. Nutrition plan ===
     nutrition = build_nutrition_plan(

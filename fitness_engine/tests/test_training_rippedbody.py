@@ -36,13 +36,17 @@ from fitness_engine.training import (
     PER_SESSION_SET_CAP, check_session_volume_cap,
     count_sets_toward_muscle, compute_weekly_volume_per_muscle,
     get_recommended_weekly_sets, validate_weekly_volume,
-    get_specialization_program,
+    # Phase-6 cleanup: removed ``get_specialization_program`` (dead code).
+    # The underlying constants are still tested directly in TestSpecialization.
+    SPECIALIZATION_BALANCED, SPECIALIZATION_FOCUS,
     ExerciseIntensityTier, get_exercise_intensity_tier,
     RIR_TABLE, get_rir_range, rir_to_rpe, rpe_to_rir,
     WarmUpSet, WARMUP_LEQ_6_REP, WARMUP_GEQ_6_REP,
     generate_warmup_sets, generate_warmup_for_workout,
-    REACTIVE_DELOAD_QUESTIONS, should_deload, apply_deload,
-    StrengthPhase, STRENGTH_PHASE_SPECS, get_peak_phase_duration,
+    REACTIVE_DELOAD_QUESTIONS, should_deload,
+    # Phase-6 cleanup: removed ``apply_deload`` (dead code).
+    StrengthPhase, STRENGTH_PHASE_SPECS,
+    # Phase-6 cleanup: removed ``get_peak_phase_duration`` (dead code).
 )
 from fitness_engine.models.training import (
     Workout, WorkoutExercise, Exercise, ExerciseCategory,
@@ -431,9 +435,17 @@ class TestVolumeValidation:
 # === Specialization tests ===
 
 class TestSpecialization:
-    def test_specialization_program_has_3_phases(self):
-        """Specialization should be balanced → focus → balanced."""
-        program = get_specialization_program(["chest"])
+    # Phase-6 cleanup: removed ``get_specialization_program`` (dead code).
+    # The two tests below now exercise the underlying SPECIALIZATION_BALANCED
+    # and SPECIALIZATION_FOCUS constants directly (the deleted function was a
+    # constant-returning wrapper around them).
+    def test_specialization_balanced_then_focus_then_balanced(self):
+        """Specialization template should be balanced → focus → balanced."""
+        program = [
+            SPECIALIZATION_BALANCED,
+            SPECIALIZATION_FOCUS,
+            SPECIALIZATION_BALANCED,
+        ]
         assert len(program) == 3
         assert program[0].phase == "balanced"
         assert program[1].phase == "specialization"
@@ -441,9 +453,8 @@ class TestSpecialization:
 
     def test_specialization_focus_has_higher_volume(self):
         """Focus phase should have higher volume for focus muscles."""
-        program = get_specialization_program(["chest"])
-        focus_lo, focus_hi = program[1].focus_muscles_sets
-        balanced_lo, balanced_hi = program[0].focus_muscles_sets
+        focus_lo, focus_hi = SPECIALIZATION_FOCUS.focus_muscles_sets
+        balanced_lo, balanced_hi = SPECIALIZATION_BALANCED.focus_muscles_sets
         assert focus_lo > balanced_lo
 
 
@@ -562,24 +573,10 @@ class TestReactiveDeload:
         """5 Yes answers → deload triggered."""
         assert should_deload([True, True, True, True, True]) == True
 
-    def test_apply_deload_reduces_volume(self):
-        """Deload should reduce sets by ~40%."""
-        ex = get_exercise_by_slug("barbell-bench-press")
-        we = WorkoutExercise(exercise=ex, sets=5, reps="5-8", rest_sec=180, rpe_target=8.0)
-        w = Workout(day_number=1, name="Test", focus="test", exercises=[we])
-        apply_deload(w, volume_reduction_pct=0.4)
-        # 5 * 0.6 = 3.0, rounded to 3
-        assert w.exercises[0].sets == 3
-        # RPE should be unchanged
-        assert w.exercises[0].rpe_target == 8.0
-
-    def test_apply_deload_minimum_2_sets(self):
-        """Deload should not reduce below 2 sets."""
-        ex = get_exercise_by_slug("barbell-bench-press")
-        we = WorkoutExercise(exercise=ex, sets=2, reps="5-8", rest_sec=180, rpe_target=8.0)
-        w = Workout(day_number=1, name="Test", focus="test", exercises=[we])
-        apply_deload(w, volume_reduction_pct=0.5)
-        assert w.exercises[0].sets == 2  # minimum
+    # Phase-6 cleanup: removed ``test_apply_deload_reduces_volume`` and
+    # ``test_apply_deload_minimum_2_sets`` — the underlying ``apply_deload``
+    # function was dead code (architect uses ``apply_periodization`` with
+    # ``is_deload=True``) and has been deleted from ``intensity_model.py``.
 
 
 # === Strength block phase tests ===
@@ -606,13 +603,10 @@ class TestStrengthPhases:
         spec = STRENGTH_PHASE_SPECS[StrengthPhase.PEAK]
         assert spec.duration_weeks == (2, 4)
 
-    def test_peak_duration_scales_with_prior(self):
-        """Peak duration should scale with prior phase length."""
-        assert get_peak_phase_duration(10) == 2   # 10-12 wk prior → 2 wk peak
-        assert get_peak_phase_duration(12) == 2
-        assert get_peak_phase_duration(14) == 3   # 13-15 wk → 3 wk peak
-        assert get_peak_phase_duration(16) == 4   # 16+ wk → 4 wk peak
-        assert get_peak_phase_duration(20) == 4
+    # Phase-6 cleanup: removed ``test_peak_duration_scales_with_prior`` —
+    # the underlying ``get_peak_phase_duration`` function was dead code
+    # (architect uses ``get_program_duration_weeks`` in periodization.py)
+    # and has been deleted from ``intensity_model.py``.
 
     def test_volume_phase_has_high_secondary_volume(self):
         """Volume phase should have 10-20 secondary sets/wk."""

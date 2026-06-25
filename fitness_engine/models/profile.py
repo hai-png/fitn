@@ -14,6 +14,10 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Optional
 
+# Phase-6 cleanup: shared JSON-serializer replaces the inline Enum loop in
+# ``UserProfile.to_dict`` (consistent with assessment/nutrition models).
+from ..utils.serialize import convert_for_json
+
 
 class Sex(str, Enum):
     MALE = "male"
@@ -222,12 +226,10 @@ class UserProfile:
             )
 
     def to_dict(self) -> dict:
-        d = asdict(self)
-        # Convert enums to their string values for JSON-serializability
-        for k, v in d.items():
-            if isinstance(v, Enum):
-                d[k] = v.value
-        return d
+        # Phase-6 cleanup: uses the shared ``convert_for_json`` helper from
+        # ``utils.serialize`` (was a shallow inline Enum-conversion loop that
+        # missed any nested dataclasses/containers).
+        return convert_for_json(self)
 
 
 __all__ = [

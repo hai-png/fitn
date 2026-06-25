@@ -412,19 +412,11 @@ SPECIALIZATION_FOCUS = SpecializationConfig(
 )
 
 
-def get_specialization_program(
-    focus_muscles: list[str],
-) -> list[SpecializationConfig]:
-    """
-    Get the 3-mesocycle specialization program for advanced hypertrophy.
-
-    Returns: [Balanced (8-12wk), Specialization (8-12wk), Balanced (8-12wk)]
-    """
-    return [
-        SPECIALIZATION_BALANCED,
-        SPECIALIZATION_FOCUS,
-        SPECIALIZATION_BALANCED,
-    ]
+# Phase-6 cleanup: removed ``get_specialization_program`` (dead code — ignored
+# its ``focus_muscles`` parameter and always returned the same constant list
+# ``[BALANCED, FOCUS, BALANCED]``; only the tests exercised it, never the
+# architect). Callers needing the 3-phase template can import
+# SPECIALIZATION_BALANCED / SPECIALIZATION_FOCUS directly.
 
 
 __all__ = [
@@ -447,5 +439,4 @@ __all__ = [
     "SpecializationConfig",
     "SPECIALIZATION_BALANCED",
     "SPECIALIZATION_FOCUS",
-    "get_specialization_program",
 ]

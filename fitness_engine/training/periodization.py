@@ -23,6 +23,10 @@ from ..models.training import (
     Workout,
     WorkoutExercise,
 )
+# Phase-6 cleanup: hoisted from inside ``apply_periodization`` (per-exercise
+# loop) and from ``get_mesocycle_length`` / ``get_program_duration_weeks``.
+from .intensity_model import get_rir_range, rir_to_rpe
+from ..models.profile import TrainingStatus
 
 
 # === Goal-based presets (rep / rest / RPE per category) ===
@@ -219,7 +223,8 @@ def apply_periodization(
         # rep range (RPE 6-8 instead of the correct RPE 7-9 for 3-6 reps on
         # a heavy compound).
         try:
-            from .intensity_model import get_rir_range, rir_to_rpe
+            # Phase-6 cleanup: ``get_rir_range`` / ``rir_to_rpe`` now imported
+            # at module top.
             # Parse the FINAL rep range (post-DUP, post-block) for the clamp.
             if "-" in reps and not reps.endswith("min") and not reps.endswith("sec"):
                 parts = reps.split("-")
@@ -252,7 +257,7 @@ def apply_periodization(
 
 def get_mesocycle_length(experience) -> int:
     """Return the recommended mesocycle length (in weeks, including deload)."""
-    from ..models.profile import TrainingStatus
+    # Phase-6 cleanup: ``TrainingStatus`` now imported at module top.
     return {
         TrainingStatus.BEGINNER: 4,        # 3 acc + 1 deload
         TrainingStatus.NOVICE: 4,          # 3 acc + 1 deload
@@ -273,7 +278,7 @@ def get_program_duration_weeks(
     Intermediate: 10-12 weeks (2 mesocycles)
     Advanced:     12-16 weeks (2-3 mesocycles — block periodization)
     """
-    from ..models.profile import TrainingStatus
+    # Phase-6 cleanup: ``TrainingStatus`` now imported at module top.
     base = {
         TrainingStatus.BEGINNER: 4,        # 1 mesocycle
         TrainingStatus.NOVICE: 8,          # 2 mesocycles

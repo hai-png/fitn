@@ -304,31 +304,9 @@ def should_deload(answers: list[bool]) -> bool:
     return sum(1 for a in answers if a) >= 2
 
 
-def apply_deload(workout: Workout, volume_reduction_pct: float = 0.4) -> Workout:
-    """
-    Apply a reactive deload to a workout.
-
-    Rule 8.3:
-      - Reduce volume by 30-50% (default 40%)
-      - Maintain intensity (RPE/RIR unchanged)
-      - Maintain exercise selection
-
-    Args:
-      workout: the workout to deload
-      volume_reduction_pct: fraction of sets to remove (0.3-0.5)
-
-    Returns new Workout with reduced sets (mutates exercises in place).
-    """
-    for we in workout.exercises:
-        # Round to nearest int, minimum 2 sets
-        new_sets = max(2, round(we.sets * (1 - volume_reduction_pct)))
-        we.sets = new_sets
-        if "deload" not in (we.notes or "").lower():
-            we.notes = (we.notes or "") + " [deload: -40% volume, intensity maintained]"
-    if "Deload" not in workout.name:
-        workout.name = workout.name + " (Deload)"
-    workout.notes = (workout.notes or "") + " Reactive deload: -40% sets, RPE unchanged."
-    return workout
+# Phase-6 cleanup: removed ``apply_deload`` (dead code — the architect never
+# calls it; ``apply_periodization`` with ``is_deload=True`` is the production
+# path, with its own deload recipe in periodization.py around line 211).
 
 
 # === Strength block phases (Tables 7.11–7.13) ===
@@ -408,21 +386,9 @@ STRENGTH_PHASE_SPECS: dict[StrengthPhase, StrengthPhaseSpec] = {
 }
 
 
-def get_peak_phase_duration(prior_phase_weeks: int) -> int:
-    """
-    Get the peak phase duration based on prior phase length.
-
-    Rule 11.3:
-      - prior 10-12 wks → 2-week peak
-      - prior 13-15 wks → 3-week peak
-      - prior 16+ wks → 4-week peak
-    """
-    if prior_phase_weeks <= 12:
-        return 2
-    elif prior_phase_weeks <= 15:
-        return 3
-    else:
-        return 4
+# Phase-6 cleanup: removed ``get_peak_phase_duration`` (dead code — never
+# called from production; program duration is derived via
+# ``get_program_duration_weeks`` in periodization.py).
 
 
 __all__ = [
@@ -439,9 +405,7 @@ __all__ = [
     "generate_warmup_for_workout",
     "REACTIVE_DELOAD_QUESTIONS",
     "should_deload",
-    "apply_deload",
     "StrengthPhase",
     "StrengthPhaseSpec",
     "STRENGTH_PHASE_SPECS",
-    "get_peak_phase_duration",
 ]

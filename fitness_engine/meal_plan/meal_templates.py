@@ -7,33 +7,15 @@ allocation percentages. The user will supply detailed meal resources later.
 from __future__ import annotations
 
 from ..models.meal import MealType
+# Phase-6 cleanup: ``MEAL_ALLOCATIONS`` was byte-identical to
+# ``STANDARD_ALLOCATIONS`` in ``profile_requirements``. Deduplicated to a
+# single source of truth; this alias preserves the legacy public name.
+from .profile_requirements import STANDARD_ALLOCATIONS as MEAL_ALLOCATIONS
 
 
 # === Macro allocation per meal (% of daily calories per meal) ===
-MEAL_ALLOCATIONS = {
-    # meal_frequency: {meal_type: pct_of_daily}
-    2: {  # intermittent fasting 16:8 — 2 meals
-        MealType.LUNCH: 0.45,
-        MealType.DINNER: 0.55,
-    },
-    3: {  # default — 3 meals
-        MealType.BREAKFAST: 0.30,
-        MealType.LUNCH: 0.35,
-        MealType.DINNER: 0.35,
-    },
-    4: {  # 3 meals + 1 snack
-        MealType.BREAKFAST: 0.25,
-        MealType.LUNCH: 0.30,
-        MealType.DINNER: 0.30,
-        MealType.SNACK: 0.15,
-    },
-    5: {  # 3 meals + 2 snacks — must sum to 1.0 (Tier 1.3 fix)
-        MealType.BREAKFAST: 0.20,
-        MealType.LUNCH: 0.25,
-        MealType.DINNER: 0.25,
-        MealType.SNACK: 0.30,        # split between 2 snacks → 0.15 each
-    },
-}
+# (formerly defined inline here — see STANDARD_ALLOCATIONS in
+# profile_requirements for the canonical definition.)
 
 # For 5 meals, we add a second snack labeled as SNACK too — we'll handle
 # this in the allocator by splitting the snack allocation evenly.
@@ -43,14 +25,11 @@ MEAL_ORDER = [
 ]
 
 
-def get_meal_allocation(meal_frequency: int) -> dict[MealType, float]:
-    """
-    Get the macro allocation percentages for a given meal frequency.
-    Returns dict {meal_type: pct_of_daily}.
-    """
-    if meal_frequency not in MEAL_ALLOCATIONS:
-        meal_frequency = 3   # default
-    return MEAL_ALLOCATIONS[meal_frequency].copy()
+# Phase-6 cleanup: removed the local ``get_meal_allocation(meal_frequency)``
+# function — it was superseded by the richer-signature
+# ``profile_requirements.get_meal_allocation(meal_frequency,
+# include_pre_post_workout=False, is_training_day=False)``. The 1-arg form
+# is no longer needed (callers should use the canonical version).
 
 
 def get_meal_plan_template(meal_frequency: int) -> list[MealType]:
@@ -119,5 +98,7 @@ def get_meal_name(meal_type: MealType, day: int = 1) -> str:
 
 __all__ = [
     "MEAL_ALLOCATIONS", "MEAL_ORDER", "MEAL_NAMES",
-    "get_meal_allocation", "get_meal_plan_template", "get_meal_name",
+    # Phase-6 cleanup: removed ``get_meal_allocation`` from __all__ — callers
+    # should import the canonical version from profile_requirements.
+    "get_meal_plan_template", "get_meal_name",
 ]

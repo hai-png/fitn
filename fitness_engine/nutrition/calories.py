@@ -19,6 +19,10 @@ from ..models.profile import (
 from ..models.assessment import RecommendedStrategy
 from ..models.nutrition import CalorieTargets, CalorieStrategy
 from ..utils.units import kg_to_lb, lb_to_kg
+# Phase-6 cleanup: hoisted from inside ``recomp_target_calories`` (was a
+# deferred import to avoid a circular dependency at module load time, but
+# ``assessment.decision`` only imports constants and ``Sex`` is already at top).
+from ..assessment.decision import CUT_BULK_BOUNDARIES
 
 
 # === Energy constants ===
@@ -290,9 +294,8 @@ def recomp_target_calories(
     - High recomp potential (BF% ≥ recomp_excellent): 10-20% deficit
     - Moderate recomp potential: 0-10% deficit
     """
-    from ..assessment.decision import CUT_BULK_BOUNDARIES
-    from ..models.profile import Sex
-
+    # Phase-6 cleanup: ``CUT_BULK_BOUNDARIES`` is now imported at module top;
+    # ``Sex`` is already in the top-level ``from ..models.profile import ...``.
     b = CUT_BULK_BOUNDARIES[profile.sex]
 
     if body_fat_pct >= b["recomp_excellent"]:
@@ -400,6 +403,11 @@ def compute_calorie_targets(
     profile already encode everything needed. The single source of truth for
     "is the user currently in a deficit" now lives in the planner (derived
     from strategy); see nutrition/planner.py for the consolidation.
+
+    Phase-6 cleanup: DEPRECATION — ``in_active_deficit`` will be removed in a
+    future major version. New callers should omit it. Existing callers that
+    still pass it (e.g. ``nutrition/planner.py``) are tolerated but the value
+    is discarded silently.
     """
     if strategy == RecommendedStrategy.CUT:
         return cut_target_calories(profile, tdee_kcal)

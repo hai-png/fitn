@@ -19,6 +19,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional, Union
 
+# Phase-6 cleanup: hoisted from inside PlanPreferences.from_kwargs.
+import logging
+
 from .training import PlanType
 from .profile import ExerciseIntensity, Climate
 
@@ -125,7 +128,7 @@ class PlanPreferences:
         Phase-6: logs a warning for unknown kwargs (e.g. typos like
         `meal_freqency=4`) instead of silently dropping them.
         """
-        import logging
+        # Phase-6 cleanup: ``import logging`` hoisted to module top.
         valid_fields = {f.name for f in cls.__dataclass_fields__.values()}
         filtered = {}
         unknown = []

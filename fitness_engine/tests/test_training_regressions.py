@@ -8,7 +8,10 @@ Covers:
   - Tier 2.23: 'seated-dumbbell-press' NOT categorized as 'horizontal_push'
   - Tier 2.24: all STRENGTH_LIFT_LANDMARKS entries have MRV >= MAV_hi
   - Tier 2.28: linear_progression_next works with 1-2 sets
-  - Tier 2.29: double_progression_next adds weight when all sets hit hi
+
+Phase-6 cleanup: removed the Tier 2.29 ``TestDoubleProgression`` class — the
+underlying ``double_progression_next`` function was dead code (never called
+from production) and has been deleted from ``training/progression.py``.
 """
 import pytest
 
@@ -16,7 +19,7 @@ from fitness_engine.training.split_designs import ALL_SPLITS
 from fitness_engine.training.exercise_categorization import get_movement_pattern
 from fitness_engine.training.volume_landmarks import STRENGTH_LIFT_LANDMARKS
 from fitness_engine.training.progression import (
-    linear_progression_next, double_progression_next,
+    linear_progression_next,
 )
 
 
@@ -136,51 +139,6 @@ class TestLinearProgressionFix:
             target_reps=(8, 12),
         )
         assert next_w == 50  # repeat weight
-
-
-class TestDoubleProgression:
-    """Tier 2.29 — double_progression_next implemented."""
-
-    def test_all_sets_hit_hi_adds_weight_and_resets_to_lo(self):
-        next_w, next_target, expl = double_progression_next(
-            current_weight_kg=60,
-            reps_achieved=[12, 12, 12],  # all hit hi
-            reps_target_lo=8,
-            reps_target_hi=12,
-            increment_kg=2.5,
-        )
-        assert next_w == 62.5
-        assert next_target == 8  # reset to lo
-
-    def test_all_sets_hit_lo_but_not_hi_keeps_weight_targets_hi(self):
-        next_w, next_target, expl = double_progression_next(
-            current_weight_kg=60,
-            reps_achieved=[10, 8, 9],  # all >= lo, not all >= hi
-            reps_target_lo=8,
-            reps_target_hi=12,
-        )
-        assert next_w == 60  # keep weight
-        assert next_target == 12  # push for hi
-
-    def test_failed_to_hit_lo_keeps_weight_targets_lo(self):
-        next_w, next_target, expl = double_progression_next(
-            current_weight_kg=60,
-            reps_achieved=[6, 7],  # missed lo
-            reps_target_lo=8,
-            reps_target_hi=12,
-        )
-        assert next_w == 60
-        assert next_target == 8
-
-    def test_empty_reps_keeps_weight(self):
-        next_w, next_target, expl = double_progression_next(
-            current_weight_kg=60,
-            reps_achieved=[],
-            reps_target_lo=8,
-            reps_target_hi=12,
-        )
-        assert next_w == 60
-        assert next_target == 8
 
 
 class TestMuscleFocusBack:

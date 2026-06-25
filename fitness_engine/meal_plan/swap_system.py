@@ -20,8 +20,18 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
+# Phase-6 cleanup: hoisted from inside ``get_ingredient_swaps`` (was a deferred
+# import for no reason — ``re`` has no circular dependency here).
+import re
+
 from ..models.meal import Recipe
 from .recipe_loader import load_recipes, get_recipe_by_id
+# Phase-6 cleanup: plant-named phrases were duplicated here and in recipe_loader/
+# recipe_scorer; now sourced from the shared ``_allergen_constants`` module.
+from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES
+from .recipe_scorer import (
+    score_diet_match, check_allergens, check_excluded_ingredients,
+)
 
 
 # === Ingredient swap database ===
@@ -213,25 +223,8 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     so the dairy/egg swap keys don't fire on them.
     Exact match still takes precedence.
     """
-    import re
-
-    # Plant-named phrases that contain a dairy/egg keyword as a substring but
-    # are themselves plant-based (mirrors recipe_scorer._PLANT_NAMED_PHRASES_FOR_EXCLUDED).
-    _PLANT_NAMED_PHRASES = (
-        "eggplant", "eggsplant",
-        "butter lettuce", "butterleaf", "buttercup squash",
-        "cocoa butter", "shea butter",
-        "cream of tartar", "creamed corn", "coconut cream",
-        "almond butter", "peanut butter", "cashew butter", "sunflower butter",
-        "apple butter", "pumpkin butter",
-        "milk thistle", "milkweed",
-        "honeydew", "honeycrisp",
-        "just egg", "just eggs", "flax egg", "flax eggs", "chia egg", "chia eggs",
-        "egg replacer", "egg substitute", "vegan egg", "vegan eggs",
-        "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk",
-        "cashew milk", "hemp milk", "macadamia milk", "pea milk",
-    )
-
+    # Phase-6 cleanup: ``_PLANT_NAMED_PHRASES`` is now imported at module top
+    # from ``_allergen_constants``. The local ``import re`` was hoisted too.
     ing_lower = ingredient.lower().strip()
 
     # Exact match
@@ -334,8 +327,6 @@ def get_recipe_swaps(
 
     Returns list of Recipes sorted by kcal closeness to target.
     """
-    from .recipe_scorer import score_diet_match, check_allergens, check_excluded_ingredients
-
     exclude_ids = exclude_ids or set()
     if recipe.id:
         exclude_ids.add(recipe.id)

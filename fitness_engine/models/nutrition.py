@@ -7,6 +7,13 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Optional
 
+# Phase-6 cleanup: hoisted from inside CalorieTargets.__post_init__.
+import math
+
+# Phase-6 cleanup: shared JSON-serializer replaces the per-class ``_convert``
+# helper that was duplicated across assessment / nutrition models.
+from ..utils.serialize import convert_for_json
+
 
 class CalorieStrategy(str, Enum):
     DEFICIT = "deficit"            # cut
@@ -61,7 +68,6 @@ class CalorieTargets:
 
     def __post_init__(self):
         """Tier 3.32 fix: validate output ranges."""
-        import math
         if math.isnan(self.target_calories_kcal) or self.target_calories_kcal <= 0:
             raise ValueError(
                 f"CalorieTargets.target_calories_kcal must be positive; "
@@ -146,17 +152,9 @@ class NutritionPlan:
     notes: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
-        def _convert(obj):
-            if isinstance(obj, Enum):
-                return obj.value
-            if hasattr(obj, "__dataclass_fields__"):
-                return {k: _convert(v) for k, v in asdict(obj).items()}
-            if isinstance(obj, list):
-                return [_convert(x) for x in obj]
-            if isinstance(obj, dict):
-                return {k: _convert(v) for k, v in obj.items()}
-            return obj
-        return _convert(self)
+        # Phase-6 cleanup: uses the shared ``convert_for_json`` helper from
+        # ``utils.serialize`` (was a duplicated local ``_convert`` function).
+        return convert_for_json(self)
 
 
 __all__ = [

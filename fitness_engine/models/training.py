@@ -11,7 +11,8 @@ downstream serialization doesn't need to branch.
 Phase-3 also introduces:
   - PlanType (STANDARD | PROGRAM)
   - TrainingGoal (STRENGTH | HYPERTROPHY | GENERAL_FITNESS | FAT_LOSS | MUSCLE_GAIN | RECOMP | MAINTENANCE)
-  - SplitPattern (replaces the old SplitType; kept the latter as alias for backward compat)
+  - SplitType (Phase-3 clean name; the legacy ``SplitPattern`` alias was removed
+    in Phase-6 cleanup — no production callers remained)
   - PeriodizationScheme (LINEAR | DUP | BLOCK)
   - MovementPatternSlot + WorkoutTemplate + SplitDesign (in split_designs.py)
 """
@@ -56,8 +57,9 @@ class SplitType(str, Enum):
     PUSH_PULL = "push_pull"                  # 2-4 d/wk
 
 
-# Alias for new code (cleaner name)
-SplitPattern = SplitType
+# Phase-6 cleanup: removed ``SplitPattern = SplitType`` alias (no production
+# callers — only re-exported by ``training/__init__.py``). Direct callers
+# should use ``SplitType``.
 
 
 # === Periodization ===
@@ -278,7 +280,6 @@ __all__ = [
     "PlanType",
     "TrainingGoal",
     "SplitType",
-    "SplitPattern",
     "ProgressionScheme",
     "ExerciseCategory",
     "ExperienceLevel",

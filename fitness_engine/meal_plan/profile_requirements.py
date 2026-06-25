@@ -54,7 +54,9 @@ def get_recipe_diet_tag(profile_diet: DietType) -> str:
     """
     # Check for Ethiopian preference via profile.cuisine_preference (Phase-5 addition)
     # or via the diet_type itself if it's a Phase-5 enum value
-    diet_str = profile_diet.value.upper() if hasattr(profile_diet, 'value') else str(profile_diet).upper()
+    # Phase-6 cleanup: DietType is an Enum and always has ``.value``; the
+    # hasattr shim was a leftover from before the field was typed as DietType.
+    diet_str = profile_diet.value.upper()
 
     if "VEGAN_ETHIOPIAN" in diet_str or "VEGAN-ETHIOPIAN" in diet_str:
         return "VEGAN_ETHIOPIAN"
@@ -312,7 +314,9 @@ class MealPlanRequirements:
     meal_frequency: int = 3
     include_pre_post_workout: bool = False
     training_days_per_week: int = 3
-    training_time_of_day: str = "evening"   # morning / midday / evening
+    # Phase-6 cleanup: removed ``training_time_of_day: str = "evening"`` field
+    # — it was set but never read by any consumer (the actual training time
+    # is read from ``profile.training_time_of_day`` at slot-construction time).
 
     # Diet + filtering
     diet_tag: str = "OMNI"
@@ -462,11 +466,9 @@ def compute_meal_plan_requirements(
         # Tier 3.38 fix: training_time_of_day is now a real field on UserProfile
         # (TrainingTimeOfDay enum). Previously this was a dead getattr that always
         # returned 'evening'. Now the morning/midday/evening branching actually fires.
-        training_time = (
-            profile.training_time_of_day.value
-            if hasattr(profile, 'training_time_of_day') and profile.training_time_of_day
-            else 'evening'
-        )
+        # Phase-6 cleanup: the field is always present with a default, so the
+        # hasattr shim was unnecessary.
+        training_time = profile.training_time_of_day.value
         if training_time == "morning":
             # PRE right after breakfast, POST as morning snack
             training_day_slot_targets.insert(0, pre_target)
@@ -529,11 +531,8 @@ def compute_meal_plan_requirements(
         meal_frequency=meal_frequency,
         include_pre_post_workout=include_pre_post_workout,
         training_days_per_week=profile.training_days_per_week,
-        training_time_of_day=(
-            profile.training_time_of_day.value
-            if hasattr(profile, 'training_time_of_day') and profile.training_time_of_day
-            else 'evening'
-        ),
+        # Phase-6 cleanup: ``training_time_of_day`` field removed from
+        # MealPlanRequirements — was set but never read.
         diet_tag=diet_tag,
         cuisine_preference=cuisine_preference,
         allergens_to_avoid=allergens_to_avoid or [],

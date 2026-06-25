@@ -29,6 +29,7 @@ Public API:
 from __future__ import annotations
 
 import json
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 from typing import Optional
@@ -96,35 +97,12 @@ _STRICT_MEAT_PHRASES = (
 # (e.g. "almond milk", "soy milk", "oat milk", "coconut milk", "vegan butter")
 _CONDITIONAL_KEYWORDS = ("milk", "butter", "cream", "cheese", "yogurt", "whey", "egg", "honey", "broth")
 
-_PLANT_QUALIFIERS = (
-    "almond", "soy", "oat", "rice", "coconut", "cashew", "hemp", "flax",
-    "macadamia", "pea", "vegan", "plant", "dairy-free", "dairy free",
-    "non-dairy", "nondairy", "peanut", "cocoa", "shea", "sunflower",
-    "avocado", "apple", "agave", "maple", "date", "molasses",
-    "vegenaise", "just egg", "egg replacer", "flax egg", "chia egg",
-    "beyond", "impossible", "gardein", "tofu", "tempeh", "seitan",
-    "vegetable", "veggie", "mushroom", "no-chicken", "no chicken",
-    "chicken-style", "chicken style",
-    "vegan beef", "vegan chicken", "vegan pork", "vegan fish",
-)
-
-# Tier 1.4 fix: plant-named items that contain a conditional keyword as a
-# SUBSTRING but are themselves plant-based. These are matched as whole-word
-# phrases so they short-circuit the conditional keyword check.
-_PLANT_NAMED_PHRASES = (
-    "eggplant", "eggsplant",          # contains "egg"
-    "butter lettuce", "butterleaf",   # contains "butter"
-    "buttercup squash",               # contains "butter"
-    "cocoa butter", "shea butter",    # already covered by qualifiers, listed for clarity
-    "cream of tartar",                # contains "cream"
-    "creamed corn",                   # contains "cream" — vegetarian
-    "coconut cream",                  # already covered by qualifiers
-    "almond butter", "peanut butter", "cashew butter", "sunflower butter",
-    "apple butter", "pumpkin butter",
-    "milk thistle", "milkweed",       # plants containing "milk"
-    "honeydew", "honeycrisp",         # fruits containing "honey"
-    "broth of",  # generic; vegetable broth is covered by "vegetable" qualifier
-)
+# Phase-6 cleanup: PLANT_QUALIFIERS / PLANT_NAMED_PHRASES now live in
+# ``_allergen_constants`` (single source of truth — previously this tuple was
+# duplicated across recipe_loader, recipe_scorer and swap_system and had
+# drifted). Imported here under the original local name for minimal diff.
+from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS
+from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES
 
 # Compile strict-word regex (word-boundary match)
 _STRICT_WORD_RE = re.compile(
@@ -280,7 +258,7 @@ def _parse_recipe(raw: dict, is_curated: bool) -> Recipe:
         id=raw.get("id"),
         source=raw.get("source"),
         source_file=raw.get("source_file"),
-        legacy_id=raw.get("legacy_id"),
+        # Phase-6 cleanup: ``legacy_id`` field removed from Recipe (no consumers).
         cuisine=raw.get("cuisine") or "american",
         category=raw.get("category") or "",
         recipe_kind=raw.get("recipe_kind") or "meal",
@@ -303,7 +281,7 @@ def _parse_recipe(raw: dict, is_curated: bool) -> Recipe:
         injera_accompaniment=bool(raw.get("injera_accompaniment")),
         image_url=raw.get("image_url"),
         notes=notes,
-        _extraction_method=raw.get("_extraction_method"),
+        # Phase-6 cleanup: ``_extraction_method`` field removed from Recipe.
     )
     return _sanitize_recipe(recipe)
 
@@ -560,7 +538,6 @@ def database_stats() -> dict:
     curated_count = sum(1 for r in recipes if "[curated]" in (r.notes or ""))
     uncurated_count = len(recipes) - curated_count
 
-    from collections import Counter
     meal_dist = Counter()
     diet_dist = Counter()
     cuisine_dist = Counter()

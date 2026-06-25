@@ -60,9 +60,33 @@ from .periodization import (
     get_block_phases_for_program,
 )
 from .exercise_library import EXERCISES
+# Phase-6 cleanup: hoisted from inside ``build_training_plan`` (deferred
+# imports for no reason — these submodules have no circular dep on architect).
+from .volume_landmarks import (
+    validate_weekly_volume,
+    VolumeTier,
+    check_session_volume_cap,
+    PER_SESSION_SET_CAP,
+)
 
 
 _log = logging.getLogger(__name__)
+
+
+# Phase-6 cleanup: ``_MUSCLE_ALIASES`` was previously defined twice — once
+# locally inside ``_apply_muscle_focus`` (no ``abs`` entry) and once inside
+# ``build_training_plan`` as ``_ALIASES_FOR_VOLUME`` (with ``abs``). The two
+# had drifted; consolidated here as a single module-level source of truth.
+_MUSCLE_ALIASES: dict[str, list[str]] = {
+    "back": ["upper_back", "lats", "lower_back", "middle_back", "traps"],
+    "chest": ["chest"],
+    "shoulders": ["shoulders", "side_delts", "rear_delts"],
+    "arms": ["biceps", "triceps", "forearms"],
+    "legs": ["quads", "hamstrings", "glutes", "calves"],
+    "abs": ["abs", "obliques"],
+}
+# Legacy alias kept for the volume-notes call site (minimal diff).
+_ALIASES_FOR_VOLUME = _MUSCLE_ALIASES
 
 
 # === Step 1: derive training goal ===
@@ -327,13 +351,9 @@ def _apply_muscle_focus(
     # that already train it
     # Tier 2.19 fix: muscle group alias map. 'back' expands to ['upper_back',
     # 'lats', 'lower_back', 'middle_back', 'traps'] so that slot matching works.
-    _MUSCLE_ALIASES = {
-        "back": ["upper_back", "lats", "lower_back", "middle_back", "traps"],
-        "chest": ["chest"],
-        "shoulders": ["shoulders", "side_delts", "rear_delts"],
-        "arms": ["biceps", "triceps", "forearms"],
-        "legs": ["quads", "hamstrings", "glutes", "calves"],
-    }
+    # Phase-6 cleanup: ``_MUSCLE_ALIASES`` now defined once at module top
+    # (was duplicated as ``_ALIASES_FOR_VOLUME`` further down — and that copy
+    # had ``abs`` while this one didn't, causing inconsistent alias expansion).
     for muscle in muscle_focus:
         muscle_lower = muscle.lower()
         accessories = _FOCUS_ACCESSORIES.get(muscle_lower)
@@ -714,16 +734,10 @@ def build_training_plan(
     # Phase-6 fix: replaced muscle-agnostic 10/20-set cutoffs with muscle-
     # specific validate_weekly_volume() (uses MEV/MRV from DEFAULT_MUSCLE_LANDMARKS).
     # Also replaced substring matching ("abs" matching "abductors") with the
-    # explicit _MUSCLE_ALIASES map already defined above.
-    _ALIASES_FOR_VOLUME = {
-        "back": ["upper_back", "lats", "lower_back", "middle_back", "traps"],
-        "chest": ["chest"],
-        "shoulders": ["shoulders", "side_delts", "rear_delts"],
-        "arms": ["biceps", "triceps", "forearms"],
-        "legs": ["quads", "hamstrings", "glutes", "calves"],
-        "abs": ["abs", "obliques"],
-    }
-    from .volume_landmarks import validate_weekly_volume, VolumeTier
+    # explicit _MUSCLE_ALIASES map defined at module top (Phase-6 cleanup:
+    # formerly re-declared here as ``_ALIASES_FOR_VOLUME``).
+    # Phase-6 cleanup: imports of validate_weekly_volume / VolumeTier hoisted
+    # to module top (combined with check_session_volume_cap / PER_SESSION_SET_CAP).
     # Build a per-muscle weekly volume dict using alias expansion
     expanded_vol: dict[str, float] = {}
     for muscle, sets in weekly_vol.items():
@@ -776,7 +790,8 @@ def build_training_plan(
     # Tier 2.27 fix: enforce 11-set per-session cap (RippedBody Rule 2.6).
     # check_session_volume_cap exists in volume_landmarks but was never called.
     # Now we scan the first microcycle's workouts and surface warnings.
-    from .volume_landmarks import check_session_volume_cap, PER_SESSION_SET_CAP
+    # Phase-6 cleanup: ``check_session_volume_cap`` / ``PER_SESSION_SET_CAP``
+    # are now imported at module top.
     cap_warnings: list[str] = []
     if mesocycles and mesocycles[0].microcycles:
         for workout in mesocycles[0].microcycles[0].workouts:

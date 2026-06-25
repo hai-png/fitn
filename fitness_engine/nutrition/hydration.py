@@ -5,6 +5,10 @@ Source: fatcalc.com__hydration-calculator (multi-step formula)
 """
 from __future__ import annotations
 
+# Phase-6 cleanup: hoisted from inside ``compute_hydration`` (was a deferred
+# import for no reason — ``warnings`` has no circular dependency here).
+import warnings
+
 from ..models.profile import UserProfile, Sex, ExerciseIntensity, Climate
 from ..models.nutrition import HydrationTarget
 
@@ -80,7 +84,7 @@ def compute_hydration(
             climate = None
     # Validate against known values; fall back to defaults on unknown inputs.
     if exercise_intensity not in SWEAT_RATE_ML_PER_HR:
-        import warnings
+        # Phase-6 cleanup: ``import warnings`` hoisted to module top.
         warnings.warn(
             f"Unknown exercise_intensity '{exercise_intensity}' — falling back to 'moderate'. "
             f"Valid values: {[e.value for e in ExerciseIntensity]} or ExerciseIntensity enum.",
@@ -88,7 +92,6 @@ def compute_hydration(
         )
         exercise_intensity = ExerciseIntensity.MODERATE
     if climate not in CLIMATE_MULTIPLIER:
-        import warnings
         warnings.warn(
             f"Unknown climate '{climate}' — falling back to 'temperate'. "
             f"Valid values: {[c.value for c in Climate]} or Climate enum.",
