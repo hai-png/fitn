@@ -89,7 +89,6 @@ def build_meal_plan(
     # Spread training days evenly across the week
     training_days = _compute_training_days(
         requirements.training_days_per_week,
-        requirements.training_time_of_day,
     )
 
     # 3. Build 7 day plans
@@ -286,7 +285,6 @@ def build_meal_plan(
 
 def _compute_training_days(
     training_days_per_week: int,
-    training_time_of_day: str = "evening",
 ) -> set[int]:
     """
     Determine which days of the week are training days.
@@ -297,6 +295,10 @@ def _compute_training_days(
       - 5 days/week → {1, 2, 3, 4, 5} (Mon-Fri)
 
     Returns set of 1-indexed day numbers (1=Mon, 7=Sun).
+
+    Phase-6 fix: removed unused `training_time_of_day` parameter (was accepted
+    but never read; training_time_of_day is consumed separately by
+    `profile_requirements.compute_meal_plan_requirements`).
     """
     if training_days_per_week >= 7:
         return {1, 2, 3, 4, 5, 6, 7}

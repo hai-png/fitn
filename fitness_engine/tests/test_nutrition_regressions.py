@@ -342,12 +342,17 @@ class TestReverseDietAndAdaptiveTDEE:
         assert abs(tdee - 1950) < 5, f"Expected ~1950 (gained weight → TDEE < intake); got {tdee}"
 
     def test_observed_tdee_zero_division_guard(self):
-        """n_days=0 must not crash (was an unguarded division)."""
+        """n_days=0 must raise ValueError (Phase-6 fix: was unguarded division).
+
+        Previously this would raise ZeroDivisionError; now it raises
+        ValueError with a descriptive message before reaching the division.
+        """
         from fitness_engine.nutrition.tdee import observed_tdee_first_principles
-        with pytest.raises(ZeroDivisionError):
-            # Direct call — the function itself is unguarded; callers pre-check.
-            # This test documents that direct callers should guard n_days >= 1.
+        with pytest.raises(ValueError, match="n_days must be >= 1"):
             observed_tdee_first_principles(2500, 80.0, 79.5, 0)
+        # n_days < 0 also raises
+        with pytest.raises(ValueError, match="n_days must be >= 1"):
+            observed_tdee_first_principles(2500, 80.0, 79.5, -5)
 
 
 # === Tier 5.63: vegan meal plan end-to-end ===

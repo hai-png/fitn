@@ -86,7 +86,11 @@ def observed_tdee_first_principles(
       weight_start_kg: body weight at start of window
       weight_end_kg: body weight at end of window
       n_days: number of days in the window
+
+    Phase-6 fix: validates n_days >= 1 to prevent ZeroDivisionError.
     """
+    if n_days < 1:
+        raise ValueError(f"n_days must be >= 1, got {n_days}")
     delta_weight = weight_end_kg - weight_start_kg
     return avg_intake_kcal - (delta_weight * 7700.0) / n_days
 

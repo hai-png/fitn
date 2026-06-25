@@ -16,6 +16,7 @@ from ..models.profile import (
 )
 from ..models.assessment import RecommendedStrategy
 from ..models.nutrition import CalorieTargets, CalorieStrategy
+from ..utils.units import kg_to_lb, lb_to_kg
 
 
 # === Energy constants ===
@@ -76,12 +77,7 @@ REVERSE_DIET_RED_FLAG_WEEKLY_GAIN_PCT = 0.005
 
 
 # === Helpers ===
-def _lb_to_kg(lb: float) -> float:
-    return lb * 0.45359237
-
-
-def _kg_to_lb(kg: float) -> float:
-    return kg * 2.2046226218
+# Phase-6: removed duplicated _lb_to_kg / _kg_to_lb — use utils.units instead.
 
 
 def _apply_calorie_floor(calories: float, sex: Sex) -> tuple[float, bool, int]:
@@ -153,7 +149,7 @@ def cut_target_calories(
         cap_warning = None
 
     weekly_loss_kg = profile.weight_kg * rate_pct
-    weekly_loss_lb = _kg_to_lb(weekly_loss_kg)
+    weekly_loss_lb = kg_to_lb(weekly_loss_kg)
     daily_deficit_kcal = weekly_loss_kg * DEFICIT_KCAL_PER_KG_PER_WEEK
     target = tdee_kcal - daily_deficit_kcal
 

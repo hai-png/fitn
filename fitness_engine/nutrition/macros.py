@@ -10,6 +10,8 @@ Sources:
 """
 from __future__ import annotations
 
+from typing import Optional
+
 from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal
 from ..models.assessment import RecommendedStrategy
 from ..models.nutrition import MacroSplit, CalorieTargets, CalorieStrategy
@@ -46,7 +48,7 @@ SATURATED_FAT_CEILING_PCT = 0.10
 
 def compute_protein(
     profile: UserProfile,
-    body_fat_pct: float,
+    body_fat_pct: Optional[float],
     strategy: RecommendedStrategy,
     target_calories: float,
 ) -> tuple[float, list[str]]:
@@ -68,8 +70,13 @@ def compute_protein(
     notes: list[str] = []
     weight_lb = profile.weight_kg * 2.2046226218
     height_cm = profile.height_cm
-    lbm_kg = profile.weight_kg * (1 - body_fat_pct / 100)
-    lbm_lb = lbm_kg * 2.2046226218
+
+    # Phase-6 fix: body_fat_pct is now Optional[float]. The BF%-unknown path
+    # (lines 108-132) was previously dead code because the guard at line 94
+    # used `or` (always True when either source had a value, which is always
+    # the case since compute_macros passes body_fat_pct explicitly). Now we
+    # use `and` so the BF%-unknown path is reachable when both are None.
+    effective_bf = body_fat_pct if body_fat_pct is not None else profile.body_fat_pct
 
     # Tier 2.13 fix: use BF% (consistent with assessment's decision tree) instead
     # of BMI proxy. Previously a 100kg 175cm 12%BF bodybuilder (BMI=32.7) was
@@ -78,20 +85,22 @@ def compute_protein(
     # CUT_BULK_BOUNDARIES that the assessment subsystem uses (25% M / 32% F).
     from ..assessment.decision import CUT_BULK_BOUNDARIES
     obese_threshold = CUT_BULK_BOUNDARIES[profile.sex]["obese_threshold"]
-    obese = body_fat_pct >= obese_threshold
+    obese = effective_bf is not None and effective_bf >= obese_threshold
 
     # Obese override: 1 g per cm of height
-    if obese:
+    if obese and effective_bf is not None:
         protein_g = float(height_cm)
         notes.append(
-            f"Obese override (BF%={body_fat_pct:.1f}% ≥ {obese_threshold}% threshold): "
+            f"Obese override (BF%={effective_bf:.1f}% ≥ {obese_threshold}% threshold): "
             f"protein = 1 g/cm height = {protein_g:.0f} g "
             "(avoids excessive intake based on body weight)."
         )
         return protein_g, notes
 
     # BF%-known path (use LBM)
-    if profile.body_fat_pct is not None or body_fat_pct is not None:
+    if effective_bf is not None:
+        lbm_kg = profile.weight_kg * (1 - effective_bf / 100)
+        lbm_lb = lbm_kg * 2.2046226218
         if strategy == RecommendedStrategy.CUT:
             protein_g = lbm_lb * 1.14
             notes.append(

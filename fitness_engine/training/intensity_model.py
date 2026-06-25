@@ -291,7 +291,16 @@ def should_deload(answers: list[bool]) -> bool:
     Determine if a deload is needed based on the 5-question self-assessment.
 
     Rule 8.2: ≥2 "Yes" answers → deload.
+
+    Phase-6 fix: validates that exactly 5 answers are provided. Previously
+    `should_deload([True, True])` returned True with only 2 of 5 questions
+    answered, which could trigger a deload based on incomplete assessment.
     """
+    if len(answers) != 5:
+        raise ValueError(
+            f"should_deload requires exactly 5 answers (Rule 8.2 5-question "
+            f"self-assessment), got {len(answers)}"
+        )
     return sum(1 for a in answers if a) >= 2
 
 

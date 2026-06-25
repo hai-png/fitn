@@ -147,7 +147,20 @@ def body_fat_cun_bae(profile: UserProfile) -> float:
     instead of CUN_BAE when this fallback fires, so downstream consumers
     are not misled about which formula was used. Phase-2 should fetch the
     original paper and implement the real formula.
+
+    Phase-6 fix: emit a DeprecationWarning so direct callers know they're
+    getting Jackson values, not CUN-BAE. The function is kept public for
+    backward compatibility but should not be relied on for accurate
+    CUN-BAE estimates until the real formula is implemented.
     """
+    import warnings
+    warnings.warn(
+        "body_fat_cun_bae() is not yet correctly implemented — returning "
+        "Jackson BMI-based BF% as a fallback. Do not rely on this function "
+        "for accurate CUN-BAE estimates.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     # Fallback: use Jackson BMI-based formula (validated, gives sensible output)
     return body_fat_bmi_jackson(profile)
 
