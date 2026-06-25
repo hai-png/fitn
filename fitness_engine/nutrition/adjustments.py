@@ -27,6 +27,7 @@ class PlateauType(str, Enum):
     SUDDEN_STALL = "sudden_stall"           # water retention — wait
     GRADUAL_SLOWDOWN = "gradual_slowdown"   # real adaptation — adjust
     WHOOSH = "whoosh"                        # sudden drop — no action needed
+    WEIGHT_GAIN = "weight_gain"              # Phase-6: gaining weight during a cut
 
 
 @dataclass
@@ -64,9 +65,19 @@ def detect_plateau(
         for i in range(len(weekly_weight_log_kg) - 1)
     ]
 
-    # Whoosh: any single week delta > 3× expected
-    if any(d > expected_weekly_loss * 3 for d in deltas):
+    # Whoosh: any single week delta > 1.5% body weight (Phase-6: absolute threshold
+    # per docstring, was `expected_weekly_loss * 3` which only matched for 0.5% rate)
+    whoosh_threshold = body_weight_kg * 0.015
+    if any(d > whoosh_threshold for d in deltas):
         return PlateauType.WHOOSH
+
+    # Phase-6: weight gain during a cut (any delta < 0 means weight went UP).
+    # All 3 recent weeks showing weight gain (negative delta) is a strong signal
+    # that the user is either not adhering or the deficit is too small.
+    if len(deltas) >= 3:
+        last_3 = deltas[-3:]
+        if all(d < 0 for d in last_3):
+            return PlateauType.WEIGHT_GAIN
 
     # Sudden stall: last 3 deltas all < 0.3% body weight
     if len(deltas) >= 3:
@@ -156,6 +167,22 @@ def recommend_cut_adjustment(
             reasoning=(
                 "Whoosh detected (sudden multi-kg drop after stall). "
                 "Water release — no adjustment needed."
+            ),
+            troubleshooting_steps=troubleshooting,
+        )
+
+    # Phase-6: weight gain during a cut — strong signal of adherence issue
+    # or miscalculated TDEE. Do NOT reduce calories further; instead surface
+    # the troubleshooting checklist prominently.
+    if plateau == PlateauType.WEIGHT_GAIN:
+        return AdjustmentRecommendation(
+            plateau_type=plateau,
+            action="lifestyle_fix",
+            reasoning=(
+                "Weight GAIN detected during cut (3+ weeks of weight increase). "
+                "Do NOT reduce calories further — this is almost always an adherence "
+                "or tracking issue, not a metabolism problem. Work through the "
+                "troubleshooting checklist before any calorie change."
             ),
             troubleshooting_steps=troubleshooting,
         )

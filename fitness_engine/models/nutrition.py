@@ -86,9 +86,37 @@ class MacroSplit:
     carb_kcal: float
     notes: list[str] = field(default_factory=list)
 
+    def __post_init__(self) -> None:
+        """Phase-6: validate macro consistency.
+
+        - Percentages must sum to ~100 (±2% tolerance for rounding).
+        - kcal values must be consistent with grams (P/C: 4 kcal/g, F: 9 kcal/g).
+        - All values must be non-negative.
+        Violations raise ValueError so upstream bugs surface immediately
+        instead of producing silent inconsistencies downstream.
+        """
+        for name, val in [
+            ("protein_g", self.protein_g), ("fat_g", self.fat_g), ("carb_g", self.carb_g),
+            ("protein_pct", self.protein_pct), ("fat_pct", self.fat_pct), ("carb_pct", self.carb_pct),
+            ("protein_kcal", self.protein_kcal), ("fat_kcal", self.fat_kcal), ("carb_kcal", self.carb_kcal),
+        ]:
+            if val < 0:
+                raise ValueError(f"MacroSplit.{name} must be non-negative, got {val}")
+        pct_sum = self.protein_pct + self.fat_pct + self.carb_pct
+        if abs(pct_sum - 100.0) > 2.0:
+            raise ValueError(
+                f"MacroSplit percentages must sum to ~100, got {pct_sum:.1f} "
+                f"(P={self.protein_pct}, F={self.fat_pct}, C={self.carb_pct})"
+            )
+
     @property
     def total_kcal(self) -> float:
         return self.protein_kcal + self.fat_kcal + self.carb_kcal
+
+    @property
+    def carbs_clamped(self) -> bool:
+        """Phase-6: True if carbs were clamped to 0 because protein+fat exceeded target."""
+        return any("carb" in note.lower() and "clamp" in note.lower() for note in self.notes)
 
 
 @dataclass

@@ -138,7 +138,17 @@ def _pick_split(
     candidates = get_splits_for_days(days_per_week)
 
     if not candidates:
-        # No exact match — pick closest day count
+        # Phase-6 fix: raise ValueError for unsupported frequencies (1, 7 days).
+        # Previously silently fell back to a different day-count split, which
+        # meant `TrainingPlan.training_days_per_week` lied and `rest_days`
+        # were misaligned. Supported: 2, 3, 4, 5, 6 days/week.
+        if days_per_week < 2 or days_per_week > 6:
+            raise ValueError(
+                f"Unsupported training_days_per_week={days_per_week}. "
+                f"Supported values: 2, 3, 4, 5, 6. "
+                f"1-day and 7-day splits are not yet implemented."
+            )
+        # For 2-6 days with no exact match (shouldn't happen, but defensive):
         closest = min(ALL_SPLITS, key=lambda s: abs(s.days_per_week - days_per_week))
         _log.warning(
             "No split for %d days/week; falling back to %s (%d days)",
@@ -186,8 +196,23 @@ def _pick_split(
 
 # === Step 3: pick progression scheme ===
 
-def _pick_progression(experience: TrainingStatus) -> ProgressionScheme:
-    """Map experience to progression scheme."""
+def _pick_progression(
+    experience: TrainingStatus,
+    goal: Optional[TrainingGoal] = None,
+) -> ProgressionScheme:
+    """Map experience (and optionally goal) to progression scheme.
+
+    Phase-6 fix: STRENGTH goal now uses BLOCK periodization for INTERMEDIATE
+    and ADVANCED (per RippedBody Tables 7.11-7.13, strength blocks are
+    inherently block-periodized: volume → load → peak). Previously
+    intermediate strength athletes got DUP, which is suboptimal for peaking
+    strength.
+    """
+    # Phase-6: strength goal → block periodization for non-beginners
+    if goal == TrainingGoal.STRENGTH and experience in (
+        TrainingStatus.INTERMEDIATE, TrainingStatus.ADVANCED,
+    ):
+        return ProgressionScheme.BLOCK
     return {
         TrainingStatus.BEGINNER:     ProgressionScheme.LINEAR,
         TrainingStatus.NOVICE:       ProgressionScheme.LINEAR,
@@ -590,8 +615,8 @@ def build_training_plan(
         goal=goal,
     )
 
-    # Step 3: pick progression
-    progression = _pick_progression(profile.training_status)
+    # Step 3: pick progression (Phase-6: now passes goal so STRENGTH+INTERMEDIATE → BLOCK)
+    progression = _pick_progression(profile.training_status, goal)
 
     # Step 4: decide plan type
     actual_plan_type = _decide_plan_type(profile, goal, plan_type)

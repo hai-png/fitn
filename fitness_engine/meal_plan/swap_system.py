@@ -208,10 +208,29 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
 
     Case-insensitive match. Phase-6 fix: matching now uses word boundaries
     (regex `\\b<key>\\b`) instead of raw substring test, so "eggplant" no
-    longer matches the "egg" swap key, "butter lettuce" no longer matches
-    "butter", etc. Exact match still takes precedence.
+    longer matches the "egg" swap key. Plant-named phrases like
+    "butter lettuce", "milk thistle", "cream of tartar" are also blocked
+    so the dairy/egg swap keys don't fire on them.
+    Exact match still takes precedence.
     """
     import re
+
+    # Plant-named phrases that contain a dairy/egg keyword as a substring but
+    # are themselves plant-based (mirrors recipe_scorer._PLANT_NAMED_PHRASES_FOR_EXCLUDED).
+    _PLANT_NAMED_PHRASES = (
+        "eggplant", "eggsplant",
+        "butter lettuce", "butterleaf", "buttercup squash",
+        "cocoa butter", "shea butter",
+        "cream of tartar", "creamed corn", "coconut cream",
+        "almond butter", "peanut butter", "cashew butter", "sunflower butter",
+        "apple butter", "pumpkin butter",
+        "milk thistle", "milkweed",
+        "honeydew", "honeycrisp",
+        "just egg", "just eggs", "flax egg", "flax eggs", "chia egg", "chia eggs",
+        "egg replacer", "egg substitute", "vegan egg", "vegan eggs",
+        "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk",
+        "cashew milk", "hemp milk", "macadamia milk", "pea milk",
+    )
 
     ing_lower = ingredient.lower().strip()
 
@@ -219,11 +238,25 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     if ing_lower in INGREDIENT_SWAPS:
         return INGREDIENT_SWAPS[ing_lower]
 
+    # Block plant-named phrases: if the ingredient IS a plant-named phrase,
+    # don't try to match its dairy/egg keyword substring.
+    for phrase in _PLANT_NAMED_PHRASES:
+        if ing_lower == phrase:
+            return []
+
     # Word-boundary partial match (e.g. "boneless chicken breast" → "chicken
     # breast"). Phase-6 fix: previously used `if key in ing_lower` which
     # caused false positives (e.g. "egg" matching "eggplant", "butter"
     # matching "butter lettuce", "milk" matching "milk thistle").
+    # We also skip matching if the ingredient contains a plant-named phrase
+    # that subsumes the key (e.g. "butter lettuce" contains "butter" but
+    # "butter lettuce" is a plant).
     for key, swaps in INGREDIENT_SWAPS.items():
+        # If any plant-named phrase containing this key is present in the
+        # ingredient, skip this key (the dairy/egg keyword is part of a
+        # plant name, not the actual ingredient).
+        if any(phrase in ing_lower for phrase in _PLANT_NAMED_PHRASES if key in phrase):
+            continue
         pat = re.compile(r"\b" + re.escape(key) + r"\b", re.IGNORECASE)
         if pat.search(ing_lower):
             return swaps
