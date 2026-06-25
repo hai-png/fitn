@@ -93,13 +93,29 @@ def compute_pre_workout_target(
 
     High carb, moderate protein, low fat, low fiber (fast digestion).
     ~10% of daily kcal, eaten 60-90 min before training.
+
+    Tier 1.5 fix: previously the macro fractions (15% P / 20% C / 5% F of
+    daily) were independent of the kcal fraction (10% of daily), producing
+    slot targets where the macros summed to MORE kcal than the slot target
+    (e.g. 200 kcal slot with 22.5P + 40C + 3.25F = 279 kcal of macros).
+    The allocator cannot satisfy both constraints. Now we derive the macro
+    targets FROM the slot kcal using a pre-workout macro split
+    (~20% protein / ~65% carb / ~15% fat by calories), which is internally
+    consistent.
     """
+    slot_kcal = daily_kcal * 0.10
+    # Pre-workout macro split by calories: 20% protein, 65% carb, 15% fat.
+    # (High carb for glycogen + moderate protein for muscle support + low fat
+    # for fast digestion.)
+    target_protein_g = (slot_kcal * 0.20) / 4.0   # 20% of kcal from protein
+    target_carb_g = (slot_kcal * 0.65) / 4.0      # 65% of kcal from carb
+    target_fat_g = (slot_kcal * 0.15) / 9.0       # 15% of kcal from fat
     return MealSlotTarget(
         meal_type=MealType.PRE_WORKOUT,
-        target_kcal=daily_kcal * 0.10,
-        target_protein_g=daily_protein_g * 0.15,
-        target_carb_g=daily_carb_g * 0.20,
-        target_fat_g=daily_fat_g * 0.05,
+        target_kcal=slot_kcal,
+        target_protein_g=target_protein_g,
+        target_carb_g=target_carb_g,
+        target_fat_g=target_fat_g,
         target_fiber_g=2.0,   # low fiber for fast digestion
         is_training_day_slot=True,
         timing_note="60-90 min before workout",
@@ -116,13 +132,23 @@ def compute_post_workout_target(
     Post-workout meal target.
 
     Protein + carbs for recovery. ~15% of daily kcal, eaten 30-60 min after.
+
+    Tier 1.5 fix: same as pre-workout — derive macros FROM the slot kcal
+    using a post-workout split (~35% protein / ~50% carb / ~15% fat by
+    calories), which is internally consistent.
     """
+    slot_kcal = daily_kcal * 0.15
+    # Post-workout macro split: 35% protein, 50% carb, 15% fat.
+    # (Higher protein for MPS, carbs for glycogen replenishment.)
+    target_protein_g = (slot_kcal * 0.35) / 4.0
+    target_carb_g = (slot_kcal * 0.50) / 4.0
+    target_fat_g = (slot_kcal * 0.15) / 9.0
     return MealSlotTarget(
         meal_type=MealType.POST_WORKOUT,
-        target_kcal=daily_kcal * 0.15,
-        target_protein_g=daily_protein_g * 0.25,
-        target_carb_g=daily_carb_g * 0.20,
-        target_fat_g=daily_fat_g * 0.10,
+        target_kcal=slot_kcal,
+        target_protein_g=target_protein_g,
+        target_carb_g=target_carb_g,
+        target_fat_g=target_fat_g,
         target_fiber_g=4.0,
         is_training_day_slot=True,
         timing_note="30-60 min after workout",
@@ -148,11 +174,11 @@ STANDARD_ALLOCATIONS: dict[int, dict[MealType, float]] = {
         MealType.DINNER: 0.30,
         MealType.SNACK: 0.15,
     },
-    5: {  # 3 meals + 2 snacks
+    5: {  # 3 meals + 2 snacks — must sum to 1.0 (Tier 1.3 fix)
         MealType.BREAKFAST: 0.20,
         MealType.LUNCH: 0.25,
         MealType.DINNER: 0.25,
-        MealType.SNACK: 0.15,   # split between 2 snacks
+        MealType.SNACK: 0.30,   # split between 2 snacks → 0.15 each
         # Note: SNACK appears twice in template; allocator handles split
     },
 }
@@ -197,15 +223,15 @@ def get_meal_allocation(
             MealType.DINNER: 0.225,
             MealType.SNACK: 0.15,
         }
-    else:  # 5 meals
+    else:  # 5 meals — must sum to 1.0 (Tier 1.3 fix: was 0.90)
         return {
             MealType.PRE_WORKOUT: 0.10,
             MealType.POST_WORKOUT: 0.15,
             MealType.BREAKFAST: 0.15,
             MealType.LUNCH: 0.20,
             MealType.DINNER: 0.20,
-            MealType.SNACK: 0.10,   # split between 2 snacks
-            # Note: in 5-meal template, SNACK appears twice → each gets 0.10/2 = 0.05
+            MealType.SNACK: 0.20,   # split between 2 snacks → 0.10 each
+            # Note: in 5-meal template, SNACK appears twice → each gets 0.20/2 = 0.10
         }
 
 
@@ -364,8 +390,15 @@ def compute_meal_plan_requirements(
                     mt, pct, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
                 ))
 
-        # Insert PRE/POST at appropriate positions based on training_time_of_day
-        training_time = getattr(profile, 'training_time_of_day', 'evening') or 'evening'
+        # Insert PRE/POST at appropriate positions based on training_time_of_day.
+        # Tier 3.38 fix: training_time_of_day is now a real field on UserProfile
+        # (TrainingTimeOfDay enum). Previously this was a dead getattr that always
+        # returned 'evening'. Now the morning/midday/evening branching actually fires.
+        training_time = (
+            profile.training_time_of_day.value
+            if hasattr(profile, 'training_time_of_day') and profile.training_time_of_day
+            else 'evening'
+        )
         if training_time == "morning":
             # PRE right after breakfast, POST as morning snack
             training_day_slot_targets.insert(0, pre_target)
@@ -428,7 +461,11 @@ def compute_meal_plan_requirements(
         meal_frequency=meal_frequency,
         include_pre_post_workout=include_pre_post_workout,
         training_days_per_week=profile.training_days_per_week,
-        training_time_of_day=getattr(profile, 'training_time_of_day', 'evening') or 'evening',
+        training_time_of_day=(
+            profile.training_time_of_day.value
+            if hasattr(profile, 'training_time_of_day') and profile.training_time_of_day
+            else 'evening'
+        ),
         diet_tag=diet_tag,
         cuisine_preference=cuisine_preference,
         allergens_to_avoid=allergens_to_avoid or [],

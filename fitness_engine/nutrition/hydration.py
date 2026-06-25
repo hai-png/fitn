@@ -34,8 +34,8 @@ NAM_AI = {Sex.FEMALE: 2.7, Sex.MALE: 3.7}     # L/day
 def compute_hydration(
     profile: UserProfile,
     exercise_hours_per_day: float = 1.0,
-    exercise_intensity: str = "moderate",
-    climate: str = "temperate",
+    exercise_intensity: str | "ExerciseIntensity" = "moderate",
+    climate: str | "Climate" = "temperate",
     pregnant: bool = False,
     breastfeeding: bool = False,
 ) -> HydrationTarget:
@@ -49,8 +49,36 @@ def compute_hydration(
     5. Pregnancy: +0.3 L
     6. Breastfeeding: +0.7 L
 
+    Tier 3.31 fix: exercise_intensity and climate now accept the ExerciseIntensity
+    / Climate enums (or strings for backward compat). Unknown values fall back to
+    defaults with a logged warning (previously silent fallback).
+
     Returns HydrationTarget.
     """
+    # Tier 3.31 fix: coerce enums to their string values for dict lookup.
+    from ..models.profile import ExerciseIntensity, Climate
+    if isinstance(exercise_intensity, ExerciseIntensity):
+        exercise_intensity = exercise_intensity.value
+    if isinstance(climate, Climate):
+        climate = climate.value
+    # Validate against known values; fall back to defaults on unknown inputs.
+    if exercise_intensity not in SWEAT_RATE_ML_PER_HR:
+        import warnings
+        warnings.warn(
+            f"Unknown exercise_intensity '{exercise_intensity}' — falling back to 'moderate'. "
+            f"Valid values: {list(SWEAT_RATE_ML_PER_HR.keys())} or ExerciseIntensity enum.",
+            stacklevel=2,
+        )
+        exercise_intensity = "moderate"
+    if climate not in CLIMATE_MULTIPLIER:
+        import warnings
+        warnings.warn(
+            f"Unknown climate '{climate}' — falling back to 'temperate'. "
+            f"Valid values: {list(CLIMATE_MULTIPLIER.keys())} or Climate enum.",
+            stacklevel=2,
+        )
+        climate = "temperate"
+
     # Step 1
     water = profile.weight_kg * (BASE_ML_PER_KG / 1000)   # liters
     components = {"base (30 mL/kg)": round(water, 2)}

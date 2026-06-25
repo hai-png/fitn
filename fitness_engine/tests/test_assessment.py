@@ -11,13 +11,14 @@ from fitness_engine.assessment import (
     classify_bf, classify_bmi, compute_ffmi,
     compute_whr, classify_whr, compute_whtr, classify_whtr,
     compute_absi, classify_absi, ibw_devine,
-    assess_profile,
+    assess_profile, compute_body_fat,
 )
 from fitness_engine.assessment.decision import decide_strategy
 from fitness_engine.assessment.muscular_potential import (
     berkhan_stage_max_weight_kg, FFMI_NATURAL_COMMON,
-    BULK_RATE_BY_STATUS,
 )
+# Tier 2.12 fix: BULK_RATE_BY_STATUS now lives only in nutrition.calories
+from fitness_engine.nutrition.calories import BULK_RATE_BY_STATUS
 
 
 # === Test fixtures ===
@@ -83,10 +84,18 @@ class TestBodyFatBMIMethods:
         assert 5 < bf < 40
 
     def test_cun_bae_male(self, male_profile):
+        """Tier 2.16: body_fat_cun_bae is currently a Jackson fallback (the real
+        CUN-BAE coefficients couldn't be verified from synthesized sources).
+        The returned value should be sensible (Jackson's range for a healthy
+        male)."""
         bf = body_fat_cun_bae(male_profile)
         assert 5 < bf < 40
 
     def test_cun_bae_female_higher_than_male_at_same_bmi(self):
+        """Tier 2.16: Jackson's formula gives women higher BF% than men at the
+        same BMI+age (coefficient 39.96 vs 37.31). Previously this test was
+        named 'cun_bae' but the function actually returned Jackson values —
+        the test passed for the wrong reason."""
         male = UserProfile(
             age=30, sex=Sex.MALE, height_cm=178, weight_kg=80,
             activity_level=ActivityLevel.SEDENTARY,
@@ -107,8 +116,33 @@ class TestBodyFatBMIMethods:
         )
         bf_m = body_fat_cun_bae(male)
         bf_f = body_fat_cun_bae(female)
-        # Women should have higher BF% at same BMI+age due to sex_code term
+        # Women should have higher BF% at same BMI+age (Jackson's female coefficient is higher)
         assert bf_f > bf_m
+
+    def test_compute_body_fat_reports_bmi_jackson_not_cun_bae(self):
+        """Tier 2.16 regression: when body_fat_cun_bae is used as the fallback,
+        compute_body_fat must report BodyFatMethod.BMI_JACKSON (not CUN_BAE),
+        since the function actually returns Jackson values. Previously the
+        method label was wrong, misleading downstream consumers."""
+        from fitness_engine.models.assessment import BodyFatMethod
+        # Profile with no body_fat_pct and no circumference measurements →
+        # falls through to the Jackson/CUN-BAE fallback.
+        profile = UserProfile(
+            age=30, sex=Sex.MALE, height_cm=178, weight_kg=80,
+            activity_level=ActivityLevel.SEDENTARY,
+            training_status=TrainingStatus.BEGINNER,
+            primary_goal=PrimaryGoal.MAINTENANCE,
+            training_days_per_week=3,
+            equipment_access=EquipmentAccess.FULL_GYM,
+            diet_type=DietType.OMNIVORE,
+            # No body_fat_pct, no neck/waist/hip → fallback path
+        )
+        bf, method = compute_body_fat(profile)
+        assert method == BodyFatMethod.BMI_JACKSON, (
+            f"compute_body_fat should report BMI_JACKSON (not CUN_BAE) when "
+            f"using the Jackson fallback; got {method}. This was the original "
+            f"mislabeling bug."
+        )
 
 
 class TestBodyFatCategories:

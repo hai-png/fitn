@@ -54,8 +54,9 @@ FOODS = [
              34, 3.4, 5.0, 0.1, 0, 240, "1 cup (~240mL)"),
     FoodItem("Cheddar Cheese", FoodCategory.DAIRY,
              403, 24.9, 1.3, 33.1, 0, 30, "1 slice (~30g)"),
-    FoodItem("Pork Loin (raw)", FoodCategory.PROTEIN_ANIMAL,
-             143, 22.0, 0, 5.5, 0, 150, "1 serving"),
+    # Tier 4.51 fix: removed duplicate "Pork Loin (raw)" entry (was at lines 39 and 57,
+    # with slightly different serving_description; the second silently overrode the
+    # first in FOOD_INDEX). The first entry at line 39 is kept.
 
     # === Plant proteins ===
     FoodItem("Tofu (firm)", FoodCategory.PROTEIN_PLANT,

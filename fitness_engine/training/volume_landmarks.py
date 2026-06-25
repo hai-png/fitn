@@ -115,10 +115,14 @@ class StrengthLiftLandmarks:
 
 
 STRENGTH_LIFT_LANDMARKS: dict[str, StrengthLiftLandmarks] = {
-    "squat":       StrengthLiftLandmarks("squat",       1, 3, 10, 5, 2),
-    "bench":       StrengthLiftLandmarks("bench",       1, 3, 10, 5, 2),
-    "deadlift":    StrengthLiftLandmarks("deadlift",    1, 3, 10, 5, 2),
-    "overhead":    StrengthLiftLandmarks("overhead",    1, 3, 10, 5, 2),
+    # Tier 2.24 fix: MRV must be >= MAV_hi (Maximum Recoverable Volume must
+    # be >= upper bound of Maximum Adaptive Volume). Previously MRV=5 < MAV_hi=10,
+    # which is mathematically incoherent (you can't recover from less volume
+    # than the upper bound of what's adaptive). Now MRV = MAV_hi + 2.
+    "squat":       StrengthLiftLandmarks("squat",       1, 3, 10, 12, 2),
+    "bench":       StrengthLiftLandmarks("bench",       1, 3, 10, 12, 2),
+    "deadlift":    StrengthLiftLandmarks("deadlift",    1, 3, 10, 12, 2),
+    "overhead":    StrengthLiftLandmarks("overhead",    1, 3, 10, 12, 2),
 }
 
 

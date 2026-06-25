@@ -40,6 +40,7 @@ class PrimaryGoal(str, Enum):
     MUSCLE_GAIN = "muscle_gain"
     RECOMP = "recomp"
     MAINTENANCE = "maintenance"
+    STRENGTH = "strength"   # Tier 2.18: added so users can request strength-focused training
 
 
 class EquipmentAccess(str, Enum):
@@ -72,6 +73,30 @@ class BulkAggressiveness(str, Enum):
     VERY_AGGRESSIVE = "very_aggressive"
 
 
+class TrainingTimeOfDay(str, Enum):
+    """Tier 3.38 fix: when the user trains. Used by meal_plan/profile_requirements
+    to insert PRE/POST workout slots at the right time of day (was previously
+    a dead getattr with no field on UserProfile)."""
+    MORNING = "morning"     # train before breakfast / early AM
+    MIDDAY = "midday"       # train around lunch
+    EVENING = "evening"     # train after work / evening (DEFAULT)
+
+
+class ExerciseIntensity(str, Enum):
+    """Tier 3.31 fix: enum for hydration.exercise_intensity (was raw string)."""
+    LIGHT = "light"
+    MODERATE = "moderate"      # DEFAULT
+    INTENSE = "intense"
+
+
+class Climate(str, Enum):
+    """Tier 3.31 fix: enum for hydration.climate (was raw string)."""
+    COLD = "cold"
+    TEMPERATE = "temperate"    # DEFAULT
+    HOT = "hot"
+    HOT_HUMID = "hot_humid"
+
+
 @dataclass
 class UserProfile:
     """
@@ -82,21 +107,21 @@ class UserProfile:
     """
 
     # === Identity (required) ===
-    age: int                                  # 18-65
+    age: int                                  # 18-100 (Tier 3.33: was 18-65 in docstring; validator allows 18-100)
     sex: Sex                                   # male / female
-    height_cm: float                           # 140-220
-    weight_kg: float                           # 35-250
+    height_cm: float                           # 140-230 (Tier 3.33: was 140-220 in docstring)
+    weight_kg: float                           # 35-300 (Tier 3.33: was 35-250 in docstring)
 
     # === Activity & Training (required) ===
     activity_level: ActivityLevel
     training_status: TrainingStatus
     primary_goal: PrimaryGoal
-    training_days_per_week: int                # 2-6
+    training_days_per_week: int                # 2-7 (Tier 3.33: was 2-6 in docstring)
     equipment_access: EquipmentAccess
     diet_type: DietType = DietType.OMNIVORE
 
     # === Body Composition (optional) ===
-    body_fat_pct: Optional[float] = None       # 3-55, user-provided or measured
+    body_fat_pct: Optional[float] = None       # 2-60 (Tier 3.33: was 3-55 in docstring)
     neck_cm: Optional[float] = None
     waist_cm: Optional[float] = None           # men: at navel; women: narrowest
     hip_cm: Optional[float] = None             # required for women Navy method
@@ -104,6 +129,9 @@ class UserProfile:
     # === Aggressiveness (optional overrides) ===
     cut_rate_tier: Optional[CutRateTier] = None
     bulk_aggressiveness: Optional[BulkAggressiveness] = None
+
+    # === Training schedule (optional, Tier 3.38) ===
+    training_time_of_day: TrainingTimeOfDay = TrainingTimeOfDay.EVENING
 
     # === Health markers (optional, for future expansion) ===
     # blood_pressure_systolic: Optional[int] = None
@@ -137,6 +165,8 @@ class UserProfile:
             self.cut_rate_tier = CutRateTier(self.cut_rate_tier)
         if isinstance(self.bulk_aggressiveness, str):
             self.bulk_aggressiveness = BulkAggressiveness(self.bulk_aggressiveness)
+        if isinstance(self.training_time_of_day, str):
+            self.training_time_of_day = TrainingTimeOfDay(self.training_time_of_day)
 
         # Basic validation
         if not 18 <= self.age <= 100:
@@ -208,5 +238,8 @@ __all__ = [
     "DietType",
     "CutRateTier",
     "BulkAggressiveness",
+    "TrainingTimeOfDay",
+    "ExerciseIntensity",
+    "Climate",
     "UserProfile",
 ]

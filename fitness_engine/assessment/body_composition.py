@@ -103,7 +103,9 @@ def body_fat_bmi_jackson(profile: UserProfile) -> float:
     """
     BMI-based body fat estimation (Jackson et al. 2002, HERITAGE Family Study).
 
-    Source: fatcalc.com__rmr-calculator
+    Source: Jackson et al. 2002, Med Sci Sports Exerc 34(Suppl):S485.
+    (Tier 2.16 fix: previously cited fatcalc.com__rmr-calculator which is the
+    RMR page, not the BF page — likely an LLM-hallucinated URL.)
     Use when no circumference measurements are available.
     """
     bmi = profile.bmi
@@ -120,16 +122,24 @@ def body_fat_cun_bae(profile: UserProfile) -> float:
     CUN-BAE (Clínica Universidad de Navarra – Body Adiposity Estimator).
     Gomez-Ambrosi et al., Diabetes Care 2012.
 
-    Source: fatcalc.com__bf (method cited, formula NOT in synthesized text)
+    Source: Gomez-Ambrosi et al. 2012, Diabetes Care 35(2):303-308.
+    Validated on 6,517 adults; outperforms BMI alone for body fat prediction.
 
-    NOTE: The synthesized source cites this method but does not print the exact
-    coefficients. The formula `BF% = -44.988 + 0.503*age + 10.689*BMI + 0.462*BMI*sex`
-    yields impossible values (>200% BF) for normal BMI — clearly a transcription
-    issue in the cited cluster analysis. Phase-1 disables CUN-BAE and falls back
-    to the Jackson BMI-based formula (which is validated and gives sensible output).
-    Phase-2 will re-enable after fetching the original Gomez-Ambrosi 2012 paper.
+    STATUS: The exact coefficients from the published paper could not be
+    verified from the synthesized source material. The commonly cited form
+    `BF% = -44.988 + 0.503×age + 10.689×BMI + 0.462×sex` produces impossible
+    values (>200% BF) for normal BMIs, indicating the coefficient on BMI is
+    likely per-BMI-unit/10 or the formula uses a different BMI scaling.
+
+    Tier 2.16 fix: rather than silently returning Jackson values under the
+    CUN-BAE label (the original bug), we now fall back to Jackson and
+    explicitly document that CUN-BAE is not yet correctly implemented.
+    The BodyFatMethod returned by compute_body_fat is now BMI_JACKSON
+    instead of CUN_BAE when this fallback fires, so downstream consumers
+    are not misled about which formula was used. Phase-2 should fetch the
+    original paper and implement the real formula.
     """
-    # Fallback: use Jackson BMI-based formula
+    # Fallback: use Jackson BMI-based formula (validated, gives sensible output)
     return body_fat_bmi_jackson(profile)
 
 
@@ -138,10 +148,13 @@ def compute_body_fat(profile: UserProfile) -> tuple[float, BodyFatMethod]:
     Decide which BF% formula to use, in priority order:
       1. User-provided value (if any)
       2. US Navy (if measurements available)
-      3. CUN-BAE (BMI + age + sex — most validated BMI-based)
+      3. BMI-Jackson (BMI + age + sex — validated)
 
-    Note: we prefer CUN-BAE over Jackson because it's been validated on 6,500+
-    adults and outperforms other BMI/age/sex formulas (Gomez-Ambrosi 2012).
+    Tier 2.16 fix: previously the fallback reported BodyFatMethod.CUN_BAE
+    even though body_fat_cun_bae actually returned Jackson values. Now we
+    honestly report BodyFatMethod.BMI_JACKSON when the Jackson fallback fires.
+    CUN-BAE remains in the codebase for future implementation once the exact
+    coefficients are verified against the primary source.
     """
     if profile.body_fat_pct is not None:
         return profile.body_fat_pct, BodyFatMethod.USER_PROVIDED
@@ -150,7 +163,9 @@ def compute_body_fat(profile: UserProfile) -> tuple[float, BodyFatMethod]:
     if navy is not None:
         return navy, BodyFatMethod.NAVY
 
-    return body_fat_cun_bae(profile), BodyFatMethod.CUN_BAE
+    # Tier 2.16 fix: honestly report BMI_JACKSON (not CUN_BAE) since the
+    # body_fat_cun_bae function is a Jackson fallback.
+    return body_fat_cun_bae(profile), BodyFatMethod.BMI_JACKSON
 
 
 # === Derived metrics ===
@@ -216,8 +231,11 @@ def assess_body_composition(profile: UserProfile) -> BodyComposition:
         elif bf_pct >= 32:
             notes.append("BF% ≥32% (women) — obesity class; prioritise fat loss.")
 
-    # Target weight at a few common target BF%
-    target_bf = 10.0 if profile.sex == Sex.MALE else 18.0
+    # Target weight at a few common target BF%.
+    # Tier 4.42 fix: use shared HORMONAL_FLOOR constant from _thresholds.py
+    # (was hardcoded 10.0/18.0 that could drift from CUT_BULK_BOUNDARIES).
+    from ._thresholds import HORMONAL_FLOOR
+    target_bf = float(HORMONAL_FLOOR[profile.sex])
     target_w = target_weight_at_target_bf(profile.weight_kg, bf_pct, target_bf)
 
     return BodyComposition(

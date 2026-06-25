@@ -13,6 +13,9 @@ from ..models.assessment import RecommendedStrategy
 
 
 # === Cut/Bulk BF boundaries (men; women add +8 %) ===
+# Tier 4.48 fix: recomp_excellent lowered below obese_threshold so the
+# "excellent recomp potential" branch is actually reachable (was equal to
+# obese_threshold, so the safety override always fired first).
 CUT_BULK_BOUNDARIES = {
     Sex.MALE: {
         "cut_floor":         10,         # don't cut below this
@@ -21,8 +24,8 @@ CUT_BULK_BOUNDARIES = {
         "operational_lo":    10,
         "operational_hi":    20,
         "obese_threshold":   25,
-        "recomp_excellent":  25,         # BF ≥ this → excellent recomp potential
-        "recomp_good_lo":    15,         # 15-25% → good recomp potential
+        "recomp_excellent":  23,         # Tier 4.48: was 25 (== obese_threshold, unreachable)
+        "recomp_good_lo":    15,         # 15-23% → good recomp potential
         "recomp_limited":    15,         # <15% → limited recomp potential
         "skinny_fat_lo":     12,
         "skinny_fat_hi":     23,
@@ -34,7 +37,7 @@ CUT_BULK_BOUNDARIES = {
         "operational_lo":    18,
         "operational_hi":    28,
         "obese_threshold":   32,
-        "recomp_excellent":  35,
+        "recomp_excellent":  30,         # Tier 4.48: was 35 (> obese_threshold=32, unreachable)
         "recomp_good_lo":    25,
         "recomp_limited":    25,
         "skinny_fat_lo":     20,
@@ -47,7 +50,7 @@ def decide_strategy(
     profile: UserProfile,
     body_fat_pct: float,
     bmi: float,
-    has_measurements: bool = True,
+    has_measurements: bool = True,  # Tier 4.44: kept for backward compat but unused
 ) -> tuple[RecommendedStrategy, str]:
     """
     Decide cut/bulk/recomp/maintenance recommendation.
@@ -58,8 +61,15 @@ def decide_strategy(
       2. If user set an explicit primary_goal, respect it (unless unsafe).
       3. Otherwise, apply RippedBody + FatCalc decision rules.
 
+    Tier 4.44: `has_measurements` parameter is accepted for backward compat
+    but not used (was previously dead — the function never consulted it).
+
     Returns (strategy, rationale).
     """
+    # Tier 4.44: suppress unused-parameter warning; the param is kept so
+    # existing callers (assessor.py) don't break.
+    _ = has_measurements
+
     b = CUT_BULK_BOUNDARIES[profile.sex]
 
     # === SAFETY OVERRIDES (always apply first) ===
@@ -84,6 +94,21 @@ def decide_strategy(
     # === Honor explicit user goal (with safety checks) ===
     if profile.primary_goal == PrimaryGoal.MAINTENANCE:
         return RecommendedStrategy.MAINTENANCE, "User goal is maintenance."
+
+    # Tier 2.18: STRENGTH goal — treat like maintenance (calorie-neutral) so
+    # the user can focus on neural/strength adaptations without weight change.
+    # If BF% is above bulk_ceiling, cut first for health.
+    if profile.primary_goal == PrimaryGoal.STRENGTH:
+        if body_fat_pct > b["bulk_ceiling"]:
+            return (
+                RecommendedStrategy.CUT,
+                f"BF%={body_fat_pct:.1f} above bulk ceiling ({b['bulk_ceiling']}% for "
+                f"{profile.sex.value}). Cut first; strength goal honored at lower BF%."
+            )
+        return (
+            RecommendedStrategy.MAINTENANCE,
+            "User goal is strength — maintenance calories to support neural adaptations.",
+        )
 
     if profile.primary_goal == PrimaryGoal.FAT_LOSS:
         # Don't allow cutting below cut_floor
@@ -129,8 +154,10 @@ def decide_strategy(
     # === Auto-decide when no explicit goal override ===
     # Obese → Cut (or habit change first if beginner + obese)
     if body_fat_pct >= b["obese_threshold"]:
-        if (profile.training_status == TrainingStatus.BEGINNER
-                and profile.age >= 18):
+        # Tier 4.47: removed dead `and profile.age >= 18` check — the
+        # UserProfile validator already enforces 18 <= age <= 100, so this
+        # condition was always True.
+        if profile.training_status == TrainingStatus.BEGINNER:
             return (
                 RecommendedStrategy.HABIT_CHANGE_FIRST,
                 f"BF%={body_fat_pct:.1f}% (obese class) + beginner. "

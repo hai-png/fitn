@@ -161,14 +161,24 @@ def build_meal_plan(
                     name=selected.recipe.name,
                     recipe=selected.recipe,
                     foods=selected.fillers,   # fillers stored in foods list
+                    # Tier 1.2: preserve scaled nutrition + Phase-5 metadata so
+                    # `Meal.total_*` and `Meal.to_dict()` produce correct numbers
+                    # (previously the JSON output reported unscaled recipe kcal
+                    # and ignored fillers, contradicting the weekly summary).
+                    scale_factor=selected.scale_factor,
+                    scaled_kcal=selected.scaled_kcal,
+                    scaled_protein_g=selected.scaled_protein_g,
+                    scaled_carb_g=selected.scaled_carb_g,
+                    scaled_fat_g=selected.scaled_fat_g,
+                    scaled_fiber_g=selected.scaled_fiber_g,
+                    swap_options=selected.swap_options,
+                    ingredient_swaps=selected.ingredient_swaps,
                     target_kcal=round(slot.target_kcal, 0),
                     target_protein_g=round(slot.target_protein_g, 0),
                     target_carb_g=round(slot.target_carb_g, 0),
                     target_fat_g=round(slot.target_fat_g, 0),
                     notes=meal_notes,
                 )
-                # Attach Phase-5 metadata to the meal's notes via a special prefix
-                # (the to_dict method handles serialization)
                 meals.append(meal)
 
                 # Track weekly totals (using actual nutrition)

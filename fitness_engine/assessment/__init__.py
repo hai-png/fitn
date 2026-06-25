@@ -13,7 +13,7 @@ from .health_risk import (
 from .muscular_potential import (
     assess_muscular_potential, berkhan_stage_max_weight_kg,
     FFMI_NATURAL_COMMON, FFMI_NATURAL_ATTAINABLE, FFMI_NATURAL_LIKELY_MAX,
-    BULK_RATE_BY_STATUS,
+    # Tier 2.12 fix: BULK_RATE_BY_STATUS removed — canonical copy in nutrition.calories
 )
 from .decision import decide_strategy, CUT_BULK_BOUNDARIES
 from .assessor import assess_profile
@@ -31,7 +31,6 @@ __all__ = [
     # Muscular potential
     "assess_muscular_potential", "berkhan_stage_max_weight_kg",
     "FFMI_NATURAL_COMMON", "FFMI_NATURAL_ATTAINABLE", "FFMI_NATURAL_LIKELY_MAX",
-    "BULK_RATE_BY_STATUS",
     # Decision
     "decide_strategy", "CUT_BULK_BOUNDARIES",
     # Orchestrator

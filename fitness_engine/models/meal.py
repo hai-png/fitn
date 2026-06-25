@@ -238,19 +238,41 @@ class Meal:
     A single meal.
 
     Phase-2 supports two modes:
-      1. Recipe-based: `recipe` is set; `foods` is empty. The meal is a
+      1. Recipe-based: `recipe` is set; `foods` holds fillers. The meal is a
          single cohesive dish (e.g. "Chechebsa") with full ingredients +
-         instructions.
+         instructions, optionally scaled via `scale_factor` and supplemented
+         with fillers in `foods`.
       2. Raw-foods-based (Phase-1 fallback): `recipe` is None; `foods` is
          populated with MealFood entries.
 
     Both modes carry target macros (the planner's per-meal allocation)
     and the actual macros of whatever was selected.
+
+    Tier 1.2 fix: `scale_factor`, `scaled_kcal/protein_g/carb_g/fat_g/fiber_g`,
+    `swap_options`, and `ingredient_swaps` fields are now first-class. The
+    `total_*` properties use scaled nutrition + filler contributions when a
+    recipe is present (previously they returned the *unscaled* `recipe.kcal`
+    and ignored fillers entirely, producing JSON output that contradicted the
+    planner's own weekly summary).
     """
     meal_type: MealType
     name: str
     foods: list[MealFood] = field(default_factory=list)
     recipe: Optional[Recipe] = None
+    # Scaled recipe nutrition (Tier 1.2). When `recipe` is set, these hold the
+    # scaled per-serving values; `total_*` properties add filler contributions
+    # on top. When `recipe` is None, they're 0 and `total_*` falls back to
+    # summing `foods` only.
+    scale_factor: float = 1.0
+    scaled_kcal: float = 0.0
+    scaled_protein_g: float = 0.0
+    scaled_carb_g: float = 0.0
+    scaled_fat_g: float = 0.0
+    scaled_fiber_g: float = 0.0
+    # Phase-5 metadata (Tier 1.2 — previously computed by allocator then
+    # discarded; now preserved end-to-end).
+    swap_options: list[dict] = field(default_factory=list)
+    ingredient_swaps: dict = field(default_factory=dict)
     target_kcal: float = 0.0
     target_protein_g: float = 0.0
     target_carb_g: float = 0.0
@@ -259,26 +281,27 @@ class Meal:
 
     @property
     def total_kcal(self) -> float:
-        if self.recipe:
-            return self.recipe.kcal
+        if self.recipe is not None:
+            # Scaled recipe + fillers (Tier 1.2 fix).
+            return self.scaled_kcal + sum(f.kcal for f in self.foods)
         return sum(f.kcal for f in self.foods)
 
     @property
     def total_protein_g(self) -> float:
-        if self.recipe:
-            return self.recipe.protein_g
+        if self.recipe is not None:
+            return self.scaled_protein_g + sum(f.protein_g for f in self.foods)
         return sum(f.protein_g for f in self.foods)
 
     @property
     def total_carb_g(self) -> float:
-        if self.recipe:
-            return self.recipe.carb_g
+        if self.recipe is not None:
+            return self.scaled_carb_g + sum(f.carb_g for f in self.foods)
         return sum(f.carb_g for f in self.foods)
 
     @property
     def total_fat_g(self) -> float:
-        if self.recipe:
-            return self.recipe.fat_g
+        if self.recipe is not None:
+            return self.scaled_fat_g + sum(f.fat_g for f in self.foods)
         return sum(f.fat_g for f in self.foods)
 
     def to_dict(self) -> dict:
@@ -286,6 +309,14 @@ class Meal:
             "meal_type": self.meal_type.value if isinstance(self.meal_type, MealType) else self.meal_type,
             "name": self.name,
             "recipe": self.recipe.to_dict() if self.recipe else None,
+            "scale_factor": self.scale_factor,
+            "scaled_nutrition": {
+                "kcal": round(self.scaled_kcal, 1),
+                "protein_g": round(self.scaled_protein_g, 1),
+                "carb_g": round(self.scaled_carb_g, 1),
+                "fat_g": round(self.scaled_fat_g, 1),
+                "fiber_g": round(self.scaled_fiber_g, 1),
+            },
             "foods": [
                 {
                     "food": {
@@ -301,17 +332,23 @@ class Meal:
                         "is_vegan": f.food.is_vegan,
                     },
                     "grams": f.grams,
+                    "kcal": round(f.kcal, 1),
+                    "protein_g": round(f.protein_g, 1),
+                    "carb_g": round(f.carb_g, 1),
+                    "fat_g": round(f.fat_g, 1),
                 }
                 for f in self.foods
             ],
+            "swap_options": self.swap_options,
+            "ingredient_swaps": self.ingredient_swaps,
             "target_kcal": self.target_kcal,
             "target_protein_g": self.target_protein_g,
             "target_carb_g": self.target_carb_g,
             "target_fat_g": self.target_fat_g,
-            "actual_kcal": self.total_kcal,
-            "actual_protein_g": self.total_protein_g,
-            "actual_carb_g": self.total_carb_g,
-            "actual_fat_g": self.total_fat_g,
+            "actual_kcal": round(self.total_kcal, 1),
+            "actual_protein_g": round(self.total_protein_g, 1),
+            "actual_carb_g": round(self.total_carb_g, 1),
+            "actual_fat_g": round(self.total_fat_g, 1),
             "notes": self.notes,
         }
 

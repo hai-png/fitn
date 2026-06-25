@@ -99,6 +99,63 @@ class SelectedMeal:
         return max(0.0, 100.0 * (1 - delta_pct))
 
 
+def _compute_allergen_filler_exclusions(
+    allergens_to_avoid: Optional[list[str]],
+) -> set[str]:
+    """
+    Tier 3.37 fix: map allergen categories to filler food names that should be excluded.
+
+    Previously, allergens were checked against recipes but NOT against fillers, so a
+    dairy-allergic user would get whey/yogurt/cottage-cheese fillers. Now we return
+    a set of food names to exclude based on the user's allergen list.
+    """
+    if not allergens_to_avoid:
+        return set()
+
+    # Map allergen category → set of filler food names (from PROTEIN_FILLERS,
+    # CARB_FILLERS, FAT_FILLERS, VEG_FILLERS in recipe_scaler.py) that contain
+    # that allergen.
+    ALLERGEN_FILLER_MAP: dict[str, set[str]] = {
+        "dairy": {
+            "Whey Protein Powder",
+            "Greek Yogurt (non-fat, plain)",
+            "Cottage Cheese (low-fat, 2%)",
+            "Milk (skim)",
+            "Cheddar Cheese",
+        },
+        "eggs": {
+            "Egg White (large)",
+            "Eggs (large)",
+        },
+        "gluten": {
+            "Whole Wheat Bread",
+            "Oats (rolled, dry)",
+        },
+        "nuts": {
+            "Almonds (raw)",
+            "Walnuts (raw)",
+        },
+        "peanuts": {
+            "Peanut Butter (natural)",
+        },
+        "soy": {
+            "Tofu (firm)",
+            "Tempeh",
+            "Soy Protein Powder",
+            "Edamame (cooked)",
+        },
+        "shellfish": set(),
+        "fish": set(),
+        "sesame": set(),
+    }
+
+    exclusions: set[str] = set()
+    for allergen in allergens_to_avoid:
+        allergen_lower = allergen.lower().strip()
+        exclusions |= ALLERGEN_FILLER_MAP.get(allergen_lower, set())
+    return exclusions
+
+
 def allocate_meal(
     slot: MealSlotTarget,
     diet_tag: str,
@@ -178,6 +235,24 @@ def allocate_meal(
 
     best = scores[0]
 
+    # Tier 3.36 fix: enforce MIN_ACCEPTABLE_SCORE. If the best candidate scores
+    # below the threshold, log a warning and try the next candidate. If no
+    # candidate meets the threshold, fall back to the best available (so the
+    # meal isn't empty) but add a note so the user knows the fit is poor.
+    from .recipe_scorer import MIN_ACCEPTABLE_SCORE
+    low_score_warning: str | None = None
+    if best.total_score < MIN_ACCEPTABLE_SCORE:
+        # Try to find a better-scoring candidate among the rest
+        better = next((s for s in scores[1:] if s.total_score >= MIN_ACCEPTABLE_SCORE), None)
+        if better is not None:
+            best = better
+        else:
+            # No candidate meets threshold — use best available but note it
+            low_score_warning = (
+                f"⚠ Best recipe score {best.total_score:.1f} < MIN_ACCEPTABLE_SCORE "
+                f"({MIN_ACCEPTABLE_SCORE}). Recipe fit is poor — consider raw-foods fallback."
+            )
+
     # 4. Scale the recipe
     scaled = scale_recipe(best.recipe, slot.target_kcal)
 
@@ -192,10 +267,15 @@ def allocate_meal(
     )
 
     # 6. Select fillers
+    # Tier 3.37 fix: pass allergens_to_avoid through to filler selection so
+    # dairy-allergic users don't get whey/yogurt/cottage-cheese fillers.
+    # Map allergen categories to filler food names that should be excluded.
+    allergen_filler_exclusions = _compute_allergen_filler_exclusions(allergens_to_avoid)
     filler_result = select_fillers_for_meal(
         gap=gap,
         diet_tag=diet_tag,
         is_main_meal=is_main_meal,
+        exclude_foods=allergen_filler_exclusions,
     )
 
     # 7. Get swap options
@@ -223,6 +303,8 @@ def allocate_meal(
     # 9. Build notes
     notes: list[str] = []
     notes.append(f"Score: {best.total_score:.1f}/100")
+    if low_score_warning:
+        notes.append(low_score_warning)
     if scaled.scale_factor != 1.0:
         notes.append(f"Scaled to {scaled.servings_display} ({scaled.scale_factor:.2f}x)")
     if filler_result.fillers:

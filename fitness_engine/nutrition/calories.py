@@ -31,8 +31,9 @@ DEFICIT_KCAL_PER_KG_PER_WEEK = 1100
 MIN_CALORIES = {Sex.FEMALE: 1200, Sex.MALE: 1500}
 
 # === Hard caps ===
-MAX_WEEKLY_LOSS_LB = 2.0
-MAX_WEEKLY_LOSS_KG = 1.0
+# Tier 4.44 fix: removed MAX_WEEKLY_LOSS_LB and MAX_WEEKLY_LOSS_KG — both were
+# dead code (never referenced; cut_target_calories enforces the cap via
+# MAX_WEEKLY_LOSS_PCT) and inconsistent (2.0 lb = 0.907 kg, not 1.0 kg).
 MAX_WEEKLY_LOSS_PCT = 0.015   # 1.5 % BW/week
 
 # === Cut rate tiers (MacroFactor) ===
@@ -104,29 +105,50 @@ def cut_target_calories(
         if profile.cut_rate_tier is not None:
             rate_pct = CUT_RATE_TIERS[profile.cut_rate_tier]
         else:
-            # Default: scale down for leaner users
-            bf_pct = profile.body_fat_pct if profile.body_fat_pct else 25
-            if profile.sex == Sex.MALE:
-                if bf_pct >= 25:
-                    rate_pct = 0.010   # 1.0 %
-                elif bf_pct >= 20:
-                    rate_pct = 0.0075  # 0.75 %
-                elif bf_pct >= 15:
-                    rate_pct = 0.005   # 0.5 %
-                else:
-                    rate_pct = 0.005   # ≤0.5 % for lean
+            # Default: scale down for leaner users.
+            # Tier 2.14 fix: use `is not None` instead of falsy check (was
+            # `if profile.body_fat_pct else 25` which silently used 25 when
+            # body_fat_pct=0). Also use the exported DEFAULT_CUT_RATE_PCT
+            # constant instead of the magic 25 when BF% is genuinely unknown.
+            bf_pct = profile.body_fat_pct if profile.body_fat_pct is not None else None
+            if bf_pct is None:
+                # Unknown BF% — use the MODERATE default (0.75% for men, 0.5% for women
+                # would be asymmetric; DEFAULT_CUT_RATE_PCT = 0.0075 is the documented
+                # moderate tier and applies to both sexes).
+                rate_pct = DEFAULT_CUT_RATE_PCT
             else:
-                if bf_pct >= 35:
-                    rate_pct = 0.010
-                elif bf_pct >= 28:
-                    rate_pct = 0.0075
-                elif bf_pct >= 22:
-                    rate_pct = 0.005
+                if profile.sex == Sex.MALE:
+                    if bf_pct >= 25:
+                        rate_pct = 0.010   # 1.0 %
+                    elif bf_pct >= 20:
+                        rate_pct = 0.0075  # 0.75 %
+                    elif bf_pct >= 15:
+                        rate_pct = 0.005   # 0.5 %
+                    else:
+                        rate_pct = 0.005   # ≤0.5 % for lean
                 else:
-                    rate_pct = 0.005
+                    if bf_pct >= 35:
+                        rate_pct = 0.010
+                    elif bf_pct >= 28:
+                        rate_pct = 0.0075
+                    elif bf_pct >= 22:
+                        rate_pct = 0.005
+                    else:
+                        rate_pct = 0.005
 
     # Enforce hard cap
-    rate_pct = min(rate_pct, MAX_WEEKLY_LOSS_PCT)
+    capped = rate_pct > MAX_WEEKLY_LOSS_PCT
+    if capped:
+        # Tier 2.14 fix: warn the user when their requested rate is clipped
+        original_rate = rate_pct
+        rate_pct = MAX_WEEKLY_LOSS_PCT
+        # Note added below after we compute the target
+        cap_warning = (
+            f"⚠ Requested cut rate {original_rate*100:.2f}% clipped to safety "
+            f"cap {MAX_WEEKLY_LOSS_PCT*100:.2f}% BW/week."
+        )
+    else:
+        cap_warning = None
 
     weekly_loss_kg = profile.weight_kg * rate_pct
     weekly_loss_lb = _kg_to_lb(weekly_loss_kg)
@@ -144,6 +166,8 @@ def cut_target_calories(
         f"Target = TDEE ({tdee_kcal:.0f}) − deficit ({daily_deficit_kcal:.0f}) "
         f"= {target:.0f} kcal",
     ]
+    if cap_warning:
+        notes.append(cap_warning)
     if floor_applied:
         notes.append(
             f"⚠ Calorie floor applied: {floor} kcal ({profile.sex.value} minimum). "
@@ -172,18 +196,46 @@ def bulk_target_calories(
     Compute bulk calorie target.
 
     TDCI_bulk = TDEE + (weight_kg × monthly_rate × 330)
+
+    Tier 2.15 fix: `profile.bulk_aggressiveness` is now honored (previously
+    the user-facing setting was silently ignored — the rate was always
+    `BULK_RATE_BY_STATUS[training_status]`). When `bulk_aggressiveness` is
+    set, we use `BULK_WEEKLY_RATE_TIERS[aggressiveness][status_idx]` and
+    convert the weekly rate to a monthly rate (×4.345). When not set, we
+    fall back to the legacy `BULK_RATE_BY_STATUS` table.
     """
     if rate_pct_monthly is None:
-        rate_pct_monthly = BULK_RATE_BY_STATUS[profile.training_status]
+        # Tier 2.15 fix: honor bulk_aggressiveness if the user set it.
+        if profile.bulk_aggressiveness is not None:
+            # Map TrainingStatus to the tier index (beginner=0, novice=0, intermediate=1, advanced=2).
+            # Novice uses the beginner tier (closest match in the MacroFactor table).
+            status_idx_map = {
+                TrainingStatus.BEGINNER: 0,
+                TrainingStatus.NOVICE: 0,
+                TrainingStatus.INTERMEDIATE: 1,
+                TrainingStatus.ADVANCED: 2,
+            }
+            status_idx = status_idx_map.get(profile.training_status, 1)
+            weekly_rate = BULK_WEEKLY_RATE_TIERS[profile.bulk_aggressiveness][status_idx]
+            # Convert weekly % to monthly % (avg 4.345 weeks/month)
+            WEEKS_PER_MONTH = 4.348  # 365.25/12/7
+            rate_pct_monthly = weekly_rate * WEEKS_PER_MONTH
+        else:
+            rate_pct_monthly = BULK_RATE_BY_STATUS[profile.training_status]
 
     monthly_gain_kg = profile.weight_kg * rate_pct_monthly
     daily_surplus_kcal = monthly_gain_kg * SURPLUS_KCAL_PER_KG_PER_MONTH
     target = tdee_kcal + daily_surplus_kcal
 
     # Floors don't apply to bulking; no upper cap on surplus in Phase-1
+    aggressiveness_label = (
+        f", aggressiveness={profile.bulk_aggressiveness.value}"
+        if profile.bulk_aggressiveness is not None
+        else ""
+    )
     rate_label = (
         f"{rate_pct_monthly*100:.2f}% BW/month ≈ {monthly_gain_kg:.2f} kg/mo "
-        f"({profile.training_status.value})"
+        f"({profile.training_status.value}{aggressiveness_label})"
     )
 
     notes = [
@@ -312,9 +364,14 @@ def reverse_diet_plan(
     return weekly_targets, CalorieTargets(
         strategy=CalorieStrategy.REVERSE_DIET,
         base_tdee_kcal=current_calories,
-        rate_pct=increment / 7,    # daily increment fraction
+        # Tier 4.49 fix: rate_pct and calorie_delta_kcal now use consistent
+        # semantics with other strategies. rate_pct = weekly increment as a
+        # fraction of current intake (was increment/7, dimensionally wrong).
+        # calorie_delta_kcal = DAILY delta (increment/7), matching the
+        # documented "daily delta" field semantics (was weekly increment).
+        rate_pct=increment / current_calories if current_calories > 0 else 0.0,
         rate_label=f"+{increment} kcal/week ({aggressiveness})",
-        calorie_delta_kcal=float(increment),
+        calorie_delta_kcal=round(increment / 7.0, 1),  # daily delta
         target_calories_kcal=weekly_targets[0],
         notes=notes,
     )
@@ -347,7 +404,7 @@ __all__ = [
     "KCAL_PER_LB_FAT", "KCAL_PER_KG_FAT", "KCAL_PER_LB_MUSCLE",
     "SURPLUS_KCAL_PER_LB_PER_MONTH", "SURPLUS_KCAL_PER_KG_PER_MONTH",
     "DEFICIT_KCAL_PER_LB_PER_WEEK", "DEFICIT_KCAL_PER_KG_PER_WEEK",
-    "MIN_CALORIES", "MAX_WEEKLY_LOSS_LB", "MAX_WEEKLY_LOSS_KG", "MAX_WEEKLY_LOSS_PCT",
+    "MIN_CALORIES", "MAX_WEEKLY_LOSS_PCT",
     "CUT_RATE_TIERS", "DEFAULT_CUT_RATE_PCT", "SWEET_SPOT_CUT_RATE_PCT",
     "BULK_RATE_BY_STATUS", "BULK_WEEKLY_RATE_TIERS",
     "REVERSE_DIET_WEEKLY_INCREMENT", "REVERSE_DIET_RED_FLAG_WEEKLY_GAIN_PCT",

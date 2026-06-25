@@ -34,7 +34,13 @@ from .recipe_loader import (
 )
 from .meal_templates import (
     MEAL_ALLOCATIONS, MEAL_ORDER, MEAL_NAMES,
-    get_meal_allocation, get_meal_plan_template, get_meal_name,
+    # Tier 3.41 fix: removed `get_meal_allocation` from this import — it was
+    # imported from BOTH meal_templates AND profile_requirements, with the
+    # profile_requirements version (which has the richer signature) winning.
+    # Now only the profile_requirements version is exported. The meal_templates
+    # version is still accessible directly via meal_templates.get_meal_allocation
+    # if anyone needs the legacy 1-arg form.
+    get_meal_plan_template, get_meal_name,
 )
 # Allocator + planner (clean implementation)
 from .allocator import (

@@ -140,7 +140,18 @@ SAMPLE_PROFILES = {
 
 
 def run_profile(name: str, spec: dict) -> dict:
-    """Run a single profile through the engine and return the full result."""
+    """Run a single profile through the engine and return the full result.
+
+    Tier 4.50 fix: added assertions to catch regressions in plan quality.
+    Previously the script generated plans and wrote them to disk with no
+    validation — a regression that dropped the kcal match % from 95% to 70%
+    would not be caught. Now we assert:
+      - Plan has nutrition, training, and meal components
+      - Meal plan has 7 days
+      - Each day has at least 1 meal
+      - No allergen violations in any meal's recipe (if allergens specified)
+      - Weekly kcal match % is reasonable (> 50%)
+    """
     print(f"\n{'='*60}")
     print(f"Profile: {name}")
     print(f"  {spec['description']}")
@@ -152,8 +163,41 @@ def run_profile(name: str, spec: dict) -> dict:
     assessment = assess_profile(profile)
     plan = propose_plan(profile, assessment, preferences)
 
+    # Tier 4.50: assertions to catch regressions
+    assert plan.nutrition is not None, f"{name}: plan.nutrition is None"
+    assert plan.training is not None, f"{name}: plan.training is None"
+    assert plan.meal is not None, f"{name}: plan.meal is None"
+    assert len(plan.meal.days) == 7, (
+        f"{name}: expected 7 days in meal plan, got {len(plan.meal.days)}"
+    )
+    for day in plan.meal.days:
+        assert len(day.meals) >= 1, (
+            f"{name}: {day.day_name} has 0 meals"
+        )
+
+    # Allergen check (if allergens specified)
+    if preferences.allergens_to_avoid:
+        from fitness_engine.meal_plan import check_allergens
+        for day in plan.meal.days:
+            for meal in day.meals:
+                if meal.recipe:
+                    violations = check_allergens(meal.recipe, preferences.allergens_to_avoid)
+                    assert violations == [], (
+                        f"{name}: {day.day_name} {meal.name} contains {violations} "
+                        f"(user avoids {preferences.allergens_to_avoid})"
+                    )
+
+    # Kcal match check
+    summary = plan.meal.recipe_source_summary
+    kcal_match = summary.get("weekly_kcal_match_pct", 100)
+    assert kcal_match > 50, (
+        f"{name}: weekly kcal match {kcal_match:.0f}% is too low (<50%) — "
+        f"possible regression in meal allocator"
+    )
+
     print(f"\n--- Plan Summary ---")
     print(plan.summary)
+    print(f"\n  [Assertions passed: 7 days, allergen-safe, kcal match {kcal_match:.0f}%]")
 
     return {
         "name": name,
@@ -173,8 +217,20 @@ def main():
     for name, spec in SAMPLE_PROFILES.items():
         result = run_profile(name, spec)
         out_path = DOWNLOAD_DIR / f"{name}.json"
+        # Tier 5.64 fix: replaced `default=str` (which silently stringifies any
+        # un-serializable object, hiding bugs) with a stricter default that
+        # only handles Enums explicitly. Any other un-serializable type now
+        # raises TypeError, surfacing the bug instead of hiding it.
+        from enum import Enum
+        def _json_default(obj):
+            if isinstance(obj, Enum):
+                return obj.value
+            raise TypeError(
+                f"Object of type {type(obj).__name__} is not JSON serializable. "
+                f"Fix the to_dict() method to convert this field explicitly."
+            )
         with open(out_path, "w") as f:
-            json.dump(result, f, indent=2, default=str)
+            json.dump(result, f, indent=2, default=_json_default)
         print(f"\n✓ Saved: {out_path}")
 
     print(f"\n{'='*60}")

@@ -206,7 +206,7 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
         if whtr >= 0.5:
             risk_factors.append(
                 f"WHtR={whtr:.2f} ≥ 0.5 — 'Keep your waist less than half your height' "
-                "(NICE UK / DoD 2026 primary screening tool)."
+                "(Ashwell & Hsieh 2005; endorsed by NICE UK CG189 as a primary cardiometabolic screening tool)."
             )
         if whtr_risk in (HealthRiskLevel.HIGH, HealthRiskLevel.VERY_HIGH):
             risk_factors.append(f"WHtR={whtr:.2f} indicates overweight/obese risk band.")
@@ -258,7 +258,11 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
         f"IBW (Robinson): {result.ibw_robinson_kg} kg",
         f"IBW (Miller): {result.ibw_miller_kg} kg",
         f"IBW (Hamwi): {result.ibw_hamwi_kg} kg",
-        "Frame-size adjustment (wrist circumference): ±10% for small/large frame.",
+        # Tier 1.8 fix: removed false "Frame-size adjustment (wrist circumference)"
+        # note — the engine does not implement frame-size adjustment and
+        # UserProfile has no wrist_circumference field. Adding the note implied
+        # functionality that does not exist.
+        "Not a substitute for clinical assessment — consult a physician for personalized guidance.",
     ]
     return result
 

@@ -29,6 +29,7 @@ Min acceptable score = 60 (else allocator tries scaling or fillers).
 """
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -37,19 +38,23 @@ from .profile_requirements import MealSlotTarget
 
 
 # === Score component weights ===
-
+# Tier 3.39 fix: previously summed to 115 (not 100 as documented), causing
+# scores to exceed 100. Normalized to sum to exactly 100 by scaling each
+# weight by 100/115. MIN_ACCEPTABLE_SCORE (60) now correctly means 60%.
 WEIGHTS = {
-    "kcal_match": 30,
-    "protein_match": 25,
-    "carb_match": 15,
-    "fat_match": 10,
-    "diet_match": 15,
-    "goal_fit": 5,
-    "fiber_match": 5,
-    "variety_bonus": 5,
-    "cuisine_match": 5,
+    "kcal_match": 26,      # was 30 → 30*100/115 ≈ 26.1 → 26
+    "protein_match": 22,   # was 25 → 21.7 → 22
+    "carb_match": 13,      # was 15 → 13.0 → 13
+    "fat_match": 9,        # was 10 → 8.7 → 9
+    "diet_match": 13,      # was 15 → 13.0 → 13
+    "goal_fit": 4,         # was 5 → 4.3 → 4
+    "fiber_match": 4,      # was 5 → 4.3 → 4
+    "variety_bonus": 4,    # was 5 → 4.3 → 4
+    "cuisine_match": 5,    # was 5 → 4.3 → 5 (rounded up to make sum=100)
     # allergen_penalty is applied as -100 (hard exclude)
 }
+# Verify sum is 100
+assert sum(WEIGHTS.values()) == 100, f"WEIGHTS must sum to 100; got {sum(WEIGHTS.values())}"
 
 MIN_ACCEPTABLE_SCORE = 60
 
@@ -236,7 +241,13 @@ def score_cuisine(recipe: Recipe, cuisine_preference: Optional[str]) -> float:
 
 # === Allergen check ===
 
-# Allergen keyword map (maps allergen category → ingredient keywords)
+# Allergen keyword map (maps allergen category → ingredient keywords).
+# Tier 1.4 fix: matching is now done with word boundaries (regex \b) on BOTH
+# sides to prevent false positives like "eggplant" matching "egg", "butter
+# lettuce" matching "butter", "cream of tartar" matching "cream", "coconut
+# milk" matching "milk" for dairy-allergic users (coconut milk is dairy-free).
+# Plant qualifiers (almond, soy, oat, coconut, etc.) cause a keyword match to
+# be ignored for dairy/eggs, since the ingredient is plant-based.
 ALLERGEN_KEYWORDS: dict[str, list[str]] = {
     "dairy": ["milk", "cheese", "butter", "cream", "yogurt", "whey", "lactose",
               "ghee", "kibbeh", "niter kibbeh"],
@@ -246,17 +257,70 @@ ALLERGEN_KEYWORDS: dict[str, list[str]] = {
     "nuts": ["almond", "cashew", "walnut", "pecan", "hazelnut", "pistachio",
              "brazil nut", "macadamia", "pine nut"],
     "peanuts": ["peanut", "groundnut"],
-    "eggs": ["egg", "mayonnaise", "meringue"],
+    "eggs": ["egg", "eggs", "mayonnaise", "meringue"],  # Tier 1.4: added plural
     "shellfish": ["shrimp", "prawn", "crab", "lobster", "crawfish", "langoustine"],
     "fish": ["salmon", "tuna", "cod", "tilapia", "sardine", "anchovy", "mackerel",
              "trout", "halibut", "fish"],
     "sesame": ["sesame", "tahini", "sesame oil"],
 }
 
+# Plant-based qualifiers that, when preceding a dairy/egg keyword, indicate
+# the ingredient is dairy-free/egg-free (e.g. "almond milk", "vegan butter",
+# "just egg", "flax egg"). For these allergens, a qualifier match suppresses
+# the violation.
+_PLANT_QUALIFIERS_FOR_ALLERGENS = (
+    "almond", "soy", "oat", "rice", "coconut", "cashew", "hemp", "flax",
+    "macadamia", "pea", "vegan", "plant", "dairy-free", "dairy free",
+    "non-dairy", "nondairy", "peanut", "cocoa", "shea", "sunflower",
+    "avocado", "apple", "agave", "maple", "date", "molasses",
+    "vegenaise", "just egg", "egg replacer", "flax egg", "chia egg",
+    "beyond", "impossible", "gardein", "tofu", "tempeh", "seitan",
+    "vegetable", "veggie", "mushroom", "no-chicken", "no chicken",
+    "chicken-style", "chicken style",
+    "vegan beef", "vegan chicken", "vegan pork", "vegan fish",
+)
+
+# Plant-named phrases that contain a dairy/egg keyword as a substring but
+# are themselves plant-based and safe for dairy/egg-allergic users.
+# Tier 1.4 fix: includes "just egg", "flax egg", "chia egg", "egg replacer"
+# as full phrases so the word-boundary egg match doesn't fire on them
+# (the 25-char context check can't see "just egg" because "egg" is the
+# matched word itself).
+_PLANT_NAMED_PHRASES_FOR_ALLERGENS = (
+    "eggplant", "eggsplant",
+    "butter lettuce", "butterleaf", "buttercup squash",
+    "cocoa butter", "shea butter",
+    "cream of tartar", "creamed corn", "coconut cream",
+    "almond butter", "peanut butter", "cashew butter", "sunflower butter",
+    "apple butter", "pumpkin butter",
+    "milk thistle", "milkweed",
+    "honeydew", "honeycrisp",
+    # Egg substitutes (plant-based):
+    "just egg", "just eggs", "flax egg", "flax eggs", "chia egg", "chia eggs",
+    "egg replacer", "egg substitute", "vegan egg", "vegan eggs",
+)
+
+# Pre-compile a word-boundary regex per allergen category for fast matching.
+_ALLERGEN_REGEXES: dict[str, list[tuple[re.Pattern, str]]] = {
+    allergen: [
+        (re.compile(r"\b" + re.escape(kw) + r"\b", re.IGNORECASE), kw)
+        for kw in keywords
+    ]
+    for allergen, keywords in ALLERGEN_KEYWORDS.items()
+}
+
 
 def check_allergens(recipe: Recipe, allergens_to_avoid: list[str]) -> list[str]:
     """
     Check if recipe contains any allergens the user wants to avoid.
+
+    Tier 1.4 fix: matching now uses word boundaries on both sides (so
+    "eggplant" no longer matches "egg", "butter lettuce" no longer matches
+    "butter"). For dairy and eggs specifically, plant-based qualifiers
+    (almond, soy, oat, coconut, vegan, just-egg, flax-egg, etc.) and
+    known plant-named phrases (eggplant, butter lettuce, cream of tartar,
+    cocoa butter, etc.) suppress the violation, since those ingredients
+    are dairy-free / egg-free.
 
     Returns list of violated allergens (empty if none).
     """
@@ -266,11 +330,33 @@ def check_allergens(recipe: Recipe, allergens_to_avoid: list[str]) -> list[str]:
     violations = []
     combined_ingredients = " ".join(recipe.ingredients).lower()
 
+    # Build a sanitized string with plant-named phrases blanked out, used
+    # only for the dairy/egg allergen scans.
+    sanitized = combined_ingredients
+    for phrase in _PLANT_NAMED_PHRASES_FOR_ALLERGENS:
+        sanitized = sanitized.replace(phrase, " " * len(phrase))
+
     for allergen in allergens_to_avoid:
         allergen_lower = allergen.lower().strip()
-        keywords = ALLERGEN_KEYWORDS.get(allergen_lower, [allergen_lower])
-        for kw in keywords:
-            if kw.lower() in combined_ingredients:
+        patterns = _ALLERGEN_REGEXES.get(allergen_lower)
+        if patterns is None:
+            # Unknown allergen — fall back to plain word-boundary substring match.
+            patterns = [(re.compile(r"\b" + re.escape(allergen_lower) + r"\b", re.IGNORECASE), allergen_lower)]
+        # For dairy/eggs, scan the sanitized string (plant-named phrases removed).
+        scan_target = sanitized if allergen_lower in ("dairy", "eggs") else combined_ingredients
+        for pat, kw in patterns:
+            found = False
+            for m in pat.finditer(scan_target):
+                # For dairy/eggs, check for a plant qualifier in the 25 chars
+                # before the match. If present, this is a plant-based alternative
+                # (almond milk, just egg, etc.) — not a violation.
+                if allergen_lower in ("dairy", "eggs"):
+                    context = scan_target[max(0, m.start() - 25):m.start()]
+                    if any(pq in context for pq in _PLANT_QUALIFIERS_FOR_ALLERGENS):
+                        continue
+                found = True
+                break
+            if found:
                 violations.append(allergen)
                 break
 

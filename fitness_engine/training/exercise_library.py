@@ -8,9 +8,17 @@ exercises_by_category, exercises_by_equipment) is preserved so the
 existing training planner keeps working unchanged.
 
 The actual loading + normalization logic lives in exercise_loader.py.
+
+Tier 3.34 fix: EXERCISES / EXERCISE_INDEX / EXERCISE_SLUG_INDEX are now
+lazy — they are populated on first access via get_exercises() /
+get_exercise_index() / get_exercise_slug_index(). This avoids parsing
+the 3 MB JSON at import time, which was slowing tests and preventing
+monkey-patching. The module-level names are kept as backward-compat
+properties that delegate to the lazy accessors.
 """
 from __future__ import annotations
 
+from functools import lru_cache
 from typing import Optional
 
 from ..models.training import Exercise, ExerciseCategory
@@ -22,19 +30,100 @@ from .exercise_loader import (
 )
 
 
-# === Load the full database on import ===
-# This is lazy via lru_cache in exercise_loader, so the first call pays
-# the JSON parse cost (~3 MB file, ~50 ms on a warm disk).
-EXERCISES: list[Exercise] = load_exercises()
+# === Lazy accessors (Tier 3.34) ===
+# The JSON is ~3 MB and parsing takes ~50 ms. Previously this happened at
+# module import, slowing test startup and preventing monkey-patching.
+# Now the first call to get_exercises() pays the cost; subsequent calls
+# hit the lru_cache.
+
+@lru_cache(maxsize=1)
+def get_exercises() -> tuple[Exercise, ...]:
+    """Lazy-loaded exercise database (cached). Returns a tuple for hashability."""
+    return tuple(load_exercises())
 
 
-# Index by name (display name, e.g. "Military Press (AKA Overhead Press)")
-EXERCISE_INDEX: dict[str, Exercise] = {ex.name: ex for ex in EXERCISES}
+@lru_cache(maxsize=1)
+def get_exercise_index() -> dict[str, Exercise]:
+    """Lazy index by exercise display name."""
+    return {ex.name: ex for ex in get_exercises()}
 
-# Also index by slug (canonical ID, e.g. "military-press")
-EXERCISE_SLUG_INDEX: dict[str, Exercise] = {
-    ex.slug: ex for ex in EXERCISES if ex.slug
-}
+
+@lru_cache(maxsize=1)
+def get_exercise_slug_index() -> dict[str, Exercise]:
+    """Lazy index by exercise slug (canonical ID)."""
+    return {ex.slug: ex for ex in get_exercises() if ex.slug}
+
+
+def _clear_exercise_cache() -> None:
+    """Clear all exercise caches (for tests)."""
+    get_exercises.cache_clear()
+    get_exercise_index.cache_clear()
+    get_exercise_slug_index.cache_clear()
+
+
+# === Backward-compat module-level accessors ===
+# These were previously eager-loaded module-level lists/dicts. Now they're
+# properties that delegate to the lazy accessors. This preserves the
+# `from exercise_library import EXERCISES` import pattern while making
+# the loading lazy.
+
+class _LazyExercises:
+    """List-like proxy that lazily loads on first access."""
+    def __iter__(self):
+        return iter(get_exercises())
+    def __len__(self):
+        return len(get_exercises())
+    def __getitem__(self, idx):
+        return get_exercises()[idx]
+    def __contains__(self, item):
+        return item in get_exercises()
+    def __repr__(self):
+        return f"<LazyExercises: {len(get_exercises())} exercises>"
+
+
+class _LazyExerciseIndex:
+    """Dict-like proxy that lazily loads on first access."""
+    def __getitem__(self, key):
+        return get_exercise_index()[key]
+    def __contains__(self, key):
+        return key in get_exercise_index()
+    def get(self, key, default=None):
+        return get_exercise_index().get(key, default)
+    def keys(self):
+        return get_exercise_index().keys()
+    def values(self):
+        return get_exercise_index().values()
+    def items(self):
+        return get_exercise_index().items()
+    def __iter__(self):
+        return iter(get_exercise_index())
+    def __len__(self):
+        return len(get_exercise_index())
+
+
+class _LazyExerciseSlugIndex:
+    """Dict-like proxy that lazily loads on first access."""
+    def __getitem__(self, key):
+        return get_exercise_slug_index()[key]
+    def __contains__(self, key):
+        return key in get_exercise_slug_index()
+    def get(self, key, default=None):
+        return get_exercise_slug_index().get(key, default)
+    def keys(self):
+        return get_exercise_slug_index().keys()
+    def values(self):
+        return get_exercise_slug_index().values()
+    def items(self):
+        return get_exercise_slug_index().items()
+    def __iter__(self):
+        return iter(get_exercise_slug_index())
+    def __len__(self):
+        return len(get_exercise_slug_index())
+
+
+EXERCISES = _LazyExercises()
+EXERCISE_INDEX = _LazyExerciseIndex()
+EXERCISE_SLUG_INDEX = _LazyExerciseSlugIndex()
 
 
 def get_exercise(name: str) -> Optional[Exercise]:

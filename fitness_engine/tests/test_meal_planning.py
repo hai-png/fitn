@@ -147,25 +147,54 @@ class TestProfileRequirements:
         assert MealType.POST_WORKOUT in training_types
 
     def test_pre_workout_target_is_high_carb_low_fat(self):
-        """Pre-workout target should be ~10% daily kcal, high carb."""
+        """Pre-workout target should be ~10% daily kcal, high carb relative to fat.
+
+        Tier 1.5 fix: previously the macro targets were independent fractions
+        of daily macros (15% P / 20% C / 5% F) which summed to more kcal than
+        the slot target. Now macros are derived FROM the slot kcal using a
+        pre-workout split (20% P / 65% C / 15% fat by calories), so the macro
+        kcal sum equals the slot kcal. Test thresholds adjusted accordingly.
+        """
         target = compute_pre_workout_target(
             daily_kcal=2500, daily_protein_g=150,
             daily_carb_g=300, daily_fat_g=80,
         )
         assert 240 <= target.target_kcal <= 260   # ~10% of 2500
-        assert target.target_protein_g < 30   # low protein
-        assert target.target_carb_g > 50      # high carb
+        # Macros are now derived from slot kcal (250 kcal):
+        #   protein = 250 * 0.20 / 4 = 12.5 g
+        #   carb    = 250 * 0.65 / 4 = 40.6 g
+        #   fat     = 250 * 0.15 / 9 = 4.17 g
+        assert target.target_protein_g < 30   # low-moderate protein
+        assert target.target_carb_g > 35      # high carb (relative to protein/fat)
         assert target.target_fat_g < 10       # low fat
+        # Tier 1.5 regression: macros must sum to slot kcal (within rounding)
+        macro_kcal = (target.target_protein_g * 4 + target.target_carb_g * 4 + target.target_fat_g * 9)
+        assert abs(macro_kcal - target.target_kcal) < 1.0, (
+            f"Pre-workout macro kcal ({macro_kcal}) must match slot kcal ({target.target_kcal}); "
+            f"this was the original bug — macros summed to >140% of slot kcal"
+        )
 
     def test_post_workout_target_is_protein_plus_carbs(self):
-        """Post-workout target should be ~15% daily kcal, protein + carbs."""
+        """Post-workout target should be ~15% daily kcal, protein + carbs.
+
+        Tier 1.5 fix: macros now derived from slot kcal (35% P / 50% C / 15% F).
+        """
         target = compute_post_workout_target(
             daily_kcal=2500, daily_protein_g=150,
             daily_carb_g=300, daily_fat_g=80,
         )
         assert 360 <= target.target_kcal <= 390   # ~15% of 2500
+        # Macros from 375 kcal:
+        #   protein = 375 * 0.35 / 4 = 32.8 g
+        #   carb    = 375 * 0.50 / 4 = 46.9 g
+        #   fat     = 375 * 0.15 / 9 = 6.25 g
         assert target.target_protein_g > 30   # high protein
-        assert target.target_carb_g > 50      # high carb
+        assert target.target_carb_g > 40      # high carb
+        # Tier 1.5 regression: macros must sum to slot kcal
+        macro_kcal = (target.target_protein_g * 4 + target.target_carb_g * 4 + target.target_fat_g * 9)
+        assert abs(macro_kcal - target.target_kcal) < 1.0, (
+            f"Post-workout macro kcal ({macro_kcal}) must match slot kcal ({target.target_kcal})"
+        )
 
     def test_diet_tag_mapping(self):
         """Diet type should map to the correct recipe tag."""

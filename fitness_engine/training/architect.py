@@ -75,8 +75,34 @@ def _derive_training_goal(profile: UserProfile, assessment: AssessmentResult) ->
     should cut even though you said maintenance"). The profile's primary_goal
     is the user's stated intent. We trust the assessment's strategy when
     they conflict, since the assessment has safety overrides.
+
+    Tier 2.18 fix: now honors profile.primary_goal=STRENGTH. Previously the
+    function only read assessment.recommended_strategy (which has no STRENGTH
+    value), so strength-focused users were silently remapped to HYPERTROPHY.
+    Now: if the user explicitly set primary_goal=STRENGTH AND the assessment
+    strategy is MAINTENANCE/BULK/RECOMP (not a safety-override CUT), we
+    honor the strength request.
     """
     strategy = assessment.recommended_strategy
+
+    # Tier 2.18: honor explicit STRENGTH goal when it's safe to do so.
+    # The assessment's safety overrides (CUT for obese users, HABIT_CHANGE_FIRST
+    # for obese beginners) always take precedence. But for maintenance/bulk/
+    # recomp strategies, a user who explicitly wants strength gets it.
+    if profile.primary_goal == PrimaryGoal.STRENGTH:
+        if strategy in (RecommendedStrategy.MAINTENANCE, RecommendedStrategy.BULK,
+                        RecommendedStrategy.RECOMP):
+            _log.info(
+                "User explicitly requested STRENGTH goal; assessment strategy=%s "
+                "is compatible — honoring STRENGTH.", strategy.value
+            )
+            return TrainingGoal.STRENGTH
+        else:
+            _log.info(
+                "User requested STRENGTH but assessment strategy=%s takes "
+                "precedence (safety override). Using assessment strategy.",
+                strategy.value
+            )
 
     mapping = {
         RecommendedStrategy.CUT:               TrainingGoal.FAT_LOSS,
@@ -274,6 +300,15 @@ def _apply_muscle_focus(
 
     # For each focus muscle, distribute the accessory slots across the workouts
     # that already train it
+    # Tier 2.19 fix: muscle group alias map. 'back' expands to ['upper_back',
+    # 'lats', 'lower_back', 'middle_back', 'traps'] so that slot matching works.
+    _MUSCLE_ALIASES = {
+        "back": ["upper_back", "lats", "lower_back", "middle_back", "traps"],
+        "chest": ["chest"],
+        "shoulders": ["shoulders", "side_delts", "rear_delts"],
+        "arms": ["biceps", "triceps", "forearms"],
+        "legs": ["quads", "hamstrings", "glutes", "calves"],
+    }
     for muscle in muscle_focus:
         muscle_lower = muscle.lower()
         accessories = _FOCUS_ACCESSORIES.get(muscle_lower)
@@ -281,25 +316,33 @@ def _apply_muscle_focus(
             _log.warning("Unknown muscle_focus '%s' — skipping", muscle)
             continue
 
-        # Find which templates already train this muscle
+        # Tier 2.19 fix: expand aliases so 'back' matches 'upper_back'/'lats' slots
+        muscle_variants = _MUSCLE_ALIASES.get(muscle_lower, [muscle_lower])
+
+        # Find which templates already train this muscle (or any alias)
         matching_templates = []
         for tmpl in new_split.templates:
             for slot in tmpl.slots:
-                if (slot.primary_muscle == muscle_lower
-                        or muscle_lower in slot.secondary_muscles):
+                if (slot.primary_muscle in muscle_variants
+                        or any(v in slot.secondary_muscles for v in muscle_variants)):
                     matching_templates.append(tmpl)
                     break
 
         if not matching_templates:
             # Add to all templates that target upper/lower body accordingly
-            upper_muscles = {"chest", "back", "shoulders", "biceps", "triceps", "arms"}
+            # Tier 2.19 fix: include the actual muscle tag names used in slots
+            upper_muscles = {
+                "chest", "back", "shoulders", "biceps", "triceps", "arms",
+                "upper_back", "lats", "lower_back", "middle_back", "traps",
+                "rear_delts", "side_delts",
+            }
             lower_muscles = {"quads", "hamstrings", "glutes", "calves", "abs"}
-            if muscle_lower in upper_muscles:
+            if muscle_lower in upper_muscles or any(v in upper_muscles for v in muscle_variants):
                 matching_templates = [
                     t for t in new_split.templates
                     if any(s.primary_muscle in upper_muscles for s in t.slots)
                 ]
-            elif muscle_lower in lower_muscles:
+            elif muscle_lower in lower_muscles or any(v in lower_muscles for v in muscle_variants):
                 matching_templates = [
                     t for t in new_split.templates
                     if any(s.primary_muscle in lower_muscles for s in t.slots)
@@ -356,7 +399,11 @@ def _build_workout_from_template(
             notes="focus emphasis" if slot.is_focus_emphasis else "",
         ))
 
-    est_duration = 45 + len(exercises) * 8
+    # Tier 4.53 fix: extracted magic numbers to named constants.
+    # 45 min base = warmup + transitions; 8 min per exercise = ~3 sets × 2.5 min.
+    WORKOUT_BASE_DURATION_MIN = 45
+    WORKOUT_MIN_PER_EXERCISE = 8
+    est_duration = WORKOUT_BASE_DURATION_MIN + len(exercises) * WORKOUT_MIN_PER_EXERCISE
 
     return Workout(
         day_number=day_number,
@@ -411,13 +458,22 @@ def _build_mesocycle(
         week_workouts: list[Workout] = []
 
         for base_w in base_workouts:
-            # Find the matching template's day_type for DUP
+            # Find the matching template's day_type for DUP.
+            # Tier 2.20 fix: the inner `break` only exits the inner loop; the
+            # outer loop continues and overwrites `template_day_type` for every
+            # split containing a template with the same name. Now we break the
+            # outer loop too once a match is found. Better long-term: pre-index
+            # all templates by name into a single dict at module load.
             template_day_type = None
             for tmpl in ALL_SPLITS:
+                found = False
                 for t in tmpl.templates:
                     if t.name == base_w.name:
                         template_day_type = t.day_type
+                        found = True
                         break
+                if found:
+                    break  # Tier 2.20 fix: exit outer loop on first match
             # Build a copy with periodization applied
             new_exercises = []
             for we in base_w.exercises:
@@ -674,6 +730,36 @@ def build_training_plan(
     notes.append("Volume target: 10-20 hard sets per muscle group per week.")
     notes.append("Compound movements as foundation; progressive overload primary driver.")
     notes.append("Each exercise includes instructions, tips, and video URL.")
+
+    # Tier 2.27 fix: enforce 11-set per-session cap (RippedBody Rule 2.6).
+    # check_session_volume_cap exists in volume_landmarks but was never called.
+    # Now we scan the first microcycle's workouts and surface warnings.
+    from .volume_landmarks import check_session_volume_cap, PER_SESSION_SET_CAP
+    cap_warnings: list[str] = []
+    if mesocycles and mesocycles[0].microcycles:
+        for workout in mesocycles[0].microcycles[0].workouts:
+            session_sets: dict[str, float] = {}
+            for we in workout.exercises:
+                if not we.exercise:
+                    continue
+                # Exercise.muscle_groups is a list; first entry is primary.
+                all_muscles = we.exercise.muscle_groups or []
+                if all_muscles:
+                    primary = all_muscles[0]
+                    session_sets[primary] = session_sets.get(primary, 0) + we.sets
+                    # Count secondary muscles at 0.5 (fractional set counting)
+                    for sec in all_muscles[1:]:
+                        session_sets[sec] = session_sets.get(sec, 0) + we.sets * 0.5
+            warnings = check_session_volume_cap(session_sets)
+            for w in warnings:
+                cap_warnings.append(f"{workout.name}: {w}")
+    if cap_warnings:
+        notes.append(
+            f"⚠ Per-session volume cap ({PER_SESSION_SET_CAP} sets/muscle) exceeded in "
+            f"{len(cap_warnings)} workout(s). Increase weekly frequency to distribute volume."
+        )
+        for cw in cap_warnings[:3]:  # limit to first 3 to avoid note bloat
+            notes.append(f"  - {cw}")
     notes.extend(vol_notes)
 
     return TrainingPlan(

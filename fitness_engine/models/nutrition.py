@@ -20,7 +20,11 @@ class RMRFormula(str, Enum):
     MIFFLIN_ST_JEOR = "mifflin_st_jeor"
     HARRIS_BENEDICT_ORIG = "harris_benedict_original"
     HARRIS_BENEDICT_REVISED = "harris_benedict_revised"
-    CUNNINGHAM = "cunningham"      # a.k.a. Katch-McArdle
+    CUNNINGHAM = "cunningham"           # Cunningham 1991: RMR = 500 + 22 × FFM
+    KATCH_MCARDLE = "katch_mcardle"     # Katch-McArdle 1975: RMR = 370 + 21.6 × LBM
+    # (Tier 2.10 fix: previously CUNNINGHAM was mislabeled as "a.k.a. Katch-McArdle"
+    # but the implemented formula was Katch-McArdle, not Cunningham. Now both
+    # are distinct enum values with their own implementations.)
 
 
 @dataclass
@@ -54,6 +58,19 @@ class CalorieTargets:
     calorie_floor_applied: bool = False
     floor_kcal: Optional[int] = None
     notes: list[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        """Tier 3.32 fix: validate output ranges."""
+        import math
+        if math.isnan(self.target_calories_kcal) or self.target_calories_kcal <= 0:
+            raise ValueError(
+                f"CalorieTargets.target_calories_kcal must be positive; "
+                f"got {self.target_calories_kcal}"
+            )
+        if math.isnan(self.base_tdee_kcal) or self.base_tdee_kcal <= 0:
+            raise ValueError(
+                f"CalorieTargets.base_tdee_kcal must be positive; got {self.base_tdee_kcal}"
+            )
 
 
 @dataclass

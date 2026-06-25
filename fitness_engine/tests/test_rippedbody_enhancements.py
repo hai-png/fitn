@@ -477,10 +477,16 @@ class TestRIRModel:
         assert rir_to_rpe(0, reps=5) == 10.0
         assert rir_to_rpe(5, reps=10) == 5.0
 
-    def test_rir_to_rpe_capped_for_high_reps(self):
-        """RPE should be capped at 8 for reps > 12."""
-        # RIR 1 would give RPE 9, but capped at 8 for high reps
-        assert rir_to_rpe(1, reps=15) == 8.0
+    def test_rir_to_rpe_high_reps_not_capped(self):
+        """Tier 5.65 fix: previously RPE was capped at 8 for reps > 12, which
+        under-reported intensity. A 20-rep set at RIR 0 is RPE 10 (true
+        failure), not RPE 8. The cap was removed."""
+        # RIR 0 at 20 reps = RPE 10 (true failure, not capped to 8)
+        assert rir_to_rpe(0, reps=20) == 10.0
+        # RIR 1 at 15 reps = RPE 9 (not capped to 8)
+        assert rir_to_rpe(1, reps=15) == 9.0
+        # RIR 2 at 25 reps = RPE 8 (correct, not a cap)
+        assert rir_to_rpe(2, reps=25) == 8.0
 
     def test_rpe_to_rir_conversion(self):
         """RPE 8 → RIR 2."""

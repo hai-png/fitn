@@ -10,7 +10,7 @@ Sources:
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 from ..models.assessment import RecommendedStrategy
@@ -39,7 +39,7 @@ class AdjustmentRecommendation:
     fat_g_delta: float = 0.0
     protein_g_delta: float = 0.0
     reasoning: str = ""
-    troubleshooting_steps: list[str] = None
+    troubleshooting_steps: list[str] = field(default_factory=list)
 
 
 def detect_plateau(
@@ -161,15 +161,20 @@ def recommend_cut_adjustment(
         )
 
     if plateau == PlateauType.GRADUAL_SLOWDOWN or abs(delta_off_target_lb) > 0.25:
-        # Adjustment math
+        # Adjustment math.
+        # delta_off_target_lb > 0 means losing too slowly -> need to DECREASE intake.
+        # delta_off_target_lb < 0 means losing too fast  -> need to INCREASE intake.
+        # cut_macro_adjustment interprets its argument as:
+        #   negative kcal delta -> reduce carbs/fat (a cut)
+        #   positive kcal delta -> add carbs/fat (an increase)
+        # So we pass -calorie_delta (sign-flipped relative to off-target direction).
         calorie_delta = delta_off_target_lb * DEFICIT_KCAL_PER_LB_PER_WEEK
-        # delta_off_target_lb > 0 means losing too slowly → decrease intake
-        # We pass negative delta to indicate a cut
-        carb_g, fat_g, expl = cut_macro_adjustment(-abs(calorie_delta))
+        adjustment_kcal = -calorie_delta  # negate: too slow -> cut; too fast -> increase
+        carb_g, fat_g, expl = cut_macro_adjustment(adjustment_kcal)
         return AdjustmentRecommendation(
             plateau_type=plateau,
             action="adjust_calories",
-            calorie_delta_kcal=-abs(calorie_delta),
+            calorie_delta_kcal=adjustment_kcal,
             carb_g_delta=carb_g,
             fat_g_delta=fat_g,
             protein_g_delta=0.0,
@@ -239,13 +244,16 @@ def recommend_bulk_adjustment(
         actual_monthly_rate = 0
 
     if abs(delta_off_target_lb) > 0.5:
+        # delta_off_target_lb > 0 means gaining too slowly -> increase intake (positive delta).
+        # delta_off_target_lb < 0 means gaining too fast  -> decrease intake (negative delta).
+        # Pass the signed calorie_delta straight through; bulk_macro_adjustment
+        # handles the sign correctly (positive delta -> positive g-deltas).
         calorie_delta = delta_off_target_lb * SURPLUS_KCAL_PER_LB_PER_MONTH
-        # delta > 0 = gaining too slowly → increase
-        carb_g, fat_g, expl = bulk_macro_adjustment(abs(calorie_delta))
+        carb_g, fat_g, expl = bulk_macro_adjustment(calorie_delta)
         return AdjustmentRecommendation(
             plateau_type=PlateauType.NONE,
             action="adjust_calories",
-            calorie_delta_kcal=abs(calorie_delta),
+            calorie_delta_kcal=calorie_delta,
             carb_g_delta=carb_g,
             fat_g_delta=fat_g,
             protein_g_delta=0.0,

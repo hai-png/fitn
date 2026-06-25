@@ -92,7 +92,7 @@ MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
             "home_gym": ["barbell", "dumbbell", "kettlebell", "bodyweight"],
             "bodyweight_only": ["bodyweight", "bands"],
         },
-        detection_keywords=["squat", "hack-squat", "goblet-squat", "leg-press"],
+        detection_keywords=["squat", "hack-squat", "goblet-squat"],  # Tier 2.22 fix: removed "leg-press" (separate pattern, was tie-breaking to squat)
     ),
     "front_squat": MovementPatternSpec(
         name="front_squat",
@@ -226,7 +226,7 @@ MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
             "home_gym": ["barbell", "dumbbell", "bodyweight"],
             "bodyweight_only": ["bodyweight", "bands"],
         },
-        detection_keywords=["bench-press", "chest-press", "push-up", "pushup", "dumbbell-press"],
+        detection_keywords=["bench-press", "chest-press", "push-up", "pushup"],  # Tier 2.23 fix: removed "dumbbell-press" (caused seated-dumbbell-press/shoulder press to miscategorize as horizontal_push)
     ),
     "horizontal_push_dumbbell": MovementPatternSpec(
         name="horizontal_push_dumbbell",
@@ -826,18 +826,8 @@ def get_swappable_exercises(
     env = _infer_environment(equipment_allowed)
     preferred_order = get_environment_preferred_equipment(pattern, env)
 
-    def _view_count(ex: Exercise) -> int:
-        if not ex.views:
-            return 0
-        v = ex.views.upper().replace(" ", "")
-        try:
-            if "K" in v:
-                return int(float(v.replace("K", "")) * 1_000)
-            if "M" in v:
-                return int(float(v.replace("M", "")) * 1_000_000)
-            return int(v)
-        except (ValueError, TypeError):
-            return 0
+    # Tier 4.43 fix: use shared _view_count from _utils (was a local duplicate).
+    from ._utils import parse_view_count as _view_count
 
     def _sort_key(ex: Exercise) -> tuple:
         # Equipment preference rank (lower = better)

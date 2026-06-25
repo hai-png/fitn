@@ -159,7 +159,7 @@ FULL_BODY_2DAY = SplitDesign(
             ],
         ),
     ],
-    rest_days=[1, 4, 7],   # Mon, Thu, Sun
+    rest_days=[2, 3, 5, 6, 7],   # Tier 2.21 fix: 5 rest days for 2-day/week (was [1,4,7] = 3 rest → implied 4 training)
     suitable_for_experience=[TrainingStatus.BEGINNER, TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE],
     suitable_for_goals=[
         TrainingGoal.STRENGTH, TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.RECOMP, TrainingGoal.GENERAL_FITNESS,
@@ -209,7 +209,7 @@ FULL_BODY_3DAY = SplitDesign(
             ],
         ),
     ],
-    rest_days=[1, 4, 7],
+    rest_days=[2, 4, 6, 7],   # Tier 2.21 fix: 4 rest days for 3-day/week (was [1,4,7] = 3 rest)
     suitable_for_experience=[TrainingStatus.BEGINNER, TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE],
     suitable_for_goals=[
         TrainingGoal.STRENGTH, TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.RECOMP, TrainingGoal.GENERAL_FITNESS,
@@ -334,7 +334,7 @@ PPL_3DAY = SplitDesign(
             ],
         ),
     ],
-    rest_days=[4, 5, 7],   # Thu, Fri, Sun (or Mon/Thu/Sat training)
+    rest_days=[2, 4, 5, 7],   # Tier 2.21 fix: 4 rest days for 3-day/week (was [4,5,7] = 3 rest → implied 4 training)
     suitable_for_experience=[TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE, TrainingStatus.ADVANCED],
     suitable_for_goals=[
         TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.GENERAL_FITNESS,

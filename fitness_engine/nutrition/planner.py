@@ -115,6 +115,15 @@ def _estimate_timeline(
 
     strategy = assessment.recommended_strategy
     b = CUT_BULK_BOUNDARIES[profile.sex]
+    # Tier 4.53 fix: extracted magic numbers to named constants.
+    ADAPTATION_BUFFER_WEEKS = 4     # extra weeks to account for metabolic adaptation
+    WEEKS_PER_MONTH = 4.348         # 365.25 / 12 / 7
+    DEFAULT_BULK_DURATION_GAIN_PCT = 0.05  # 5% BW target for bulk duration estimate
+    DEFAULT_RECOMP_TIMELINE_WEEKS = 12
+    DEFAULT_MAINTENANCE_TIMELINE_WEEKS = 12
+    DEFAULT_CUT_TIMELINE_FALLBACK_WEEKS = 12
+    DEFAULT_BULK_TIMELINE_FALLBACK_WEEKS = 16
+
     bf_pct = assessment.body_composition.body_fat_pct
     weight_kg = profile.weight_kg
 
@@ -124,22 +133,21 @@ def _estimate_timeline(
         kg_to_lose = max(0, weight_kg - target_weight)
         weekly_rate_kg = weight_kg * calorie_targets.rate_pct
         if weekly_rate_kg <= 0:
-            return 12
-        return max(4, int(kg_to_lose / weekly_rate_kg) + 4)   # +4 for adaptation
+            return DEFAULT_CUT_TIMELINE_FALLBACK_WEEKS
+        return max(ADAPTATION_BUFFER_WEEKS, int(kg_to_lose / weekly_rate_kg) + ADAPTATION_BUFFER_WEEKS)
 
     if strategy == RecommendedStrategy.BULK:
-        # Estimate time to add 5% BW (reasonable bulk duration)
-        target_gain_kg = weight_kg * 0.05
+        target_gain_kg = weight_kg * DEFAULT_BULK_DURATION_GAIN_PCT
         monthly_rate_kg = weight_kg * calorie_targets.rate_pct
         if monthly_rate_kg <= 0:
-            return 16
-        return max(12, int(target_gain_kg / monthly_rate_kg * 4.345) + 4)
+            return DEFAULT_BULK_TIMELINE_FALLBACK_WEEKS
+        return max(12, int(target_gain_kg / monthly_rate_kg * WEEKS_PER_MONTH) + ADAPTATION_BUFFER_WEEKS)
 
     if strategy == RecommendedStrategy.RECOMP:
-        return 12   # standard recomp assessment window
+        return DEFAULT_RECOMP_TIMELINE_WEEKS
 
     if strategy == RecommendedStrategy.MAINTENANCE:
-        return 12
+        return DEFAULT_MAINTENANCE_TIMELINE_WEEKS
 
     if strategy == RecommendedStrategy.HABIT_CHANGE_FIRST:
         return 8    # 8 weeks of habit change before calorie counting

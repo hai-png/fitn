@@ -35,7 +35,8 @@ FAT_PCT_RANGES = {
 # === Fat floors (absolute) ===
 FAT_ABSOLUTE_FLOOR_G = 40          # general floor
 FAT_PER_LB_FLOOR = 0.25            # 0.25 g/lb body weight (alt floor)
-FAT_PER_KG_FLOOR = 0.5             # 0.5 g/kg
+# Tier 4.44 fix: removed FAT_PER_KG_FLOOR — dead code (never referenced;
+# actual floor computation uses FAT_PER_LB_FLOOR).
 
 # Saturated fat ceiling (% of total calories)
 SATURATED_FAT_CEILING_PCT = 0.10
@@ -70,15 +71,21 @@ def compute_protein(
     lbm_kg = profile.weight_kg * (1 - body_fat_pct / 100)
     lbm_lb = lbm_kg * 2.2046226218
 
-    # Determine if obese (use BMI proxy)
-    bmi = profile.bmi
-    obese = bmi >= 30
+    # Tier 2.13 fix: use BF% (consistent with assessment's decision tree) instead
+    # of BMI proxy. Previously a 100kg 175cm 12%BF bodybuilder (BMI=32.7) was
+    # flagged as obese and got protein capped at 1 g/cm height (~175g instead
+    # of the LBM-based ~250g). Now we use the same `obese_threshold` from
+    # CUT_BULK_BOUNDARIES that the assessment subsystem uses (25% M / 32% F).
+    from ..assessment.decision import CUT_BULK_BOUNDARIES
+    obese_threshold = CUT_BULK_BOUNDARIES[profile.sex]["obese_threshold"]
+    obese = body_fat_pct >= obese_threshold
 
     # Obese override: 1 g per cm of height
     if obese:
         protein_g = float(height_cm)
         notes.append(
-            f"Obese override: protein = 1 g/cm height = {protein_g:.0f} g "
+            f"Obese override (BF%={body_fat_pct:.1f}% ≥ {obese_threshold}% threshold): "
+            f"protein = 1 g/cm height = {protein_g:.0f} g "
             "(avoids excessive intake based on body weight)."
         )
         return protein_g, notes

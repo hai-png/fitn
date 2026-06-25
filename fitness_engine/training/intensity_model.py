@@ -174,18 +174,25 @@ def rir_to_rpe(rir: int, reps: int) -> float:
     Convert RIR to RPE.
 
     RPE = 10 - RIR (standard conversion).
-    For reps > 12, cap RPE at 8 (high-rep sets feel harder than RPE suggests).
+
+    Tier 5.65 fix: removed the `reps > 12 → cap RPE at 8` logic. The original
+    rationale ("high-rep sets feel harder than RPE suggests") was backwards —
+    capping at 8 systematically under-reports intensity for high-rep sets
+    taken to failure. A 20-rep squat set at RIR 0 is RPE 10, not RPE 8.
+    RIR-based RPE is unreliable above ~12 reps (cardio-respiratory failure
+    vs. muscular failure), but the fix is to document that caveat, not to
+    silently cap. Now we return the true RPE = 10 - RIR for all rep ranges.
     """
     rpe = 10.0 - rir
-    if reps > 12:
-        rpe = min(rpe, 8.0)
     return max(4.0, min(10.0, rpe))
 
 
 def rpe_to_rir(rpe: float, reps: int) -> int:
-    """Convert RPE to RIR."""
-    if reps > 12:
-        rpe = min(rpe, 8.0)
+    """Convert RPE to RIR.
+
+    Tier 5.65 fix: removed the high-rep cap (was min(rpe, 8.0) for reps > 12)
+    for the same reason as rir_to_rpe — it under-reported intensity.
+    """
     return max(0, int(round(10 - rpe)))
 
 

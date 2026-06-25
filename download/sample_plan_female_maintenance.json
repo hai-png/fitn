@@ -17,7 +17,8 @@
     "waist_cm": 68,
     "hip_cm": 92,
     "cut_rate_tier": null,
-    "bulk_aggressiveness": null
+    "bulk_aggressiveness": null,
+    "training_time_of_day": "evening"
   },
   "preferences": {
     "exercise_hours_per_day": 1.0,
@@ -72,7 +73,7 @@
         "IBW (Robinson): 60.8 kg",
         "IBW (Miller): 62.5 kg",
         "IBW (Hamwi): 60.6 kg",
-        "Frame-size adjustment (wrist circumference): \u00b110% for small/large frame."
+        "Not a substitute for clinical assessment \u2014 consult a physician for personalized guidance."
       ]
     },
     "muscular_potential": {
@@ -81,30 +82,30 @@
       "natural_ceiling_ffmi": 25.0,
       "attainable_ceiling_ffmi": 27.3,
       "likely_max_ffmi": 28.0,
-      "berkhan_stage_max_kg": 70.0,
-      "ffmi_to_ceiling_pct": 66.9,
-      "headroom_kg": 23.9,
+      "berkhan_stage_max_kg": null,
+      "ffmi_to_ceiling_pct": 69.4,
+      "headroom_kg": 22.1,
       "expected_monthly_muscle_gain_kg": 0.23,
       "notes": [
-        "FFMI=16.7 \u2014 significant headroom to natural ceiling (23.9 kg FFM remaining at FFMI=25).",
-        "Berkhan stage-shredded max for height=170cm: 70.0 kg at 5-6% BF.",
+        "Normalized FFMI=17.3 \u2014 significant headroom to natural ceiling (22.1 kg FFM remaining at normalized FFMI=25).",
+        "Berkhan stage-shredded model not applicable for female profiles (women's essential BF floor is ~10-13%, not 5-6%).",
         "Expected monthly muscle gain (intermediate, female): ~0.23 kg/month with proper training + nutrition."
       ]
     },
     "recommended_strategy": "maintenance",
     "strategy_rationale": "User goal is maintenance.",
-    "summary": "Female, 32y, 170cm, 62.0kg \u2022 BMI 21.5 (normal) \u2022 BF% 22.0 (fitness, via user_provided) \u2022 LBM 48.4kg, fat mass 13.6kg \u2022 FFMI 16.7 (norm: 17.3, natural ceiling 25.0, 67% of ceiling) \u2022 Recommended: MAINTENANCE \u2014 User goal is maintenance."
+    "summary": "Female, 32y, 170cm, 62.0kg \u2022 BMI 21.5 (normal) \u2022 BF% 22.0 (fitness, via user_provided) \u2022 LBM 48.4kg, fat mass 13.6kg \u2022 FFMI 16.7 (norm: 17.3, natural ceiling 25.0, 69% of ceiling) \u2022 Recommended: MAINTENANCE \u2014 User goal is maintenance. \u2022 Health risk: low \u2022 Not a substitute for clinical assessment \u2014 consult a physician for personalized guidance."
   },
   "plan": {
     "nutrition": {
       "rmr": {
-        "formula": "cunningham",
+        "formula": "katch_mcardle",
         "base_rmr_kcal": 1414.6,
         "metabolic_adaptation_factor": 1.0,
         "weight_reduced_factor": 1.0,
         "adjusted_rmr_kcal": 1414.6,
         "notes": [
-          "Base RMR (cunningham): 1415 kcal"
+          "Base RMR (katch_mcardle): 1415 kcal"
         ]
       },
       "tdee": {
@@ -176,7 +177,7 @@
       },
       "timeline_weeks": 12,
       "notes": [
-        "RMR formula: cunningham",
+        "RMR formula: katch_mcardle",
         "Activity factor: 1.85",
         "Strategy: maintenance",
         "Estimated timeline to goal: 12 weeks"
@@ -1592,6 +1593,7 @@
                 }
               ],
               "rest_days": [
+                2,
                 4,
                 5,
                 7
@@ -1714,8 +1716,16 @@
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
                 "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20A%20La%20Carte%20Recipe%20Photos/proteinfrenchtoastrecipe.jpg",
-                "notes": "",
+                "notes": "[kcal-warning: stated 370 kcal vs macro-derived 477 kcal (29% off) \u2014 likely a curation error in servings or per-serving values]",
                 "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 555.0,
+                "protein_g": 48.0,
+                "carb_g": 73.5,
+                "fat_g": 25.5,
+                "fiber_g": 0.0
               },
               "foods": [
                 {
@@ -1731,7 +1741,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 148.0
+                  "grams": 148.0,
+                  "kcal": 192.4,
+                  "protein_g": 4.0,
+                  "carb_g": 41.7,
+                  "fat_g": 0.4
                 },
                 {
                   "food": {
@@ -1746,18 +1760,82 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "6 Slices of high protein bread-like P28 Protein Bread": [
+                  {
+                    "alternatives": [
+                      "gluten-free bread",
+                      "rice cakes",
+                      "corn tortilla",
+                      "lettuce wrap"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "6 tablespoons liquid egg whites": [
+                  {
+                    "alternatives": [
+                      "flax egg",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 Whole eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "1/2 cup dairy-free milk": [
+                  {
+                    "alternatives": [
+                      "oat milk",
+                      "soy milk",
+                      "almond milk",
+                      "coconut milk"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Soy milk is closest nutritionally (protein)"
+                  }
+                ],
+                "3 tablespoons almond butter powder or peanut butter powder": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 370.0,
-              "actual_protein_g": 32.0,
-              "actual_carb_g": 49.0,
-              "actual_fat_g": 17.0,
-              "notes": "Score: 62.5/100; Scaled to 1.50 servings (1.50x); + 148g White Rice (cooked) (carb filler: +42g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 815.4,
+              "actual_protein_g": 57.6,
+              "actual_carb_g": 128.4,
+              "actual_fat_g": 26.7,
+              "notes": "Score: 54.5/100; \u26a0 Best recipe score 54.5 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 148g White Rice (cooked) (carb filler: +42g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
@@ -1838,6 +1916,14 @@
                 "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.321,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 56.8,
+                "carb_g": 63.4,
+                "fat_g": 42.3,
+                "fiber_g": 9.2
+              },
               "foods": [
                 {
                   "food": {
@@ -1852,18 +1938,127 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 252.0
+                  "grams": 252.0,
+                  "kcal": 327.6,
+                  "protein_g": 6.8,
+                  "carb_g": 71.1,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "4 tablespoon olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2  medium onions (, peeled and chopped)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "4 cloves garlic (, chopped)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 1/2 pounds stewing beef (e.g. chuck) (, cut into 1-inch cubes)": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 pounds butternut squash (, trimmed and cut into 1-inch cubes)": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/2 cup chopped sun-dried tomatoes": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "4 to 5 cups beef broth": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 693.0,
-              "actual_protein_g": 43.0,
-              "actual_carb_g": 48.0,
-              "actual_fat_g": 32.0,
-              "notes": "Score: 90.9/100; Scaled to 1.32 servings (1.32x); + 252g White Rice (cooked) (carb filler: +71g C)"
+              "actual_kcal": 1243.2,
+              "actual_protein_g": 63.6,
+              "actual_carb_g": 134.5,
+              "actual_fat_g": 43.0,
+              "notes": "Score: 78.8/100; Scaled to 1.32 servings (1.32x); + 252g White Rice (cooked) (carb filler: +71g C)"
             },
             {
               "meal_type": "dinner",
@@ -1947,6 +2142,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.282,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 42.3,
+                "carb_g": 100.0,
+                "fat_g": 39.8,
+                "fiber_g": 10.3
+              },
               "foods": [
                 {
                   "food": {
@@ -1961,24 +2164,83 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 122.0
+                  "grams": 122.0,
+                  "kcal": 158.6,
+                  "protein_g": 3.3,
+                  "carb_g": 34.4,
+                  "fat_g": 0.4
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tbsp (35g) vegan butter, melted": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/8 tsp granulated garlic": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "Extra virgin olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2-3 cloves garlic, minced or pressed": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 714.0,
-              "actual_protein_g": 33.0,
-              "actual_carb_g": 78.0,
-              "actual_fat_g": 31.0,
-              "notes": "Score: 94.5/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
+              "actual_kcal": 1074.2,
+              "actual_protein_g": 45.6,
+              "actual_carb_g": 134.4,
+              "actual_fat_g": 40.1,
+              "notes": "Score: 81.9/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
             }
           ],
-          "total_kcal": 1777.0,
-          "total_protein_g": 108.0,
-          "total_carb_g": 175.0,
-          "total_fat_g": 80.0
+          "total_kcal": 3132.7999999999997,
+          "total_protein_g": 166.82376827094473,
+          "total_carb_g": 397.34571122994646,
+          "total_fat_g": 109.89772905525845
         },
         {
           "day_number": 2,
@@ -2052,6 +2314,14 @@
                 "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.234,
+              "scaled_nutrition": {
+                "kcal": 784.8,
+                "protein_g": 16.8,
+                "carb_g": 83.0,
+                "fat_g": 42.8,
+                "fiber_g": 2.1
+              },
               "foods": [
                 {
                   "food": {
@@ -2066,7 +2336,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 19.0
+                  "grams": 19.0,
+                  "kcal": 76.0,
+                  "protein_g": 15.2,
+                  "carb_g": 1.5,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -2081,7 +2355,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 109.0
+                  "grams": 109.0,
+                  "kcal": 141.7,
+                  "protein_g": 2.9,
+                  "carb_g": 30.7,
+                  "fat_g": 0.3
                 },
                 {
                   "food": {
@@ -2096,18 +2374,48 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2       eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "2   cups    milk": [
+                  {
+                    "alternatives": [
+                      "oat milk",
+                      "soy milk",
+                      "almond milk",
+                      "coconut milk"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Soy milk is closest nutritionally (protein)"
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 636.0,
-              "actual_protein_g": 13.6,
-              "actual_carb_g": 67.3,
-              "actual_fat_g": 34.7,
-              "notes": "Score: 59.0/100; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1070.5,
+              "actual_protein_g": 40.5,
+              "actual_carb_g": 128.5,
+              "actual_fat_g": 45.1,
+              "notes": "Score: 50.7/100; \u26a0 Best recipe score 50.7 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
@@ -2195,6 +2503,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.308,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 38.6,
+                "carb_g": 150.8,
+                "fat_g": 17.5,
+                "fiber_g": 42.4
+              },
               "foods": [
                 {
                   "food": {
@@ -2209,18 +2525,78 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 8.0
+                  "grams": 8.0,
+                  "kcal": 70.7,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 8.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 onion, chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon garlic granules": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "24 ounces tomatoes, chopped": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "\u00bd cup almond or peanut butter, unsweetened": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 700.0,
-              "actual_protein_g": 29.5,
-              "actual_carb_g": 115.3,
-              "actual_fat_g": 13.4,
-              "notes": "Score: 82.8/100; Scaled to 1.31 servings (1.31x); + 8g Olive Oil (fat filler: +8g F)"
+              "actual_kcal": 986.3,
+              "actual_protein_g": 38.6,
+              "actual_carb_g": 150.8,
+              "actual_fat_g": 25.5,
+              "notes": "Score: 71.6/100; Scaled to 1.31 servings (1.31x); + 8g Olive Oil (fat filler: +8g F)"
             },
             {
               "meal_type": "dinner",
@@ -2304,6 +2680,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.282,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 42.3,
+                "carb_g": 100.0,
+                "fat_g": 39.8,
+                "fiber_g": 10.3
+              },
               "foods": [
                 {
                   "food": {
@@ -2318,24 +2702,83 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 122.0
+                  "grams": 122.0,
+                  "kcal": 158.6,
+                  "protein_g": 3.3,
+                  "carb_g": 34.4,
+                  "fat_g": 0.4
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tbsp (35g) vegan butter, melted": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/8 tsp granulated garlic": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "Extra virgin olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2-3 cloves garlic, minced or pressed": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 714.0,
-              "actual_protein_g": 33.0,
-              "actual_carb_g": 78.0,
-              "actual_fat_g": 31.0,
-              "notes": "Score: 94.5/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
+              "actual_kcal": 1074.2,
+              "actual_protein_g": 45.6,
+              "actual_carb_g": 134.4,
+              "actual_fat_g": 40.1,
+              "notes": "Score: 81.9/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
             }
           ],
-          "total_kcal": 2050.0,
-          "total_protein_g": 76.1,
-          "total_carb_g": 260.6,
-          "total_fat_g": 79.10000000000001
+          "total_kcal": 3131.0199999999995,
+          "total_protein_g": 124.72253385127635,
+          "total_carb_g": 413.7435897891231,
+          "total_fat_g": 110.73163174250833
         },
         {
           "day_number": 3,
@@ -2408,6 +2851,14 @@
                 "notes": "[diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.234,
+              "scaled_nutrition": {
+                "kcal": 784.8,
+                "protein_g": 16.8,
+                "carb_g": 83.0,
+                "fat_g": 42.8,
+                "fiber_g": 2.1
+              },
               "foods": [
                 {
                   "food": {
@@ -2422,7 +2873,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 19.0
+                  "grams": 19.0,
+                  "kcal": 76.0,
+                  "protein_g": 15.2,
+                  "carb_g": 1.5,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -2437,7 +2892,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 109.0
+                  "grams": 109.0,
+                  "kcal": 141.7,
+                  "protein_g": 2.9,
+                  "carb_g": 30.7,
+                  "fat_g": 0.3
                 },
                 {
                   "food": {
@@ -2452,18 +2911,48 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2       eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "2   cups    milk": [
+                  {
+                    "alternatives": [
+                      "oat milk",
+                      "soy milk",
+                      "almond milk",
+                      "coconut milk"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Soy milk is closest nutritionally (protein)"
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 636.0,
-              "actual_protein_g": 13.6,
-              "actual_carb_g": 67.3,
-              "actual_fat_g": 34.7,
-              "notes": "Score: 59.0/100; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1070.5,
+              "actual_protein_g": 40.5,
+              "actual_carb_g": 128.5,
+              "actual_fat_g": 45.1,
+              "notes": "Score: 50.7/100; \u26a0 Best recipe score 50.7 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
@@ -2559,6 +3048,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 702.0,
+                "protein_g": 54.0,
+                "carb_g": 40.5,
+                "fat_g": 37.5,
+                "fiber_g": 7.5
+              },
               "foods": [
                 {
                   "food": {
@@ -2573,7 +3070,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 333.0
+                  "grams": 333.0,
+                  "kcal": 432.9,
+                  "protein_g": 9.0,
+                  "carb_g": 93.9,
+                  "fat_g": 1.0
                 },
                 {
                   "food": {
@@ -2588,18 +3089,128 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 158.0
+                  "grams": 158.0,
+                  "kcal": 53.7,
+                  "protein_g": 4.4,
+                  "carb_g": 10.4,
+                  "fat_g": 0.6
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "2 pounds beef chuck (, cut into 1-inch pieces)": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1  large yellow onion (, cut into 1-inch pieces)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cloves garlic minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "4 cups beef broth": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 tablespoons tomato paste": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2-3  medium potatoes (cut into 1-inch pieces)": [
+                  {
+                    "alternatives": [
+                      "sweet potato",
+                      "cauliflower",
+                      "turnip",
+                      "rutabaga"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 468.0,
-              "actual_protein_g": 36.0,
-              "actual_carb_g": 27.0,
-              "actual_fat_g": 25.0,
-              "notes": "Score: 66.4/100; Scaled to 1.50 servings (1.50x); + 333g White Rice (cooked) (carb filler: +94g C); + 158g Broccoli (raw) (veg filler: +4.1g fiber)"
+              "actual_kcal": 1188.6,
+              "actual_protein_g": 67.4,
+              "actual_carb_g": 144.8,
+              "actual_fat_g": 39.1,
+              "notes": "Score: 57.6/100; \u26a0 Best recipe score 57.6 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 333g White Rice (cooked) (carb filler: +94g C); + 158g Broccoli (raw) (veg filler: +4.1g fiber)"
             },
             {
               "meal_type": "dinner",
@@ -2678,6 +3289,14 @@
                 "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 858.0,
+                "protein_g": 51.0,
+                "carb_g": 61.5,
+                "fat_g": 45.0,
+                "fiber_g": 13.5
+              },
               "foods": [
                 {
                   "food": {
@@ -2692,24 +3311,93 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 259.0
+                  "grams": 259.0,
+                  "kcal": 336.7,
+                  "protein_g": 7.0,
+                  "carb_g": 73.0,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 \u00bd - 4 pounds corned beef brisket with spice packet (flatcut)": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1  sweet onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 \u00bd pounds mini new potatoes": [
+                  {
+                    "alternatives": [
+                      "sweet potato",
+                      "cauliflower",
+                      "turnip",
+                      "rutabaga"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "8-10 cloves garlic (peeled)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 572.0,
-              "actual_protein_g": 34.0,
-              "actual_carb_g": 41.0,
-              "actual_fat_g": 30.0,
-              "notes": "Score: 71.2/100; Scaled to 1.50 servings (1.50x); + 259g White Rice (cooked) (carb filler: +73g C)"
+              "actual_kcal": 1194.7,
+              "actual_protein_g": 58.0,
+              "actual_carb_g": 134.5,
+              "actual_fat_g": 45.8,
+              "notes": "Score: 61.7/100; Scaled to 1.50 servings (1.50x); + 259g White Rice (cooked) (carb filler: +73g C)"
             }
           ],
-          "total_kcal": 1676.0,
-          "total_protein_g": 83.6,
-          "total_carb_g": 135.3,
-          "total_fat_g": 89.7
+          "total_kcal": 3453.8199999999997,
+          "total_protein_g": 165.93288679245282,
+          "total_carb_g": 407.8756603773585,
+          "total_fat_g": 129.99349056603774
         },
         {
           "day_number": 4,
@@ -2782,6 +3470,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 0.77,
+              "scaled_nutrition": {
+                "kcal": 784.8,
+                "protein_g": 36.2,
+                "carb_g": 46.2,
+                "fat_g": 50.1,
+                "fiber_g": 10.8
+              },
               "foods": [
                 {
                   "food": {
@@ -2796,18 +3492,47 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 245.0
+                  "grams": 245.0,
+                  "kcal": 318.5,
+                  "protein_g": 6.6,
+                  "carb_g": 69.1,
+                  "fat_g": 0.7
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "10  large eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "Possible Add-Ons: cilantro, (salsa verde, pico de gallo, sour cream)": [
+                  {
+                    "alternatives": [
+                      "coconut cream",
+                      "cashew cream",
+                      "oat cream"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 1019.0,
-              "actual_protein_g": 47.0,
-              "actual_carb_g": 60.0,
-              "actual_fat_g": 65.0,
-              "notes": "Score: 47.7/100; Scaled to 0.77 servings (0.77x); + 245g White Rice (cooked) (carb filler: +69g C)"
+              "actual_kcal": 1103.3,
+              "actual_protein_g": 42.8,
+              "actual_carb_g": 115.3,
+              "actual_fat_g": 50.8,
+              "notes": "Score: 40.7/100; \u26a0 Best recipe score 40.7 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 0.77 servings (0.77x); + 245g White Rice (cooked) (carb filler: +69g C)"
             },
             {
               "meal_type": "lunch",
@@ -2903,6 +3628,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 702.0,
+                "protein_g": 54.0,
+                "carb_g": 40.5,
+                "fat_g": 37.5,
+                "fiber_g": 7.5
+              },
               "foods": [
                 {
                   "food": {
@@ -2917,7 +3650,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 333.0
+                  "grams": 333.0,
+                  "kcal": 432.9,
+                  "protein_g": 9.0,
+                  "carb_g": 93.9,
+                  "fat_g": 1.0
                 },
                 {
                   "food": {
@@ -2932,18 +3669,128 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 158.0
+                  "grams": 158.0,
+                  "kcal": 53.7,
+                  "protein_g": 4.4,
+                  "carb_g": 10.4,
+                  "fat_g": 0.6
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "2 pounds beef chuck (, cut into 1-inch pieces)": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1  large yellow onion (, cut into 1-inch pieces)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cloves garlic minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "4 cups beef broth": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 tablespoons tomato paste": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2-3  medium potatoes (cut into 1-inch pieces)": [
+                  {
+                    "alternatives": [
+                      "sweet potato",
+                      "cauliflower",
+                      "turnip",
+                      "rutabaga"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 468.0,
-              "actual_protein_g": 36.0,
-              "actual_carb_g": 27.0,
-              "actual_fat_g": 25.0,
-              "notes": "Score: 66.4/100; Scaled to 1.50 servings (1.50x); + 333g White Rice (cooked) (carb filler: +94g C); + 158g Broccoli (raw) (veg filler: +4.1g fiber)"
+              "actual_kcal": 1188.6,
+              "actual_protein_g": 67.4,
+              "actual_carb_g": 144.8,
+              "actual_fat_g": 39.1,
+              "notes": "Score: 57.6/100; \u26a0 Best recipe score 57.6 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 333g White Rice (cooked) (carb filler: +94g C); + 158g Broccoli (raw) (veg filler: +4.1g fiber)"
             },
             {
               "meal_type": "dinner",
@@ -3023,6 +3870,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.415,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 60.9,
+                "carb_g": 15.6,
+                "fat_g": 75.0,
+                "fiber_g": 1.4
+              },
               "foods": [
                 {
                   "food": {
@@ -3037,7 +3892,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 421.0
+                  "grams": 421.0,
+                  "kcal": 547.3,
+                  "protein_g": 11.4,
+                  "carb_g": 118.7,
+                  "fat_g": 1.3
                 },
                 {
                   "food": {
@@ -3052,24 +3911,147 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 lbs chicken thighs (, cut into 1 inch pieces, or 3 chicken breasts, cut into 1/2 inch pieces)": [
+                  {
+                    "alternatives": [
+                      "turkey breast",
+                      "tofu (firm)",
+                      "tempeh",
+                      "seitan"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1:1 for turkey; 1:1 for tofu/tempeh (drain well); 1:1 for seitan"
+                  },
+                  {
+                    "alternatives": [
+                      "chicken thigh (skinless)"
+                    ],
+                    "ratio": 0.9,
+                    "notes": "Slightly higher fat; reduce added fat by 1 tsp"
+                  }
+                ],
+                "2 tablespoons niter kibbeh": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "butter",
+                      "coconut oil (vegan)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 tablespoons extra virgin olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cups chopped yellow onions": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 tablespoons butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon finely minced garlic": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/4 cup Ethiopian berbere": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "or use HOMEMADE BERBERE ((HIGHLY recommended!))": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "4  hard-boiled eggs (, pierced all over with fork about 1/4 inch deep)": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 647.0,
-              "actual_protein_g": 43.0,
-              "actual_carb_g": 11.0,
-              "actual_fat_g": 53.0,
-              "notes": "Score: 69.3/100; Scaled to 1.42 servings (1.42x); + 421g White Rice (cooked) (carb filler: +119g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1530.9,
+              "actual_protein_g": 77.8,
+              "actual_carb_g": 147.5,
+              "actual_fat_g": 77.1,
+              "notes": "Score: 60.0/100; \u26a0 Best recipe score 60.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.42 servings (1.42x); + 421g White Rice (cooked) (carb filler: +119g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 2134.0,
-          "total_protein_g": 126.0,
-          "total_carb_g": 98.0,
-          "total_fat_g": 143.0
+          "total_kcal": 3822.8199999999997,
+          "total_protein_g": 188.0461547764044,
+          "total_carb_g": 407.6226249603742,
+          "total_fat_g": 166.9926260357686
         },
         {
           "day_number": 5,
@@ -3143,8 +4125,16 @@
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
                 "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20A%20La%20Carte%20Recipe%20Photos/proteinfrenchtoastrecipe.jpg",
-                "notes": "",
+                "notes": "[kcal-warning: stated 370 kcal vs macro-derived 477 kcal (29% off) \u2014 likely a curation error in servings or per-serving values]",
                 "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 555.0,
+                "protein_g": 48.0,
+                "carb_g": 73.5,
+                "fat_g": 25.5,
+                "fiber_g": 0.0
               },
               "foods": [
                 {
@@ -3160,7 +4150,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 148.0
+                  "grams": 148.0,
+                  "kcal": 192.4,
+                  "protein_g": 4.0,
+                  "carb_g": 41.7,
+                  "fat_g": 0.4
                 },
                 {
                   "food": {
@@ -3175,18 +4169,82 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "6 Slices of high protein bread-like P28 Protein Bread": [
+                  {
+                    "alternatives": [
+                      "gluten-free bread",
+                      "rice cakes",
+                      "corn tortilla",
+                      "lettuce wrap"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "6 tablespoons liquid egg whites": [
+                  {
+                    "alternatives": [
+                      "flax egg",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 Whole eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "1/2 cup dairy-free milk": [
+                  {
+                    "alternatives": [
+                      "oat milk",
+                      "soy milk",
+                      "almond milk",
+                      "coconut milk"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Soy milk is closest nutritionally (protein)"
+                  }
+                ],
+                "3 tablespoons almond butter powder or peanut butter powder": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 370.0,
-              "actual_protein_g": 32.0,
-              "actual_carb_g": 49.0,
-              "actual_fat_g": 17.0,
-              "notes": "Score: 60.0/100; Scaled to 1.50 servings (1.50x); + 148g White Rice (cooked) (carb filler: +42g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 815.4,
+              "actual_protein_g": 57.6,
+              "actual_carb_g": 128.4,
+              "actual_fat_g": 26.7,
+              "notes": "Score: 52.5/100; \u26a0 Best recipe score 52.5 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 148g White Rice (cooked) (carb filler: +42g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
@@ -3267,6 +4325,14 @@
                 "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.321,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 56.8,
+                "carb_g": 63.4,
+                "fat_g": 42.3,
+                "fiber_g": 9.2
+              },
               "foods": [
                 {
                   "food": {
@@ -3281,18 +4347,127 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 252.0
+                  "grams": 252.0,
+                  "kcal": 327.6,
+                  "protein_g": 6.8,
+                  "carb_g": 71.1,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "4 tablespoon olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2  medium onions (, peeled and chopped)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "4 cloves garlic (, chopped)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 1/2 pounds stewing beef (e.g. chuck) (, cut into 1-inch cubes)": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 pounds butternut squash (, trimmed and cut into 1-inch cubes)": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/2 cup chopped sun-dried tomatoes": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "4 to 5 cups beef broth": [
+                  {
+                    "alternatives": [
+                      "beyond beef",
+                      "impossible beef",
+                      "lentils (cooked)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Plant-based alternatives are 1:1; lentils need 1.5x volume"
+                  },
+                  {
+                    "alternatives": [
+                      "lamb",
+                      "venison"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 693.0,
-              "actual_protein_g": 43.0,
-              "actual_carb_g": 48.0,
-              "actual_fat_g": 32.0,
-              "notes": "Score: 88.4/100; Scaled to 1.32 servings (1.32x); + 252g White Rice (cooked) (carb filler: +71g C)"
+              "actual_kcal": 1243.2,
+              "actual_protein_g": 63.6,
+              "actual_carb_g": 134.5,
+              "actual_fat_g": 43.0,
+              "notes": "Score: 76.8/100; Scaled to 1.32 servings (1.32x); + 252g White Rice (cooked) (carb filler: +71g C)"
             },
             {
               "meal_type": "dinner",
@@ -3376,6 +4551,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.282,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 42.3,
+                "carb_g": 100.0,
+                "fat_g": 39.8,
+                "fiber_g": 10.3
+              },
               "foods": [
                 {
                   "food": {
@@ -3390,24 +4573,83 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 122.0
+                  "grams": 122.0,
+                  "kcal": 158.6,
+                  "protein_g": 3.3,
+                  "carb_g": 34.4,
+                  "fat_g": 0.4
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tbsp (35g) vegan butter, melted": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/8 tsp granulated garlic": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "Extra virgin olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2-3 cloves garlic, minced or pressed": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 714.0,
-              "actual_protein_g": 33.0,
-              "actual_carb_g": 78.0,
-              "actual_fat_g": 31.0,
-              "notes": "Score: 92.0/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
+              "actual_kcal": 1074.2,
+              "actual_protein_g": 45.6,
+              "actual_carb_g": 134.4,
+              "actual_fat_g": 40.1,
+              "notes": "Score: 79.9/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
             }
           ],
-          "total_kcal": 1777.0,
-          "total_protein_g": 108.0,
-          "total_carb_g": 175.0,
-          "total_fat_g": 80.0
+          "total_kcal": 3132.7999999999997,
+          "total_protein_g": 166.82376827094473,
+          "total_carb_g": 397.34571122994646,
+          "total_fat_g": 109.89772905525845
         },
         {
           "day_number": 6,
@@ -3481,6 +4723,14 @@
                 "notes": "[curated] [diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.234,
+              "scaled_nutrition": {
+                "kcal": 784.8,
+                "protein_g": 16.8,
+                "carb_g": 83.0,
+                "fat_g": 42.8,
+                "fiber_g": 2.1
+              },
               "foods": [
                 {
                   "food": {
@@ -3495,7 +4745,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 19.0
+                  "grams": 19.0,
+                  "kcal": 76.0,
+                  "protein_g": 15.2,
+                  "carb_g": 1.5,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -3510,7 +4764,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 109.0
+                  "grams": 109.0,
+                  "kcal": 141.7,
+                  "protein_g": 2.9,
+                  "carb_g": 30.7,
+                  "fat_g": 0.3
                 },
                 {
                   "food": {
@@ -3525,18 +4783,48 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2       eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "2   cups    milk": [
+                  {
+                    "alternatives": [
+                      "oat milk",
+                      "soy milk",
+                      "almond milk",
+                      "coconut milk"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Soy milk is closest nutritionally (protein)"
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 636.0,
-              "actual_protein_g": 13.6,
-              "actual_carb_g": 67.3,
-              "actual_fat_g": 34.7,
-              "notes": "Score: 56.5/100; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1070.5,
+              "actual_protein_g": 40.5,
+              "actual_carb_g": 128.5,
+              "actual_fat_g": 45.1,
+              "notes": "Score: 48.7/100; \u26a0 Best recipe score 48.7 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
@@ -3624,6 +4912,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.308,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 38.6,
+                "carb_g": 150.8,
+                "fat_g": 17.5,
+                "fiber_g": 42.4
+              },
               "foods": [
                 {
                   "food": {
@@ -3638,18 +4934,78 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 8.0
+                  "grams": 8.0,
+                  "kcal": 70.7,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 8.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 onion, chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon garlic granules": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "24 ounces tomatoes, chopped": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "\u00bd cup almond or peanut butter, unsweetened": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 700.0,
-              "actual_protein_g": 29.5,
-              "actual_carb_g": 115.3,
-              "actual_fat_g": 13.4,
-              "notes": "Score: 80.3/100; Scaled to 1.31 servings (1.31x); + 8g Olive Oil (fat filler: +8g F)"
+              "actual_kcal": 986.3,
+              "actual_protein_g": 38.6,
+              "actual_carb_g": 150.8,
+              "actual_fat_g": 25.5,
+              "notes": "Score: 69.6/100; Scaled to 1.31 servings (1.31x); + 8g Olive Oil (fat filler: +8g F)"
             },
             {
               "meal_type": "dinner",
@@ -3733,6 +5089,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.282,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 42.3,
+                "carb_g": 100.0,
+                "fat_g": 39.8,
+                "fiber_g": 10.3
+              },
               "foods": [
                 {
                   "food": {
@@ -3747,24 +5111,83 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 122.0
+                  "grams": 122.0,
+                  "kcal": 158.6,
+                  "protein_g": 3.3,
+                  "carb_g": 34.4,
+                  "fat_g": 0.4
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tbsp (35g) vegan butter, melted": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/8 tsp granulated garlic": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "Extra virgin olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2-3 cloves garlic, minced or pressed": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 714.0,
-              "actual_protein_g": 33.0,
-              "actual_carb_g": 78.0,
-              "actual_fat_g": 31.0,
-              "notes": "Score: 92.0/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
+              "actual_kcal": 1074.2,
+              "actual_protein_g": 45.6,
+              "actual_carb_g": 134.4,
+              "actual_fat_g": 40.1,
+              "notes": "Score: 79.9/100; Scaled to 1.28 servings (1.28x); + 122g White Rice (cooked) (carb filler: +34g C)"
             }
           ],
-          "total_kcal": 2050.0,
-          "total_protein_g": 76.1,
-          "total_carb_g": 260.6,
-          "total_fat_g": 79.10000000000001
+          "total_kcal": 3131.0199999999995,
+          "total_protein_g": 124.72253385127635,
+          "total_carb_g": 413.7435897891231,
+          "total_fat_g": 110.73163174250833
         },
         {
           "day_number": 7,
@@ -3837,6 +5260,14 @@
                 "notes": "[diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg \u2014 likely a curation error]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.234,
+              "scaled_nutrition": {
+                "kcal": 784.8,
+                "protein_g": 16.8,
+                "carb_g": 83.0,
+                "fat_g": 42.8,
+                "fiber_g": 2.1
+              },
               "foods": [
                 {
                   "food": {
@@ -3851,7 +5282,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 19.0
+                  "grams": 19.0,
+                  "kcal": 76.0,
+                  "protein_g": 15.2,
+                  "carb_g": 1.5,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -3866,7 +5301,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 109.0
+                  "grams": 109.0,
+                  "kcal": 141.7,
+                  "protein_g": 2.9,
+                  "carb_g": 30.7,
+                  "fat_g": 0.3
                 },
                 {
                   "food": {
@@ -3881,18 +5320,48 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2       eggs": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ],
+                "2   cups    milk": [
+                  {
+                    "alternatives": [
+                      "oat milk",
+                      "soy milk",
+                      "almond milk",
+                      "coconut milk"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Soy milk is closest nutritionally (protein)"
+                  }
+                ]
+              },
               "target_kcal": 785.0,
               "target_protein_g": 32.0,
               "target_carb_g": 115.0,
               "target_fat_g": 22.0,
-              "actual_kcal": 636.0,
-              "actual_protein_g": 13.6,
-              "actual_carb_g": 67.3,
-              "actual_fat_g": 34.7,
-              "notes": "Score: 56.5/100; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1070.5,
+              "actual_protein_g": 40.5,
+              "actual_carb_g": 128.5,
+              "actual_fat_g": 45.1,
+              "notes": "Score: 48.7/100; \u26a0 Best recipe score 48.7 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.23 servings (1.23x); + 19g Whey Protein Powder (protein filler: +15g P); + 109g White Rice (cooked) (carb filler: +31g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "lunch",
@@ -3978,8 +5447,16 @@
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
                 "image_url": "https://www.forksoverknives.com/uploads/African-Yam-Stew-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
-                "notes": "",
+                "notes": "[kcal-warning: stated 593 kcal vs macro-derived 700 kcal (18% off) \u2014 likely a curation error in servings or per-serving values]",
                 "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 889.5,
+                "protein_g": 44.2,
+                "carb_g": 172.9,
+                "fat_g": 20.1,
+                "fiber_g": 48.6
               },
               "foods": [
                 {
@@ -3995,18 +5472,78 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 7.0
+                  "grams": 7.0,
+                  "kcal": 61.9,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 7.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 onion, chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon garlic granules": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "24 ounces tomatoes, chopped": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "\u00bd cup almond or peanut butter, unsweetened": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 593.0,
-              "actual_protein_g": 29.5,
-              "actual_carb_g": 115.3,
-              "actual_fat_g": 13.4,
-              "notes": "Score: 65.2/100; Scaled to 1.50 servings (1.50x); + 7g Olive Oil (fat filler: +7g F)"
+              "actual_kcal": 951.4,
+              "actual_protein_g": 44.2,
+              "actual_carb_g": 172.9,
+              "actual_fat_g": 27.1,
+              "notes": "Score: 56.4/100; \u26a0 Best recipe score 56.4 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 7g Olive Oil (fat filler: +7g F)"
             },
             {
               "meal_type": "dinner",
@@ -4085,6 +5622,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.415,
+              "scaled_nutrition": {
+                "kcal": 915.6,
+                "protein_g": 60.9,
+                "carb_g": 15.6,
+                "fat_g": 75.0,
+                "fiber_g": 1.4
+              },
               "foods": [
                 {
                   "food": {
@@ -4099,7 +5644,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 421.0
+                  "grams": 421.0,
+                  "kcal": 547.3,
+                  "protein_g": 11.4,
+                  "carb_g": 118.7,
+                  "fat_g": 1.3
                 },
                 {
                   "food": {
@@ -4114,24 +5663,147 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R248",
+                  "name": "Grilled T-Bone Steak",
+                  "kcal": 756.0,
+                  "kcal_diff": -160.0,
+                  "cuisine": "american"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 lbs chicken thighs (, cut into 1 inch pieces, or 3 chicken breasts, cut into 1/2 inch pieces)": [
+                  {
+                    "alternatives": [
+                      "turkey breast",
+                      "tofu (firm)",
+                      "tempeh",
+                      "seitan"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1:1 for turkey; 1:1 for tofu/tempeh (drain well); 1:1 for seitan"
+                  },
+                  {
+                    "alternatives": [
+                      "chicken thigh (skinless)"
+                    ],
+                    "ratio": 0.9,
+                    "notes": "Slightly higher fat; reduce added fat by 1 tsp"
+                  }
+                ],
+                "2 tablespoons niter kibbeh": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "butter",
+                      "coconut oil (vegan)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 tablespoons extra virgin olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cups chopped yellow onions": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 tablespoons butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoon finely minced garlic": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/4 cup Ethiopian berbere": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "or use HOMEMADE BERBERE ((HIGHLY recommended!))": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "4  hard-boiled eggs (, pierced all over with fork about 1/4 inch deep)": [
+                  {
+                    "alternatives": [
+                      "flax egg (1 tbsp flax + 3 tbsp water)",
+                      "chia egg",
+                      "JUST egg"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "1 egg = 1 flax egg; baking only"
+                  }
+                ]
+              },
               "target_kcal": 916.0,
               "target_protein_g": 37.0,
               "target_carb_g": 134.0,
               "target_fat_g": 26.0,
-              "actual_kcal": 647.0,
-              "actual_protein_g": 43.0,
-              "actual_carb_g": 11.0,
-              "actual_fat_g": 53.0,
-              "notes": "Score: 69.3/100; Scaled to 1.42 servings (1.42x); + 421g White Rice (cooked) (carb filler: +119g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1530.9,
+              "actual_protein_g": 77.8,
+              "actual_carb_g": 147.5,
+              "actual_fat_g": 77.1,
+              "notes": "Score: 60.0/100; \u26a0 Best recipe score 60.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.42 servings (1.42x); + 421g White Rice (cooked) (carb filler: +119g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 1876.0,
-          "total_protein_g": 86.1,
-          "total_carb_g": 193.6,
-          "total_fat_g": 101.10000000000001
+          "total_kcal": 3552.7799999999997,
+          "total_protein_g": 162.5932005482488,
+          "total_carb_g": 448.94227552419,
+          "total_fat_g": 149.25127263713512
         }
       ],
       "meal_frequency": 3,

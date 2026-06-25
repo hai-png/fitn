@@ -88,12 +88,66 @@ class TestRMR:
         rmr = rmr_mifflin_st_jeor(female_profile)
         assert abs(rmr - 1382) < 5
 
-    def test_cunningham_uses_lbm(self, male_profile):
-        # Cunningham: 370 + 21.6 * LBM
+    def test_cunningham_uses_ffm(self, male_profile):
+        """Tier 2.10 fix: rmr_cunningham now implements the REAL Cunningham (1991)
+        formula: RMR = 500 + 22 × FFM. Previously it implemented Katch-McArdle
+        (370 + 21.6 × LBM) under the wrong name."""
+        # Cunningham: 500 + 22 * FFM
+        # FFM = 82 * (1 - 0.18) = 67.24
+        # RMR = 500 + 22 * 67.24 = 500 + 1479.28 = 1979.28
+        rmr = rmr_cunningham(male_profile, body_fat_pct=18)
+        assert abs(rmr - 1979) < 5, (
+            f"Real Cunningham (500 + 22*FFM) should give ~1979; got {rmr}. "
+            f"Previously this test asserted 1822 (the Katch-McArdle value) — that was the bug."
+        )
+
+    def test_katch_mcardle_uses_lbm(self, male_profile):
+        """Tier 2.10 fix: rmr_katch_mcardle implements Katch-McArdle (1975):
+        RMR = 370 + 21.6 × LBM. This is the formula that was previously
+        mislabeled as 'Cunningham'."""
+        # Katch-McArdle: 370 + 21.6 * LBM
         # LBM = 82 * (1 - 0.18) = 67.24
         # RMR = 370 + 21.6 * 67.24 = 370 + 1452.4 = 1822.4
-        rmr = rmr_cunningham(male_profile, body_fat_pct=18)
+        from fitness_engine.nutrition import rmr_katch_mcardle
+        rmr = rmr_katch_mcardle(male_profile, body_fat_pct=18)
         assert abs(rmr - 1822) < 5
+
+    def test_cunningham_rejects_invalid_body_fat_pct(self, male_profile):
+        """Tier 2.10 fix: body_fat_pct outside [2, 60] must raise ValueError
+        to prevent negative-LBM nonsense."""
+        with pytest.raises(ValueError):
+            rmr_cunningham(male_profile, body_fat_pct=150)
+        with pytest.raises(ValueError):
+            rmr_cunningham(male_profile, body_fat_pct=-5)
+        with pytest.raises(ValueError):
+            rmr_cunningham(male_profile, body_fat_pct=0)
+
+    def test_select_rmr_formula_uses_passed_body_fat_pct(self, male_profile):
+        """Tier 2.11 fix: select_rmr_formula must consult the body_fat_pct
+        parameter, not just profile.body_fat_pct. Previously, a user with
+        profile.body_fat_pct=None but an assessment-derived BF% would
+        silently get Mifflin-St Jeor instead of Katch-McArdle."""
+        from fitness_engine.nutrition import select_rmr_formula
+        from fitness_engine.models.nutrition import RMRFormula
+        # Profile with no body_fat_pct
+        male_profile.body_fat_pct = None
+        # But assessment-derived BF% passed in
+        formula = select_rmr_formula(male_profile, body_fat_pct=18)
+        assert formula == RMRFormula.KATCH_MCARDLE, (
+            f"select_rmr_formula should return KATCH_MCARDLE when body_fat_pct "
+            f"is passed, even if profile.body_fat_pct is None; got {formula}"
+        )
+
+    def test_compute_rmr_uses_katch_mcardle_when_bf_provided(self, male_profile):
+        """Tier 2.10/2.11 regression: when body_fat_pct is passed to compute_rmr,
+        the result.formula should be KATCH_MCARDLE (not CUNNINGHAM)."""
+        male_profile.body_fat_pct = None  # force use of passed BF%
+        result = compute_rmr(male_profile, body_fat_pct=18)
+        from fitness_engine.models.nutrition import RMRFormula
+        assert result.formula == RMRFormula.KATCH_MCARDLE, (
+            f"compute_rmr should use KATCH_MCARDLE when BF% is provided; "
+            f"got {result.formula}"
+        )
 
     def test_compute_rmr_with_adaptation(self, male_profile):
         result = compute_rmr(
@@ -208,10 +262,19 @@ class TestCalorieTargets:
         assert target.target_calories_kcal > 2200
 
     def test_max_cut_rate_enforced(self, male_profile):
+        """Tier 5.65 fix: previously this test only asserted the rate was capped,
+        but did NOT verify the user is warned (the Tier 2.14 fix added a cap
+        warning note). Now we assert both the cap AND the warning."""
         # Try an absurdly high rate
         target = cut_target_calories(male_profile, tdee_kcal=3000, rate_pct=0.05)
         # Should be capped at MAX_WEEKLY_LOSS_PCT = 1.5%
         assert target.rate_pct <= MAX_WEEKLY_LOSS_PCT
+        # Tier 5.65: verify the user is warned that their requested rate was clipped
+        notes_str = " ".join(target.notes)
+        assert "clipped" in notes_str.lower() or "cap" in notes_str.lower(), (
+            f"User should be warned when requested rate is clipped to safety cap. "
+            f"Notes: {target.notes}"
+        )
 
 
 # === Macro tests ===

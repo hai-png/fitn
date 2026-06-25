@@ -42,7 +42,11 @@ def linear_progression_next(
     low, high = target_reps
     all_at_target = all(reps >= high for reps in last_reps_achieved)
 
-    if all_at_target and len(last_reps_achieved) >= 3:
+    if all_at_target and len(last_reps_achieved) >= 1:
+        # Tier 2.28 fix: was `>= 3`, which meant 2-set exercises (common for
+        # accessories, deloads, isolation) could never trigger progression.
+        # Now `>= 1` — any exercise with at least 1 set can progress when all
+        # sets hit the top of the rep target.
         next_weight = current_weight_kg + increment_kg
         return next_weight, (
             f"All sets achieved {high}+ reps → +{increment_kg}kg "
@@ -85,7 +89,65 @@ def dup_next(
     return next_state
 
 
+def double_progression_next(
+    current_weight_kg: float,
+    reps_achieved: list[int],
+    reps_target_lo: int,
+    reps_target_hi: int,
+    increment_kg: float = 2.5,
+) -> tuple[float, int, str]:
+    """
+    Double progression (RIR-based): add reps until top of range at all sets,
+    then add weight and drop reps back to the bottom of the range.
+
+    Rules:
+      - If ALL sets achieved reps_target_hi: add weight, reset target to reps_target_lo.
+      - If ALL sets achieved reps_target_lo (but not all hit hi): keep weight, target hi.
+      - Otherwise: keep weight, target lo (repeat).
+
+    Tier 2.29 fix: this function was referenced in the architect docstring
+    but never implemented. The RIR-based progression model that the intensity_model
+    RIR table supports is now available.
+
+    Args:
+      current_weight_kg: current working weight
+      reps_achieved: list of reps achieved in each set last session
+      reps_target_lo: bottom of the rep target range (e.g. 8 for 8-12)
+      reps_target_hi: top of the rep target range (e.g. 12 for 8-12)
+      increment_kg: weight to add when progressing (default 2.5kg)
+
+    Returns:
+      (next_weight_kg, next_reps_target, explanation)
+    """
+    if not reps_achieved:
+        return current_weight_kg, reps_target_lo, "No rep data — repeat at current weight."
+
+    all_hit_hi = all(reps >= reps_target_hi for reps in reps_achieved)
+    all_hit_lo = all(reps >= reps_target_lo for reps in reps_achieved)
+
+    if all_hit_hi:
+        # All sets hit the top of the range → add weight, reset to bottom
+        next_weight = current_weight_kg + increment_kg
+        return next_weight, reps_target_lo, (
+            f"Double progression: all sets achieved {reps_target_hi}+ reps → "
+            f"+{increment_kg}kg ({current_weight_kg} → {next_weight}kg), "
+            f"reset target to {reps_target_lo}-{reps_target_hi}."
+        )
+    elif all_hit_lo:
+        # All sets in range but not all at top → keep weight, push for more reps
+        return current_weight_kg, reps_target_hi, (
+            f"Double progression: all sets achieved {reps_target_lo}+ reps but not all "
+            f"hit {reps_target_hi} → repeat {current_weight_kg}kg, target {reps_target_hi} reps."
+        )
+    else:
+        # Failed to hit minimum → keep weight, target lo
+        return current_weight_kg, reps_target_lo, (
+            f"Double progression: not all sets hit {reps_target_lo} reps → "
+            f"repeat {current_weight_kg}kg, target {reps_target_lo}-{reps_target_hi}."
+        )
+
+
 __all__ = [
     "ProgressionState", "ProgressionEntry",
-    "linear_progression_next", "dup_next",
+    "linear_progression_next", "dup_next", "double_progression_next",
 ]

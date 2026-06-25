@@ -146,19 +146,9 @@ def _user_max_experience_rank(status: TrainingStatus) -> int:
 
 
 # === View-count parsing for popularity sort ===
-
-def _view_count(ex: Exercise) -> int:
-    if not ex.views:
-        return 0
-    v = ex.views.upper().replace(" ", "")
-    try:
-        if "K" in v:
-            return int(float(v.replace("K", "")) * 1_000)
-        if "M" in v:
-            return int(float(v.replace("M", "")) * 1_000_000)
-        return int(v)
-    except (ValueError, TypeError):
-        return 0
+# Tier 4.43 fix: _view_count now imports from the shared _utils module
+# (was duplicated in exercise_categorization.py).
+from ._utils import parse_view_count as _view_count
 
 
 # === Pattern matching ===

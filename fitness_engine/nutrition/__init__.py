@@ -1,8 +1,9 @@
 """Nutrition module — RMR, TDEE, adaptive TDEE, calories, macros, hydration, micros, adjustments."""
 from .rmr import (
     rmr_mifflin_st_jeor, rmr_harris_benedict_original,
-    rmr_harris_benedict_revised, rmr_cunningham,
+    rmr_harris_benedict_revised, rmr_cunningham, rmr_katch_mcardle,
     select_rmr_formula, compute_rmr,
+    BF_PCT_MIN, BF_PCT_MAX,
 )
 from .tdee import (
     ACTIVITY_FACTORS_RIPPEDBODY, ACTIVITY_FACTORS_HARRIS_BENEDICT,
@@ -14,7 +15,7 @@ from .calories import (
     KCAL_PER_LB_FAT, KCAL_PER_KG_FAT, KCAL_PER_LB_MUSCLE,
     SURPLUS_KCAL_PER_LB_PER_MONTH, SURPLUS_KCAL_PER_KG_PER_MONTH,
     DEFICIT_KCAL_PER_LB_PER_WEEK, DEFICIT_KCAL_PER_KG_PER_WEEK,
-    MIN_CALORIES, MAX_WEEKLY_LOSS_LB, MAX_WEEKLY_LOSS_KG, MAX_WEEKLY_LOSS_PCT,
+    MIN_CALORIES, MAX_WEEKLY_LOSS_PCT,
     CUT_RATE_TIERS, DEFAULT_CUT_RATE_PCT, SWEET_SPOT_CUT_RATE_PCT,
     BULK_RATE_BY_STATUS, BULK_WEEKLY_RATE_TIERS,
     REVERSE_DIET_WEEKLY_INCREMENT, REVERSE_DIET_RED_FLAG_WEEKLY_GAIN_PCT,
@@ -47,8 +48,9 @@ from .planner import build_nutrition_plan
 __all__ = [
     # RMR
     "rmr_mifflin_st_jeor", "rmr_harris_benedict_original",
-    "rmr_harris_benedict_revised", "rmr_cunningham",
+    "rmr_harris_benedict_revised", "rmr_cunningham", "rmr_katch_mcardle",
     "select_rmr_formula", "compute_rmr",
+    "BF_PCT_MIN", "BF_PCT_MAX",
     # TDEE
     "ACTIVITY_FACTORS_RIPPEDBODY", "ACTIVITY_FACTORS_HARRIS_BENEDICT",
     "activity_factor", "compute_tdee",
@@ -58,7 +60,7 @@ __all__ = [
     "KCAL_PER_LB_FAT", "KCAL_PER_KG_FAT", "KCAL_PER_LB_MUSCLE",
     "SURPLUS_KCAL_PER_LB_PER_MONTH", "SURPLUS_KCAL_PER_KG_PER_MONTH",
     "DEFICIT_KCAL_PER_LB_PER_WEEK", "DEFICIT_KCAL_PER_KG_PER_WEEK",
-    "MIN_CALORIES", "MAX_WEEKLY_LOSS_LB", "MAX_WEEKLY_LOSS_KG", "MAX_WEEKLY_LOSS_PCT",
+    "MIN_CALORIES", "MAX_WEEKLY_LOSS_PCT",
     "CUT_RATE_TIERS", "DEFAULT_CUT_RATE_PCT", "SWEET_SPOT_CUT_RATE_PCT",
     "BULK_RATE_BY_STATUS", "BULK_WEEKLY_RATE_TIERS",
     "REVERSE_DIET_WEEKLY_INCREMENT", "REVERSE_DIET_RED_FLAG_WEEKLY_GAIN_PCT",

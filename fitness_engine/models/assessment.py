@@ -69,6 +69,28 @@ class BodyComposition:
     target_weight_at_target_bf_kg: Optional[float] = None
     notes: list[str] = field(default_factory=list)
 
+    def __post_init__(self):
+        """Tier 3.32 fix: validate output ranges to catch bugs that would
+        silently propagate impossible values (e.g. BF%=250, FFMI=-5)."""
+        import math
+        if math.isnan(self.body_fat_pct) or not (0 <= self.body_fat_pct <= 100):
+            raise ValueError(
+                f"BodyComposition.body_fat_pct must be in [0, 100]; got {self.body_fat_pct}"
+            )
+        if math.isnan(self.bmi) or self.bmi <= 0:
+            raise ValueError(f"BodyComposition.bmi must be positive; got {self.bmi}")
+        if math.isnan(self.ffmi) or self.ffmi < 0:
+            raise ValueError(f"BodyComposition.ffmi must be non-negative; got {self.ffmi}")
+        if math.isnan(self.lean_body_mass_kg) or self.lean_body_mass_kg < 0:
+            raise ValueError(
+                f"BodyComposition.lean_body_mass_kg must be non-negative; "
+                f"got {self.lean_body_mass_kg}"
+            )
+        if math.isnan(self.fat_mass_kg) or self.fat_mass_kg < 0:
+            raise ValueError(
+                f"BodyComposition.fat_mass_kg must be non-negative; got {self.fat_mass_kg}"
+            )
+
 
 @dataclass
 class HealthRiskAssessment:
@@ -102,6 +124,24 @@ class MuscularPotential:
     headroom_kg: float = 0.0                         # FFM kg remaining to ceiling
     expected_monthly_muscle_gain_kg: float = 0.0     # by training status
     notes: list[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        """Tier 3.32 fix: validate output ranges."""
+        import math
+        if math.isnan(self.current_ffmi) or self.current_ffmi < 0:
+            raise ValueError(f"MuscularPotential.current_ffmi must be non-negative; got {self.current_ffmi}")
+        if math.isnan(self.current_normalized_ffmi) or self.current_normalized_ffmi < 0:
+            raise ValueError(
+                f"MuscularPotential.current_normalized_ffmi must be non-negative; "
+                f"got {self.current_normalized_ffmi}"
+            )
+        if self.expected_monthly_muscle_gain_kg < 0:
+            raise ValueError(
+                f"MuscularPotential.expected_monthly_muscle_gain_kg must be non-negative; "
+                f"got {self.expected_monthly_muscle_gain_kg}"
+            )
+        if self.headroom_kg < 0:
+            raise ValueError(f"MuscularPotential.headroom_kg must be non-negative; got {self.headroom_kg}")
 
 
 @dataclass

@@ -323,7 +323,7 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
 
     # === OMNI_ETHIOPIAN — Pre-Workout (<200 kcal) ===
     {
-        "name": "Injera & Honey Roll",
+        "name": "Injera & Maple Syrup Roll",
         "id": "PW009",
         "cuisine": "ethiopian",
         "meal_types": ["pre_workout", "snack"],
@@ -334,12 +334,12 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
         "cook_time_min": 0,
         "ingredients": [
             "1 piece injera (teff, ~50g)",
-            "1 tbsp honey",
+            "1 tbsp maple syrup",  # Tier 1.6 fix: was honey (not vegan)
             "1/4 tsp berbere spice (optional)",
         ],
         "instructions": [
             "Warm the injera slightly.",
-            "Drizzle with honey.",
+            "Drizzle with maple syrup.",
             "Sprinkle with berbere if using.",
             "Roll up and eat 60-90 min before workout.",
         ],
@@ -350,7 +350,7 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
         "protein_density": "low",
         "calorie_density": "low",
         "allergens": ["gluten"],
-        "notes": "Pre-workout: traditional Ethiopian fast carbs. Use 100% teff injera for GF.",
+        "notes": "Pre-workout: traditional Ethiopian fast carbs. Use 100% teff injera for GF. Tier 1.6: honey replaced with maple syrup so recipe is genuinely vegan.",
         "image_url": None,
         "source": "engine-generated",
     },
@@ -489,11 +489,11 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
             "30g roasted barley (or oats for GF)",
             "20g peanuts",
             "10g sunflower seeds",
-            "1 tsp honey (or maple syrup for vegan)",
+            "1 tsp maple syrup",  # Tier 1.6 fix: was "honey (or maple syrup for vegan)" — honey is not vegan
         ],
         "instructions": [
             "Mix barley (or oats), peanuts, and sunflower seeds.",
-            "Drizzle with honey or maple syrup, toss to coat.",
+            "Drizzle with maple syrup, toss to coat.",
             "Eat 60-90 min before workout.",
         ],
         "nutrition_per_serving": {

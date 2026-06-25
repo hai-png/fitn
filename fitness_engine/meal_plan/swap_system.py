@@ -34,6 +34,17 @@ class IngredientSwap:
     ratio: float = 1.0   # scaling factor (e.g. 1.0 for 1:1, 0.75 for tofu vs chicken)
     notes: str = ""
 
+    def adjusted_grams(self, original_grams: float) -> float:
+        """
+        Tier 4.52 fix: apply the ratio to compute the adjusted gram amount
+        for the substitute. E.g. if original=100g chicken, ratio=0.75 for tofu,
+        the adjusted amount is 75g tofu.
+
+        This was previously the "never applied" field — now consumers can
+        call this method to get the correct substitute quantity.
+        """
+        return original_grams * self.ratio
+
 
 # Common ingredient swaps (covering proteins, carbs, fats, dairy, etc.)
 INGREDIENT_SWAPS: dict[str, list[IngredientSwap]] = {
@@ -203,9 +214,13 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     if ing_lower in INGREDIENT_SWAPS:
         return INGREDIENT_SWAPS[ing_lower]
 
-    # Partial match (e.g. "boneless chicken breast" → "chicken breast")
+    # Partial match (e.g. "boneless chicken breast" → "chicken breast").
+    # Tier 4.42 fix: removed bidirectional `or ing_lower in key` which caused
+    # false positives (e.g. "egg" matching "eggplant", "butter" matching
+    # "butter lettuce"). Now only checks if the swap key is a substring of
+    # the ingredient (forward direction only), which is the intended behavior.
     for key, swaps in INGREDIENT_SWAPS.items():
-        if key in ing_lower or ing_lower in key:
+        if key in ing_lower:
             return swaps
 
     return []

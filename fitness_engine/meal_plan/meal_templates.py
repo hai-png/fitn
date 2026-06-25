@@ -27,11 +27,11 @@ MEAL_ALLOCATIONS = {
         MealType.DINNER: 0.30,
         MealType.SNACK: 0.15,
     },
-    5: {  # 3 meals + 2 snacks
+    5: {  # 3 meals + 2 snacks — must sum to 1.0 (Tier 1.3 fix)
         MealType.BREAKFAST: 0.20,
         MealType.LUNCH: 0.25,
         MealType.DINNER: 0.25,
-        MealType.SNACK: 0.15,        # morning snack
+        MealType.SNACK: 0.30,        # split between 2 snacks → 0.15 each
     },
 }
 

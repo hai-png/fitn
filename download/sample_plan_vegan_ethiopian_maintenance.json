@@ -17,7 +17,8 @@
     "waist_cm": 80,
     "hip_cm": 98,
     "cut_rate_tier": null,
-    "bulk_aggressiveness": null
+    "bulk_aggressiveness": null,
+    "training_time_of_day": "evening"
   },
   "preferences": {
     "exercise_hours_per_day": 1.0,
@@ -69,7 +70,7 @@
         "IBW (Robinson): 72.6 kg",
         "IBW (Miller): 71.5 kg",
         "IBW (Hamwi): 77.3 kg",
-        "Frame-size adjustment (wrist circumference): \u00b110% for small/large frame."
+        "Not a substitute for clinical assessment \u2014 consult a physician for personalized guidance."
       ]
     },
     "muscular_potential": {
@@ -83,25 +84,25 @@
       "headroom_kg": 13.9,
       "expected_monthly_muscle_gain_kg": 0.7,
       "notes": [
-        "FFMI=20.7 \u2014 significant headroom to natural ceiling (13.9 kg FFM remaining at FFMI=25).",
-        "Berkhan stage-shredded max for height=180cm: 80.0 kg at 5-6% BF.",
+        "Normalized FFMI=20.7 \u2014 significant headroom to natural ceiling (13.9 kg FFM remaining at normalized FFMI=25).",
+        "Berkhan stage-shredded max for height=180cm (men only): 80.0 kg at 5-6% BF.",
         "Expected monthly muscle gain (novice, male): ~0.70 kg/month with proper training + nutrition."
       ]
     },
     "recommended_strategy": "maintenance",
     "strategy_rationale": "User goal is maintenance.",
-    "summary": "Male, 27y, 180cm, 78.0kg \u2022 BMI 24.1 (normal) \u2022 BF% 14.0 (fitness, via user_provided) \u2022 LBM 67.1kg, fat mass 10.9kg \u2022 FFMI 20.7 (norm: 20.7, natural ceiling 25.0, 83% of ceiling) \u2022 Recommended: MAINTENANCE \u2014 User goal is maintenance."
+    "summary": "Male, 27y, 180cm, 78.0kg \u2022 BMI 24.1 (normal) \u2022 BF% 14.0 (fitness, via user_provided) \u2022 LBM 67.1kg, fat mass 10.9kg \u2022 FFMI 20.7 (norm: 20.7, natural ceiling 25.0, 83% of ceiling) \u2022 Recommended: MAINTENANCE \u2014 User goal is maintenance. \u2022 Health risk: low \u2022 Not a substitute for clinical assessment \u2014 consult a physician for personalized guidance."
   },
   "plan": {
     "nutrition": {
       "rmr": {
-        "formula": "cunningham",
+        "formula": "katch_mcardle",
         "base_rmr_kcal": 1818.9,
         "metabolic_adaptation_factor": 1.0,
         "weight_reduced_factor": 1.0,
         "adjusted_rmr_kcal": 1818.9,
         "notes": [
-          "Base RMR (cunningham): 1819 kcal"
+          "Base RMR (katch_mcardle): 1819 kcal"
         ]
       },
       "tdee": {
@@ -174,7 +175,7 @@
       },
       "timeline_weeks": 12,
       "notes": [
-        "RMR formula: cunningham",
+        "RMR formula: katch_mcardle",
         "Activity factor: 1.65",
         "Strategy: maintenance",
         "Estimated timeline to goal: 12 weeks"
@@ -979,8 +980,10 @@
                 }
               ],
               "rest_days": [
-                1,
-                4,
+                2,
+                3,
+                5,
+                6,
                 7
               ],
               "is_deload": false
@@ -1080,6 +1083,14 @@
                 "notes": "",
                 "_extraction_method": null
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 555.0,
+                "protein_g": 19.5,
+                "carb_g": 112.5,
+                "fat_g": 3.0,
+                "fiber_g": 12.0
+              },
               "foods": [
                 {
                   "food": {
@@ -1094,7 +1105,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 15.0
+                  "grams": 15.0,
+                  "kcal": 60.0,
+                  "protein_g": 12.0,
+                  "carb_g": 1.2,
+                  "fat_g": 0.9
                 },
                 {
                   "food": {
@@ -1109,18 +1124,48 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 13.0
+                  "grams": 13.0,
+                  "kcal": 114.9,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 13.0
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "4.5 lbs (2.04 kg) teff flour": [
+                  {
+                    "alternatives": [
+                      "millet flour",
+                      "sorghum flour",
+                      "rice flour"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 tablespoons (45 ml) bread starter (available at a bakery)": [
+                  {
+                    "alternatives": [
+                      "gluten-free bread",
+                      "rice cakes",
+                      "corn tortilla",
+                      "lettuce wrap"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 600.0,
               "target_protein_g": 30.0,
               "target_carb_g": 83.0,
               "target_fat_g": 17.0,
-              "actual_kcal": 370.0,
-              "actual_protein_g": 13.0,
-              "actual_carb_g": 75.0,
-              "actual_fat_g": 2.0,
-              "notes": "Score: 47.5/100; Scaled to 1.50 servings (1.50x); + 15g Whey Protein Powder (protein filler: +12g P); + 13g Olive Oil (fat filler: +13g F)"
+              "actual_kcal": 729.9,
+              "actual_protein_g": 31.5,
+              "actual_carb_g": 113.7,
+              "actual_fat_g": 16.9,
+              "notes": "Score: 41.1/100; \u26a0 Best recipe score 41.1 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 15g Whey Protein Powder (protein filler: +12g P); + 13g Olive Oil (fat filler: +13g F)"
             },
             {
               "meal_type": "lunch",
@@ -1192,6 +1237,14 @@
                 "notes": "Post-workout: Ethiopian chickpea stew, high carb + plant protein. [curated]",
                 "_extraction_method": null
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 645.0,
+                "protein_g": 24.0,
+                "carb_g": 105.0,
+                "fat_g": 15.0,
+                "fiber_g": 15.0
+              },
               "foods": [
                 {
                   "food": {
@@ -1206,7 +1259,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 21.0
+                  "grams": 21.0,
+                  "kcal": 84.0,
+                  "protein_g": 16.8,
+                  "carb_g": 1.7,
+                  "fat_g": 1.3
                 },
                 {
                   "food": {
@@ -1221,7 +1278,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 100.0
+                  "grams": 100.0,
+                  "kcal": 130.0,
+                  "protein_g": 2.7,
+                  "carb_g": 28.2,
+                  "fat_g": 0.3
                 },
                 {
                   "food": {
@@ -1236,18 +1297,101 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 7.0
+                  "grams": 7.0,
+                  "kcal": 61.9,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 7.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R018",
+                  "name": "African Yam Stew",
+                  "kcal": 700.0,
+                  "kcal_diff": -125.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 onion, finely chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp berbere spice": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 cup cooked rice": [
+                  {
+                    "alternatives": [
+                      "quinoa",
+                      "cauliflower rice",
+                      "couscous",
+                      "millet"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera (~70g)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 825.0,
               "target_protein_g": 41.0,
               "target_carb_g": 114.0,
               "target_fat_g": 23.0,
-              "actual_kcal": 430.0,
-              "actual_protein_g": 16.0,
-              "actual_carb_g": 70.0,
-              "actual_fat_g": 10.0,
-              "notes": "Score: 36.0/100; Scaled to 1.50 servings (1.50x); + 21g Whey Protein Powder (protein filler: +17g P); + 100g White Rice (cooked) (carb filler: +28g C); + 7g Olive Oil (fat filler: +7g F)"
+              "actual_kcal": 920.9,
+              "actual_protein_g": 43.5,
+              "actual_carb_g": 134.9,
+              "actual_fat_g": 23.6,
+              "notes": "Score: 30.9/100; \u26a0 Best recipe score 30.9 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 21g Whey Protein Powder (protein filler: +17g P); + 100g White Rice (cooked) (carb filler: +28g C); + 7g Olive Oil (fat filler: +7g F)"
             },
             {
               "meal_type": "dinner",
@@ -1327,115 +1471,13 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
-              "foods": [
-                {
-                  "food": {
-                    "name": "Whey Protein Powder",
-                    "category": "protein_animal",
-                    "kcal_per_100g": 400,
-                    "protein_g_per_100g": 80.0,
-                    "carb_g_per_100g": 8.0,
-                    "fat_g_per_100g": 6.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 30,
-                    "serving_description": "1 scoop (~30g)",
-                    "is_vegan": false
-                  },
-                  "grams": 43.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 339.0
-                }
-              ],
-              "target_kcal": 825.0,
-              "target_protein_g": 41.0,
-              "target_carb_g": 114.0,
-              "target_fat_g": 23.0,
-              "actual_kcal": 155.0,
-              "actual_protein_g": 4.0,
-              "actual_carb_g": 10.0,
-              "actual_fat_g": 12.0,
-              "notes": "Score: 36.0/100; Scaled to 1.50 servings (1.50x); + 43g Whey Protein Powder (protein filler: +34g P); + 339g White Rice (cooked) (carb filler: +96g C)"
-            },
-            {
-              "meal_type": "pre_workout",
-              "name": "Misir Wat & Rice Pre-Workout",
-              "recipe": {
-                "name": "Misir Wat & Rice Pre-Workout",
-                "id": "PW014",
-                "source": "engine-generated",
-                "source_file": null,
-                "legacy_id": null,
-                "cuisine": "ethiopian",
-                "category": "",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "pre_workout",
-                  "breakfast"
-                ],
-                "diet_types": [
-                  "VEGAN_ETHIOPIAN",
-                  "OMNI_ETHIOPIAN",
-                  "VEGAN",
-                  "OMNI"
-                ],
-                "goal_fit": [
-                  "maintenance",
-                  "bulk",
-                  "recomp"
-                ],
-                "servings": 1,
-                "prep_time_min": 10,
-                "cook_time_min": 20,
-                "ingredients": [
-                  "1/2 cup red lentils, dry",
-                  "1 tbsp olive oil",
-                  "1/2 onion, finely chopped",
-                  "2 cloves garlic, minced",
-                  "1 tbsp berbere spice",
-                  "1/2 cup cooked rice",
-                  "1 piece injera (~50g, optional)"
-                ],
-                "instructions": [
-                  "Rinse lentils, add to pot with 1.5 cups water, simmer 15-20 min until soft.",
-                  "Heat oil in a pan, saut\u00e9 onion until soft (5 min).",
-                  "Add garlic and berbere, stir 1 min.",
-                  "Combine with cooked lentils, simmer 5 min.",
-                  "Serve with rice (and injera if using). Eat 60-90 min before workout."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 360.0,
-                  "protein_g": 16.0,
-                  "carb_g": 55.0,
-                  "fat_g": 8.0,
-                  "fiber_g": 10.0,
-                  "sugar_g": 4.0
-                },
-                "nutrition_source": "calculated",
-                "serving_size_g": null,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [
-                  "gluten"
-                ],
-                "alternative_recipe_ids": [],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": null,
-                "notes": "Pre-workout: Ethiopian red lentil stew, complex carbs + protein. [curated]",
-                "_extraction_method": null
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 232.5,
+                "protein_g": 6.0,
+                "carb_g": 15.0,
+                "fat_g": 18.0,
+                "fiber_g": 9.0
               },
               "foods": [
                 {
@@ -1451,7 +1493,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 15.0
+                  "grams": 43.0,
+                  "kcal": 172.0,
+                  "protein_g": 34.4,
+                  "carb_g": 3.4,
+                  "fat_g": 2.6
                 },
                 {
                   "food": {
@@ -1466,18 +1512,237 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 127.0
+                  "grams": 339.0,
+                  "kcal": 440.7,
+                  "protein_g": 9.2,
+                  "carb_g": 95.6,
+                  "fat_g": 1.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R018",
+                  "name": "African Yam Stew",
+                  "kcal": 700.0,
+                  "kcal_diff": -125.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tablespoons Niter Kibbeh": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "butter",
+                      "coconut oil (vegan)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1  onion (chopped)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoons garlic (finely chopped)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 825.0,
+              "target_protein_g": 41.0,
+              "target_carb_g": 114.0,
+              "target_fat_g": 23.0,
+              "actual_kcal": 845.2,
+              "actual_protein_g": 49.6,
+              "actual_carb_g": 114.0,
+              "actual_fat_g": 21.6,
+              "notes": "Score: 30.9/100; \u26a0 Best recipe score 30.9 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 43g Whey Protein Powder (protein filler: +34g P); + 339g White Rice (cooked) (carb filler: +96g C)"
+            },
+            {
+              "meal_type": "pre_workout",
+              "name": "Ful Medames Pre-Workout Bowl",
+              "recipe": {
+                "name": "Ful Medames Pre-Workout Bowl",
+                "id": "PW010",
+                "source": "engine-generated",
+                "source_file": null,
+                "legacy_id": null,
+                "cuisine": "ethiopian",
+                "category": "",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "pre_workout",
+                  "breakfast"
+                ],
+                "diet_types": [
+                  "OMNI_ETHIOPIAN",
+                  "VEGAN_ETHIOPIAN",
+                  "OMNI",
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "maintenance",
+                  "bulk",
+                  "recomp"
+                ],
+                "servings": 1,
+                "prep_time_min": 10,
+                "cook_time_min": 10,
+                "ingredients": [
+                  "1 cup cooked fava beans (or canned)",
+                  "1 tbsp olive oil",
+                  "1/2 lemon, juiced",
+                  "1 clove garlic, minced",
+                  "1/4 tsp cumin",
+                  "1 small tomato, diced",
+                  "1 piece injera, for serving"
+                ],
+                "instructions": [
+                  "Heat olive oil in a pan, add garlic and cumin, stir 30 sec.",
+                  "Add fava beans and 1/4 cup water, simmer 5 min.",
+                  "Mash some beans with a fork.",
+                  "Stir in lemon juice and tomato.",
+                  "Serve with injera. Eat 60-90 min before workout."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 320.0,
+                  "protein_g": 14.0,
+                  "carb_g": 50.0,
+                  "fat_g": 8.0,
+                  "fiber_g": 12.0,
+                  "sugar_g": 6.0
+                },
+                "nutrition_source": "calculated",
+                "serving_size_g": null,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "gluten"
+                ],
+                "alternative_recipe_ids": [],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": null,
+                "notes": "Pre-workout: complex carbs + protein from fava beans, traditional Ethiopian. [curated]",
+                "_extraction_method": null
+              },
+              "scale_factor": 1.0,
+              "scaled_nutrition": {
+                "kcal": 320.0,
+                "protein_g": 14.0,
+                "carb_g": 50.0,
+                "fat_g": 8.0,
+                "fiber_g": 12.0
+              },
+              "foods": [],
+              "swap_options": [
+                {
+                  "recipe_id": "R013",
+                  "name": "Telba Fitfit",
+                  "kcal": 295.0,
+                  "kcal_diff": -5.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "ETH013",
+                  "name": "Telba Fitfit",
+                  "kcal": 248.0,
+                  "kcal_diff": -52.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R012",
+                  "name": "Suf Fitfit",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "ETH012",
+                  "name": "Suf Fitfit",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "PW014",
+                  "name": "Misir Wat & Rice Pre-Workout",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 clove garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 small tomato, diced": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera, for serving": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 300.0,
-              "target_protein_g": 22.0,
-              "target_carb_g": 83.0,
-              "target_fat_g": 4.0,
-              "actual_kcal": 360.0,
-              "actual_protein_g": 16.0,
-              "actual_carb_g": 55.0,
+              "target_protein_g": 15.0,
+              "target_carb_g": 49.0,
+              "target_fat_g": 5.0,
+              "actual_kcal": 320.0,
+              "actual_protein_g": 14.0,
+              "actual_carb_g": 50.0,
               "actual_fat_g": 8.0,
-              "notes": "Score: 68.2/100; Scaled to 0.83 servings (0.83x); + 15g Whey Protein Powder (protein filler: +12g P); + 127g White Rice (cooked) (carb filler: +36g C); Timing: 60-90 min before workout"
+              "notes": "Score: 87.0/100; Timing: 60-90 min before workout"
             },
             {
               "meal_type": "post_workout",
@@ -1550,6 +1815,14 @@
                 "notes": "Post-workout: vegan Ethiopian lentil stew + carbs. High fiber + protein. [curated]",
                 "_extraction_method": null
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 435.0,
+                "protein_g": 27.0,
+                "carb_g": 72.0,
+                "fat_g": 7.5,
+                "fiber_g": 18.0
+              },
               "foods": [
                 {
                   "food": {
@@ -1564,39 +1837,135 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 15.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 100.0
+                  "grams": 15.0,
+                  "kcal": 60.0,
+                  "protein_g": 12.0,
+                  "carb_g": 1.2,
+                  "fat_g": 0.9
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R033",
+                  "name": "Ethiopian Asa Tibs",
+                  "kcal": 443.93,
+                  "kcal_diff": -6.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R201",
+                  "name": "Ethiopian Asa Tibs",
+                  "kcal": 443.93,
+                  "kcal_diff": -6.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "PW016",
+                  "name": "Shiro Wat Post-Workout Plate",
+                  "kcal": 430.0,
+                  "kcal_diff": -20.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R193",
+                  "name": "Azefa \u2013 Ethiopian Lentil Salad",
+                  "kcal": 418.875,
+                  "kcal_diff": -31.0,
+                  "cuisine": "american"
+                },
+                {
+                  "recipe_id": "R059",
+                  "name": "Shiro Wat (Chickpea Flour Stew)",
+                  "kcal": 408.0,
+                  "kcal_diff": -42.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 onion, finely chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp berbere spice": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 cup cooked rice": [
+                  {
+                    "alternatives": [
+                      "quinoa",
+                      "cauliflower rice",
+                      "couscous",
+                      "millet"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera (~50g)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 450.0,
-              "target_protein_g": 37.0,
-              "target_carb_g": 83.0,
+              "target_protein_g": 39.0,
+              "target_carb_g": 56.0,
               "target_fat_g": 8.0,
-              "actual_kcal": 290.0,
-              "actual_protein_g": 18.0,
-              "actual_carb_g": 48.0,
-              "actual_fat_g": 5.0,
-              "notes": "Score: 40.7/100; Scaled to 1.50 servings (1.50x); + 15g Whey Protein Powder (protein filler: +12g P); + 100g White Rice (cooked) (carb filler: +28g C); Timing: 30-60 min after workout"
+              "actual_kcal": 495.0,
+              "actual_protein_g": 39.0,
+              "actual_carb_g": 73.2,
+              "actual_fat_g": 8.4,
+              "notes": "Score: 50.7/100; \u26a0 Best recipe score 50.7 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 15g Whey Protein Powder (protein filler: +12g P); Timing: 30-60 min after workout"
             }
           ],
-          "total_kcal": 1605.0,
-          "total_protein_g": 67.0,
-          "total_carb_g": 258.0,
-          "total_fat_g": 37.0
+          "total_kcal": 3311.0,
+          "total_protein_g": 177.553,
+          "total_carb_g": 485.818,
+          "total_fat_g": 78.45700000000001
         },
         {
           "day_number": 2,
@@ -1665,6 +2034,14 @@
                 "notes": "[curated]",
                 "_extraction_method": null
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 442.5,
+                "protein_g": 15.0,
+                "carb_g": 31.5,
+                "fat_g": 28.5,
+                "fiber_g": 10.5
+              },
               "foods": [
                 {
                   "food": {
@@ -1679,7 +2056,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 37.0
+                  "grams": 37.0,
+                  "kcal": 148.0,
+                  "protein_g": 29.6,
+                  "carb_g": 3.0,
+                  "fat_g": 2.2
                 },
                 {
                   "food": {
@@ -1694,18 +2075,59 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 319.0
+                  "grams": 319.0,
+                  "kcal": 414.7,
+                  "protein_g": 8.6,
+                  "carb_g": 90.0,
+                  "fat_g": 1.0
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2 tablespoons olive oil (30ml)": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 medium yellow onion, diced (110g)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 large injera (traditional Ethiopian flatbread, 20\u201324 inches in diameter)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 900.0,
               "target_protein_g": 44.0,
               "target_carb_g": 124.0,
               "target_fat_g": 25.0,
-              "actual_kcal": 295.0,
-              "actual_protein_g": 10.0,
-              "actual_carb_g": 21.0,
-              "actual_fat_g": 19.0,
-              "notes": "Score: 45.0/100; Scaled to 1.50 servings (1.50x); + 37g Whey Protein Powder (protein filler: +30g P); + 319g White Rice (cooked) (carb filler: +90g C)"
+              "actual_kcal": 1005.2,
+              "actual_protein_g": 53.2,
+              "actual_carb_g": 124.4,
+              "actual_fat_g": 31.7,
+              "notes": "Score: 39.0/100; \u26a0 Best recipe score 39.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 37g Whey Protein Powder (protein filler: +30g P); + 319g White Rice (cooked) (carb filler: +90g C)"
             },
             {
               "meal_type": "lunch",
@@ -1777,6 +2199,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 665.9,
+                "protein_g": 35.5,
+                "carb_g": 15.6,
+                "fat_g": 53.0,
+                "fiber_g": 6.0
+              },
               "foods": [
                 {
                   "food": {
@@ -1791,7 +2221,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 20.0
+                  "grams": 20.0,
+                  "kcal": 80.0,
+                  "protein_g": 16.0,
+                  "carb_g": 1.6,
+                  "fat_g": 1.2
                 },
                 {
                   "food": {
@@ -1806,7 +2240,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 454.0
+                  "grams": 454.0,
+                  "kcal": 590.2,
+                  "protein_g": 12.3,
+                  "carb_g": 128.0,
+                  "fat_g": 1.4
                 },
                 {
                   "food": {
@@ -1821,18 +2259,59 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 1/2 tablespoons berbere": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1  thinly sliced onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2  finely chopped garlic cloves": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 443.93,
-              "actual_protein_g": 23.66,
-              "actual_carb_g": 10.42,
-              "actual_fat_g": 35.34,
-              "notes": "Score: 42.7/100; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1404.1,
+              "actual_protein_g": 69.3,
+              "actual_carb_g": 158.5,
+              "actual_fat_g": 56.4,
+              "notes": "Score: 37.2/100; \u26a0 Best recipe score 37.2 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "dinner",
@@ -1906,6 +2385,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 665.9,
+                "protein_g": 35.5,
+                "carb_g": 15.6,
+                "fat_g": 53.0,
+                "fiber_g": 6.0
+              },
               "foods": [
                 {
                   "food": {
@@ -1920,7 +2407,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 20.0
+                  "grams": 20.0,
+                  "kcal": 80.0,
+                  "protein_g": 16.0,
+                  "carb_g": 1.6,
+                  "fat_g": 1.2
                 },
                 {
                   "food": {
@@ -1935,7 +2426,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 454.0
+                  "grams": 454.0,
+                  "kcal": 590.2,
+                  "protein_g": 12.3,
+                  "carb_g": 128.0,
+                  "fat_g": 1.4
                 },
                 {
                   "food": {
@@ -1950,24 +2445,65 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 1/2 tablespoons berbere": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1  thinly sliced onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2  finely chopped garlic cloves": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 443.93,
-              "actual_protein_g": 23.66,
-              "actual_carb_g": 10.42,
-              "actual_fat_g": 35.34,
-              "notes": "Score: 42.7/100; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1404.1,
+              "actual_protein_g": 69.3,
+              "actual_carb_g": 158.5,
+              "actual_fat_g": 56.4,
+              "notes": "Score: 37.2/100; \u26a0 Best recipe score 37.2 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 1182.8600000000001,
-          "total_protein_g": 57.32,
-          "total_carb_g": 41.84,
-          "total_fat_g": 89.68
+          "total_kcal": 3813.3900000000003,
+          "total_protein_g": 191.90900000000002,
+          "total_carb_g": 441.334,
+          "total_fat_g": 144.42100000000002
         },
         {
           "day_number": 3,
@@ -2031,8 +2567,16 @@
                 "fasting_yetsom": false,
                 "injera_accompaniment": false,
                 "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/YeTelba-Fitfit-Ethiopian-Flaxseed-Fitfit-Recipe-150x150.jpg",
-                "notes": "",
+                "notes": "[kcal-warning: stated 248 kcal vs macro-derived 295 kcal (19% off) \u2014 likely a curation error in servings or per-serving values]",
                 "_extraction_method": null
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 372.0,
+                "protein_g": 15.0,
+                "carb_g": 31.5,
+                "fat_g": 28.5,
+                "fiber_g": 10.5
               },
               "foods": [
                 {
@@ -2048,7 +2592,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 18.0
+                  "grams": 18.0,
+                  "kcal": 72.0,
+                  "protein_g": 14.4,
+                  "carb_g": 1.4,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -2063,34 +2611,75 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 178.0
+                  "grams": 178.0,
+                  "kcal": 231.4,
+                  "protein_g": 4.8,
+                  "carb_g": 50.2,
+                  "fat_g": 0.5
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2 tablespoons olive oil (30ml)": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 medium yellow onion, diced (110g)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 large injera (traditional Ethiopian flatbread, 20\u201324 inches in diameter)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 600.0,
               "target_protein_g": 30.0,
               "target_carb_g": 83.0,
               "target_fat_g": 17.0,
-              "actual_kcal": 248.0,
-              "actual_protein_g": 10.0,
-              "actual_carb_g": 21.0,
-              "actual_fat_g": 19.0,
-              "notes": "Score: 40.0/100; Scaled to 1.50 servings (1.50x); + 18g Whey Protein Powder (protein filler: +14g P); + 178g White Rice (cooked) (carb filler: +50g C)"
+              "actual_kcal": 675.4,
+              "actual_protein_g": 34.2,
+              "actual_carb_g": 83.1,
+              "actual_fat_g": 30.1,
+              "notes": "Score: 35.0/100; \u26a0 Best recipe score 35.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 18g Whey Protein Powder (protein filler: +14g P); + 178g White Rice (cooked) (carb filler: +50g C)"
             },
             {
               "meal_type": "lunch",
-              "name": "Azefa - Ethiopian Lentil Salad",
+              "name": "Shiro Wat (Chickpea Flour Stew)",
               "recipe": {
-                "name": "Azefa - Ethiopian Lentil Salad",
-                "id": "R075",
-                "source": "https://globalkitchentravels.com/azefa-ehiopian-lentil-salad/",
-                "source_file": "globalkitchentravels.com__azefa-ehiopian-lentil-salad.json",
-                "legacy_id": "R192",
+                "name": "Shiro Wat (Chickpea Flour Stew)",
+                "id": "R059",
+                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/shiro-wat-chickpea-flour-stew/",
+                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-shiro-wat-chickpea-flour-stew.json",
+                "legacy_id": "R174",
                 "cuisine": "ethiopian",
-                "category": "salad",
+                "category": "vegan soups &amp; stew recipes",
                 "recipe_kind": "meal",
                 "meal_types": [
-                  "lunch",
-                  "side"
+                  "dinner",
+                  "lunch"
                 ],
                 "diet_types": [
                   "VEGAN_ETHIOPIAN"
@@ -2098,59 +2687,67 @@
                 "goal_fit": [
                   "maintenance"
                 ],
-                "servings": 8,
-                "prep_time_min": 10,
-                "cook_time_min": 35,
+                "servings": 6,
+                "prep_time_min": null,
+                "cook_time_min": null,
                 "ingredients": [
-                  "1 cup brown lentils",
-                  "1 teaspoon brown mustard seed",
-                  "4  black peppercorns",
-                  "1/4 teaspoon cayenne pepper",
-                  "3 tablespoons lemon juice",
-                  "3 tablespoons olive oil",
-                  "1 small bell pepper (chopped)",
-                  "2 tablespoons cilantro (finely chopped)",
-                  "salt (to taste)"
+                  "1 cup chickpea flour",
+                  "1 cup chopped red onion",
+                  "12 cloves garlic, minced",
+                  "1 cup chopped tomato",
+                  "1\u00bd tablespoons Berbere Spice Blend",
+                  "\u00bd teaspoon ground cardamom",
+                  "1 teaspoon tahini or cashew butter",
+                  "2 tablespoons lemon juice",
+                  "Sea salt, to taste"
                 ],
                 "instructions": [
-                  "Bring lentils and 4 cups of water to a boil.",
-                  "Reduce to a simmer and cook for 30 minutes, until lentils are just tender.",
-                  "Drain immediately and run with cold water.",
-                  "Using a coffee/spice grinder, grind mustard seed, black pepper and cayenne pepper to a fine powder.",
-                  "Transfer the spice powder to a bowl and add boiling water. Stir to combine.",
-                  "Add lemon juice and slowly drizzle in olive oil, while whisking constantly.",
-                  "In a large bowl, combine lentils, bell pepper, cilantro and salt.",
-                  "Add dressing and stir to combine.",
-                  "Serve chilled or at room temperature."
+                  "Heat a large nonstick skillet over medium-low. Add chickpea flour; cook for 10-15 minutes or until flour releases a toasted aroma, stirring frequently. Transfer to a large bowl; let cool.",
+                  "In a large saucepan combine onion, garlic, and \u00bc cup water. Cover and cook over medium 10 minutes or until onion is tender, stirring occasionally. Add tomato, Berbere Spice Blend, and cardamom; cook 10 minutes more.",
+                  "Add tahini, lemon juice, and 6 cups water to the toasted chickpea flour; whisk until smooth. Add mixture to pan with onion mixture. Bring mixture to boiling; reduce heat. Cover and cook 30 minutes or until stew is thickened, stirring occasionally. Season with salt."
                 ],
                 "nutrition_per_serving": {
-                  "kcal": 136.0,
-                  "protein_g": 6.0,
-                  "carb_g": 15.0,
-                  "fat_g": 6.0,
-                  "fiber_g": 8.0,
-                  "sugar_g": 1.0
+                  "kcal": 408.0,
+                  "protein_g": 6.824999999999999,
+                  "carb_g": 27.375,
+                  "fat_g": 31.650000000000002,
+                  "fiber_g": 0.0,
+                  "sugar_g": 0.0
                 },
-                "nutrition_source": "published",
-                "serving_size_g": 91.0,
-                "protein_density": "medium",
-                "calorie_density": "low",
-                "allergens": [],
+                "nutrition_source": "estimated",
+                "serving_size_g": 227.0,
+                "protein_density": "low",
+                "calorie_density": "medium",
+                "allergens": [
+                  "dairy",
+                  "gluten",
+                  "nuts",
+                  "sesame",
+                  "wheat"
+                ],
                 "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R032",
+                  "R033",
+                  "R044",
+                  "R051",
                   "R061",
-                  "R100",
-                  "R124",
-                  "R150",
-                  "R155",
-                  "R156",
-                  "R193",
-                  "R200"
+                  "R088"
                 ],
                 "fasting_yetsom": true,
                 "injera_accompaniment": true,
-                "image_url": "https://globalkitchentravels.com/wp-content/uploads/2013/01/Azefa-LR-FB.jpg",
+                "image_url": "https://www.forksoverknives.com/uploads/Chickpea-Flour-Stew-Shio-Wat-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 612.0,
+                "protein_g": 10.2,
+                "carb_g": 41.1,
+                "fat_g": 47.5,
+                "fiber_g": 0.0
               },
               "foods": [
                 {
@@ -2166,7 +2763,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 40.0
+                  "grams": 38.0,
+                  "kcal": 152.0,
+                  "protein_g": 30.4,
+                  "carb_g": 3.0,
+                  "fat_g": 2.3
                 },
                 {
                   "food": {
@@ -2181,33 +2782,108 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 314.0
+                  "grams": 248.0,
+                  "kcal": 322.4,
+                  "protein_g": 6.7,
+                  "carb_g": 69.9,
+                  "fat_g": 0.7
                 },
                 {
                   "food": {
-                    "name": "Olive Oil",
-                    "category": "fat_oil",
-                    "kcal_per_100g": 884,
-                    "protein_g_per_100g": 0,
-                    "carb_g_per_100g": 0,
-                    "fat_g_per_100g": 100.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 14,
-                    "serving_description": "1 tbsp (~14mL)",
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 10.0
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R018",
+                  "name": "African Yam Stew",
+                  "kcal": 700.0,
+                  "kcal_diff": -125.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 cup chopped red onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "12 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 cup chopped tomato": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1\u00bd tablespoons Berbere Spice Blend": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 teaspoon tahini or cashew butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 825.0,
               "target_protein_g": 41.0,
               "target_carb_g": 114.0,
               "target_fat_g": 23.0,
-              "actual_kcal": 136.0,
-              "actual_protein_g": 6.0,
-              "actual_carb_g": 15.0,
-              "actual_fat_g": 6.0,
-              "notes": "Score: 35.0/100; Scaled to 1.50 servings (1.50x); + 40g Whey Protein Powder (protein filler: +32g P); + 314g White Rice (cooked) (carb filler: +89g C); + 10g Olive Oil (fat filler: +10g F)"
+              "actual_kcal": 1154.4,
+              "actual_protein_g": 52.9,
+              "actual_carb_g": 127.2,
+              "actual_fat_g": 51.3,
+              "notes": "Score: 30.1/100; \u26a0 Best recipe score 30.1 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 38g Whey Protein Powder (protein filler: +30g P); + 248g White Rice (cooked) (carb filler: +70g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "dinner",
@@ -2287,115 +2963,13 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
-              "foods": [
-                {
-                  "food": {
-                    "name": "Whey Protein Powder",
-                    "category": "protein_animal",
-                    "kcal_per_100g": 400,
-                    "protein_g_per_100g": 80.0,
-                    "carb_g_per_100g": 8.0,
-                    "fat_g_per_100g": 6.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 30,
-                    "serving_description": "1 scoop (~30g)",
-                    "is_vegan": false
-                  },
-                  "grams": 43.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 339.0
-                }
-              ],
-              "target_kcal": 825.0,
-              "target_protein_g": 41.0,
-              "target_carb_g": 114.0,
-              "target_fat_g": 23.0,
-              "actual_kcal": 155.0,
-              "actual_protein_g": 4.0,
-              "actual_carb_g": 10.0,
-              "actual_fat_g": 12.0,
-              "notes": "Score: 36.0/100; Scaled to 1.50 servings (1.50x); + 43g Whey Protein Powder (protein filler: +34g P); + 339g White Rice (cooked) (carb filler: +96g C)"
-            },
-            {
-              "meal_type": "pre_workout",
-              "name": "Ful Medames Pre-Workout Bowl",
-              "recipe": {
-                "name": "Ful Medames Pre-Workout Bowl",
-                "id": "PW010",
-                "source": "engine-generated",
-                "source_file": null,
-                "legacy_id": null,
-                "cuisine": "ethiopian",
-                "category": "",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "pre_workout",
-                  "breakfast"
-                ],
-                "diet_types": [
-                  "OMNI_ETHIOPIAN",
-                  "VEGAN_ETHIOPIAN",
-                  "OMNI",
-                  "VEGAN"
-                ],
-                "goal_fit": [
-                  "maintenance",
-                  "bulk",
-                  "recomp"
-                ],
-                "servings": 1,
-                "prep_time_min": 10,
-                "cook_time_min": 10,
-                "ingredients": [
-                  "1 cup cooked fava beans (or canned)",
-                  "1 tbsp olive oil",
-                  "1/2 lemon, juiced",
-                  "1 clove garlic, minced",
-                  "1/4 tsp cumin",
-                  "1 small tomato, diced",
-                  "1 piece injera, for serving"
-                ],
-                "instructions": [
-                  "Heat olive oil in a pan, add garlic and cumin, stir 30 sec.",
-                  "Add fava beans and 1/4 cup water, simmer 5 min.",
-                  "Mash some beans with a fork.",
-                  "Stir in lemon juice and tomato.",
-                  "Serve with injera. Eat 60-90 min before workout."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 320.0,
-                  "protein_g": 14.0,
-                  "carb_g": 50.0,
-                  "fat_g": 8.0,
-                  "fiber_g": 12.0,
-                  "sugar_g": 6.0
-                },
-                "nutrition_source": "calculated",
-                "serving_size_g": null,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [
-                  "gluten"
-                ],
-                "alternative_recipe_ids": [],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": null,
-                "notes": "Pre-workout: complex carbs + protein from fava beans, traditional Ethiopian. [curated]",
-                "_extraction_method": null
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 232.5,
+                "protein_g": 6.0,
+                "carb_g": 15.0,
+                "fat_g": 18.0,
+                "fiber_g": 9.0
               },
               "foods": [
                 {
@@ -2411,7 +2985,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 15.0
+                  "grams": 43.0,
+                  "kcal": 172.0,
+                  "protein_g": 34.4,
+                  "carb_g": 3.4,
+                  "fat_g": 2.6
                 },
                 {
                   "food": {
@@ -2426,27 +3004,280 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 113.0
+                  "grams": 339.0,
+                  "kcal": 440.7,
+                  "protein_g": 9.2,
+                  "carb_g": 95.6,
+                  "fat_g": 1.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R018",
+                  "name": "African Yam Stew",
+                  "kcal": 700.0,
+                  "kcal_diff": -125.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tablespoons Niter Kibbeh": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "butter",
+                      "coconut oil (vegan)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1  onion (chopped)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoons garlic (finely chopped)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 825.0,
+              "target_protein_g": 41.0,
+              "target_carb_g": 114.0,
+              "target_fat_g": 23.0,
+              "actual_kcal": 845.2,
+              "actual_protein_g": 49.6,
+              "actual_carb_g": 114.0,
+              "actual_fat_g": 21.6,
+              "notes": "Score: 30.9/100; \u26a0 Best recipe score 30.9 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 43g Whey Protein Powder (protein filler: +34g P); + 339g White Rice (cooked) (carb filler: +96g C)"
+            },
+            {
+              "meal_type": "pre_workout",
+              "name": "Misir Wat & Rice Pre-Workout",
+              "recipe": {
+                "name": "Misir Wat & Rice Pre-Workout",
+                "id": "PW014",
+                "source": "engine-generated",
+                "source_file": null,
+                "legacy_id": null,
+                "cuisine": "ethiopian",
+                "category": "",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "pre_workout",
+                  "breakfast"
+                ],
+                "diet_types": [
+                  "VEGAN_ETHIOPIAN",
+                  "OMNI_ETHIOPIAN",
+                  "VEGAN",
+                  "OMNI"
+                ],
+                "goal_fit": [
+                  "maintenance",
+                  "bulk",
+                  "recomp"
+                ],
+                "servings": 1,
+                "prep_time_min": 10,
+                "cook_time_min": 20,
+                "ingredients": [
+                  "1/2 cup red lentils, dry",
+                  "1 tbsp olive oil",
+                  "1/2 onion, finely chopped",
+                  "2 cloves garlic, minced",
+                  "1 tbsp berbere spice",
+                  "1/2 cup cooked rice",
+                  "1 piece injera (~50g, optional)"
+                ],
+                "instructions": [
+                  "Rinse lentils, add to pot with 1.5 cups water, simmer 15-20 min until soft.",
+                  "Heat oil in a pan, saut\u00e9 onion until soft (5 min).",
+                  "Add garlic and berbere, stir 1 min.",
+                  "Combine with cooked lentils, simmer 5 min.",
+                  "Serve with rice (and injera if using). Eat 60-90 min before workout."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 360.0,
+                  "protein_g": 16.0,
+                  "carb_g": 55.0,
+                  "fat_g": 8.0,
+                  "fiber_g": 10.0,
+                  "sugar_g": 4.0
+                },
+                "nutrition_source": "calculated",
+                "serving_size_g": null,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "gluten"
+                ],
+                "alternative_recipe_ids": [],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": null,
+                "notes": "Pre-workout: Ethiopian red lentil stew, complex carbs + protein. [curated]",
+                "_extraction_method": null
+              },
+              "scale_factor": 0.834,
+              "scaled_nutrition": {
+                "kcal": 300.1,
+                "protein_g": 13.3,
+                "carb_g": 45.8,
+                "fat_g": 6.7,
+                "fiber_g": 8.3
+              },
+              "foods": [],
+              "swap_options": [
+                {
+                  "recipe_id": "R013",
+                  "name": "Telba Fitfit",
+                  "kcal": 295.0,
+                  "kcal_diff": -5.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "PW010",
+                  "name": "Ful Medames Pre-Workout Bowl",
+                  "kcal": 320.0,
+                  "kcal_diff": 20.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "ETH013",
+                  "name": "Telba Fitfit",
+                  "kcal": 248.0,
+                  "kcal_diff": -52.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R012",
+                  "name": "Suf Fitfit",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "ETH012",
+                  "name": "Suf Fitfit",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1/2 onion, finely chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp berbere spice": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1/2 cup cooked rice": [
+                  {
+                    "alternatives": [
+                      "quinoa",
+                      "cauliflower rice",
+                      "couscous",
+                      "millet"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera (~50g, optional)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 300.0,
-              "target_protein_g": 22.0,
-              "target_carb_g": 83.0,
-              "target_fat_g": 4.0,
-              "actual_kcal": 320.0,
-              "actual_protein_g": 14.0,
-              "actual_carb_g": 50.0,
-              "actual_fat_g": 8.0,
-              "notes": "Score: 60.2/100; + 15g Whey Protein Powder (protein filler: +12g P); + 113g White Rice (cooked) (carb filler: +32g C); Timing: 60-90 min before workout"
+              "target_protein_g": 15.0,
+              "target_carb_g": 49.0,
+              "target_fat_g": 5.0,
+              "actual_kcal": 300.1,
+              "actual_protein_g": 13.3,
+              "actual_carb_g": 45.8,
+              "actual_fat_g": 6.7,
+              "notes": "Score: 87.0/100; Scaled to 0.83 servings (0.83x); Timing: 60-90 min before workout"
             },
             {
               "meal_type": "post_workout",
               "name": "Post_Workout (no recipe match)",
               "recipe": null,
+              "scale_factor": 1.0,
+              "scaled_nutrition": {
+                "kcal": 0.0,
+                "protein_g": 0.0,
+                "carb_g": 0.0,
+                "fat_g": 0.0,
+                "fiber_g": 0.0
+              },
               "foods": [],
+              "swap_options": [],
+              "ingredient_swaps": {},
               "target_kcal": 450.0,
-              "target_protein_g": 37.0,
-              "target_carb_g": 83.0,
+              "target_protein_g": 39.0,
+              "target_carb_g": 56.0,
               "target_fat_g": 8.0,
               "actual_kcal": 0,
               "actual_protein_g": 0,
@@ -2455,10 +3286,10 @@
               "notes": "No recipe found \u2014 needs manual selection"
             }
           ],
-          "total_kcal": 859.0,
-          "total_protein_g": 34.0,
-          "total_carb_g": 96.0,
-          "total_fat_g": 45.0
+          "total_kcal": 2975.1000000000004,
+          "total_protein_g": 150.03027777777777,
+          "total_carb_g": 370.2611111111111,
+          "total_fat_g": 109.67888888888889
         },
         {
           "day_number": 4,
@@ -2532,123 +3363,13 @@
                 "notes": "[curated]",
                 "_extraction_method": null
               },
-              "foods": [
-                {
-                  "food": {
-                    "name": "Whey Protein Powder",
-                    "category": "protein_animal",
-                    "kcal_per_100g": 400,
-                    "protein_g_per_100g": 80.0,
-                    "carb_g_per_100g": 8.0,
-                    "fat_g_per_100g": 6.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 30,
-                    "serving_description": "1 scoop (~30g)",
-                    "is_vegan": false
-                  },
-                  "grams": 35.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 283.0
-                }
-              ],
-              "target_kcal": 900.0,
-              "target_protein_g": 44.0,
-              "target_carb_g": 124.0,
-              "target_fat_g": 25.0,
-              "actual_kcal": 360.0,
-              "actual_protein_g": 11.0,
-              "actual_carb_g": 28.0,
-              "actual_fat_g": 24.0,
-              "notes": "Score: 44.8/100; Scaled to 1.50 servings (1.50x); + 35g Whey Protein Powder (protein filler: +28g P); + 283g White Rice (cooked) (carb filler: +80g C)"
-            },
-            {
-              "meal_type": "lunch",
-              "name": "Shiro Wat (Chickpea Flour Stew)",
-              "recipe": {
-                "name": "Shiro Wat (Chickpea Flour Stew)",
-                "id": "R059",
-                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/shiro-wat-chickpea-flour-stew/",
-                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-shiro-wat-chickpea-flour-stew.json",
-                "legacy_id": "R174",
-                "cuisine": "ethiopian",
-                "category": "vegan soups &amp; stew recipes",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "dinner",
-                  "lunch"
-                ],
-                "diet_types": [
-                  "VEGAN_ETHIOPIAN"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 6,
-                "prep_time_min": null,
-                "cook_time_min": null,
-                "ingredients": [
-                  "1 cup chickpea flour",
-                  "1 cup chopped red onion",
-                  "12 cloves garlic, minced",
-                  "1 cup chopped tomato",
-                  "1\u00bd tablespoons Berbere Spice Blend",
-                  "\u00bd teaspoon ground cardamom",
-                  "1 teaspoon tahini or cashew butter",
-                  "2 tablespoons lemon juice",
-                  "Sea salt, to taste"
-                ],
-                "instructions": [
-                  "Heat a large nonstick skillet over medium-low. Add chickpea flour; cook for 10-15 minutes or until flour releases a toasted aroma, stirring frequently. Transfer to a large bowl; let cool.",
-                  "In a large saucepan combine onion, garlic, and \u00bc cup water. Cover and cook over medium 10 minutes or until onion is tender, stirring occasionally. Add tomato, Berbere Spice Blend, and cardamom; cook 10 minutes more.",
-                  "Add tahini, lemon juice, and 6 cups water to the toasted chickpea flour; whisk until smooth. Add mixture to pan with onion mixture. Bring mixture to boiling; reduce heat. Cover and cook 30 minutes or until stew is thickened, stirring occasionally. Season with salt."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 408.0,
-                  "protein_g": 6.824999999999999,
-                  "carb_g": 27.375,
-                  "fat_g": 31.650000000000002,
-                  "fiber_g": 0.0,
-                  "sugar_g": 0.0
-                },
-                "nutrition_source": "estimated",
-                "serving_size_g": 227.0,
-                "protein_density": "low",
-                "calorie_density": "medium",
-                "allergens": [
-                  "dairy",
-                  "gluten",
-                  "nuts",
-                  "sesame",
-                  "wheat"
-                ],
-                "alternative_recipe_ids": [
-                  "R012",
-                  "R017",
-                  "R032",
-                  "R033",
-                  "R044",
-                  "R051",
-                  "R061",
-                  "R088"
-                ],
-                "fasting_yetsom": true,
-                "injera_accompaniment": true,
-                "image_url": "https://www.forksoverknives.com/uploads/Chickpea-Flour-Stew-Shio-Wat-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 540.0,
+                "protein_g": 16.5,
+                "carb_g": 42.0,
+                "fat_g": 36.0,
+                "fiber_g": 9.0
               },
               "foods": [
                 {
@@ -2664,7 +3385,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 52.0
+                  "grams": 35.0,
+                  "kcal": 140.0,
+                  "protein_g": 28.0,
+                  "carb_g": 2.8,
+                  "fat_g": 2.1
                 },
                 {
                   "food": {
@@ -2679,36 +3404,84 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 355.0
-                },
-                {
-                  "food": {
-                    "name": "Broccoli (raw)",
-                    "category": "vegetable",
-                    "kcal_per_100g": 34,
-                    "protein_g_per_100g": 2.8,
-                    "carb_g_per_100g": 6.6,
-                    "fat_g_per_100g": 0.4,
-                    "fiber_g_per_100g": 2.6,
-                    "serving_size_g": 90,
-                    "serving_description": "1 cup (~90g)",
-                    "is_vegan": true
-                  },
-                  "grams": 200
+                  "grams": 283.0,
+                  "kcal": 367.9,
+                  "protein_g": 7.6,
+                  "carb_g": 79.8,
+                  "fat_g": 0.8
                 }
               ],
-              "target_kcal": 1050.0,
-              "target_protein_g": 52.0,
-              "target_carb_g": 145.0,
-              "target_fat_g": 29.0,
-              "actual_kcal": 408.0,
-              "actual_protein_g": 6.824999999999999,
-              "actual_carb_g": 27.375,
-              "actual_fat_g": 31.650000000000002,
-              "notes": "Score: 40.0/100; Scaled to 1.50 servings (1.50x); + 52g Whey Protein Powder (protein filler: +42g P); + 355g White Rice (cooked) (carb filler: +100g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 injera": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ],
+                "2 finely chopped tomatoes (250g)": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 finely chopped green onions (30g)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "\u00bc tsp garlic powder (1.25ml)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp olive oil (15ml)": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 900.0,
+              "target_protein_g": 44.0,
+              "target_carb_g": 124.0,
+              "target_fat_g": 25.0,
+              "actual_kcal": 1047.9,
+              "actual_protein_g": 52.1,
+              "actual_carb_g": 124.6,
+              "actual_fat_g": 38.9,
+              "notes": "Score: 38.8/100; \u26a0 Best recipe score 38.8 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 35g Whey Protein Powder (protein filler: +28g P); + 283g White Rice (cooked) (carb filler: +80g C)"
             },
             {
-              "meal_type": "dinner",
+              "meal_type": "lunch",
               "name": "Shiro Wat (Chickpea Flour Stew)",
               "recipe": {
                 "name": "Shiro Wat (Chickpea Flour Stew)",
@@ -2783,6 +3556,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 612.0,
+                "protein_g": 10.2,
+                "carb_g": 41.1,
+                "fat_g": 47.5,
+                "fiber_g": 0.0
+              },
               "foods": [
                 {
                   "food": {
@@ -2797,7 +3578,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 52.0
+                  "grams": 52.0,
+                  "kcal": 208.0,
+                  "protein_g": 41.6,
+                  "carb_g": 4.2,
+                  "fat_g": 3.1
                 },
                 {
                   "food": {
@@ -2812,7 +3597,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 355.0
+                  "grams": 355.0,
+                  "kcal": 461.5,
+                  "protein_g": 9.6,
+                  "carb_g": 100.1,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -2827,24 +3616,270 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 cup chopped red onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "12 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 cup chopped tomato": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1\u00bd tablespoons Berbere Spice Blend": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 teaspoon tahini or cashew butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 408.0,
-              "actual_protein_g": 6.824999999999999,
-              "actual_carb_g": 27.375,
-              "actual_fat_g": 31.650000000000002,
-              "notes": "Score: 40.0/100; Scaled to 1.50 servings (1.50x); + 52g Whey Protein Powder (protein filler: +42g P); + 355g White Rice (cooked) (carb filler: +100g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1349.5,
+              "actual_protein_g": 67.0,
+              "actual_carb_g": 158.5,
+              "actual_fat_g": 52.5,
+              "notes": "Score: 35.0/100; \u26a0 Best recipe score 35.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 52g Whey Protein Powder (protein filler: +42g P); + 355g White Rice (cooked) (carb filler: +100g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+            },
+            {
+              "meal_type": "dinner",
+              "name": "Ethiopian Injera Bread",
+              "recipe": {
+                "name": "Ethiopian Injera Bread",
+                "id": "R035",
+                "source": "https://www.aspicyperspective.com/ethiopian-recipes-injera-doro-wat/comment-page-1/",
+                "source_file": "aspicyperspective.com__ethiopian-recipes-injera-doro-wat-comment-page-1.json",
+                "legacy_id": "R032",
+                "cuisine": "american, ethiopian",
+                "category": "main course",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner"
+                ],
+                "diet_types": [
+                  "VEGAN_ETHIOPIAN"
+                ],
+                "goal_fit": [
+                  "maintenance"
+                ],
+                "servings": 8,
+                "prep_time_min": 30,
+                "cook_time_min": 6,
+                "ingredients": [
+                  "3 cups all purpose flour",
+                  "1 cup buckwheat flour",
+                  "2 tablespoons baking soda",
+                  "1 teaspoon salt",
+                  "4 cups club soda",
+                  "1 cup white vinegar (or rice vinegar)",
+                  "Oil (for pan)"
+                ],
+                "instructions": [
+                  "In a large bowl, mix both flours, salt, and baking soda together. Whisk in the club soda until smooth. Then add the vinegar and whisk.",
+                  "Heat a large nonstick skillet over medium heat. Pour oil on a paper towel and wipe the skillet with the oiled paper towel. This creates a thin fatty layer to make it easier to flip the crepes.",
+                  "Using a scoop, pour batter into the skillet creating a 6-inch circle. Quickly and carefully swirl the pan around to thin out the batter until it measures 8- to 9-inches across.",
+                  "Cook for 1 minute, then using a large spatula, flip the Injera over and cook another minute. Remove from the skillet and stack on a plate.\u00a0Repeat with remaining batter. The Injera will seem slightly crisp in the pan, but will soften immediately when placed on the plate. The stacking also helps steam and soften the Injera sourdough crepes.",
+                  "Once finished cooking the Injera. Cut the circles in half with a pizza cutter, roll into tubes and stack. Keep warm until ready to serve.\u00a0Serve the Injera with Doro Wat or Mesir Wat, tearing pieces of Injera and using it to pick up the Doro Wat."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 227.0,
+                  "protein_g": 7.0,
+                  "carb_g": 46.0,
+                  "fat_g": 1.0,
+                  "fiber_g": 3.0,
+                  "sugar_g": 1.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 126.0,
+                "protein_density": "low",
+                "calorie_density": "medium",
+                "allergens": [
+                  "gluten",
+                  "wheat"
+                ],
+                "alternative_recipe_ids": [
+                  "R061",
+                  "R124",
+                  "R152",
+                  "R157",
+                  "R200",
+                  "R215",
+                  "R246",
+                  "R263"
+                ],
+                "fasting_yetsom": true,
+                "injera_accompaniment": false,
+                "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2012/03/injera-recipe-ethiopian-bread-4.jpg",
+                "notes": "[curated]",
+                "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 340.5,
+                "protein_g": 10.5,
+                "carb_g": 69.0,
+                "fat_g": 1.5,
+                "fiber_g": 4.5
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 52.0,
+                  "kcal": 208.0,
+                  "protein_g": 41.6,
+                  "carb_g": 4.2,
+                  "fat_g": 3.1
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 256.0,
+                  "kcal": 332.8,
+                  "protein_g": 6.9,
+                  "carb_g": 72.2,
+                  "fat_g": 0.8
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true
+                  },
+                  "grams": 24.0,
+                  "kcal": 212.2,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 24.0
+                },
+                {
+                  "food": {
+                    "name": "Broccoli (raw)",
+                    "category": "vegetable",
+                    "kcal_per_100g": 34,
+                    "protein_g_per_100g": 2.8,
+                    "carb_g_per_100g": 6.6,
+                    "fat_g_per_100g": 0.4,
+                    "fiber_g_per_100g": 2.6,
+                    "serving_size_g": 90,
+                    "serving_description": "1 cup (~90g)",
+                    "is_vegan": true
+                  },
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
+                }
+              ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 cup white vinegar (or rice vinegar)": [
+                  {
+                    "alternatives": [
+                      "quinoa",
+                      "cauliflower rice",
+                      "couscous",
+                      "millet"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 1050.0,
+              "target_protein_g": 52.0,
+              "target_carb_g": 145.0,
+              "target_fat_g": 29.0,
+              "actual_kcal": 1161.5,
+              "actual_protein_g": 64.6,
+              "actual_carb_g": 158.6,
+              "actual_fat_g": 30.2,
+              "notes": "Score: 27.6/100; \u26a0 Best recipe score 27.6 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 52g Whey Protein Powder (protein filler: +42g P); + 256g White Rice (cooked) (carb filler: +72g C); + 24g Olive Oil (fat filler: +24g F); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 1176.0,
-          "total_protein_g": 24.65,
-          "total_carb_g": 82.75,
-          "total_fat_g": 87.30000000000001
+          "total_kcal": 3558.86,
+          "total_protein_g": 183.7755,
+          "total_carb_g": 441.6905,
+          "total_fat_g": 121.597
         },
         {
           "day_number": 5,
@@ -2902,117 +3937,13 @@
                 "notes": "",
                 "_extraction_method": null
               },
-              "foods": [
-                {
-                  "food": {
-                    "name": "Whey Protein Powder",
-                    "category": "protein_animal",
-                    "kcal_per_100g": 400,
-                    "protein_g_per_100g": 80.0,
-                    "carb_g_per_100g": 8.0,
-                    "fat_g_per_100g": 6.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 30,
-                    "serving_description": "1 scoop (~30g)",
-                    "is_vegan": false
-                  },
-                  "grams": 15.0
-                },
-                {
-                  "food": {
-                    "name": "Olive Oil",
-                    "category": "fat_oil",
-                    "kcal_per_100g": 884,
-                    "protein_g_per_100g": 0,
-                    "carb_g_per_100g": 0,
-                    "fat_g_per_100g": 100.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 14,
-                    "serving_description": "1 tbsp (~14mL)",
-                    "is_vegan": true
-                  },
-                  "grams": 13.0
-                }
-              ],
-              "target_kcal": 600.0,
-              "target_protein_g": 30.0,
-              "target_carb_g": 83.0,
-              "target_fat_g": 17.0,
-              "actual_kcal": 370.0,
-              "actual_protein_g": 13.0,
-              "actual_carb_g": 75.0,
-              "actual_fat_g": 2.0,
-              "notes": "Score: 45.0/100; Scaled to 1.50 servings (1.50x); + 15g Whey Protein Powder (protein filler: +12g P); + 13g Olive Oil (fat filler: +13g F)"
-            },
-            {
-              "meal_type": "lunch",
-              "name": "Ethiopian Collard Greens and Chard",
-              "recipe": {
-                "name": "Ethiopian Collard Greens and Chard",
-                "id": "R080",
-                "source": "https://www.forksoverknives.com/recipes/vegan-salads-sides/ethiopian-collard-greens-and-chard/",
-                "source_file": "forksoverknives.com__recipes-vegan-salads-sides-ethiopian-collard-greens-and-chard.json",
-                "legacy_id": "R150",
-                "cuisine": "ethiopian",
-                "category": "vegan salads &amp; side dish recipes",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "lunch",
-                  "side"
-                ],
-                "diet_types": [
-                  "VEGAN_ETHIOPIAN"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 2,
-                "prep_time_min": null,
-                "cook_time_min": null,
-                "ingredients": [
-                  "6 cloves garlic, minced",
-                  "\u00bc cup unsweetened, unflavored plant-based milk",
-                  "\u00bc teaspoon ground coriander",
-                  "\u00bc teaspoon ground cumin",
-                  "Pinch ground cardamom",
-                  "1 bunch collard greens, stems removed and leaves chopped (4 cups)",
-                  "1 bunch Swiss chard, chopped (6 cups)",
-                  "Sea salt, to taste"
-                ],
-                "instructions": [
-                  "Heat a large skillet over medium. Add garlic; cook and stir 1 minute. Add milk, coriander, cumin, and cardamom; cook and stir 1 minute. Add collard greens; cook 10 minutes or until greens are wilted, stirring frequently.",
-                  "Add Swiss chard; cook 10 minutes or until all greens are wilted and tender, stirring frequently. Season with salt."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 174.0,
-                  "protein_g": 6.6,
-                  "carb_g": 17.4,
-                  "fat_g": 8.7,
-                  "fiber_g": 8.1,
-                  "sugar_g": 1.9
-                },
-                "nutrition_source": "published",
-                "serving_size_g": 116.0,
-                "protein_density": "low",
-                "calorie_density": "medium",
-                "allergens": [
-                  "dairy"
-                ],
-                "alternative_recipe_ids": [
-                  "R061",
-                  "R100",
-                  "R115",
-                  "R124",
-                  "R155",
-                  "R156",
-                  "R161",
-                  "R192"
-                ],
-                "fasting_yetsom": true,
-                "injera_accompaniment": false,
-                "image_url": "https://www.forksoverknives.com/uploads/Easy-Sauteed-Collards-and-Chard-3x2-1.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 555.0,
+                "protein_g": 19.5,
+                "carb_g": 112.5,
+                "fat_g": 3.0,
+                "fiber_g": 12.0
               },
               "foods": [
                 {
@@ -3028,22 +3959,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 39.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 301.0
+                  "grams": 15.0,
+                  "kcal": 60.0,
+                  "protein_g": 12.0,
+                  "carb_g": 1.2,
+                  "fat_g": 0.9
                 },
                 {
                   "food": {
@@ -3058,18 +3978,223 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 7.0
+                  "grams": 13.0,
+                  "kcal": 114.9,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 13.0
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "4.5 lbs (2.04 kg) teff flour": [
+                  {
+                    "alternatives": [
+                      "millet flour",
+                      "sorghum flour",
+                      "rice flour"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 tablespoons (45 ml) bread starter (available at a bakery)": [
+                  {
+                    "alternatives": [
+                      "gluten-free bread",
+                      "rice cakes",
+                      "corn tortilla",
+                      "lettuce wrap"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 600.0,
+              "target_protein_g": 30.0,
+              "target_carb_g": 83.0,
+              "target_fat_g": 17.0,
+              "actual_kcal": 729.9,
+              "actual_protein_g": 31.5,
+              "actual_carb_g": 113.7,
+              "actual_fat_g": 16.9,
+              "notes": "Score: 39.1/100; \u26a0 Best recipe score 39.1 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 15g Whey Protein Powder (protein filler: +12g P); + 13g Olive Oil (fat filler: +13g F)"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Azefa - Ethiopian Lentil Salad",
+              "recipe": {
+                "name": "Azefa - Ethiopian Lentil Salad",
+                "id": "R075",
+                "source": "https://globalkitchentravels.com/azefa-ehiopian-lentil-salad/",
+                "source_file": "globalkitchentravels.com__azefa-ehiopian-lentil-salad.json",
+                "legacy_id": "R192",
+                "cuisine": "ethiopian",
+                "category": "salad",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "lunch",
+                  "side"
+                ],
+                "diet_types": [
+                  "VEGAN_ETHIOPIAN"
+                ],
+                "goal_fit": [
+                  "maintenance"
+                ],
+                "servings": 8,
+                "prep_time_min": 10,
+                "cook_time_min": 35,
+                "ingredients": [
+                  "1 cup brown lentils",
+                  "1 teaspoon brown mustard seed",
+                  "4  black peppercorns",
+                  "1/4 teaspoon cayenne pepper",
+                  "3 tablespoons lemon juice",
+                  "3 tablespoons olive oil",
+                  "1 small bell pepper (chopped)",
+                  "2 tablespoons cilantro (finely chopped)",
+                  "salt (to taste)"
+                ],
+                "instructions": [
+                  "Bring lentils and 4 cups of water to a boil.",
+                  "Reduce to a simmer and cook for 30 minutes, until lentils are just tender.",
+                  "Drain immediately and run with cold water.",
+                  "Using a coffee/spice grinder, grind mustard seed, black pepper and cayenne pepper to a fine powder.",
+                  "Transfer the spice powder to a bowl and add boiling water. Stir to combine.",
+                  "Add lemon juice and slowly drizzle in olive oil, while whisking constantly.",
+                  "In a large bowl, combine lentils, bell pepper, cilantro and salt.",
+                  "Add dressing and stir to combine.",
+                  "Serve chilled or at room temperature."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 136.0,
+                  "protein_g": 6.0,
+                  "carb_g": 15.0,
+                  "fat_g": 6.0,
+                  "fiber_g": 8.0,
+                  "sugar_g": 1.0
+                },
+                "nutrition_source": "published",
+                "serving_size_g": 91.0,
+                "protein_density": "medium",
+                "calorie_density": "low",
+                "allergens": [],
+                "alternative_recipe_ids": [
+                  "R061",
+                  "R100",
+                  "R124",
+                  "R150",
+                  "R155",
+                  "R156",
+                  "R193",
+                  "R200"
+                ],
+                "fasting_yetsom": true,
+                "injera_accompaniment": true,
+                "image_url": "https://globalkitchentravels.com/wp-content/uploads/2013/01/Azefa-LR-FB.jpg",
+                "notes": "[curated]",
+                "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 204.0,
+                "protein_g": 9.0,
+                "carb_g": 22.5,
+                "fat_g": 9.0,
+                "fiber_g": 12.0
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 40.0,
+                  "kcal": 160.0,
+                  "protein_g": 32.0,
+                  "carb_g": 3.2,
+                  "fat_g": 2.4
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 314.0,
+                  "kcal": 408.2,
+                  "protein_g": 8.5,
+                  "carb_g": 88.5,
+                  "fat_g": 0.9
+                },
+                {
+                  "food": {
+                    "name": "Olive Oil",
+                    "category": "fat_oil",
+                    "kcal_per_100g": 884,
+                    "protein_g_per_100g": 0,
+                    "carb_g_per_100g": 0,
+                    "fat_g_per_100g": 100.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 14,
+                    "serving_description": "1 tbsp (~14mL)",
+                    "is_vegan": true
+                  },
+                  "grams": 10.0,
+                  "kcal": 88.4,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 10.0
+                }
+              ],
+              "swap_options": [
+                {
+                  "recipe_id": "R018",
+                  "name": "African Yam Stew",
+                  "kcal": 700.0,
+                  "kcal_diff": -125.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tablespoons olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 825.0,
               "target_protein_g": 41.0,
               "target_carb_g": 114.0,
               "target_fat_g": 23.0,
-              "actual_kcal": 174.0,
-              "actual_protein_g": 6.6,
-              "actual_carb_g": 17.4,
-              "actual_fat_g": 8.7,
-              "notes": "Score: 35.0/100; Scaled to 1.50 servings (1.50x); + 39g Whey Protein Powder (protein filler: +31g P); + 301g White Rice (cooked) (carb filler: +85g C); + 7g Olive Oil (fat filler: +7g F)"
+              "actual_kcal": 860.6,
+              "actual_protein_g": 49.5,
+              "actual_carb_g": 114.2,
+              "actual_fat_g": 22.3,
+              "notes": "Score: 30.0/100; \u26a0 Best recipe score 30.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 40g Whey Protein Powder (protein filler: +32g P); + 314g White Rice (cooked) (carb filler: +89g C); + 10g Olive Oil (fat filler: +10g F)"
             },
             {
               "meal_type": "dinner",
@@ -3149,115 +4274,13 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
-              "foods": [
-                {
-                  "food": {
-                    "name": "Whey Protein Powder",
-                    "category": "protein_animal",
-                    "kcal_per_100g": 400,
-                    "protein_g_per_100g": 80.0,
-                    "carb_g_per_100g": 8.0,
-                    "fat_g_per_100g": 6.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 30,
-                    "serving_description": "1 scoop (~30g)",
-                    "is_vegan": false
-                  },
-                  "grams": 43.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 339.0
-                }
-              ],
-              "target_kcal": 825.0,
-              "target_protein_g": 41.0,
-              "target_carb_g": 114.0,
-              "target_fat_g": 23.0,
-              "actual_kcal": 155.0,
-              "actual_protein_g": 4.0,
-              "actual_carb_g": 10.0,
-              "actual_fat_g": 12.0,
-              "notes": "Score: 33.5/100; Scaled to 1.50 servings (1.50x); + 43g Whey Protein Powder (protein filler: +34g P); + 339g White Rice (cooked) (carb filler: +96g C)"
-            },
-            {
-              "meal_type": "pre_workout",
-              "name": "Misir Wat & Rice Pre-Workout",
-              "recipe": {
-                "name": "Misir Wat & Rice Pre-Workout",
-                "id": "PW014",
-                "source": "engine-generated",
-                "source_file": null,
-                "legacy_id": null,
-                "cuisine": "ethiopian",
-                "category": "",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "pre_workout",
-                  "breakfast"
-                ],
-                "diet_types": [
-                  "VEGAN_ETHIOPIAN",
-                  "OMNI_ETHIOPIAN",
-                  "VEGAN",
-                  "OMNI"
-                ],
-                "goal_fit": [
-                  "maintenance",
-                  "bulk",
-                  "recomp"
-                ],
-                "servings": 1,
-                "prep_time_min": 10,
-                "cook_time_min": 20,
-                "ingredients": [
-                  "1/2 cup red lentils, dry",
-                  "1 tbsp olive oil",
-                  "1/2 onion, finely chopped",
-                  "2 cloves garlic, minced",
-                  "1 tbsp berbere spice",
-                  "1/2 cup cooked rice",
-                  "1 piece injera (~50g, optional)"
-                ],
-                "instructions": [
-                  "Rinse lentils, add to pot with 1.5 cups water, simmer 15-20 min until soft.",
-                  "Heat oil in a pan, saut\u00e9 onion until soft (5 min).",
-                  "Add garlic and berbere, stir 1 min.",
-                  "Combine with cooked lentils, simmer 5 min.",
-                  "Serve with rice (and injera if using). Eat 60-90 min before workout."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 360.0,
-                  "protein_g": 16.0,
-                  "carb_g": 55.0,
-                  "fat_g": 8.0,
-                  "fiber_g": 10.0,
-                  "sugar_g": 4.0
-                },
-                "nutrition_source": "calculated",
-                "serving_size_g": null,
-                "protein_density": "medium",
-                "calorie_density": "medium",
-                "allergens": [
-                  "gluten"
-                ],
-                "alternative_recipe_ids": [],
-                "fasting_yetsom": false,
-                "injera_accompaniment": false,
-                "image_url": null,
-                "notes": "Pre-workout: Ethiopian red lentil stew, complex carbs + protein. [curated]",
-                "_extraction_method": null
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 232.5,
+                "protein_g": 6.0,
+                "carb_g": 15.0,
+                "fat_g": 18.0,
+                "fiber_g": 9.0
               },
               "foods": [
                 {
@@ -3273,7 +4296,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 15.0
+                  "grams": 43.0,
+                  "kcal": 172.0,
+                  "protein_g": 34.4,
+                  "carb_g": 3.4,
+                  "fat_g": 2.6
                 },
                 {
                   "food": {
@@ -3288,18 +4315,237 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 127.0
+                  "grams": 339.0,
+                  "kcal": 440.7,
+                  "protein_g": 9.2,
+                  "carb_g": 95.6,
+                  "fat_g": 1.0
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R018",
+                  "name": "African Yam Stew",
+                  "kcal": 700.0,
+                  "kcal_diff": -125.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "3 tablespoons Niter Kibbeh": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "butter",
+                      "coconut oil (vegan)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1  onion (chopped)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tablespoons garlic (finely chopped)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 825.0,
+              "target_protein_g": 41.0,
+              "target_carb_g": 114.0,
+              "target_fat_g": 23.0,
+              "actual_kcal": 845.2,
+              "actual_protein_g": 49.6,
+              "actual_carb_g": 114.0,
+              "actual_fat_g": 21.6,
+              "notes": "Score: 28.9/100; \u26a0 Best recipe score 28.9 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 43g Whey Protein Powder (protein filler: +34g P); + 339g White Rice (cooked) (carb filler: +96g C)"
+            },
+            {
+              "meal_type": "pre_workout",
+              "name": "Ful Medames Pre-Workout Bowl",
+              "recipe": {
+                "name": "Ful Medames Pre-Workout Bowl",
+                "id": "PW010",
+                "source": "engine-generated",
+                "source_file": null,
+                "legacy_id": null,
+                "cuisine": "ethiopian",
+                "category": "",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "pre_workout",
+                  "breakfast"
+                ],
+                "diet_types": [
+                  "OMNI_ETHIOPIAN",
+                  "VEGAN_ETHIOPIAN",
+                  "OMNI",
+                  "VEGAN"
+                ],
+                "goal_fit": [
+                  "maintenance",
+                  "bulk",
+                  "recomp"
+                ],
+                "servings": 1,
+                "prep_time_min": 10,
+                "cook_time_min": 10,
+                "ingredients": [
+                  "1 cup cooked fava beans (or canned)",
+                  "1 tbsp olive oil",
+                  "1/2 lemon, juiced",
+                  "1 clove garlic, minced",
+                  "1/4 tsp cumin",
+                  "1 small tomato, diced",
+                  "1 piece injera, for serving"
+                ],
+                "instructions": [
+                  "Heat olive oil in a pan, add garlic and cumin, stir 30 sec.",
+                  "Add fava beans and 1/4 cup water, simmer 5 min.",
+                  "Mash some beans with a fork.",
+                  "Stir in lemon juice and tomato.",
+                  "Serve with injera. Eat 60-90 min before workout."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 320.0,
+                  "protein_g": 14.0,
+                  "carb_g": 50.0,
+                  "fat_g": 8.0,
+                  "fiber_g": 12.0,
+                  "sugar_g": 6.0
+                },
+                "nutrition_source": "calculated",
+                "serving_size_g": null,
+                "protein_density": "medium",
+                "calorie_density": "medium",
+                "allergens": [
+                  "gluten"
+                ],
+                "alternative_recipe_ids": [],
+                "fasting_yetsom": false,
+                "injera_accompaniment": false,
+                "image_url": null,
+                "notes": "Pre-workout: complex carbs + protein from fava beans, traditional Ethiopian. [curated]",
+                "_extraction_method": null
+              },
+              "scale_factor": 1.0,
+              "scaled_nutrition": {
+                "kcal": 320.0,
+                "protein_g": 14.0,
+                "carb_g": 50.0,
+                "fat_g": 8.0,
+                "fiber_g": 12.0
+              },
+              "foods": [],
+              "swap_options": [
+                {
+                  "recipe_id": "R013",
+                  "name": "Telba Fitfit",
+                  "kcal": 295.0,
+                  "kcal_diff": -5.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "ETH013",
+                  "name": "Telba Fitfit",
+                  "kcal": 248.0,
+                  "kcal_diff": -52.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R012",
+                  "name": "Suf Fitfit",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "ETH012",
+                  "name": "Suf Fitfit",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "PW014",
+                  "name": "Misir Wat & Rice Pre-Workout",
+                  "kcal": 360.0,
+                  "kcal_diff": 60.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 clove garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 small tomato, diced": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera, for serving": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 300.0,
-              "target_protein_g": 22.0,
-              "target_carb_g": 83.0,
-              "target_fat_g": 4.0,
-              "actual_kcal": 360.0,
-              "actual_protein_g": 16.0,
-              "actual_carb_g": 55.0,
+              "target_protein_g": 15.0,
+              "target_carb_g": 49.0,
+              "target_fat_g": 5.0,
+              "actual_kcal": 320.0,
+              "actual_protein_g": 14.0,
+              "actual_carb_g": 50.0,
               "actual_fat_g": 8.0,
-              "notes": "Score: 65.7/100; Scaled to 0.83 servings (0.83x); + 15g Whey Protein Powder (protein filler: +12g P); + 127g White Rice (cooked) (carb filler: +36g C); Timing: 60-90 min before workout"
+              "notes": "Score: 85.0/100; Timing: 60-90 min before workout"
             },
             {
               "meal_type": "post_workout",
@@ -3371,6 +4617,14 @@
                 "notes": "Post-workout: Ethiopian chickpea stew, high carb + plant protein. [curated]",
                 "_extraction_method": null
               },
+              "scale_factor": 1.0,
+              "scaled_nutrition": {
+                "kcal": 430.0,
+                "protein_g": 16.0,
+                "carb_g": 70.0,
+                "fat_g": 10.0,
+                "fiber_g": 10.0
+              },
               "foods": [
                 {
                   "food": {
@@ -3385,39 +4639,135 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 26.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 100.0
+                  "grams": 29.0,
+                  "kcal": 116.0,
+                  "protein_g": 23.2,
+                  "carb_g": 2.3,
+                  "fat_g": 1.7
                 }
               ],
+              "swap_options": [
+                {
+                  "recipe_id": "R033",
+                  "name": "Ethiopian Asa Tibs",
+                  "kcal": 443.93,
+                  "kcal_diff": -6.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R201",
+                  "name": "Ethiopian Asa Tibs",
+                  "kcal": 443.93,
+                  "kcal_diff": -6.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R193",
+                  "name": "Azefa \u2013 Ethiopian Lentil Salad",
+                  "kcal": 418.875,
+                  "kcal_diff": -31.0,
+                  "cuisine": "american"
+                },
+                {
+                  "recipe_id": "R059",
+                  "name": "Shiro Wat (Chickpea Flour Stew)",
+                  "kcal": 408.0,
+                  "kcal_diff": -42.0,
+                  "cuisine": "ethiopian"
+                },
+                {
+                  "recipe_id": "R174",
+                  "name": "Shiro Wat (Chickpea Flour Stew)",
+                  "kcal": 408.0,
+                  "kcal_diff": -42.0,
+                  "cuisine": "ethiopian"
+                }
+              ],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 onion, finely chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp berbere spice": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 cup cooked rice": [
+                  {
+                    "alternatives": [
+                      "quinoa",
+                      "cauliflower rice",
+                      "couscous",
+                      "millet"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera (~70g)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 450.0,
-              "target_protein_g": 37.0,
-              "target_carb_g": 83.0,
+              "target_protein_g": 39.0,
+              "target_carb_g": 56.0,
               "target_fat_g": 8.0,
-              "actual_kcal": 430.0,
-              "actual_protein_g": 16.0,
-              "actual_carb_g": 70.0,
-              "actual_fat_g": 10.0,
-              "notes": "Score: 82.5/100; + 26g Whey Protein Powder (protein filler: +21g P); + 100g White Rice (cooked) (carb filler: +28g C); Timing: 30-60 min after workout"
+              "actual_kcal": 546.0,
+              "actual_protein_g": 39.2,
+              "actual_carb_g": 72.3,
+              "actual_fat_g": 11.7,
+              "notes": "Score: 66.2/100; + 29g Whey Protein Powder (protein filler: +23g P); Timing: 30-60 min after workout"
             }
           ],
-          "total_kcal": 1489.0,
-          "total_protein_g": 55.6,
-          "total_carb_g": 227.4,
-          "total_fat_g": 40.7
+          "total_kcal": 3301.7200000000003,
+          "total_protein_g": 183.731,
+          "total_carb_g": 464.306,
+          "total_fat_g": 80.579
         },
         {
           "day_number": 6,
@@ -3486,6 +4836,14 @@
                 "notes": "[curated]",
                 "_extraction_method": null
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 442.5,
+                "protein_g": 15.0,
+                "carb_g": 31.5,
+                "fat_g": 28.5,
+                "fiber_g": 10.5
+              },
               "foods": [
                 {
                   "food": {
@@ -3500,7 +4858,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 37.0
+                  "grams": 37.0,
+                  "kcal": 148.0,
+                  "protein_g": 29.6,
+                  "carb_g": 3.0,
+                  "fat_g": 2.2
                 },
                 {
                   "food": {
@@ -3515,18 +4877,59 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 319.0
+                  "grams": 319.0,
+                  "kcal": 414.7,
+                  "protein_g": 8.6,
+                  "carb_g": 90.0,
+                  "fat_g": 1.0
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "2 tablespoons olive oil (30ml)": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 medium yellow onion, diced (110g)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 large injera (traditional Ethiopian flatbread, 20\u201324 inches in diameter)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 900.0,
               "target_protein_g": 44.0,
               "target_carb_g": 124.0,
               "target_fat_g": 25.0,
-              "actual_kcal": 295.0,
-              "actual_protein_g": 10.0,
-              "actual_carb_g": 21.0,
-              "actual_fat_g": 19.0,
-              "notes": "Score: 42.5/100; Scaled to 1.50 servings (1.50x); + 37g Whey Protein Powder (protein filler: +30g P); + 319g White Rice (cooked) (carb filler: +90g C)"
+              "actual_kcal": 1005.2,
+              "actual_protein_g": 53.2,
+              "actual_carb_g": 124.4,
+              "actual_fat_g": 31.7,
+              "notes": "Score: 37.0/100; \u26a0 Best recipe score 37.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 37g Whey Protein Powder (protein filler: +30g P); + 319g White Rice (cooked) (carb filler: +90g C)"
             },
             {
               "meal_type": "lunch",
@@ -3598,6 +5001,14 @@
                 "notes": "[curated]",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 665.9,
+                "protein_g": 35.5,
+                "carb_g": 15.6,
+                "fat_g": 53.0,
+                "fiber_g": 6.0
+              },
               "foods": [
                 {
                   "food": {
@@ -3612,7 +5023,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 20.0
+                  "grams": 20.0,
+                  "kcal": 80.0,
+                  "protein_g": 16.0,
+                  "carb_g": 1.6,
+                  "fat_g": 1.2
                 },
                 {
                   "food": {
@@ -3627,7 +5042,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 454.0
+                  "grams": 454.0,
+                  "kcal": 590.2,
+                  "protein_g": 12.3,
+                  "carb_g": 128.0,
+                  "fat_g": 1.4
                 },
                 {
                   "food": {
@@ -3642,18 +5061,59 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 1/2 tablespoons berbere": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1  thinly sliced onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2  finely chopped garlic cloves": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 443.93,
-              "actual_protein_g": 23.66,
-              "actual_carb_g": 10.42,
-              "actual_fat_g": 35.34,
-              "notes": "Score: 40.2/100; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1404.1,
+              "actual_protein_g": 69.3,
+              "actual_carb_g": 158.5,
+              "actual_fat_g": 56.4,
+              "notes": "Score: 35.2/100; \u26a0 Best recipe score 35.2 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "dinner",
@@ -3727,6 +5187,14 @@
                 "notes": "",
                 "_extraction_method": "jsonld"
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 665.9,
+                "protein_g": 35.5,
+                "carb_g": 15.6,
+                "fat_g": 53.0,
+                "fiber_g": 6.0
+              },
               "foods": [
                 {
                   "food": {
@@ -3741,7 +5209,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 20.0
+                  "grams": 20.0,
+                  "kcal": 80.0,
+                  "protein_g": 16.0,
+                  "carb_g": 1.6,
+                  "fat_g": 1.2
                 },
                 {
                   "food": {
@@ -3756,7 +5228,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 454.0
+                  "grams": 454.0,
+                  "kcal": 590.2,
+                  "protein_g": 12.3,
+                  "carb_g": 128.0,
+                  "fat_g": 1.4
                 },
                 {
                   "food": {
@@ -3771,24 +5247,65 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 1/2 tablespoons berbere": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1  thinly sliced onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2  finely chopped garlic cloves": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 443.93,
-              "actual_protein_g": 23.66,
-              "actual_carb_g": 10.42,
-              "actual_fat_g": 35.34,
-              "notes": "Score: 40.2/100; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1404.1,
+              "actual_protein_g": 69.3,
+              "actual_carb_g": 158.5,
+              "actual_fat_g": 56.4,
+              "notes": "Score: 35.2/100; \u26a0 Best recipe score 35.2 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 20g Whey Protein Powder (protein filler: +16g P); + 454g White Rice (cooked) (carb filler: +128g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             }
           ],
-          "total_kcal": 1182.8600000000001,
-          "total_protein_g": 57.32,
-          "total_carb_g": 41.84,
-          "total_fat_g": 89.68
+          "total_kcal": 3813.3900000000003,
+          "total_protein_g": 191.90900000000002,
+          "total_carb_g": 441.334,
+          "total_fat_g": 144.42100000000002
         },
         {
           "day_number": 7,
@@ -3860,113 +5377,13 @@
                 "notes": "",
                 "_extraction_method": null
               },
-              "foods": [
-                {
-                  "food": {
-                    "name": "Whey Protein Powder",
-                    "category": "protein_animal",
-                    "kcal_per_100g": 400,
-                    "protein_g_per_100g": 80.0,
-                    "carb_g_per_100g": 8.0,
-                    "fat_g_per_100g": 6.0,
-                    "fiber_g_per_100g": 0,
-                    "serving_size_g": 30,
-                    "serving_description": "1 scoop (~30g)",
-                    "is_vegan": false
-                  },
-                  "grams": 35.0
-                },
-                {
-                  "food": {
-                    "name": "White Rice (cooked)",
-                    "category": "carb_grain",
-                    "kcal_per_100g": 130,
-                    "protein_g_per_100g": 2.7,
-                    "carb_g_per_100g": 28.2,
-                    "fat_g_per_100g": 0.3,
-                    "fiber_g_per_100g": 0.4,
-                    "serving_size_g": 200,
-                    "serving_description": "1 cup (~200g)",
-                    "is_vegan": true
-                  },
-                  "grams": 283.0
-                }
-              ],
-              "target_kcal": 900.0,
-              "target_protein_g": 44.0,
-              "target_carb_g": 124.0,
-              "target_fat_g": 25.0,
-              "actual_kcal": 360.0,
-              "actual_protein_g": 11.0,
-              "actual_carb_g": 28.0,
-              "actual_fat_g": 24.0,
-              "notes": "Score: 39.8/100; Scaled to 1.50 servings (1.50x); + 35g Whey Protein Powder (protein filler: +28g P); + 283g White Rice (cooked) (carb filler: +80g C)"
-            },
-            {
-              "meal_type": "lunch",
-              "name": "Ethiopian Tomato Salad",
-              "recipe": {
-                "name": "Ethiopian Tomato Salad",
-                "id": "R081",
-                "source": "https://thespiceadventuress.com/2015/01/13/ethiopian-tomato-salad/",
-                "source_file": "thespiceadventuress.com__2015-01-13-ethiopian-tomato-salad.json",
-                "legacy_id": "R328",
-                "cuisine": "african, ethiopian",
-                "category": "salad",
-                "recipe_kind": "meal",
-                "meal_types": [
-                  "lunch",
-                  "side"
-                ],
-                "diet_types": [
-                  "VEGAN_ETHIOPIAN"
-                ],
-                "goal_fit": [
-                  "maintenance"
-                ],
-                "servings": 1,
-                "prep_time_min": null,
-                "cook_time_min": null,
-                "ingredients": [
-                  "3  large heirloom tomatoes; roughly chopped",
-                  "1  medium yellow onion (finely chopped (use white or red if you cannot find yellow))",
-                  "2  fresh jalapenos (finely chopped (deseed if you wish to))",
-                  "For the dressing:",
-                  "3 tbsp extra virgin olive oil",
-                  "2 tbsp white wine vinegar",
-                  "1.5 tsp grated fresh ginger",
-                  "Salt (to season)",
-                  "Black pepper (to season)"
-                ],
-                "instructions": [
-                  "Whisk together all the ingredients for the dressing and keep aside.",
-                  "Mix the chopped tomatoes, onions and jalapenos in a large bowl.",
-                  "Add the dressing and mix well just before serving."
-                ],
-                "nutrition_per_serving": {
-                  "kcal": 394.125,
-                  "protein_g": 1.7625000000000002,
-                  "carb_g": 13.8375,
-                  "fat_g": 38.0625,
-                  "fiber_g": 0.0,
-                  "sugar_g": 0.0
-                },
-                "nutrition_source": "estimated",
-                "serving_size_g": 263.0,
-                "protein_density": "low",
-                "calorie_density": "low",
-                "allergens": [],
-                "alternative_recipe_ids": [
-                  "R061",
-                  "R124",
-                  "R174",
-                  "R193"
-                ],
-                "fasting_yetsom": true,
-                "injera_accompaniment": false,
-                "image_url": "https://thespiceadventuress.com/wp-content/uploads/2015/01/53.jpg",
-                "notes": "[curated]",
-                "_extraction_method": "jsonld"
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 540.0,
+                "protein_g": 16.5,
+                "carb_g": 42.0,
+                "fat_g": 36.0,
+                "fiber_g": 9.0
               },
               "foods": [
                 {
@@ -3982,7 +5399,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 61.0
+                  "grams": 35.0,
+                  "kcal": 140.0,
+                  "protein_g": 28.0,
+                  "carb_g": 2.8,
+                  "fat_g": 2.1
                 },
                 {
                   "food": {
@@ -3997,7 +5418,204 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 424.0
+                  "grams": 283.0,
+                  "kcal": 367.9,
+                  "protein_g": 7.6,
+                  "carb_g": 79.8,
+                  "fat_g": 0.8
+                }
+              ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 injera": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ],
+                "2 finely chopped tomatoes (250g)": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "2 finely chopped green onions (30g)": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "\u00bc tsp garlic powder (1.25ml)": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp olive oil (15ml)": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
+              "target_kcal": 900.0,
+              "target_protein_g": 44.0,
+              "target_carb_g": 124.0,
+              "target_fat_g": 25.0,
+              "actual_kcal": 1047.9,
+              "actual_protein_g": 52.1,
+              "actual_carb_g": 124.6,
+              "actual_fat_g": 38.9,
+              "notes": "Score: 34.8/100; \u26a0 Best recipe score 34.8 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 35g Whey Protein Powder (protein filler: +28g P); + 283g White Rice (cooked) (carb filler: +80g C)"
+            },
+            {
+              "meal_type": "lunch",
+              "name": "Shiro Wat (Chickpea Flour Stew)",
+              "recipe": {
+                "name": "Shiro Wat (Chickpea Flour Stew)",
+                "id": "R059",
+                "source": "https://www.forksoverknives.com/recipes/vegan-soups-stews/shiro-wat-chickpea-flour-stew/",
+                "source_file": "forksoverknives.com__recipes-vegan-soups-stews-shiro-wat-chickpea-flour-stew.json",
+                "legacy_id": "R174",
+                "cuisine": "ethiopian",
+                "category": "vegan soups &amp; stew recipes",
+                "recipe_kind": "meal",
+                "meal_types": [
+                  "dinner",
+                  "lunch"
+                ],
+                "diet_types": [
+                  "VEGAN_ETHIOPIAN"
+                ],
+                "goal_fit": [
+                  "maintenance"
+                ],
+                "servings": 6,
+                "prep_time_min": null,
+                "cook_time_min": null,
+                "ingredients": [
+                  "1 cup chickpea flour",
+                  "1 cup chopped red onion",
+                  "12 cloves garlic, minced",
+                  "1 cup chopped tomato",
+                  "1\u00bd tablespoons Berbere Spice Blend",
+                  "\u00bd teaspoon ground cardamom",
+                  "1 teaspoon tahini or cashew butter",
+                  "2 tablespoons lemon juice",
+                  "Sea salt, to taste"
+                ],
+                "instructions": [
+                  "Heat a large nonstick skillet over medium-low. Add chickpea flour; cook for 10-15 minutes or until flour releases a toasted aroma, stirring frequently. Transfer to a large bowl; let cool.",
+                  "In a large saucepan combine onion, garlic, and \u00bc cup water. Cover and cook over medium 10 minutes or until onion is tender, stirring occasionally. Add tomato, Berbere Spice Blend, and cardamom; cook 10 minutes more.",
+                  "Add tahini, lemon juice, and 6 cups water to the toasted chickpea flour; whisk until smooth. Add mixture to pan with onion mixture. Bring mixture to boiling; reduce heat. Cover and cook 30 minutes or until stew is thickened, stirring occasionally. Season with salt."
+                ],
+                "nutrition_per_serving": {
+                  "kcal": 408.0,
+                  "protein_g": 6.824999999999999,
+                  "carb_g": 27.375,
+                  "fat_g": 31.650000000000002,
+                  "fiber_g": 0.0,
+                  "sugar_g": 0.0
+                },
+                "nutrition_source": "estimated",
+                "serving_size_g": 227.0,
+                "protein_density": "low",
+                "calorie_density": "medium",
+                "allergens": [
+                  "dairy",
+                  "gluten",
+                  "nuts",
+                  "sesame",
+                  "wheat"
+                ],
+                "alternative_recipe_ids": [
+                  "R012",
+                  "R017",
+                  "R032",
+                  "R033",
+                  "R044",
+                  "R051",
+                  "R061",
+                  "R088"
+                ],
+                "fasting_yetsom": true,
+                "injera_accompaniment": true,
+                "image_url": "https://www.forksoverknives.com/uploads/Chickpea-Flour-Stew-Shio-Wat-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
+                "notes": "[curated]",
+                "_extraction_method": "jsonld"
+              },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 612.0,
+                "protein_g": 10.2,
+                "carb_g": 41.1,
+                "fat_g": 47.5,
+                "fiber_g": 0.0
+              },
+              "foods": [
+                {
+                  "food": {
+                    "name": "Whey Protein Powder",
+                    "category": "protein_animal",
+                    "kcal_per_100g": 400,
+                    "protein_g_per_100g": 80.0,
+                    "carb_g_per_100g": 8.0,
+                    "fat_g_per_100g": 6.0,
+                    "fiber_g_per_100g": 0,
+                    "serving_size_g": 30,
+                    "serving_description": "1 scoop (~30g)",
+                    "is_vegan": false
+                  },
+                  "grams": 52.0,
+                  "kcal": 208.0,
+                  "protein_g": 41.6,
+                  "carb_g": 4.2,
+                  "fat_g": 3.1
+                },
+                {
+                  "food": {
+                    "name": "White Rice (cooked)",
+                    "category": "carb_grain",
+                    "kcal_per_100g": 130,
+                    "protein_g_per_100g": 2.7,
+                    "carb_g_per_100g": 28.2,
+                    "fat_g_per_100g": 0.3,
+                    "fiber_g_per_100g": 0.4,
+                    "serving_size_g": 200,
+                    "serving_description": "1 cup (~200g)",
+                    "is_vegan": true
+                  },
+                  "grams": 355.0,
+                  "kcal": 461.5,
+                  "protein_g": 9.6,
+                  "carb_g": 100.1,
+                  "fat_g": 1.1
                 },
                 {
                   "food": {
@@ -4012,18 +5630,81 @@
                     "serving_description": "1 cup (~90g)",
                     "is_vegan": true
                   },
-                  "grams": 200
+                  "grams": 200,
+                  "kcal": 68.0,
+                  "protein_g": 5.6,
+                  "carb_g": 13.2,
+                  "fat_g": 0.8
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 cup chopped red onion": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "12 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 cup chopped tomato": [
+                  {
+                    "alternatives": [
+                      "canned tomato",
+                      "passata",
+                      "red bell pepper"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1\u00bd tablespoons Berbere Spice Blend": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 teaspoon tahini or cashew butter": [
+                  {
+                    "alternatives": [
+                      "ghee",
+                      "coconut oil (vegan)",
+                      "olive oil (for cooking)"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 394.125,
-              "actual_protein_g": 1.7625000000000002,
-              "actual_carb_g": 13.8375,
-              "actual_fat_g": 38.0625,
-              "notes": "Score: 37.6/100; Scaled to 1.50 servings (1.50x); + 61g Whey Protein Powder (protein filler: +49g P); + 424g White Rice (cooked) (carb filler: +120g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
+              "actual_kcal": 1349.5,
+              "actual_protein_g": 67.0,
+              "actual_carb_g": 158.5,
+              "actual_fat_g": 52.5,
+              "notes": "Score: 33.0/100; \u26a0 Best recipe score 33.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 52g Whey Protein Powder (protein filler: +42g P); + 355g White Rice (cooked) (carb filler: +100g C); + 200g Broccoli (raw) (veg filler: +5.2g fiber)"
             },
             {
               "meal_type": "dinner",
@@ -4096,6 +5777,14 @@
                 "notes": "Post-workout: vegan Ethiopian lentil stew + carbs. High fiber + protein. [curated]",
                 "_extraction_method": null
               },
+              "scale_factor": 1.5,
+              "scaled_nutrition": {
+                "kcal": 435.0,
+                "protein_g": 27.0,
+                "carb_g": 72.0,
+                "fat_g": 7.5,
+                "fiber_g": 18.0
+              },
               "foods": [
                 {
                   "food": {
@@ -4110,7 +5799,11 @@
                     "serving_description": "1 scoop (~30g)",
                     "is_vegan": false
                   },
-                  "grams": 31.0
+                  "grams": 31.0,
+                  "kcal": 124.0,
+                  "protein_g": 24.8,
+                  "carb_g": 2.5,
+                  "fat_g": 1.9
                 },
                 {
                   "food": {
@@ -4125,7 +5818,11 @@
                     "serving_description": "1 cup (~200g)",
                     "is_vegan": true
                   },
-                  "grams": 251.0
+                  "grams": 251.0,
+                  "kcal": 326.3,
+                  "protein_g": 6.8,
+                  "carb_g": 70.8,
+                  "fat_g": 0.8
                 },
                 {
                   "food": {
@@ -4140,46 +5837,122 @@
                     "serving_description": "1 tbsp (~14mL)",
                     "is_vegan": true
                   },
-                  "grams": 19.0
+                  "grams": 19.0,
+                  "kcal": 168.0,
+                  "protein_g": 0.0,
+                  "carb_g": 0.0,
+                  "fat_g": 19.0
                 }
               ],
+              "swap_options": [],
+              "ingredient_swaps": {
+                "1 tbsp olive oil": [
+                  {
+                    "alternatives": [
+                      "avocado oil",
+                      "coconut oil",
+                      " grapeseed oil"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 onion, finely chopped": [
+                  {
+                    "alternatives": [
+                      "shallot",
+                      "leek",
+                      "scallion",
+                      "onion powder"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "3 cloves garlic, minced": [
+                  {
+                    "alternatives": [
+                      "garlic powder (0.25 tsp per clove)",
+                      "shallot",
+                      "chives"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 tbsp berbere spice": [
+                  {
+                    "alternatives": [
+                      "ras el hanout",
+                      "garam masala",
+                      "chili powder + paprika mix"
+                    ],
+                    "ratio": 0.8,
+                    "notes": "Use ~80% volume; berbere is spicier"
+                  }
+                ],
+                "1 cup cooked rice": [
+                  {
+                    "alternatives": [
+                      "quinoa",
+                      "cauliflower rice",
+                      "couscous",
+                      "millet"
+                    ],
+                    "ratio": 1.0,
+                    "notes": ""
+                  }
+                ],
+                "1 piece injera (~50g)": [
+                  {
+                    "alternatives": [
+                      "teff injera (gluten-free)",
+                      "rice crepe",
+                      "dosa"
+                    ],
+                    "ratio": 1.0,
+                    "notes": "Traditional injera is teff-only (GF); restaurant injera often has wheat"
+                  }
+                ]
+              },
               "target_kcal": 1050.0,
               "target_protein_g": 52.0,
               "target_carb_g": 145.0,
               "target_fat_g": 29.0,
-              "actual_kcal": 290.0,
-              "actual_protein_g": 18.0,
-              "actual_carb_g": 48.0,
-              "actual_fat_g": 5.0,
-              "notes": "Score: 32.5/100; Scaled to 1.50 servings (1.50x); + 31g Whey Protein Powder (protein filler: +25g P); + 251g White Rice (cooked) (carb filler: +71g C); + 19g Olive Oil (fat filler: +19g F)"
+              "actual_kcal": 1053.3,
+              "actual_protein_g": 58.6,
+              "actual_carb_g": 145.3,
+              "actual_fat_g": 29.1,
+              "notes": "Score: 28.0/100; \u26a0 Best recipe score 28.0 < MIN_ACCEPTABLE_SCORE (60). Recipe fit is poor \u2014 consider raw-foods fallback.; Scaled to 1.50 servings (1.50x); + 31g Whey Protein Powder (protein filler: +25g P); + 251g White Rice (cooked) (carb filler: +71g C); + 19g Olive Oil (fat filler: +19g F)"
             }
           ],
-          "total_kcal": 1044.125,
-          "total_protein_g": 30.7625,
-          "total_carb_g": 89.8375,
-          "total_fat_g": 67.0625
+          "total_kcal": 3450.66,
+          "total_protein_g": 177.7405,
+          "total_carb_g": 428.40049999999997,
+          "total_fat_g": 120.52199999999999
         }
       ],
       "meal_frequency": 3,
       "macro_allocation": {},
       "cuisine_mix": {
         "ethiopian": 22,
-        "african, ethiopian": 4
+        "african, ethiopian": 3,
+        "american, ethiopian": 1
       },
       "recipe_source_summary": {
         "curated_used": 18,
         "uncurated_used": 8,
         "fallback_to_raw_foods": 1,
-        "unique_recipes_used": 18,
+        "unique_recipes_used": 17,
         "database_total": 386,
         "database_curated": 123,
         "database_uncurated": 263,
-        "weekly_avg_kcal": 3588.3,
-        "weekly_avg_protein_g": 186.4,
-        "weekly_avg_carb_g": 459.9,
-        "weekly_avg_fat_g": 115.3,
-        "weekly_kcal_match_pct": 80.4,
-        "weekly_protein_match_pct": 74.0,
+        "weekly_avg_kcal": 3460.6,
+        "weekly_avg_protein_g": 179.5,
+        "weekly_avg_carb_g": 439.0,
+        "weekly_avg_fat_g": 114.2,
+        "weekly_kcal_match_pct": 84.7,
+        "weekly_protein_match_pct": 78.7,
         "training_days": [
           1,
           3,
@@ -4190,12 +5963,12 @@
       "notes": [
         "Meal frequency: 3 meals/day (+ PRE/POST workout on 3 training days)",
         "Daily target: 3001 kcal, P148g / C415g / F83g / Fiber 42g",
-        "Weekly average: 3588 kcal (80.4% match), P186g (74.0% match), C460g, F115g",
+        "Weekly average: 3461 kcal (84.7% match), P180g (78.7% match), C439g, F114g",
         "Diet: VEGAN_ETHIOPIAN, Cuisine: ethiopian",
         "Recipe database: 386 recipes loaded",
         "Week summary: 18 curated + 8 uncurated recipes used; 1 meal(s) had no recipe match",
-        "Unique recipes used: 18 (target: \u226514 for variety)",
-        "Cuisine mix: {'ethiopian': 22, 'african, ethiopian': 4}",
+        "Unique recipes used: 17 (target: \u226514 for variety)",
+        "Cuisine mix: {'ethiopian': 22, 'african, ethiopian': 3, 'american, ethiopian': 1}",
         "Training days: [1, 3, 5]",
         "Phase-5 best-fit scoring + acceptable scaling + filler system + swap alternatives."
       ]
