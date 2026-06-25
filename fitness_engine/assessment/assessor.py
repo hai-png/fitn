@@ -46,11 +46,15 @@ def assess_profile(profile: UserProfile) -> AssessmentResult:
     except Exception as e:
         _log.error("Body composition assessment failed: %s", e)
         errors.append(f"body_composition: {type(e).__name__}: {e}")
-        # Minimal placeholder so downstream can continue
-        from ..models.assessment import BodyComposition, BodyFatMethod, BodyFatCategory, BMICategory
+        # Minimal placeholder so downstream can continue.
+        # Phase-6 fix: use classify_bmi() (pure, won't raise) instead of the
+        # previous inline ternary that omitted BMICategory.UNDERWEIGHT (an
+        # underweight user with BMI < 18.5 was classified as NORMAL).
+        from ..models.assessment import BodyComposition, BodyFatMethod, BodyFatCategory
+        from .body_composition import classify_bmi
         body_comp = BodyComposition(
             bmi=profile.bmi,
-            bmi_category=BMICategory.OBESE if profile.bmi >= 30 else BMICategory.OVERWEIGHT if profile.bmi >= 25 else BMICategory.NORMAL,
+            bmi_category=classify_bmi(profile.bmi),
             body_fat_pct=profile.body_fat_pct or 20.0,
             body_fat_method=BodyFatMethod.USER_PROVIDED if profile.body_fat_pct else BodyFatMethod.BMI_JACKSON,
             body_fat_category=BodyFatCategory.ACCEPTABLE,

@@ -83,15 +83,21 @@ def propose_plan(
     # If caller passed flat kwargs, merge them into a PlanPreferences.
     if preferences is None:
         preferences = PlanPreferences()
-    # Override with any explicitly-passed flat kwargs
+    # Override with any explicitly-passed flat kwargs.
+    # Phase-6: re-coerce enum-typed fields after override so string kwargs
+    # (e.g. exercise_intensity="intense") are converted to ExerciseIntensity.
     if meal_frequency is not None:
         preferences.meal_frequency = meal_frequency
     if exercise_hours_per_day is not None:
         preferences.exercise_hours_per_day = exercise_hours_per_day
     if exercise_intensity is not None:
         preferences.exercise_intensity = exercise_intensity
+        from .models.preferences import _coerce_intensity
+        preferences.exercise_intensity = _coerce_intensity(preferences.exercise_intensity)
     if climate is not None:
         preferences.climate = climate
+        from .models.preferences import _coerce_climate
+        preferences.climate = _coerce_climate(preferences.climate)
     if in_active_deficit is not None:
         preferences.in_active_deficit = in_active_deficit
     if weight_reduced_pct is not None:

@@ -254,6 +254,28 @@ def allocate_meal(
                 f"({MIN_ACCEPTABLE_SCORE}). Recipe fit is poor — consider raw-foods fallback."
             )
 
+    # Phase-6: if the best recipe cannot be scaled to within
+    # SCALE_DEVIATION_LIMIT of the slot target, fall back to fillers-only
+    # (returns SelectedMeal with recipe=None). This prevents the previous
+    # behavior where a 500-kcal recipe was clamped to MIN_SCALE=0.7 → 350 kcal
+    # for a 100-kcal slot, leaving the user 250% over target with no fillers
+    # to compensate.
+    from .recipe_scaler import is_recipe_scalable_to_target
+    if not is_recipe_scalable_to_target(best.recipe.kcal, slot.target_kcal):
+        return SelectedMeal(
+            meal_type=slot.meal_type,
+            recipe=None,
+            target_kcal=slot.target_kcal,
+            target_protein_g=slot.target_protein_g,
+            target_carb_g=slot.target_carb_g,
+            target_fat_g=slot.target_fat_g,
+            notes=[
+                f"Recipe '{best.recipe.name}' ({best.recipe.kcal:.0f} kcal) cannot be "
+                f"scaled to slot target ({slot.target_kcal:.0f} kcal) within ±40% — "
+                f"falling back to fillers-only meal."
+            ],
+        )
+
     # 4. Scale the recipe
     scaled = scale_recipe(best.recipe, slot.target_kcal)
 

@@ -17,9 +17,36 @@ those kwargs.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Union
 
 from .training import PlanType
+from .profile import ExerciseIntensity, Climate
+
+
+def _coerce_intensity(v: Union[str, ExerciseIntensity, None]) -> ExerciseIntensity:
+    if v is None:
+        return ExerciseIntensity.MODERATE
+    if isinstance(v, ExerciseIntensity):
+        return v
+    if isinstance(v, str):
+        try:
+            return ExerciseIntensity(v.lower())
+        except ValueError:
+            return ExerciseIntensity.MODERATE
+    return ExerciseIntensity.MODERATE
+
+
+def _coerce_climate(v: Union[str, Climate, None]) -> Climate:
+    if v is None:
+        return Climate.TEMPERATE
+    if isinstance(v, Climate):
+        return v
+    if isinstance(v, str):
+        try:
+            return Climate(v.lower())
+        except ValueError:
+            return Climate.TEMPERATE
+    return Climate.TEMPERATE
 
 
 @dataclass
@@ -29,12 +56,17 @@ class PlanPreferences:
 
     All fields have sensible defaults; users only set what they care about.
 
+    Phase-6 fix: `exercise_intensity` and `climate` are now properly typed
+    as `ExerciseIntensity` and `Climate` enums (Tier 3.31 added the enums
+    but PlanPreferences still used raw `str`). The dataclass accepts both
+    string and enum values via `__post_init__` coercion for backward compat.
+
     Fields are grouped by which sub-planner consumes them:
 
     === Nutrition preferences ===
     exercise_hours_per_day:  for hydration calc (default 1.0)
-    exercise_intensity:      "light" / "moderate" / "intense" (default "moderate")
-    climate:                 "cold" / "temperate" / "hot" / "hot_humid"
+    exercise_intensity:      ExerciseIntensity enum (LIGHT/MODERATE/INTENSE)
+    climate:                 Climate enum (COLD/TEMPERATE/HOT/HOT_HUMID)
     in_active_deficit:       True if user is currently cutting (default False)
     weight_reduced_pct:      0-1, fraction below all-time high (default 0)
 
@@ -56,8 +88,8 @@ class PlanPreferences:
 
     # === Nutrition ===
     exercise_hours_per_day: float = 1.0
-    exercise_intensity: str = "moderate"
-    climate: str = "temperate"
+    exercise_intensity: Union[ExerciseIntensity, str] = ExerciseIntensity.MODERATE
+    climate: Union[Climate, str] = Climate.TEMPERATE
     in_active_deficit: bool = False
     weight_reduced_pct: float = 0.0
 
@@ -73,24 +105,52 @@ class PlanPreferences:
     excluded_ingredients: Optional[list[str]] = None
     include_pre_post_workout: bool = False
 
+    def __post_init__(self) -> None:
+        # Phase-6: coerce string values to enums for type safety.
+        self.exercise_intensity = _coerce_intensity(self.exercise_intensity)
+        self.climate = _coerce_climate(self.climate)
+        # Validate weight_reduced_pct is in [0, 1]
+        if not (0.0 <= self.weight_reduced_pct <= 1.0):
+            raise ValueError(
+                f"weight_reduced_pct must be in [0, 1], got {self.weight_reduced_pct}"
+            )
+        # Warn on unknown kwargs in from_kwargs (Phase-6 fix)
+        # (handled in from_kwargs via logging)
+
     @classmethod
     def from_kwargs(cls, **kwargs) -> "PlanPreferences":
         """
         Build PlanPreferences from flat kwargs (backward compat).
 
-        Ignores unknown kwargs silently so callers passing extra params
-        don't crash.
+        Phase-6: logs a warning for unknown kwargs (e.g. typos like
+        `meal_freqency=4`) instead of silently dropping them.
         """
+        import logging
         valid_fields = {f.name for f in cls.__dataclass_fields__.values()}
-        filtered = {k: v for k, v in kwargs.items() if k in valid_fields}
+        filtered = {}
+        unknown = []
+        for k, v in kwargs.items():
+            if k in valid_fields:
+                filtered[k] = v
+            else:
+                unknown.append(k)
+        if unknown:
+            logging.warning(
+                "PlanPreferences.from_kwargs: ignoring unknown kwargs: %s",
+                ", ".join(unknown),
+            )
         return cls(**filtered)
 
     def to_dict(self) -> dict:
         from dataclasses import asdict
         d = asdict(self)
-        # Convert PlanType enum to its string value
+        # Convert enums to their string values
         if self.plan_type is not None:
             d["plan_type"] = self.plan_type.value
+        if isinstance(self.exercise_intensity, ExerciseIntensity):
+            d["exercise_intensity"] = self.exercise_intensity.value
+        if isinstance(self.climate, Climate):
+            d["climate"] = self.climate.value
         return d
 
 

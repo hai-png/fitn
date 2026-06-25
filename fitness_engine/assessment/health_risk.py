@@ -60,21 +60,30 @@ def classify_whtr(whtr: float, sex: Sex) -> HealthRiskLevel:
     """
     Ashwell 2012 sex-specific boundaries.
     Source: fatcalc.com__whtr-calculator (Ashwell 2012 cited)
+
+    Phase-6 fix: previously skipped MODERATE (jumped from HIGH to LOW), which
+    was asymmetric with classify_whr and confused the overall_risk aggregator.
+    Added a MODERATE band between HIGH and LOW per Ashwell's "Take care"
+    boundary (0.50-0.53 M / 0.46-0.49 F).
     """
     if sex == Sex.MALE:
         if whtr >= 0.58:
             return HealthRiskLevel.VERY_HIGH
         elif whtr >= 0.53:
             return HealthRiskLevel.HIGH
+        elif whtr >= 0.50:
+            return HealthRiskLevel.MODERATE     # Phase-6: "take care" band
         elif whtr >= 0.43:
-            return HealthRiskLevel.LOW         # "healthy"
+            return HealthRiskLevel.LOW          # "healthy"
         else:
-            return HealthRiskLevel.LOW         # "underweight / no risk"
+            return HealthRiskLevel.LOW          # "underweight / no risk"
     else:  # FEMALE
         if whtr >= 0.54:
             return HealthRiskLevel.VERY_HIGH
         elif whtr >= 0.49:
             return HealthRiskLevel.HIGH
+        elif whtr >= 0.46:
+            return HealthRiskLevel.MODERATE     # Phase-6: "take care" band
         elif whtr >= 0.42:
             return HealthRiskLevel.LOW
         else:

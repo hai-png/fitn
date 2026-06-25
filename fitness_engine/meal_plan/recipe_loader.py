@@ -515,8 +515,6 @@ def recipes_by_filters(
                 d.upper() == "VEGAN" or d.upper().startswith("VEGAN_")
                 for d in r.diet_types
             )]
-            # Always exclude diet-warnings for vegan queries
-            out = [r for r in out if "[diet-warning" not in (r.notes or "")]
         elif dt == "OMNI":
             # Omni users can eat anything tagged OMNI or OMNI_* or VEGAN*
             # (vegan food is omni-compatible)
@@ -528,6 +526,12 @@ def recipes_by_filters(
         else:
             # Exact match for other diet types
             out = [r for r in out if dt in [d.upper() for d in r.diet_types]]
+        # Phase-6 fix: filter diet-warnings universally (was VEGAN-only).
+        # A "VEGAN" recipe whose ingredient scan flagged meat/dairy/eggs is a
+        # curation error and should not be served to OMNI users either —
+        # otherwise the same mislabeled recipe appears differently depending
+        # on the user's diet tag, breaking cuisine_mix and is_vegan checks.
+        out = [r for r in out if "[diet-warning" not in (r.notes or "")]
     if exclude_diet_warnings:
         out = [r for r in out if "[diet-warning" not in (r.notes or "")]
     if cuisine:

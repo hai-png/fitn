@@ -40,13 +40,24 @@ class FoodCategory(str, Enum):
     CONDIMENT = "condiment"
 
 
-class DietType(str, Enum):
-    """Recipe diet_type tags (subset of Phase-1 DietType, expanded)."""
+class RecipeDietTag(str, Enum):
+    """Recipe diet_type tags (uppercase, matches recipe database JSON).
+
+    Phase-6 fix: renamed from `DietType` to avoid collision with
+    `fitness_engine.models.profile.DietType` (lowercase user-facing values).
+    The two enums serve different purposes:
+      - profile.DietType  → user's selected diet (omnivore, vegan, keto, ...)
+      - meal.RecipeDietTag → recipe database tag (OMNI, VEGAN, OMNI_ETHIOPIAN, ...)
+    """
     OMNI = "OMNI"
     OMNI_ETHIOPIAN = "OMNI_ETHIOPIAN"
     VEGAN = "VEGAN"
     VEGAN_ETHIOPIAN = "VEGAN_ETHIOPIAN"
     VEGETARIAN = "VEGETARIAN"
+
+
+# Backward-compat alias (deprecated — use RecipeDietTag directly)
+DietType = RecipeDietTag
 
 
 class GoalFit(str, Enum):
@@ -196,7 +207,18 @@ class Recipe:
 
     @property
     def is_vegan(self) -> bool:
-        return any(d.upper() == "VEGAN" for d in self.diet_types)
+        """True if the recipe is vegan (including VEGAN_ETHIOPIAN etc.).
+
+        Phase-6 fix: previously used exact equality `d.upper() == "VEGAN"`,
+        which missed `VEGAN_ETHIOPIAN` and other `VEGAN_*` tags. Now matches
+        any tag that equals "VEGAN" or starts with "VEGAN_", consistent with
+        `recipes_by_filters` and `score_diet_match`.
+        """
+        for d in self.diet_types:
+            du = d.upper()
+            if du == "VEGAN" or du.startswith("VEGAN_"):
+                return True
+        return False
 
     @property
     def is_ethiopian(self) -> bool:

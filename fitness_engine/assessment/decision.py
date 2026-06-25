@@ -10,20 +10,24 @@ from __future__ import annotations
 
 from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal
 from ..models.assessment import RecommendedStrategy
+from ._thresholds import OPERATIONAL_BF_RANGE, HORMONAL_FLOOR, OBESE_THRESHOLD
 
 
 # === Cut/Bulk BF boundaries (men; women add +8 %) ===
+# Phase-6 fix: operational_lo/hi and obese_threshold are now sourced from
+# _thresholds.py (single source of truth). The previous duplication caused
+# drift risk if either module was updated independently.
 # Tier 4.48 fix: recomp_excellent lowered below obese_threshold so the
 # "excellent recomp potential" branch is actually reachable (was equal to
 # obese_threshold, so the safety override always fired first).
 CUT_BULK_BOUNDARIES = {
     Sex.MALE: {
-        "cut_floor":         10,         # don't cut below this
-        "bulk_ceiling":      20,         # don't bulk above this
-        "bulk_start":        15,         # only start bulk if below this
-        "operational_lo":    10,
-        "operational_hi":    20,
-        "obese_threshold":   25,
+        "cut_floor":         HORMONAL_FLOOR[Sex.MALE],                # 10 — don't cut below this
+        "bulk_ceiling":      OPERATIONAL_BF_RANGE[Sex.MALE][1],       # 20 — don't bulk above this
+        "bulk_start":        15,                                       # only start bulk if below this
+        "operational_lo":    OPERATIONAL_BF_RANGE[Sex.MALE][0],       # 10 (from _thresholds)
+        "operational_hi":    OPERATIONAL_BF_RANGE[Sex.MALE][1],       # 20 (from _thresholds)
+        "obese_threshold":   OBESE_THRESHOLD[Sex.MALE],                # 25 (from _thresholds)
         "recomp_excellent":  23,         # Tier 4.48: was 25 (== obese_threshold, unreachable)
         "recomp_good_lo":    15,         # 15-23% → good recomp potential
         "recomp_limited":    15,         # <15% → limited recomp potential
@@ -31,12 +35,12 @@ CUT_BULK_BOUNDARIES = {
         "skinny_fat_hi":     23,
     },
     Sex.FEMALE: {
-        "cut_floor":         18,
-        "bulk_ceiling":      28,
+        "cut_floor":         HORMONAL_FLOOR[Sex.FEMALE],              # 18
+        "bulk_ceiling":      OPERATIONAL_BF_RANGE[Sex.FEMALE][1],     # 28
         "bulk_start":        23,
-        "operational_lo":    18,
-        "operational_hi":    28,
-        "obese_threshold":   32,
+        "operational_lo":    OPERATIONAL_BF_RANGE[Sex.FEMALE][0],     # 18 (from _thresholds)
+        "operational_hi":    OPERATIONAL_BF_RANGE[Sex.FEMALE][1],     # 28 (from _thresholds)
+        "obese_threshold":   OBESE_THRESHOLD[Sex.FEMALE],              # 32 (from _thresholds)
         "recomp_excellent":  30,         # Tier 4.48: was 35 (> obese_threshold=32, unreachable)
         "recomp_good_lo":    25,
         "recomp_limited":    25,

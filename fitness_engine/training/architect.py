@@ -686,25 +686,42 @@ def build_training_plan(
         if fm not in target_muscles:
             target_muscles.append(fm)
 
+    # Phase-6 fix: replaced muscle-agnostic 10/20-set cutoffs with muscle-
+    # specific validate_weekly_volume() (uses MEV/MRV from DEFAULT_MUSCLE_LANDMARKS).
+    # Also replaced substring matching ("abs" matching "abductors") with the
+    # explicit _MUSCLE_ALIASES map already defined above.
+    _ALIASES_FOR_VOLUME = {
+        "back": ["upper_back", "lats", "lower_back", "middle_back", "traps"],
+        "chest": ["chest"],
+        "shoulders": ["shoulders", "side_delts", "rear_delts"],
+        "arms": ["biceps", "triceps", "forearms"],
+        "legs": ["quads", "hamstrings", "glutes", "calves"],
+        "abs": ["abs", "obliques"],
+    }
+    from .volume_landmarks import validate_weekly_volume, VolumeTier
+    # Build a per-muscle weekly volume dict using alias expansion
+    expanded_vol: dict[str, float] = {}
+    for muscle, sets in weekly_vol.items():
+        expanded_vol[muscle] = expanded_vol.get(muscle, 0.0) + sets
+    # For each target muscle, sum volume across its aliases
+    target_vol: dict[str, float] = {}
     for muscle in target_muscles:
-        # Check both the muscle and its variants
-        v = weekly_vol.get(muscle, 0)
-        # Also check related muscles (e.g., "back" matches "upper_back")
-        if v == 0:
-            for k in weekly_vol:
-                if muscle in k or k in muscle:
-                    v += weekly_vol[k]
+        aliases = _ALIASES_FOR_VOLUME.get(muscle, [muscle])
+        total = sum(expanded_vol.get(a, 0.0) for a in aliases)
+        if total > 0:
+            target_vol[muscle] = total
+    # Also include any muscles in weekly_vol not covered by target_muscles
+    for muscle, sets in expanded_vol.items():
+        if muscle not in target_vol:
+            target_vol[muscle] = sets
 
-        if v < 10:
-            vol_notes.append(
-                f"⚠ {muscle} volume = {v} sets/wk (below 10-set minimum). "
-                "Consider adding accessory work."
-            )
-        elif v > 20:
-            vol_notes.append(
-                f"⚠ {muscle} volume = {v} sets/wk (above 20-set ceiling). "
-                "Recovery may be compromised."
-            )
+    # Use the muscle-specific validator (Phase-6 fix)
+    vol_notes.extend(validate_weekly_volume(
+        target_vol,
+        goal=goal,
+        experience=profile.training_status,
+        tier=VolumeTier.MEDIUM,
+    ))
 
     # Step 10: assemble final plan
     notes = [

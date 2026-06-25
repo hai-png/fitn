@@ -36,6 +36,11 @@ from .food_database import get_food
 
 MIN_SCALE = 0.7
 MAX_SCALE = 1.5
+# Phase-6: if the scaled kcal deviates from target by more than this fraction,
+# the recipe is a poor fit and the caller should fall back to fillers-only.
+# 40% allows MIN_SCALE=0.7 (30% under) and MAX_SCALE=1.5 (50% over) but flags
+# extreme cases where the clamp is the only thing keeping the recipe in range.
+SCALE_DEVIATION_LIMIT = 0.40
 
 
 @dataclass
@@ -75,6 +80,23 @@ def compute_scale_factor(recipe_kcal: float, target_kcal: float) -> float:
 
     # Clamp to [MIN_SCALE, MAX_SCALE]
     return max(MIN_SCALE, min(MAX_SCALE, raw_factor))
+
+
+def is_recipe_scalable_to_target(recipe_kcal: float, target_kcal: float) -> bool:
+    """
+    Phase-6: check whether a recipe can be scaled to within
+    SCALE_DEVIATION_LIMIT of the target kcal.
+
+    Used by the allocator to decide whether to skip a recipe and fall back
+    to fillers-only (e.g. a 500-kcal recipe cannot satisfy a 100-kcal slot
+    even at MIN_SCALE=0.7, which would produce 350 kcal — 250% over target).
+    """
+    if recipe_kcal <= 0 or target_kcal <= 0:
+        return False
+    factor = compute_scale_factor(recipe_kcal, target_kcal)
+    scaled_kcal = recipe_kcal * factor
+    deviation = abs(scaled_kcal - target_kcal) / target_kcal
+    return deviation <= SCALE_DEVIATION_LIMIT
 
 
 def scale_recipe(recipe: Recipe, target_kcal: float) -> ScaledRecipe:
