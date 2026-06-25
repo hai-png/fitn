@@ -40,12 +40,14 @@ Thumbs.db
 # Large fetched HTML/JSON resources (regenerable via scripts/fetch_resources.py)
 resources/raw/
 
-# Phase-6: regenerable / ephemeral files (reduces repo from 10.5MB to ~5MB)
+# Phase-6: regenerable / ephemeral files (outputs of scripts/, dev scratch logs).
+# NOTE: content_files/all_exercises.json and
+# fitness_engine/meal_plan/recipe_database_uncurated.json are CRITICAL runtime
+# dependencies (loaded by exercise_loader.py and recipe_loader.py) and MUST
+# be tracked. Only outputs and dev artifacts are ignored here.
 download/
 worklog.md
 reports/meal_planning/coverage_analysis.json
-fitness_engine/meal_plan/recipe_database_uncurated.json
-content_files/all_exercises.json
 content_files/all_exercise_urls.json
 
 # Build artifacts
