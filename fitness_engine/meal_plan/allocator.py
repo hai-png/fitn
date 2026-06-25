@@ -31,7 +31,7 @@ from .recipe_scorer import (
 )
 from .recipe_scaler import (
     scale_recipe, compute_filler_gap, select_fillers_for_meal,
-    ScaledRecipe, FillerResult, is_recipe_scalable_to_target,
+    ScaledRecipe, FillerResult, FillerGap, is_recipe_scalable_to_target,
 )
 from .swap_system import get_recipe_swaps_for_plan, get_swaps_for_recipe_ingredients
 from .recipe_loader import recipes_by_filters
@@ -59,10 +59,6 @@ class SelectedMeal:
     target_protein_g: float = 0.0
     target_carb_g: float = 0.0
     target_fat_g: float = 0.0
-    # Phase-6 fix: target_fiber_g was missing from SelectedMeal even though
-    # the slot has a target_fiber_g and it's used in compute_filler_gap.
-    # Adding it so selected_meal_to_dict can surface it (asymmetric vs other
-    # target_*_g fields prior to this fix).
     target_fiber_g: float = 0.0
     swap_options: list[dict] = field(default_factory=list)
     ingredient_swaps: dict = field(default_factory=dict)
@@ -240,40 +236,66 @@ def allocate_meal(
 
     best = scores[0]
 
-    # Tier 3.36 fix: enforce MIN_ACCEPTABLE_SCORE. If the best candidate scores
-    # below the threshold, log a warning and try the next candidate. If no
-    # candidate meets the threshold, fall back to the best available (so the
-    # meal isn't empty) but add a note so the user knows the fit is poor.
-    # Phase-6: removed redundant local import (MIN_ACCEPTABLE_SCORE is already
-    # imported at module top).
+    # enforce MIN_ACCEPTABLE_SCORE. If the best candidate scores
+    # below the threshold, fall back to the best available anyway (so the meal
+    # isn't empty) but add a note so the user knows the fit is poor.
     low_score_warning: str | None = None
     if best.total_score < MIN_ACCEPTABLE_SCORE:
-        # Try to find a better-scoring candidate among the rest
-        better = next((s for s in scores[1:] if s.total_score >= MIN_ACCEPTABLE_SCORE), None)
-        if better is not None:
-            best = better
-        else:
-            # No candidate meets threshold — use best available but note it
-            low_score_warning = (
-                f"⚠ Best recipe score {best.total_score:.1f} < MIN_ACCEPTABLE_SCORE "
-                f"({MIN_ACCEPTABLE_SCORE}). Recipe fit is poor — consider raw-foods fallback."
-            )
+        # No candidate meets threshold — use best available but note it
+        low_score_warning = (
+            f"⚠ Best recipe score {best.total_score:.1f} < MIN_ACCEPTABLE_SCORE "
+            f"({MIN_ACCEPTABLE_SCORE}). Recipe fit is poor — consider raw-foods fallback."
+        )
 
-    # Phase-6: if the best recipe cannot be scaled to within
+    # if the best recipe cannot be scaled to within
     # SCALE_DEVIATION_LIMIT of the slot target, fall back to fillers-only.
+    # Build a FillerGap covering the FULL slot target (kcal + macros) and
+    # call select_fillers_for_meal. The returned SelectedMeal carries
+    # recipe=None but real fillers, so the day's total_kcal reflects the
+    # actual food.
     if not is_recipe_scalable_to_target(best.recipe.kcal, slot.target_kcal):
+        allergen_filler_exclusions = _compute_allergen_filler_exclusions(allergens_to_avoid)
+        full_gap = FillerGap(
+            kcal=slot.target_kcal,
+            protein_g=slot.target_protein_g,
+            carb_g=slot.target_carb_g,
+            fat_g=slot.target_fat_g,
+            fiber_g=slot.target_fiber_g,
+        )
+        filler_result = select_fillers_for_meal(
+            gap=full_gap,
+            diet_tag=diet_tag,
+            is_main_meal=is_main_meal,
+            exclude_foods=allergen_filler_exclusions,
+        )
+        fallback_notes: list[str] = [
+            f"Recipe '{best.recipe.name}' ({best.recipe.kcal:.0f} kcal) cannot be "
+            f"scaled to slot target ({slot.target_kcal:.0f} kcal) within ±40% — "
+            f"falling back to fillers-only meal."
+        ]
+        fallback_notes.extend(filler_result.notes)
         return SelectedMeal(
             meal_type=slot.meal_type,
             recipe=None,
+            scale_factor=0.0,
+            scaled_kcal=0.0,
+            scaled_protein_g=0.0,
+            scaled_carb_g=0.0,
+            scaled_fat_g=0.0,
+            scaled_fiber_g=0.0,
+            fillers=filler_result.fillers,
+            filler_kcal=filler_result.total_filler_kcal,
+            filler_protein_g=filler_result.total_filler_protein_g,
+            filler_carb_g=filler_result.total_filler_carb_g,
+            filler_fat_g=filler_result.total_filler_fat_g,
+            filler_fiber_g=filler_result.total_filler_fiber_g,
+            score=best.total_score,
             target_kcal=slot.target_kcal,
             target_protein_g=slot.target_protein_g,
             target_carb_g=slot.target_carb_g,
             target_fat_g=slot.target_fat_g,
-            notes=[
-                f"Recipe '{best.recipe.name}' ({best.recipe.kcal:.0f} kcal) cannot be "
-                f"scaled to slot target ({slot.target_kcal:.0f} kcal) within ±40% — "
-                f"falling back to fillers-only meal."
-            ],
+            target_fiber_g=slot.target_fiber_g,
+            notes=fallback_notes,
         )
 
     # 4. Scale the recipe
@@ -290,7 +312,7 @@ def allocate_meal(
     )
 
     # 6. Select fillers
-    # Tier 3.37 fix: pass allergens_to_avoid through to filler selection so
+    # pass allergens_to_avoid through to filler selection so
     # dairy-allergic users don't get whey/yogurt/cottage-cheese fillers.
     # Map allergen categories to filler food names that should be excluded.
     allergen_filler_exclusions = _compute_allergen_filler_exclusions(allergens_to_avoid)
@@ -301,8 +323,8 @@ def allocate_meal(
         exclude_foods=allergen_filler_exclusions,
     )
 
-    # 7. Get swap options (Phase-6: forward allergens/excluded/cuisine so
-    # swap suggestions respect the same constraints as the primary allocation)
+    # 7. Get swap options — forward allergens/excluded/cuisine so swap
+    # suggestions respect the same constraints as the primary allocation.
     swap_options = get_recipe_swaps_for_plan(
         recipe=best.recipe,
         diet_tag=diet_tag,
@@ -332,7 +354,10 @@ def allocate_meal(
     notes.append(f"Score: {best.total_score:.1f}/100")
     if low_score_warning:
         notes.append(low_score_warning)
-    if scaled.scale_factor != 1.0:
+    # avoid exact float equality — scale_recipe may return a value
+    # like 0.9999999 or 1.0000001 due to floating-point rounding even when
+    # the recipe was effectively served at 1.0x.
+    if abs(scaled.scale_factor - 1.0) > 1e-9:
         notes.append(f"Scaled to {scaled.servings_display} ({scaled.scale_factor:.2f}x)")
     if filler_result.fillers:
         notes.extend(filler_result.notes)
@@ -359,7 +384,7 @@ def allocate_meal(
         target_protein_g=slot.target_protein_g,
         target_carb_g=slot.target_carb_g,
         target_fat_g=slot.target_fat_g,
-        target_fiber_g=slot.target_fiber_g,  # Phase-6 fix: expose in dict output
+        target_fiber_g=slot.target_fiber_g,  # expose in dict output
         swap_options=swap_options,
         ingredient_swaps=ingredient_swaps,
         notes=notes,
@@ -383,7 +408,7 @@ def selected_meal_to_dict(selected: SelectedMeal) -> dict:
             {
                 "food": {
                     "name": mf.food.name,
-                    # Phase-6 cleanup: FoodCategory is a (str, Enum) and always
+                    # FoodCategory is a (str, Enum) and always
                     # has ``.value``; the hasattr shim was unnecessary.
                     "category": mf.food.category.value,
                     "kcal_per_100g": mf.food.kcal_per_100g,
@@ -422,7 +447,7 @@ def selected_meal_to_dict(selected: SelectedMeal) -> dict:
             "protein_g": round(selected.target_protein_g, 1),
             "carb_g": round(selected.target_carb_g, 1),
             "fat_g": round(selected.target_fat_g, 1),
-            # Phase-6 fix: target_fiber_g was previously omitted, asymmetric
+            # target_fiber_g was previously omitted, asymmetric
             # vs the other target_*_g fields.
             "fiber_g": round(selected.target_fiber_g, 1),
         },

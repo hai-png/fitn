@@ -33,12 +33,7 @@ from .recipe_loader import (
     database_stats,
 )
 from .meal_templates import (
-    MEAL_ALLOCATIONS, MEAL_ORDER, MEAL_NAMES,
-    # Tier 3.41 fix: removed `get_meal_allocation` from this import — it was
-    # imported from BOTH meal_templates AND profile_requirements, with the
-    # profile_requirements version (which has the richer signature) winning.
-    # Phase-6 cleanup: the meal_templates version has now been deleted entirely
-    # (Batch 6). Only the profile_requirements version is exported.
+    MEAL_ORDER, MEAL_NAMES,
     get_meal_plan_template, get_meal_name,
 )
 # Allocator + planner (clean implementation)
@@ -99,10 +94,7 @@ __all__ = [
     "recipes_by_goal_fit", "recipes_by_kcal_range", "recipes_by_filters",
     "database_stats",
     # Templates
-    "MEAL_ALLOCATIONS", "MEAL_ORDER", "MEAL_NAMES",
-    # Phase-6 cleanup: removed ``get_meal_allocation`` from __all__ — the
-    # meal_templates version was deleted; the canonical version is exported
-    # under the "Profile requirements" section below.
+    "MEAL_ORDER", "MEAL_NAMES",
     "get_meal_plan_template", "get_meal_name",
     # Allocator + planner
     "SelectedMeal", "allocate_meal", "selected_meal_to_dict",

@@ -17,8 +17,6 @@ from ..models.assessment import (
     HealthRiskAssessment, HealthRiskLevel, ABSIRiskLevel,
 )
 from ..utils.units import cm_to_in, cm_to_m
-# Phase-6 fix: MEDICAL_DISCLAIMER now imported from _thresholds.py (single source
-# of truth; was duplicated inline at the bottom of assess_health_risk).
 from ._thresholds import MEDICAL_DISCLAIMER
 
 
@@ -87,7 +85,7 @@ def classify_whtr(whtr: float, sex: Sex) -> HealthRiskLevel:
         elif whtr >= 0.53:
             return HealthRiskLevel.HIGH
         elif whtr >= 0.50:
-            return HealthRiskLevel.MODERATE     # Phase-6: "take care" band
+            return HealthRiskLevel.MODERATE     # "take care" band
         elif whtr >= 0.43:
             return HealthRiskLevel.LOW          # "healthy"
         else:
@@ -98,7 +96,7 @@ def classify_whtr(whtr: float, sex: Sex) -> HealthRiskLevel:
         elif whtr >= 0.49:
             return HealthRiskLevel.HIGH
         elif whtr >= 0.46:
-            return HealthRiskLevel.MODERATE     # Phase-6: "take care" band
+            return HealthRiskLevel.MODERATE     # "take care" band
         elif whtr >= 0.42:
             return HealthRiskLevel.LOW
         else:
@@ -128,7 +126,7 @@ def compute_absi(waist_cm: float, weight_kg: float, height_cm: float) -> float:
 # These are approximate; the real tables are age-banded. The engine ships with
 # a simplified look-up that captures the broad age trend.
 #
-# Phase-6 fix: ACKNOWLEDGED SIMPLIFICATION — published NHANES reference tables
+# ACKNOWLEDGED SIMPLIFICATION — published NHANES reference tables
 # use 5-year age bands (e.g. 18-19, 20-24, 25-29, ...); the table below uses
 # 10-year bands (18-29, 30-39, ...). This was chosen to keep the constant table
 # small and to avoid hard-coding the full NHANES lookup (which would need to be
@@ -154,7 +152,7 @@ ABSI_REFERENCE = {
 
 def absi_z_score(absi: float, age: int, sex: Sex) -> float:
     """Compute ABSI z-score vs NHANES age/sex norms (simplified table)."""
-    # Phase-6 fix: iterate dict.items() directly (was iterating keys then
+    # iterate dict.items() directly (was iterating keys then
     # re-looking-up the value — O(2n) and obscured intent).
     for (band_sex, (lo, hi)), (mean, sd) in ABSI_REFERENCE.items():
         if band_sex == sex and lo <= age <= hi:
@@ -224,7 +222,7 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
     risk_factors: list[str] = []
 
     # WHR (requires waist + hip)
-    # Phase-6 fix: when hip_cm is missing for men, fall back to WHtR-only
+    # when hip_cm is missing for men, fall back to WHtR-only
     # (WHR for men is documented as optional in the profile, but the previous
     # branch silently dropped the WHR computation). We add an explicit note so
     # the assessment surfaces that WHR was skipped for lack of input.
@@ -240,7 +238,7 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
                 "elevated cardiometabolic risk."
             )
     elif profile.waist_cm is not None and profile.hip_cm is None:
-        # Phase-6 fix: surface the missing-hip fallback explicitly for BOTH
+        # surface the missing-hip fallback explicitly for BOTH
         # sexes. Previously this branch only fired for men — a woman missing
         # hip_cm (which is required for both her Navy BF% and WHR) got no
         # note at all, silently dropping the WHR computation.
@@ -291,7 +289,7 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
         risk_factors.append(f"BMI={bmi:.1f} (overweight) — monitor.")
 
     # Overall risk
-    # Phase-6 fix: previously WHR, WHtR, ABSI were counted equally (each 0/1).
+    # previously WHR, WHtR, ABSI were counted equally (each 0/1).
     # That over-weighted WHR (a weaker predictor) relative to ABSI (the
     # strongest mortality-risk predictor of the three). Now weighted:
     #   ABSI = 0.5  (strongest independent mortality predictor; Krakauer 2012)
@@ -319,7 +317,7 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
     elif risk_score >= 0.5:
         result.overall_risk = HealthRiskLevel.HIGH
     elif risk_factors:
-        # Phase-6 fix: filter out data-quality notes (e.g. "hip_cm not provided")
+        # filter out data-quality notes (e.g. "hip_cm not provided")
         # from the risk-factor check. Previously a healthy male user with no
         # actual risk factors but missing hip_cm ended up with overall_risk =
         # MODERATE purely because of the data-availability note — mixing
@@ -343,11 +341,7 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
         f"IBW (Robinson): {result.ibw_robinson_kg} kg",
         f"IBW (Miller): {result.ibw_miller_kg} kg",
         f"IBW (Hamwi): {result.ibw_hamwi_kg} kg",
-        # Tier 1.8 fix: removed false "Frame-size adjustment (wrist circumference)"
-        # note — the engine does not implement frame-size adjustment and
-        # UserProfile has no wrist_circumference field. Adding the note implied
-        # functionality that does not exist.
-        # Phase-6 fix: import MEDICAL_DISCLAIMER from _thresholds (single source).
+        # import MEDICAL_DISCLAIMER from _thresholds (single source).
         MEDICAL_DISCLAIMER,
     ]
     return result

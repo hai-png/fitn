@@ -57,10 +57,6 @@ class SplitType(str, Enum):
     PUSH_PULL = "push_pull"                  # 2-4 d/wk
 
 
-# Phase-6 cleanup: removed ``SplitPattern = SplitType`` alias (no production
-# callers — only re-exported by ``training/__init__.py``). Direct callers
-# should use ``SplitType``.
-
 
 # === Periodization ===
 
@@ -78,7 +74,6 @@ class ExerciseCategory(str, Enum):
     COMPOUND_PRIMARY = "compound_primary"
     COMPOUND_SECONDARY = "compound_secondary"
     ACCESSORY = "accessory"
-    ISOLATION = "isolation"                # alias for ACCESSORY (kept for backward-compat)
     CARDIO = "cardio"
     MOBILITY = "mobility"
 
@@ -170,6 +165,13 @@ class WorkoutExercise:
                 "video_url": self.exercise.video_url,
                 "video_thumbnail": self.exercise.video_thumbnail,
                 "source_url": self.exercise.source_url,
+                "default_sets": self.exercise.default_sets,
+                "default_reps": self.exercise.default_reps,
+                "default_rest_sec": self.exercise.default_rest_sec,
+                "notes": self.exercise.notes,
+                "video_id": self.exercise.video_id,
+                "views": self.exercise.views,
+                "exercise_type": self.exercise.exercise_type,
             },
             "sets": self.sets,
             "reps": self.reps,

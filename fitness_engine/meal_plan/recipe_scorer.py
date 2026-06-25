@@ -10,18 +10,22 @@ The scorer is the SINGLE SOURCE OF TRUTH for "how good a fit is this recipe
 for this slot?". The allocator calls it for every candidate and picks the
 highest-scoring one.
 
-Score component weights (Section 5.1 of design doc):
+Score component weights (Section 5.1 of design doc).
+Task 3-quickfixes #7: the previous table showed the pre-rescaling weights
+(which summed to 115) — it is now in sync with the WEIGHTS dict below
+(summing to exactly 100, see the assertion). Components are weighted by
+these values (0-100 scale per component), then summed.
 
 | Component        | Weight | Description                                   |
 |------------------|--------|-----------------------------------------------|
-| kcal_match       | 30     | Within ±20% = 100, ±40% = 50, >40% = 0        |
-| protein_match    | 25     | Within ±15% = 100, ±30% = 50, >30% = 0        |
-| carb_match       | 15     | Within ±20% = 100, ±40% = 50, >40% = 0        |
-| fat_match        | 10     | Within ±25% = 100, ±50% = 50, >50% = 0        |
-| diet_match       | 15     | 100 if diet matches, 0 if not (hard filter)   |
-| goal_fit         | 5      | 100 if matches, 50 if "maintenance", 0 other  |
-| fiber_match      | 5      | Within ±50% = 100, else linear                |
-| variety_bonus    | 5      | 100 if not used in last 3 days, 50 if 7 days  |
+| kcal_match       | 26     | Within ±20% = 100, ±40% = 50, >40% = 0        |
+| protein_match    | 22     | Within ±15% = 100, ±30% = 50, >30% = 0        |
+| carb_match       | 13     | Within ±20% = 100, ±40% = 50, >40% = 0        |
+| fat_match        | 9      | Within ±25% = 100, ±50% = 50, >50% = 0        |
+| diet_match       | 13     | 100 if diet matches, 0 if not (hard filter)   |
+| goal_fit         | 4      | 100 if matches, 50 if "maintenance", 0 other  |
+| fiber_match      | 4      | Within ±50% = 100, else linear                |
+| variety_bonus    | 4      | 100 if not used in last 3 days, 50 if 7 days  |
 | cuisine_match    | 5      | 100 if matches preference, 50 if no pref      |
 | allergen_penalty | -100   | Hard exclude if allergen present              |
 
@@ -31,26 +35,23 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Optional
 
 from ..models.meal import Recipe
 from .profile_requirements import MealSlotTarget
 
 
 # === Score component weights ===
-# Tier 3.39 fix: previously summed to 115 (not 100 as documented), causing
-# scores to exceed 100. Normalized to sum to exactly 100 by scaling each
-# weight by 100/115. MIN_ACCEPTABLE_SCORE (60) now correctly means 60%.
+# Weights normalized to sum to exactly 100. MIN_ACCEPTABLE_SCORE (60) means 60%.
 WEIGHTS = {
-    "kcal_match": 26,      # was 30 → 30*100/115 ≈ 26.1 → 26
-    "protein_match": 22,   # was 25 → 21.7 → 22
-    "carb_match": 13,      # was 15 → 13.0 → 13
-    "fat_match": 9,        # was 10 → 8.7 → 9
-    "diet_match": 13,      # was 15 → 13.0 → 13
-    "goal_fit": 4,         # was 5 → 4.3 → 4
-    "fiber_match": 4,      # was 5 → 4.3 → 4
-    "variety_bonus": 4,    # was 5 → 4.3 → 4
-    "cuisine_match": 5,    # was 5 → 4.3 → 5 (rounded up to make sum=100)
+    "kcal_match": 26,
+    "protein_match": 22,
+    "carb_match": 13,
+    "fat_match": 9,
+    "diet_match": 13,
+    "goal_fit": 4,
+    "fiber_match": 4,
+    "variety_bonus": 4,
+    "cuisine_match": 5,  # rounded up to make sum=100
     # allergen_penalty is applied as -100 (hard exclude)
 }
 # Verify sum is 100
@@ -222,7 +223,7 @@ def score_variety(recipe: Recipe, used_recipe_ids_last_3_days: set[str],
 
 # === Cuisine match ===
 
-def score_cuisine(recipe: Recipe, cuisine_preference: Optional[str]) -> float:
+def score_cuisine(recipe: Recipe, cuisine_preference: str | None) -> float:
     """
     Cuisine: 100 if matches preference, 50 if no preference, 0 if explicitly different.
 
@@ -242,36 +243,53 @@ def score_cuisine(recipe: Recipe, cuisine_preference: Optional[str]) -> float:
 # === Allergen check ===
 
 # Allergen keyword map (maps allergen category → ingredient keywords).
-# Tier 1.4 fix: matching is now done with word boundaries (regex \b) on BOTH
-# sides to prevent false positives like "eggplant" matching "egg", "butter
-# lettuce" matching "butter", "cream of tartar" matching "cream", "coconut
-# milk" matching "milk" for dairy-allergic users (coconut milk is dairy-free).
-# Plant qualifiers (almond, soy, oat, coconut, etc.) cause a keyword match to
-# be ignored for dairy/eggs, since the ingredient is plant-based.
+# matching uses word boundaries (regex \b) on BOTH sides to prevent false
+# positives like "eggplant" matching "egg", "butter lettuce" matching
+# "butter", "cream of tartar" matching "cream", "coconut milk" matching
+# "milk" for dairy-allergic users (coconut milk is dairy-free). Plant
+# qualifiers (almond, soy, oat, coconut, etc.) cause a keyword match to be
+# ignored for dairy/eggs, since the ingredient is plant-based.
 ALLERGEN_KEYWORDS: dict[str, list[str]] = {
     "dairy": ["milk", "cheese", "butter", "cream", "yogurt", "whey", "lactose",
               "ghee", "kibbeh", "niter kibbeh"],
     "gluten": ["wheat", "flour", "bread", "pasta", "couscous", "barley", "rye",
                "seitan", "bulgur", "farro", "spelt", "injera"],  # injera has gluten unless teff-only
     "soy": ["soy", "tofu", "tempeh", "edamame", "tamari", "soy sauce", "miso"],
-    "nuts": ["almond", "cashew", "walnut", "pecan", "hazelnut", "pistachio",
-             "brazil nut", "macadamia", "pine nut"],
+    # Plural forms are listed explicitly because the strict word-boundary
+    # regexes (\balmond\b, \bcashew\b, \bwalnut\b, …) do NOT match plurals
+    # ("almonds", "walnuts", "cashews"). Multi-word entries ("brazil nut",
+    # "pine nut") also need explicit plural forms because \bbrazil nut\b
+    # does not match "brazil nuts" (no word boundary between "nut" and "s").
+    # Mirrors the existing treatment of "egg"/"eggs" in the eggs category.
+    "nuts": ["almond", "almonds", "cashew", "cashews", "walnut", "walnuts",
+             "pecan", "pecans", "hazelnut", "hazelnuts", "pistachio", "pistachios",
+             "brazil nut", "brazil nuts", "macadamia", "macadamias",
+             "pine nut", "pine nuts"],
     "peanuts": ["peanut", "groundnut"],
-    "eggs": ["egg", "eggs", "mayonnaise", "meringue"],  # Tier 1.4: added plural
+    "eggs": ["egg", "eggs", "mayonnaise", "meringue"],  # plural
     "shellfish": ["shrimp", "prawn", "crab", "lobster", "crawfish", "langoustine"],
     "fish": ["salmon", "tuna", "cod", "tilapia", "sardine", "anchovy", "mackerel",
              "trout", "halibut", "fish"],
     "sesame": ["sesame", "tahini", "sesame oil"],
 }
 
+# FDA-standard allergen identifiers aliased to the engine's internal keys.
+# "crustacean" is the FDA's formal label for the shellfish category
+# (crustacean shellfish vs. mollusk shellfish); the engine's "shellfish"
+# list only contains crustaceans, so the alias is semantically correct.
+_ALLERGEN_ALIASES: dict[str, str] = {
+    "tree_nuts": "nuts",
+    "crustacean": "shellfish",
+    "crustaceans": "shellfish",
+}
+
 # Plant-based qualifiers that, when preceding a dairy/egg keyword, indicate
 # the ingredient is dairy-free/egg-free (e.g. "almond milk", "vegan butter",
 # "just egg", "flax egg"). For these allergens, a qualifier match suppresses
 # the violation.
-# Phase-6 cleanup: PLANT_QUALIFIERS / PLANT_NAMED_PHRASES now live in
-# ``_allergen_constants`` (single source of truth — previously this tuple was
-# duplicated across recipe_loader, recipe_scorer and swap_system and had
-# drifted). Imported here under the original local name for minimal diff.
+# PLANT_QUALIFIERS / PLANT_NAMED_PHRASES sourced from ``_allergen_constants``
+# (single source of truth). Imported here under the original local name for
+# minimal diff.
 from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS_FOR_ALLERGENS
 from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES_FOR_ALLERGENS
 
@@ -297,10 +315,26 @@ def check_allergens(recipe: Recipe, allergens_to_avoid: list[str]) -> list[str]:
     cocoa butter, etc.) suppress the violation, since those ingredients
     are dairy-free / egg-free.
 
-    Returns list of violated allergens (empty if none).
+    Task 9-engine-bug-fixes Bug 2: FDA-standard allergen identifiers
+    (e.g. "tree_nuts", "crustacean") are silently aliased to the
+    engine's internal keys (e.g. "nuts", "shellfish"). Previously,
+    passing "tree_nuts" returned ``[]`` for every recipe — a dangerous
+    false-negative for tree-nut allergies.
+
+    Returns list of violated allergens (empty if none). When an alias
+    is normalized, the violation is reported under the engine's internal
+    key (e.g. "nuts"), not the original alias (e.g. "tree_nuts").
     """
     if not allergens_to_avoid or not recipe.ingredients:
         return []
+
+    # normalize FDA-standard allergen identifiers to the engine's internal
+    # keys before scanning.
+    normalized = []
+    for a in allergens_to_avoid:
+        key = a.lower().strip() if isinstance(a, str) else a
+        normalized.append(_ALLERGEN_ALIASES.get(key, a))
+    allergens_to_avoid = normalized
 
     violations = []
     combined_ingredients = " ".join(recipe.ingredients).lower()
@@ -345,22 +379,12 @@ def check_allergens(recipe: Recipe, allergens_to_avoid: list[str]) -> list[str]:
 # should not match "nutmeg", "coconut", "hazelnut", "peanut" — those are
 # either a spice or different allergen categories). Mirrors the allergen
 # scanner's _PLANT_NAMED_PHRASES_FOR_ALLERGENS list.
-_PLANT_NAMED_PHRASES_FOR_EXCLUDED = (
-    "nutmeg", "coconut", "hazelnut", "peanut", "brazil nut", "walnut",
-    "pecan", "almond", "cashew", "pistachio", "macadamia",
-    "butter lettuce", "butterleaf", "buttercup squash",
-    "cream of tartar", "creamed corn", "coconut cream",
-    "almond butter", "peanut butter", "cashew butter", "sunflower butter",
-    "milk thistle", "milkweed",
-    "eggplant", "eggsplant",
-    # Plant-based alternatives (if a user excludes "egg" or "milk" they
-    # likely still want to allow flax egg, almond milk, etc. unless they
-    # also exclude the plant qualifier)
-    "just egg", "just eggs", "flax egg", "flax eggs", "chia egg", "chia eggs",
-    "egg replacer", "egg substitute", "vegan egg", "vegan eggs",
-    "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk",
-    "cashew milk", "hemp milk", "macadamia milk", "pea milk",
-)
+# Uses the canonical PLANT_NAMED_PHRASES from ``_allergen_constants`` (single
+# source of truth). The extra nut/spice/coconut entries are placed after the
+# multi-word phrases that contain them, so e.g. "almond butter" / "almond
+# milk" / "coconut milk" / "peanut butter" are blanked out before their
+# single-word root.
+_PLANT_NAMED_PHRASES_FOR_EXCLUDED = _PLANT_NAMED_PHRASES_FOR_ALLERGENS
 
 
 def check_excluded_ingredients(recipe: Recipe, excluded_ingredients: list[str]) -> list[str]:
@@ -372,6 +396,16 @@ def check_excluded_ingredients(recipe: Recipe, excluded_ingredients: list[str]) 
     (so excluding "egg" doesn't match "eggplant", excluding "cream" doesn't
     match "cream of tartar"). Mirrors the allergen scanner's Tier 1.4 fix.
 
+    Task 6-bug-fixes #3: when the user excludes a phrase that is itself a
+    plant-named phrase (e.g. "peanut butter"), the sanitization step must
+    NOT blank out that phrase (or its substrings) — otherwise the explicit
+    exclusion is silently swallowed and a recipe containing "peanut butter"
+    slips through. We build a per-ingredient sanitized string, skipping any
+    plant-named phrase that equals the excluded ingredient or is a substring
+    of it (so excluding "peanut butter" also leaves the single-word "peanut"
+    intact in the search string, which is required for the multi-word regex
+    to match).
+
     Returns list of found excluded ingredients.
     """
     if not excluded_ingredients or not recipe.ingredients:
@@ -380,16 +414,20 @@ def check_excluded_ingredients(recipe: Recipe, excluded_ingredients: list[str]) 
     found = []
     combined = " ".join(recipe.ingredients).lower()
 
-    # Build a sanitized string with plant-named phrases blanked out.
-    sanitized = combined
-    for phrase in _PLANT_NAMED_PHRASES_FOR_EXCLUDED:
-        sanitized = sanitized.replace(phrase, " " * len(phrase))
-
     for ing in excluded_ingredients:
         ing_lower = ing.lower().strip()
         if not ing_lower:
             continue
-        # Word-boundary regex match on the sanitized string.
+        # Build a per-ingredient sanitized string. Skip blanking out any
+        # plant-named phrase that equals the excluded ingredient or is a
+        # substring of it (so the multi-word excluded-ingredient regex can
+        # still match the original text).
+        sanitized = combined
+        for phrase in _PLANT_NAMED_PHRASES_FOR_EXCLUDED:
+            if ing_lower == phrase or phrase in ing_lower:
+                continue
+            sanitized = sanitized.replace(phrase, " " * len(phrase))
+        # Word-boundary regex match on the per-ingredient sanitized string.
         pat = re.compile(r"\b" + re.escape(ing_lower) + r"\b", re.IGNORECASE)
         if pat.search(sanitized):
             found.append(ing)
@@ -404,11 +442,11 @@ def score_recipe_for_slot(
     slot: MealSlotTarget,
     diet_tag: str,
     user_goal: str = "maintenance",
-    cuisine_preference: Optional[str] = None,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
-    used_recipe_ids_last_3_days: Optional[set[str]] = None,
-    used_recipe_ids_last_7_days: Optional[set[str]] = None,
+    cuisine_preference: str | None = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+    used_recipe_ids_last_3_days: set[str] | None = None,
+    used_recipe_ids_last_7_days: set[str] | None = None,
 ) -> RecipeScore:
     """
     Score a single recipe against a meal slot target.
@@ -489,11 +527,11 @@ def score_candidates(
     slot: MealSlotTarget,
     diet_tag: str,
     user_goal: str = "maintenance",
-    cuisine_preference: Optional[str] = None,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
-    used_recipe_ids_last_3_days: Optional[set[str]] = None,
-    used_recipe_ids_last_7_days: Optional[set[str]] = None,
+    cuisine_preference: str | None = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+    used_recipe_ids_last_3_days: set[str] | None = None,
+    used_recipe_ids_last_7_days: set[str] | None = None,
 ) -> list[RecipeScore]:
     """
     Score a list of candidate recipes for a slot.

@@ -7,12 +7,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
-# Phase-6 cleanup: hoisted from inside BodyComposition.__post_init__ and
-# MuscularPotential.__post_init__ (was a deferred import for no reason).
 import math
 
-# Phase-6 cleanup: shared JSON-serializer replaces the per-class ``_convert``
-# helper that was duplicated across assessment / nutrition models.
 from ..utils.serialize import convert_for_json
 
 
@@ -20,7 +16,6 @@ class BodyFatMethod(str, Enum):
     """Method used to compute body fat %."""
     USER_PROVIDED = "user_provided"
     NAVY = "navy"                  # US Navy circumference (Hodgdon & Beckett 1984)
-    BMI_JACKSON = "bmi_jackson"   # Jackson et al. 2002 (BMI-based)
     CUN_BAE = "cun_bae"            # Gomez-Ambrosi 2012
 
 
@@ -123,7 +118,7 @@ class MuscularPotential:
     """Assessment of muscular development relative to genetic potential."""
     current_ffmi: float
     current_normalized_ffmi: float
-    # Phase-6 fix: these literals mirror the canonical constants in
+    # these literals mirror the canonical constants in
     # assessment.muscular_potential (FFMI_NATURAL_COMMON/ATTAINABLE/LIKELY_MAX).
     # We can't import them at module top-level here because muscular_potential
     # imports MuscularPotential from this module (circular). The values are kept
@@ -136,7 +131,7 @@ class MuscularPotential:
     ffmi_to_ceiling_pct: float = 0.0                 # current / natural ceiling
     headroom_kg: float = 0.0                         # FFM kg remaining to ceiling
     expected_monthly_muscle_gain_kg: float = 0.0     # by training status
-    # Phase-6 fix: flag when normalized FFMI exceeds the natural ceiling
+    # flag when normalized FFMI exceeds the natural ceiling
     # (PED users, genetic outliers) so ffmi_to_ceiling_pct can be clamped to 100
     # without losing the signal that the user is over-ceiling.
     is_above_ceiling: bool = False
@@ -151,8 +146,7 @@ class MuscularPotential:
                 f"MuscularPotential.current_normalized_ffmi must be non-negative; "
                 f"got {self.current_normalized_ffmi}"
             )
-        # Phase-6 fix: enforce all numeric fields are non-negative AND non-NaN
-        # (was inconsistent — only first two fields had NaN checks).
+        # enforce all numeric fields are non-negative AND non-NaN.
         for fname, fval in (
             ("expected_monthly_muscle_gain_kg", self.expected_monthly_muscle_gain_kg),
             ("headroom_kg", self.headroom_kg),
@@ -163,8 +157,7 @@ class MuscularPotential:
                     f"MuscularPotential.{fname} must be non-negative and non-NaN; "
                     f"got {fval}"
                 )
-        # Phase-6 fix: ffmi_to_ceiling_pct is documented as ≤100; enforce both
-        # bounds (was previously only checking the lower bound).
+        # ffmi_to_ceiling_pct is documented as ≤100; enforce both bounds.
         if self.ffmi_to_ceiling_pct > 100:
             raise ValueError(
                 f"MuscularPotential.ffmi_to_ceiling_pct must be ≤100; "
@@ -184,8 +177,6 @@ class AssessmentResult:
 
     def to_dict(self) -> dict:
         """JSON-serializable view."""
-        # Phase-6 cleanup: uses the shared ``convert_for_json`` helper from
-        # ``utils.serialize`` (was a duplicated local ``_convert`` function).
         return convert_for_json(self)
 
 

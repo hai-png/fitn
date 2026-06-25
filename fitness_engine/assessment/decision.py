@@ -14,12 +14,10 @@ from ._thresholds import OPERATIONAL_BF_RANGE, HORMONAL_FLOOR, OBESE_THRESHOLD
 
 
 # === Cut/Bulk BF boundaries (men; women add +8 %) ===
-# Phase-6 fix: operational_lo/hi and obese_threshold are now sourced from
-# _thresholds.py (single source of truth). The previous duplication caused
-# drift risk if either module was updated independently.
-# Tier 4.48 fix: recomp_excellent lowered below obese_threshold so the
-# "excellent recomp potential" branch is actually reachable (was equal to
-# obese_threshold, so the safety override always fired first).
+# operational_lo/hi and obese_threshold are sourced from _thresholds.py
+# (single source of truth). recomp_excellent is set below obese_threshold so
+# the "excellent recomp potential" branch is actually reachable (otherwise
+# the safety override would always fire first).
 CUT_BULK_BOUNDARIES = {
     Sex.MALE: {
         "cut_floor":         HORMONAL_FLOOR[Sex.MALE],                # 10 — don't cut below this
@@ -28,7 +26,7 @@ CUT_BULK_BOUNDARIES = {
         "operational_lo":    OPERATIONAL_BF_RANGE[Sex.MALE][0],       # 10 (from _thresholds)
         "operational_hi":    OPERATIONAL_BF_RANGE[Sex.MALE][1],       # 20 (from _thresholds)
         "obese_threshold":   OBESE_THRESHOLD[Sex.MALE],                # 25 (from _thresholds)
-        "recomp_excellent":  23,         # Tier 4.48: was 25 (== obese_threshold, unreachable)
+        "recomp_excellent":  23,         # below obese_threshold so recomp branch is reachable
         "recomp_good_lo":    15,         # 15-23% → good recomp potential
         "recomp_limited":    15,         # <15% → limited recomp potential
         "skinny_fat_lo":     12,
@@ -41,7 +39,7 @@ CUT_BULK_BOUNDARIES = {
         "operational_lo":    OPERATIONAL_BF_RANGE[Sex.FEMALE][0],     # 18 (from _thresholds)
         "operational_hi":    OPERATIONAL_BF_RANGE[Sex.FEMALE][1],     # 28 (from _thresholds)
         "obese_threshold":   OBESE_THRESHOLD[Sex.FEMALE],              # 32 (from _thresholds)
-        "recomp_excellent":  30,         # Tier 4.48: was 35 (> obese_threshold=32, unreachable)
+        "recomp_excellent":  30,         # below obese_threshold so recomp branch is reachable
         "recomp_good_lo":    25,
         "recomp_limited":    25,
         "skinny_fat_lo":     20,
@@ -54,7 +52,6 @@ def decide_strategy(
     profile: UserProfile,
     body_fat_pct: float,
     bmi: float,
-    has_measurements: bool = True,  # Tier 4.44: kept for backward compat but unused
 ) -> tuple[RecommendedStrategy, str]:
     """
     Decide cut/bulk/recomp/maintenance recommendation.
@@ -65,19 +62,8 @@ def decide_strategy(
       2. If user set an explicit primary_goal, respect it (unless unsafe).
       3. Otherwise, apply RippedBody + FatCalc decision rules.
 
-    Tier 4.44: `has_measurements` parameter is accepted for backward compat
-    but not used (was previously dead — the function never consulted it).
-
-    Phase-6 cleanup: DEPRECATION — ``has_measurements`` will be removed in a
-    future major version. New callers should omit it. Existing callers (e.g.
-    ``assessor.py``) are tolerated but the value is discarded silently.
-
     Returns (strategy, rationale).
     """
-    # Tier 4.44: suppress unused-parameter warning; the param is kept so
-    # existing callers (assessor.py) don't break.
-    _ = has_measurements
-
     b = CUT_BULK_BOUNDARIES[profile.sex]
 
     # === SAFETY OVERRIDES (always apply first) ===
@@ -101,9 +87,27 @@ def decide_strategy(
 
     # === Honor explicit user goal (with safety checks) ===
     if profile.primary_goal == PrimaryGoal.MAINTENANCE:
-        return RecommendedStrategy.MAINTENANCE, "User goal is maintenance."
+        # Surface a health concern when the user requests MAINTENANCE but
+        # BF% is outside the healthy operational range. We do NOT override
+        # the user's goal (preserves autonomy) — we append a ⚠ note to the
+        # rationale so the concern is visible to the caller/UI. The obese
+        # case is already handled by the safety override above (returns
+        # CUT/HABIT_CHANGE_FIRST), so by the time we reach here
+        # body_fat_pct < obese_threshold is guaranteed.
+        rationale = "User goal is maintenance."
+        if body_fat_pct < HORMONAL_FLOOR[profile.sex]:
+            rationale += (
+                " ⚠ BF% below hormonal floor — consider a slow bulk to "
+                "restore healthy hormone function."
+            )
+        elif body_fat_pct > b["operational_hi"]:
+            rationale += (
+                " ⚠ BF% above operational ceiling — consider a small "
+                "cut to bring into healthy range."
+            )
+        return RecommendedStrategy.MAINTENANCE, rationale
 
-    # Tier 2.18: STRENGTH goal — treat like maintenance (calorie-neutral) so
+    # STRENGTH goal — treat like maintenance (calorie-neutral) so
     # the user can focus on neural/strength adaptations without weight change.
     # If BF% is above bulk_ceiling, cut first for health.
     if profile.primary_goal == PrimaryGoal.STRENGTH:
@@ -160,11 +164,9 @@ def decide_strategy(
             )
 
     # === Auto-decide when no explicit goal override ===
-    # Phase-6 fix: the obese branch was previously dead code — the safety
-    # override on lines 85-100 already returns HABIT_CHANGE_FIRST (beginner
-    # + non-FAT_LOSS goal) or CUT (otherwise) for ALL obese users. By the
-    # time execution reaches here, body_fat_pct < obese_threshold is
-    # guaranteed. The dead block was removed.
+    # By the time execution reaches here, body_fat_pct < obese_threshold is
+    # guaranteed (obese users are handled by the safety override above), so
+    # the auto-decide tree only needs to cover the non-obese cases.
 
     # Overweight (between operational_hi and obese_threshold) → Cut
     if body_fat_pct > b["operational_hi"]:

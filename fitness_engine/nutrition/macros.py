@@ -10,13 +10,14 @@ Sources:
 """
 from __future__ import annotations
 
-from typing import Optional
+import math
 
-from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal
+from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal, DietType
 from ..models.assessment import RecommendedStrategy
 from ..models.nutrition import MacroSplit, CalorieTargets, CalorieStrategy
-# Phase-6 cleanup: hoisted from inside ``compute_protein`` (no circular dep).
 from ..assessment.decision import CUT_BULK_BOUNDARIES
+# use shared unit conversion helper.
+from ..utils.units import kg_to_lb
 
 
 # === Energy densities (kcal/g) ===
@@ -39,24 +40,36 @@ FAT_PCT_RANGES = {
 # === Fat floors (absolute) ===
 FAT_ABSOLUTE_FLOOR_G = 40          # general floor
 FAT_PER_LB_FLOOR = 0.25            # 0.25 g/lb body weight (alt floor)
-# Tier 4.44 fix: removed FAT_PER_KG_FLOOR — dead code (never referenced;
-# actual floor computation uses FAT_PER_LB_FLOOR).
 
 # Saturated fat ceiling (% of total calories)
 SATURATED_FAT_CEILING_PCT = 0.10
 
-# Phase-6 fix: named constant for the obese-override protein rule. Previously
-# the code used `float(height_cm)` directly as protein grams — a cm→g unit
-# coincidence (1 g protein per cm of height) that works but is opaque. The
-# constant makes the rule explicit.
+# cut-phase protein target when BF% is unknown is set
+# to a fraction of CURRENT body weight as a proxy for TARGET body weight
+# (the user is cutting, so their target is lower than current). 0.90 is a
+# reasonable approximation (a 10% drop is a typical first-cut goal); the
+# exact target weight is unknown without BF% so this is intentionally a
+# rough heuristic, not a hard rule.
+CUT_TARGET_WEIGHT_PCT_OF_CURRENT = 0.90
+
+# named constant for the obese-override protein rule: 1 g protein per cm
+# of height (a cm→g unit coincidence that works but is opaque without a
+# named constant).
 PROTEIN_G_PER_CM_HEIGHT_OBESE = 1.0
+
+# plant protein has lower bioavailability (PDCAAS / DIAAS) than animal
+# protein, so vegan/vegetarian targets are boosted to compensate.
+# Vegan +20% (pure plant); vegetarian +10% (dairy/eggs are higher quality
+# than plant-only). Rounded UP because partial grams don't help.
+VEGAN_PROTEIN_BOOST = 1.20
+VEGETARIAN_PROTEIN_BOOST = 1.10
 
 
 # === Protein ===
 
 def compute_protein(
     profile: UserProfile,
-    body_fat_pct: Optional[float],
+    body_fat_pct: float | None,
     strategy: RecommendedStrategy,
     target_calories: float,
 ) -> tuple[float, list[str]]:
@@ -71,34 +84,24 @@ def compute_protein(
           Cut: 1.0 g/lb target body weight (2.2 g/kg)
           Bulk/Recomp: 0.73 g/lb body weight (1.6 g/kg)
       - Obese override: 1 g per cm of height
-      - Vegan override: +20% (Phase-2)
+      - Vegan override: +20% (Phase-2) — lower plant-protein bioavailability
+      - Vegetarian override: +10% — dairy/eggs are higher quality than plant-only
 
     Returns (protein_g, notes).
     """
     notes: list[str] = []
-    weight_lb = profile.weight_kg * 2.2046226218
+    weight_lb = kg_to_lb(profile.weight_kg)
     height_cm = profile.height_cm
 
-    # Phase-6 fix: body_fat_pct is now Optional[float]. The BF%-unknown path
-    # (lines 108-132) was previously dead code because the guard at line 94
-    # used `or` (always True when either source had a value, which is always
-    # the case since compute_macros passes body_fat_pct explicitly). Now we
-    # use `and` so the BF%-unknown path is reachable when both are None.
+    # body_fat_pct is `float | None`. The BF%-unknown path is reachable
+    # only when both `body_fat_pct` and `profile.body_fat_pct` are None.
     effective_bf = body_fat_pct if body_fat_pct is not None else profile.body_fat_pct
 
-    # Tier 2.13 fix: use BF% (consistent with assessment's decision tree) instead
-    # of BMI proxy. Previously a 100kg 175cm 12%BF bodybuilder (BMI=32.7) was
-    # flagged as obese and got protein capped at 1 g/cm height (~175g instead
-    # of the LBM-based ~250g). Now we use the same `obese_threshold` from
-    # CUT_BULK_BOUNDARIES that the assessment subsystem uses (25% M / 32% F).
-    # Phase-6 cleanup: ``CUT_BULK_BOUNDARIES`` now imported at module top.
     obese_threshold = CUT_BULK_BOUNDARIES[profile.sex]["obese_threshold"]
     obese = effective_bf is not None and effective_bf >= obese_threshold
 
     # Obese override: 1 g per cm of height
     if obese and effective_bf is not None:
-        # Phase-6 fix: named constant replaces the opaque `float(height_cm)`
-        # (which worked by cm→g coincidence: 1 g protein per cm height).
         protein_g = height_cm * PROTEIN_G_PER_CM_HEIGHT_OBESE
         notes.append(
             f"Obese override (BF%={effective_bf:.1f}% ≥ {obese_threshold}% threshold): "
@@ -106,12 +109,12 @@ def compute_protein(
             f"= {protein_g:.0f} g "
             "(avoids excessive intake based on body weight)."
         )
-        return protein_g, notes
+        return _apply_diet_type_protein_adjustment(profile, protein_g, notes)
 
     # BF%-known path (use LBM)
     if effective_bf is not None:
         lbm_kg = profile.weight_kg * (1 - effective_bf / 100)
-        lbm_lb = lbm_kg * 2.2046226218
+        lbm_lb = kg_to_lb(lbm_kg)
         if strategy == RecommendedStrategy.CUT:
             protein_g = lbm_lb * 1.14
             notes.append(
@@ -123,12 +126,12 @@ def compute_protein(
                 f"{strategy.value.capitalize()}: 1.0 g/lb LBM × {lbm_lb:.1f} lb "
                 f"= {protein_g:.0f} g"
             )
-        return protein_g, notes
+        return _apply_diet_type_protein_adjustment(profile, protein_g, notes)
 
     # BF% unknown path (use body weight / target)
     if strategy == RecommendedStrategy.CUT:
-        # Use target body weight — approximate as current weight × (1 - 0.10)
-        target_weight_lb = weight_lb * 0.90
+        # Use target body weight — approximate as current weight × CUT_TARGET_WEIGHT_PCT_OF_CURRENT
+        target_weight_lb = weight_lb * CUT_TARGET_WEIGHT_PCT_OF_CURRENT
         protein_g = target_weight_lb * 1.0
         notes.append(
             f"Cut (BF% unknown): 1.0 g/lb target weight × {target_weight_lb:.1f} lb "
@@ -149,6 +152,43 @@ def compute_protein(
             "— consider this as alternative target."
         )
 
+    return _apply_diet_type_protein_adjustment(profile, protein_g, notes)
+
+
+# === Diet-type protein adjustment ===
+
+def _apply_diet_type_protein_adjustment(
+    profile: UserProfile,
+    protein_g: float,
+    notes: list[str],
+) -> tuple[float, list[str]]:
+    """Apply the vegan / vegetarian protein-target boost.
+
+    Plant protein is less bioavailable than animal protein (lower PDCAAS /
+    DIAAS), so the RippedBody g/lb targets — which assume animal protein —
+    under-shoot for plant-based diets. We boost the target by:
+      - +20% for VEGAN (pure plant)
+      - +10% for VEGETARIAN (dairy + eggs are higher quality than plant-only)
+      -  0% for OMNIVORE (no adjustment)
+
+    Result is rounded UP (``math.ceil``) because fractional grams don't help
+    and we'd rather over-shoot slightly than under-shoot for plant protein.
+    """
+    if profile.diet_type == DietType.VEGAN:
+        adjusted = float(math.ceil(protein_g * VEGAN_PROTEIN_BOOST))
+        notes.append(
+            f"Protein target +20% (vegan diet — lower plant-protein bioavailability): "
+            f"{protein_g:.0f} → {adjusted:.0f} g"
+        )
+        return adjusted, notes
+    if profile.diet_type == DietType.VEGETARIAN:
+        adjusted = float(math.ceil(protein_g * VEGETARIAN_PROTEIN_BOOST))
+        notes.append(
+            f"Protein target +10% (vegetarian diet): "
+            f"{protein_g:.0f} → {adjusted:.0f} g"
+        )
+        return adjusted, notes
+    # OMNIVORE (and any future diets not yet opted in): no adjustment.
     return protein_g, notes
 
 
@@ -178,7 +218,7 @@ def compute_fat(
     fat_from_pct = target_calories * pct / KCAL_PER_GRAM["fat"]
 
     # Absolute floor
-    weight_lb = profile.weight_kg * 2.2046226218
+    weight_lb = kg_to_lb(profile.weight_kg)
     floor_from_per_lb = weight_lb * FAT_PER_LB_FLOOR
     floor = max(FAT_ABSOLUTE_FLOOR_G, floor_from_per_lb)
 
@@ -287,52 +327,65 @@ def compute_macros(
 
 # === Macro adjustment utilities ===
 
-def cut_macro_adjustment(calorie_delta_kcal: float) -> tuple[float, float, str]:
+def _distribute_macro_delta(
+    calorie_delta_kcal: float,
+    carb_ratio: float,
+    fat_ratio: float,
+    description: str,
+) -> tuple[float, float, str]:
+    """Shared helper for `cut_macro_adjustment` and `bulk_macro_adjustment`.
+
+    Distributes `calorie_delta_kcal` across carbs and fat using the fractional
+    shares `carb_ratio` and `fat_ratio` (e.g. 2/3 and 1/3 for a 2:1 split).
+    Appends `description` to the explanation (e.g. "(2:1 carbs:fat ratio)").
+
+    Returns `(carb_g_delta, fat_g_delta, explanation)`. The g-deltas inherit
+    the sign of `calorie_delta_kcal`: a negative delta (cut) yields negative
+    g-deltas; a positive delta (surplus) yields positive g-deltas.
     """
-    Distribute a calorie cut across macros: 2:1 carbs:fat (RippedBody).
-    Returns (carb_g_delta, fat_g_delta, explanation).
-    """
-    # 2/3 from carbs, 1/3 from fat (by calories)
-    carb_kcal = abs(calorie_delta_kcal) * 2 / 3
-    fat_kcal = abs(calorie_delta_kcal) * 1 / 3
-    carb_g = carb_kcal / 4
-    fat_g = fat_kcal / 9
+    total = abs(calorie_delta_kcal)
+    carb_kcal = total * carb_ratio
+    fat_kcal = total * fat_ratio
+    carb_g = carb_kcal / KCAL_PER_GRAM["carb"]
+    fat_g = fat_kcal / KCAL_PER_GRAM["fat"]
     sign = "-" if calorie_delta_kcal < 0 else "+"
     explanation = (
         f"{sign}{abs(calorie_delta_kcal):.0f} kcal: "
         f"{sign}{carb_g:.0f} g carbs ({sign}{carb_kcal:.0f} kcal) + "
         f"{sign}{fat_g:.0f} g fat ({sign}{fat_kcal:.0f} kcal) "
-        "(2:1 carbs:fat ratio)"
+        f"{description}"
     )
     if calorie_delta_kcal < 0:
         return -carb_g, -fat_g, explanation
     return carb_g, fat_g, explanation
+
+
+def cut_macro_adjustment(calorie_delta_kcal: float) -> tuple[float, float, str]:
+    """
+    Distribute a calorie cut across macros: 2:1 carbs:fat (RippedBody).
+    Returns (carb_g_delta, fat_g_delta, explanation).
+    """
+    return _distribute_macro_delta(
+        calorie_delta_kcal, 2 / 3, 1 / 3, "(2:1 carbs:fat ratio)"
+    )
 
 
 def bulk_macro_adjustment(calorie_delta_kcal: float) -> tuple[float, float, str]:
     """
     Distribute a bulk calorie increase across macros: 3:1 carbs:fat (RippedBody).
     """
-    carb_kcal = abs(calorie_delta_kcal) * 3 / 4
-    fat_kcal = abs(calorie_delta_kcal) * 1 / 4
-    carb_g = carb_kcal / 4
-    fat_g = fat_kcal / 9
-    sign = "+" if calorie_delta_kcal > 0 else "-"
-    explanation = (
-        f"{sign}{abs(calorie_delta_kcal):.0f} kcal: "
-        f"{sign}{carb_g:.0f} g carbs ({sign}{carb_kcal:.0f} kcal) + "
-        f"{sign}{fat_g:.0f} g fat ({sign}{fat_kcal:.0f} kcal) "
-        "(3:1 carbs:fat ratio for bulk)"
+    return _distribute_macro_delta(
+        calorie_delta_kcal, 3 / 4, 1 / 4, "(3:1 carbs:fat ratio for bulk)"
     )
-    if calorie_delta_kcal < 0:
-        return -carb_g, -fat_g, explanation
-    return carb_g, fat_g, explanation
 
 
 __all__ = [
     "KCAL_PER_GRAM", "FAT_PCT_RANGES",
     "FAT_ABSOLUTE_FLOOR_G", "FAT_PER_LB_FLOOR", "SATURATED_FAT_CEILING_PCT",
     "PROTEIN_G_PER_CM_HEIGHT_OBESE",
-    "compute_protein", "compute_fat", "compute_carbs",
+    "VEGAN_PROTEIN_BOOST", "VEGETARIAN_PROTEIN_BOOST",
+    "CUT_TARGET_WEIGHT_PCT_OF_CURRENT",
+    "compute_protein", "_apply_diet_type_protein_adjustment",
+    "compute_fat", "compute_carbs",
     "compute_macros", "cut_macro_adjustment", "bulk_macro_adjustment",
 ]

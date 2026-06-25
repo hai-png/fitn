@@ -50,10 +50,9 @@ def linear_progression_next(
     all_at_target = all(reps >= high for reps in last_reps_achieved)
 
     if all_at_target and len(last_reps_achieved) >= 1:
-        # Tier 2.28 fix: was `>= 3`, which meant 2-set exercises (common for
-        # accessories, deloads, isolation) could never trigger progression.
-        # Now `>= 1` — any exercise with at least 1 set can progress when all
-        # sets hit the top of the rep target.
+        # `>= 1` (not `>= 3`) so 2-set exercises (accessories, deloads,
+        # isolation) can also trigger progression when all sets hit the top
+        # of the rep target.
         next_weight = current_weight_kg + increment_kg
         return next_weight, (
             f"All sets achieved {high}+ reps → +{increment_kg}kg "
@@ -81,9 +80,19 @@ def dup_next(
     Daily Undulating Periodization: rotate heavy/moderate/light days.
 
     Each day type progresses independently with linear progression rules.
+
+    Task 5-vegan-override #4: the per-day rep targets now match the relative
+    DUP modifiers in ``periodization._DUP_DAY_MODIFIERS`` (applied to the
+    base hypertrophy rep range "5-8"):
+      - heavy   = 50-70% of 5-8 → 3-6 reps  (was 3-5 — fixed-target, inconsistent)
+      - moderate = 100% of 5-8 → 5-8 reps   (was 8-10)
+      - light    = 150-180% of 5-8 → 8-14 reps (was 12-15)
+    The previous fixed-target dict defined "heavy" as 3-5 reps, which is fine
+    in isolation but inconsistent with ``apply_periodization`` which scales
+    the base rep range by the heavy multiplier (0.5-0.7) — i.e. heavy = 3-6.
     """
     next_state = {}
-    targets = {"heavy": (3, 5), "moderate": (8, 10), "light": (12, 15)}
+    targets = {"heavy": (3, 6), "moderate": (5, 8), "light": (8, 14)}
     for day_type, weight in current_weights.items():
         reps = last_reps.get(day_type, [])
         if reps:
@@ -101,6 +110,3 @@ __all__ = [
     "linear_progression_next", "dup_next",
 ]
 
-# Phase-6 cleanup: removed ``double_progression_next`` (dead code — referenced
-# only by tests, never called from production code). The RIR-based progression
-# model in ``intensity_model.RIR_TABLE`` is what the architect actually uses.

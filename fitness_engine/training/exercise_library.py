@@ -18,6 +18,7 @@ properties that delegate to the lazy accessors.
 """
 from __future__ import annotations
 
+import dataclasses
 from functools import lru_cache
 from typing import Optional
 
@@ -30,11 +31,9 @@ from .exercise_loader import (
 )
 
 
-# === Lazy accessors (Tier 3.34) ===
-# The JSON is ~3 MB and parsing takes ~50 ms. Previously this happened at
-# module import, slowing test startup and preventing monkey-patching.
-# Now the first call to get_exercises() pays the cost; subsequent calls
-# hit the lru_cache.
+# === Lazy accessors ===
+# The JSON is ~3 MB and parsing takes ~50 ms. The first call to
+# get_exercises() pays the cost; subsequent calls hit the lru_cache.
 
 @lru_cache(maxsize=1)
 def get_exercises() -> tuple[Exercise, ...]:
@@ -62,16 +61,23 @@ def _clear_exercise_cache() -> None:
     but NOT the `_load_raw_db` and `_build_indexes` caches in
     `exercise_loader`. Tests that monkey-patched the JSON path saw
     stale data from those caches. Now also clears them.
+
+    Phase-6 consolidation: also clears the movement-pattern cache in
+    `exercise_categorization` so tests that swap the exercise JSON also
+    invalidate pattern detection.
     """
     get_exercises.cache_clear()
     get_exercise_index.cache_clear()
     get_exercise_slug_index.cache_clear()
-    # Phase-6 fix: clear the loader-level caches too — they hold the raw
+    # clear the loader-level caches too — they hold the raw
     # parsed JSON and the by-id/by-slug indexes. Without this, a test that
     # points to a different JSON file still sees the previous data.
     from . import exercise_loader
     exercise_loader._load_raw_db.cache_clear()
     exercise_loader._build_indexes.cache_clear()
+    # clear the categorization pattern cache too.
+    from .exercise_categorization import _clear_pattern_cache
+    _clear_pattern_cache()
 
 
 # === Backward-compat module-level accessors ===
@@ -220,9 +226,8 @@ def exercises_by_force_type(force_type: str) -> list[Exercise]:
 
 
 # === Convenience aliases for backward compatibility ===
-# Phase-1 had specific exercises referenced by the planner. Map them to
-# the closest matching slug in the new DB so existing planner templates
-# continue to work.
+# Legacy exercise names (used by older planner templates) mapped to the
+# closest matching slug in the current DB so those templates keep working.
 
 PHASE1_TO_PHASE2_SLUG_MAP = {
     # Squat pattern
@@ -270,12 +275,13 @@ PHASE1_TO_PHASE2_SLUG_MAP = {
     "Hanging Leg Raise": "hanging-leg-raise",
     "Plank": "hover",
     "Russian Twist": "russian-twist",
-    # Cardio (new DB has limited cardio; map to closest equivalents)
-    "Incline Walk": "sled-push",          # closest cardio equivalent
-    "Cycling (moderate)": "concept-2-rowing-machine",  # placeholder
+    # Cardio (new DB has limited cardio; map to closest equivalents).
+    # Three Phase-1 cardio names ("Incline Walk", "Cycling (moderate)",
+    # "Swimming") have NO Phase-2 equivalent — callers get None from
+    # ``get_exercise_by_phase1_name`` (correct: no equivalent available).
+    # "Rowing Machine" stays mapped — the concept-2-rower slug IS the
+    # rowing machine (correct mapping).
     "Rowing Machine": "concept-2-rowing-machine",
-    "Swimming": "concept-2-rowing-machine",  # placeholder
-    # Phase-1 referenced "Leg Press" which didn't exist; now it does
     "Leg Press": "45-degree-leg-press",
 }
 
@@ -292,33 +298,11 @@ def get_exercise_by_phase1_name(name: str) -> Optional[Exercise]:
     if slug:
         ex = get_exercise_by_slug(slug)
         if ex:
-            # Override the display name to match the Phase-1 name
-            # (so the planner output stays readable for users familiar
-            # with Phase-1).
-            return Exercise(
-                name=name,
-                category=ex.category,
-                muscle_groups=ex.muscle_groups,
-                equipment=ex.equipment,
-                default_sets=ex.default_sets,
-                default_reps=ex.default_reps,
-                default_rest_sec=ex.default_rest_sec,
-                notes=ex.notes,
-                slug=ex.slug,
-                source_url=ex.source_url,
-                video_url=ex.video_url,
-                video_id=ex.video_id,
-                video_thumbnail=ex.video_thumbnail,
-                views=ex.views,
-                instructions=ex.instructions,
-                tips=ex.tips,
-                overview=ex.overview,
-                secondary_muscles=ex.secondary_muscles,
-                experience_level=ex.experience_level,
-                force_type=ex.force_type,
-                mechanics=ex.mechanics,
-                exercise_type=ex.exercise_type,
-            )
+            # Override the display name to match the Phase-1 name (so the
+            # planner output stays readable for users familiar with Phase-1).
+            # ``dataclasses.replace`` does this in one line and stays in sync
+            # if fields are added to Exercise in the future.
+            return dataclasses.replace(ex, name=name)
     # Fall back to general lookup
     return get_exercise(name)
 

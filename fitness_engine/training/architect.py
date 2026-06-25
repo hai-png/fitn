@@ -60,8 +60,6 @@ from .periodization import (
     get_block_phases_for_program,
 )
 from .exercise_library import EXERCISES
-# Phase-6 cleanup: hoisted from inside ``build_training_plan`` (deferred
-# imports for no reason — these submodules have no circular dep on architect).
 from .volume_landmarks import (
     validate_weekly_volume,
     VolumeTier,
@@ -74,10 +72,6 @@ from .volume_landmarks import (
 _log = logging.getLogger(__name__)
 
 
-# Phase-6 cleanup: ``_MUSCLE_ALIASES`` was previously defined twice — once
-# locally inside ``_apply_muscle_focus`` (no ``abs`` entry) and once inside
-# ``build_training_plan`` as ``_ALIASES_FOR_VOLUME`` (with ``abs``). The two
-# had drifted; consolidated here as a single module-level source of truth.
 _MUSCLE_ALIASES: dict[str, list[str]] = {
     "back": ["upper_back", "lats", "lower_back", "middle_back", "traps"],
     "chest": ["chest"],
@@ -86,8 +80,31 @@ _MUSCLE_ALIASES: dict[str, list[str]] = {
     "legs": ["quads", "hamstrings", "glutes", "calves"],
     "abs": ["abs", "obliques"],
 }
-# Legacy alias kept for the volume-notes call site (minimal diff).
-_ALIASES_FOR_VOLUME = _MUSCLE_ALIASES
+
+
+# precompute template-name indices at module load so
+# that ``_build_mesocycle`` (name → day_type) and ``_find_rest_days_for_workouts``
+# (name → split) don't have to re-walk ``ALL_SPLITS`` every call.
+#
+# Note: a single ``{name: day_type}`` index would only serve ``_build_mesocycle``
+# (which needs day_type); ``_find_rest_days_for_workouts`` needs the *split*
+# (to read its ``rest_days``). So we expose two complementary indices.
+_TEMPLATE_NAME_INDEX: dict[str, str] = {
+    t.name: t.day_type
+    for split in ALL_SPLITS
+    for t in split.templates
+}
+_TEMPLATE_NAME_TO_SPLIT: dict[str, SplitDesign] = {
+    t.name: split
+    for split in ALL_SPLITS
+    for t in split.templates
+}
+
+
+# Named constants for workout-duration math.
+# 45 min base = warmup + transitions; 8 min per exercise = ~3 sets × 2.5 min.
+WORKOUT_BASE_DURATION_MIN = 45
+WORKOUT_MIN_PER_EXERCISE = 8
 
 
 # === Step 1: derive training goal ===
@@ -110,7 +127,7 @@ def _derive_training_goal(profile: UserProfile, assessment: AssessmentResult) ->
     """
     strategy = assessment.recommended_strategy
 
-    # Tier 2.18: honor explicit STRENGTH goal when it's safe to do so.
+    # honor explicit STRENGTH goal when it's safe to do so.
     # The assessment's safety overrides (CUT for obese users, HABIT_CHANGE_FIRST
     # for obese beginners) always take precedence. But for maintenance/bulk/
     # recomp strategies, a user who explicitly wants strength gets it.
@@ -163,7 +180,7 @@ def _pick_split(
     candidates = get_splits_for_days(days_per_week)
 
     if not candidates:
-        # Phase-6 fix: raise ValueError for unsupported frequencies (1, 7 days).
+        # raise ValueError for unsupported frequencies (1, 7 days).
         # Previously silently fell back to a different day-count split, which
         # meant `TrainingPlan.training_days_per_week` lied and `rest_days`
         # were misaligned. Supported: 2, 3, 4, 5, 6 days/week.
@@ -233,7 +250,7 @@ def _pick_progression(
     intermediate strength athletes got DUP, which is suboptimal for peaking
     strength.
     """
-    # Phase-6: strength goal → block periodization for non-beginners
+    # strength goal → block periodization for non-beginners
     if goal == TrainingGoal.STRENGTH and experience in (
         TrainingStatus.INTERMEDIATE, TrainingStatus.ADVANCED,
     ):
@@ -350,9 +367,9 @@ def _apply_muscle_focus(
 
     # For each focus muscle, distribute the accessory slots across the workouts
     # that already train it
-    # Tier 2.19 fix: muscle group alias map. 'back' expands to ['upper_back',
+    # muscle group alias map. 'back' expands to ['upper_back',
     # 'lats', 'lower_back', 'middle_back', 'traps'] so that slot matching works.
-    # Phase-6 cleanup: ``_MUSCLE_ALIASES`` now defined once at module top
+    # ``_MUSCLE_ALIASES`` now defined once at module top
     # (was duplicated as ``_ALIASES_FOR_VOLUME`` further down — and that copy
     # had ``abs`` while this one didn't, causing inconsistent alias expansion).
     for muscle in muscle_focus:
@@ -362,7 +379,7 @@ def _apply_muscle_focus(
             _log.warning("Unknown muscle_focus '%s' — skipping", muscle)
             continue
 
-        # Tier 2.19 fix: expand aliases so 'back' matches 'upper_back'/'lats' slots
+        # expand aliases so 'back' matches 'upper_back'/'lats' slots
         muscle_variants = _MUSCLE_ALIASES.get(muscle_lower, [muscle_lower])
 
         # Find which templates already train this muscle (or any alias)
@@ -376,7 +393,7 @@ def _apply_muscle_focus(
 
         if not matching_templates:
             # Add to all templates that target upper/lower body accordingly
-            # Tier 2.19 fix: include the actual muscle tag names used in slots
+            # include the actual muscle tag names used in slots
             upper_muscles = {
                 "chest", "back", "shoulders", "biceps", "triceps", "arms",
                 "upper_back", "lats", "lower_back", "middle_back", "traps",
@@ -445,10 +462,8 @@ def _build_workout_from_template(
             notes="focus emphasis" if slot.is_focus_emphasis else "",
         ))
 
-    # Tier 4.53 fix: extracted magic numbers to named constants.
-    # 45 min base = warmup + transitions; 8 min per exercise = ~3 sets × 2.5 min.
-    WORKOUT_BASE_DURATION_MIN = 45
-    WORKOUT_MIN_PER_EXERCISE = 8
+    # WORKOUT_BASE_DURATION_MIN / WORKOUT_MIN_PER_EXERCISE
+    # are now module-level constants (hoisted out of this function body).
     est_duration = WORKOUT_BASE_DURATION_MIN + len(exercises) * WORKOUT_MIN_PER_EXERCISE
 
     return Workout(
@@ -504,22 +519,9 @@ def _build_mesocycle(
         week_workouts: list[Workout] = []
 
         for base_w in base_workouts:
-            # Find the matching template's day_type for DUP.
-            # Tier 2.20 fix: the inner `break` only exits the inner loop; the
-            # outer loop continues and overwrites `template_day_type` for every
-            # split containing a template with the same name. Now we break the
-            # outer loop too once a match is found. Better long-term: pre-index
-            # all templates by name into a single dict at module load.
-            template_day_type = None
-            for tmpl in ALL_SPLITS:
-                found = False
-                for t in tmpl.templates:
-                    if t.name == base_w.name:
-                        template_day_type = t.day_type
-                        found = True
-                        break
-                if found:
-                    break  # Tier 2.20 fix: exit outer loop on first match
+            # Find the matching template's day_type for DUP, via the
+            # module-level name→day_type index (was a nested O(N×M) loop).
+            template_day_type = _TEMPLATE_NAME_INDEX.get(base_w.name)
             # Build a copy with periodization applied
             new_exercises = []
             for we in base_w.exercises:
@@ -537,10 +539,8 @@ def _build_mesocycle(
                 focus=base_w.focus,
                 exercises=new_exercises,
                 estimated_duration_min=base_w.estimated_duration_min,
-                # Phase-6 fix: deload recipe now matches the actual
-                # `apply_periodization` behavior (Phase-6: -40% sets, RPE
-                # unchanged). Was previously "-1 set, -2 RPE" which
-                # contradicted the implementation.
+                # deload recipe matches `apply_periodization` behavior:
+                # -40% sets, RPE unchanged.
                 notes="Deload: -40% sets, RPE unchanged" if is_deload else "",
             )
             apply_periodization(
@@ -577,12 +577,15 @@ def _build_mesocycle(
 
 
 def _find_rest_days_for_workouts(workouts: list[Workout]) -> list[int]:
-    """Look up the rest days from whichever split these workouts came from."""
-    # Match by workout name pattern
-    workout_names = {w.name for w in workouts}
-    for split in ALL_SPLITS:
-        split_names = {t.name for t in split.templates}
-        if split_names & workout_names:
+    """Look up the rest days from whichever split these workouts came from.
+
+    Uses the module-level ``_TEMPLATE_NAME_TO_SPLIT`` index (name → split)
+    instead of re-walking ``ALL_SPLITS`` each call. In normal use all
+    ``workouts`` come from the same split, so the first hit is authoritative.
+    """
+    for w in workouts:
+        split = _TEMPLATE_NAME_TO_SPLIT.get(w.name)
+        if split is not None:
             return list(split.rest_days)
     return [7]  # default: rest on Sunday
 
@@ -607,7 +610,97 @@ def _compute_weekly_volume(workouts: list[Workout]) -> dict[str, int]:
     return {k: round(v) for k, v in volume.items()}
 
 
-# === Step 9: top-level orchestrator ===
+# === Step 9: compute volume notes / per-session cap warnings ===
+
+def _compute_volume_notes(
+    split: SplitDesign,
+    base_workouts: list[Workout],
+    focus_muscles: list[str],
+    goal: TrainingGoal,
+    experience: TrainingStatus,
+    mesocycles: list[Mesocycle],
+) -> tuple[dict[str, int], list[str], list[str]]:
+    """Compute the weekly-volume summary, volume-validation notes, and
+    per-session cap warnings for a built plan.
+
+    Args:
+        split:          the SplitDesign used (kept for API symmetry; unused
+                        inside this helper today — volume is computed
+                        directly from ``base_workouts``).
+        base_workouts:  the slot-filled, equipment-filtered workouts (the
+                        same list passed into the mesocycle builder).
+        focus_muscles:  user-requested muscle-focus list (already filtered
+                        to known muscles) — included in the target list so
+                        validate_weekly_volume() can assess them.
+        goal:           derived TrainingGoal (HYPERTROPHY / STRENGTH / etc.).
+        experience:     user's TrainingStatus.
+        mesocycles:     the assembled mesocycles. The per-session cap is
+                        checked against ``mesocycles[0].microcycles[0]``
+                        because periodization may have mutated the workouts
+                        (PROGRAM plans build copies; STANDARD plans mutate
+                        ``base_workouts`` in place — both end up reflected
+                        in the mesocycle).
+
+    Returns:
+        ``(weekly_volume_summary, vol_notes, cap_warnings)`` where:
+
+        * ``weekly_volume_summary`` — ``{muscle: hard_sets_per_week}`` (the
+          value exposed on ``TrainingPlan.weekly_volume_summary``).
+        * ``vol_notes``              — flat list of strings from
+          ``validate_weekly_volume()`` (MEV/MRV-based warnings).
+        * ``cap_warnings``           — per-workout per-session cap violations
+          (already prefixed with ``"<workout_name>: "``); the orchestrator
+          wraps these with a header line + indented bullets.
+    """
+    weekly_vol = _compute_weekly_volume(base_workouts)
+
+    # Build the target-muscle list: the canonical 6 compound drivers plus
+    # any user-requested focus muscles (so they get validated too).
+    target_muscles = ["chest", "upper_back", "quads", "hamstrings", "shoulders", "lats"]
+    for fm in focus_muscles:
+        if fm not in target_muscles:
+            target_muscles.append(fm)
+
+    # Expand weekly_vol into a per-muscle dict, then for each target muscle
+    # sum volume across its aliases (e.g. "back" → upper_back + lats + ...).
+    expanded_vol: dict[str, float] = {}
+    for muscle, sets in weekly_vol.items():
+        expanded_vol[muscle] = expanded_vol.get(muscle, 0.0) + sets
+    target_vol: dict[str, float] = {}
+    for muscle in target_muscles:
+        aliases = _MUSCLE_ALIASES.get(muscle, [muscle])
+        total = sum(expanded_vol.get(a, 0.0) for a in aliases)
+        if total > 0:
+            target_vol[muscle] = total
+    # Carry over any muscles present in weekly_vol but not covered by the
+    # target list (e.g. calves, abs) so they're still validated.
+    for muscle, sets in expanded_vol.items():
+        if muscle not in target_vol:
+            target_vol[muscle] = sets
+
+    vol_notes: list[str] = list(validate_weekly_volume(
+        target_vol,
+        goal=goal,
+        experience=experience,
+        tier=VolumeTier.MEDIUM,
+    ))
+
+    # Per-session cap (RippedBody Rule 2.6 — 11 sets/muscle/session).
+    # Checked against the first microcycle's workouts because periodization
+    # may have changed set counts (PROGRAM plans) — using base_workouts
+    # directly would miss those modifications.
+    cap_warnings: list[str] = []
+    if mesocycles and mesocycles[0].microcycles:
+        for workout in mesocycles[0].microcycles[0].workouts:
+            session_sets = compute_session_volume_per_muscle(workout)
+            warnings = check_session_volume_cap(session_sets)
+            for w in warnings:
+                cap_warnings.append(f"{workout.name}: {w}")
+
+    return weekly_vol, vol_notes, cap_warnings
+
+
+# === Step 10: top-level orchestrator ===
 
 def build_training_plan(
     profile: UserProfile,
@@ -640,7 +733,7 @@ def build_training_plan(
         goal=goal,
     )
 
-    # Step 3: pick progression (Phase-6: now passes goal so STRENGTH+INTERMEDIATE → BLOCK)
+    # Step 3: pick progression (passes goal so STRENGTH+INTERMEDIATE → BLOCK)
     progression = _pick_progression(profile.training_status, goal)
 
     # Step 4: decide plan type
@@ -725,47 +818,18 @@ def build_training_plan(
         # Adjust total_duration to actual sum
         total_duration = sum(m.duration_weeks for m in mesocycles)
 
-    # Step 8: compute weekly volume
-    weekly_vol = _compute_weekly_volume(base_workouts)
-
-    # Step 9: volume notes
-    vol_notes: list[str] = []
-    target_muscles = ["chest", "upper_back", "quads", "hamstrings", "shoulders", "lats"]
-    # Include focus muscles in the check
-    for fm in focus_muscles:
-        if fm not in target_muscles:
-            target_muscles.append(fm)
-
-    # Phase-6 fix: replaced muscle-agnostic 10/20-set cutoffs with muscle-
-    # specific validate_weekly_volume() (uses MEV/MRV from DEFAULT_MUSCLE_LANDMARKS).
-    # Also replaced substring matching ("abs" matching "abductors") with the
-    # explicit _MUSCLE_ALIASES map defined at module top (Phase-6 cleanup:
-    # formerly re-declared here as ``_ALIASES_FOR_VOLUME``).
-    # Phase-6 cleanup: imports of validate_weekly_volume / VolumeTier hoisted
-    # to module top (combined with check_session_volume_cap / PER_SESSION_SET_CAP).
-    # Build a per-muscle weekly volume dict using alias expansion
-    expanded_vol: dict[str, float] = {}
-    for muscle, sets in weekly_vol.items():
-        expanded_vol[muscle] = expanded_vol.get(muscle, 0.0) + sets
-    # For each target muscle, sum volume across its aliases
-    target_vol: dict[str, float] = {}
-    for muscle in target_muscles:
-        aliases = _ALIASES_FOR_VOLUME.get(muscle, [muscle])
-        total = sum(expanded_vol.get(a, 0.0) for a in aliases)
-        if total > 0:
-            target_vol[muscle] = total
-    # Also include any muscles in weekly_vol not covered by target_muscles
-    for muscle, sets in expanded_vol.items():
-        if muscle not in target_vol:
-            target_vol[muscle] = sets
-
-    # Use the muscle-specific validator (Phase-6 fix)
-    vol_notes.extend(validate_weekly_volume(
-        target_vol,
+    # Steps 8-9: compute weekly volume summary, volume-validation notes, and
+    # per-session cap warnings via the extracted helper. The cap check uses
+    # ``mesocycles[0]`` so PROGRAM-plan periodization (which mutates copies)
+    # is reflected — see ``_compute_volume_notes`` for the full rationale.
+    weekly_vol, vol_notes, cap_warnings = _compute_volume_notes(
+        split=split,
+        base_workouts=base_workouts,
+        focus_muscles=focus_muscles,
         goal=goal,
         experience=profile.training_status,
-        tier=VolumeTier.MEDIUM,
-    ))
+        mesocycles=mesocycles,
+    )
 
     # Step 10: assemble final plan
     notes = [
@@ -792,25 +856,9 @@ def build_training_plan(
     notes.append("Compound movements as foundation; progressive overload primary driver.")
     notes.append("Each exercise includes instructions, tips, and video URL.")
 
-    # Tier 2.27 fix: enforce 11-set per-session cap (RippedBody Rule 2.6).
-    # check_session_volume_cap exists in volume_landmarks but was never called.
-    # Now we scan the first microcycle's workouts and surface warnings.
-    # Phase-6 cleanup: ``check_session_volume_cap`` / ``PER_SESSION_SET_CAP``
-    # are now imported at module top.
-    # Phase-6 fix: previously this code counted `muscle_groups[1:]` as
-    # secondary muscles at 0.5× — but `muscle_groups` is the PRIMARY list
-    # (first entry is primary, the rest are additional primaries). The actual
-    # secondary muscles live in `exercise.secondary_muscles`. The weekly
-    # volume computation at lines 597-601 was already correct; this per-session
-    # check was the odd one out. Now delegates to `compute_session_volume_per_muscle`
-    # so both code paths agree.
-    cap_warnings: list[str] = []
-    if mesocycles and mesocycles[0].microcycles:
-        for workout in mesocycles[0].microcycles[0].workouts:
-            session_sets = compute_session_volume_per_muscle(workout)
-            warnings = check_session_volume_cap(session_sets)
-            for w in warnings:
-                cap_warnings.append(f"{workout.name}: {w}")
+    # Surface per-session cap violations (11 sets/muscle/session, RippedBody
+    # Rule 2.6). The raw warnings come from ``_compute_volume_notes``; we
+    # only format them here (header line + first 3 bullets).
     if cap_warnings:
         notes.append(
             f"⚠ Per-session volume cap ({PER_SESSION_SET_CAP} sets/muscle) exceeded in "

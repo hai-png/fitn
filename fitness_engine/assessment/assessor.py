@@ -19,7 +19,7 @@ from .body_composition import assess_body_composition
 from .health_risk import assess_health_risk
 from .muscular_potential import assess_muscular_potential
 from .decision import decide_strategy
-# Phase-6 fix: MEDICAL_DISCLAIMER moved to _thresholds.py as single source of truth.
+# MEDICAL_DISCLAIMER sourced from _thresholds.py (single source of truth).
 from ._thresholds import MEDICAL_DISCLAIMER
 
 _log = logging.getLogger(__name__)
@@ -45,13 +45,10 @@ def assess_profile(profile: UserProfile) -> AssessmentResult:
         _log.error("Body composition assessment failed: %s", e)
         errors.append(f"body_composition: {type(e).__name__}: {e}")
         # Minimal placeholder so downstream can continue.
-        # Phase-6 fix: use classify_bmi() (pure, won't raise) instead of the
-        # previous inline ternary that omitted BMICategory.UNDERWEIGHT (an
-        # underweight user with BMI < 18.5 was classified as NORMAL).
+        # use classify_bmi() (pure, won't raise) for the BMI category fallback.
         from ..models.assessment import BodyComposition, BodyFatMethod, BodyFatCategory
         from .body_composition import classify_bmi
-        # Fix: use CUN_BAE to match the actual fallback path in compute_body_fat
-        # (was previously BMI_JACKSON, contradicting the Phase-6 migration).
+        # use CUN_BAE to match the fallback path in compute_body_fat.
         # Use `is not None` instead of truthy check (idiom for Optional[float]).
         fallback_bf = profile.body_fat_pct if profile.body_fat_pct is not None else 20.0
         body_comp = BodyComposition(
@@ -102,7 +99,6 @@ def assess_profile(profile: UserProfile) -> AssessmentResult:
             profile=profile,
             body_fat_pct=body_comp.body_fat_pct,
             bmi=body_comp.bmi,
-            has_measurements=profile.has_circumference_measurements,
         )
     except Exception as e:
         _log.error("Strategy decision failed: %s", e)
@@ -124,16 +120,16 @@ def assess_profile(profile: UserProfile) -> AssessmentResult:
         f"Recommended: {strategy.value.upper()} — {rationale}",
     ]
 
-    # Tier 4.46: surface overall health risk level (was previously omitted)
+    # surface overall health risk level
     summary_parts.append(f"Health risk: {health_risk.overall_risk.value}")
 
     if health_risk.risk_factors:
-        # Tier 4.45: show ALL risk factors (was previously truncated to 2)
+        # show ALL risk factors
         summary_parts.append(
             "Risk factors: " + " | ".join(health_risk.risk_factors)
         )
 
-    # Tier 4.46: medical disclaimer
+    # medical disclaimer
     summary_parts.append(MEDICAL_DISCLAIMER)
 
     if errors:

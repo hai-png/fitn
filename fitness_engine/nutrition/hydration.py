@@ -5,8 +5,6 @@ Source: fatcalc.com__hydration-calculator (multi-step formula)
 """
 from __future__ import annotations
 
-# Phase-6 cleanup: hoisted from inside ``compute_hydration`` (was a deferred
-# import for no reason — ``warnings`` has no circular dependency here).
 import warnings
 
 from ..models.profile import UserProfile, Sex, ExerciseIntensity, Climate
@@ -16,14 +14,13 @@ from ..models.nutrition import HydrationTarget
 # === Constants ===
 BASE_ML_PER_KG = 30                    # 30 mL/kg
 SEX_ADD_ML = {Sex.MALE: 300, Sex.FEMALE: 0}
-# Phase-6 fix: dict keys now use the ExerciseIntensity enum members directly
-# (was raw strings, which bypassed the type system despite the dedicated enum).
+# dict keys use the ExerciseIntensity enum members directly.
 SWEAT_RATE_ML_PER_HR = {
     ExerciseIntensity.LIGHT: 300,
     ExerciseIntensity.MODERATE: 500,
     ExerciseIntensity.INTENSE: 800,
 }
-# Phase-6 fix: dict keys now use the Climate enum members directly.
+# dict keys use the Climate enum members directly.
 CLIMATE_MULTIPLIER = {
     Climate.COLD: 0.95,                  # <20°C — 5% reduction
     Climate.TEMPERATE: 1.0,             # 20-25°C baseline
@@ -33,7 +30,7 @@ CLIMATE_MULTIPLIER = {
 PREGNANCY_ADD_ML = 300
 BREASTFEEDING_ADD_ML = 700
 
-# Phase-6 fix: soft upper ceiling on daily water intake to flag
+# soft upper ceiling on daily water intake to flag
 # exercise-driven prescriptions that risk hyponatremia. A 100kg male doing 4h
 # intense exercise in hot_humid climate can hit ~9.1 L/day, which exceeds the
 # ~1.5 L/h kidney clearance ceiling. We clamp the recommendation at this value
@@ -69,11 +66,9 @@ def compute_hydration(
 
     Returns HydrationTarget.
     """
-    # Tier 3.31 fix: coerce enums to their string values for dict lookup.
-    # Phase-6 fix: now that the dicts are keyed by enum members, we keep the
-    # enum form for lookup (strings are coerced to enum values for back-compat).
-    # Phase-6 fix: preserve the original user-supplied value for the warning
-    # message — previously the warning printed `None` after the failed coercion.
+    # strings coerced to enum values for back-compat (dicts keyed by enum
+    # members). Preserve the original user-supplied value for the warning
+    # message.
     original_intensity = exercise_intensity
     original_climate = climate
     if isinstance(exercise_intensity, str):
@@ -88,7 +83,6 @@ def compute_hydration(
             climate = None
     # Validate against known values; fall back to defaults on unknown inputs.
     if exercise_intensity not in SWEAT_RATE_ML_PER_HR:
-        # Phase-6 cleanup: ``import warnings`` hoisted to module top.
         warnings.warn(
             f"Unknown exercise_intensity '{original_intensity}' — falling back to 'moderate'. "
             f"Valid values: {[e.value for e in ExerciseIntensity]} or ExerciseIntensity enum.",
@@ -136,7 +130,7 @@ def compute_hydration(
         water += BREASTFEEDING_ADD_ML / 1000
         components["breastfeeding"] = round(BREASTFEEDING_ADD_ML / 1000, 2)
 
-    # Phase-6 fix: soft ceiling on daily water intake. Above 5 L/day the risk
+    # soft ceiling on daily water intake. Above 5 L/day the risk
     # of exercise-associated hyponatremia (EAH) rises sharply; we clamp the
     # prescription and surface a warning note rather than silently emitting an
     # unsafe value.
@@ -155,7 +149,7 @@ def compute_hydration(
     ]
     if clamped:
         notes.append(
-            f"Phase-6 fix: prescription clamped to {HYDRATION_SOFT_CEILING_L:.1f} L/day "
+            f"⚠ Prescription clamped to {HYDRATION_SOFT_CEILING_L:.1f} L/day "
             f"(original {original:.2f} L exceeded the soft hyponatremia ceiling). "
             "Spread intake across the day; do not exceed ~1.0-1.5 L/h during exercise."
         )

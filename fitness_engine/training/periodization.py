@@ -23,8 +23,6 @@ from ..models.training import (
     Workout,
     WorkoutExercise,
 )
-# Phase-6 cleanup: hoisted from inside ``apply_periodization`` (per-exercise
-# loop) and from ``get_mesocycle_length`` / ``get_program_duration_weeks``.
 from .intensity_model import get_rir_range, rir_to_rpe
 from ..models.profile import TrainingStatus
 
@@ -44,7 +42,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("3-6",   240, 8.5),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("5-8",   180, 8.0),
         ExerciseCategory.ACCESSORY:           Preset("8-12",  90, 7.0),
-        ExerciseCategory.ISOLATION:           Preset("10-15", 60, 6.5),
         ExerciseCategory.CARDIO:              Preset("20-45 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -52,7 +49,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("5-8",   180, 8.0),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("8-12",  120, 7.0),
         ExerciseCategory.ACCESSORY:           Preset("10-15", 60, 6.0),
-        ExerciseCategory.ISOLATION:           Preset("12-15", 60, 6.0),
         ExerciseCategory.CARDIO:              Preset("20-30 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -60,7 +56,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("5-8",   180, 8.0),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("8-12",  120, 7.0),
         ExerciseCategory.ACCESSORY:           Preset("10-15", 60, 6.0),
-        ExerciseCategory.ISOLATION:           Preset("12-15", 60, 6.0),
         ExerciseCategory.CARDIO:              Preset("20-30 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -68,7 +63,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("5-8",   180, 8.0),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("8-12",  120, 7.0),
         ExerciseCategory.ACCESSORY:           Preset("10-15", 60, 6.0),
-        ExerciseCategory.ISOLATION:           Preset("12-15", 60, 6.0),
         ExerciseCategory.CARDIO:              Preset("20-30 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -76,7 +70,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("6-10",  120, 7.5),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("8-12",   90, 7.0),
         ExerciseCategory.ACCESSORY:           Preset("12-20", 45, 6.0),
-        ExerciseCategory.ISOLATION:           Preset("12-20", 45, 6.0),
         ExerciseCategory.CARDIO:              Preset("20-45 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -84,7 +77,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("8-12",  120, 7.0),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("10-15",  90, 6.5),
         ExerciseCategory.ACCESSORY:           Preset("12-20", 60, 6.0),
-        ExerciseCategory.ISOLATION:           Preset("12-20", 60, 5.5),
         ExerciseCategory.CARDIO:              Preset("20-45 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -92,7 +84,6 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
         ExerciseCategory.COMPOUND_PRIMARY:   Preset("6-10",  150, 7.0),
         ExerciseCategory.COMPOUND_SECONDARY: Preset("8-12",  120, 6.5),
         ExerciseCategory.ACCESSORY:           Preset("10-15", 60, 6.0),
-        ExerciseCategory.ISOLATION:           Preset("12-15", 60, 5.5),
         ExerciseCategory.CARDIO:              Preset("20-30 min", 0, 5.0),
         ExerciseCategory.MOBILITY:            Preset("30-60 sec", 30, 4.0),
     },
@@ -143,7 +134,7 @@ def _modify_rest_for_dup(base_rest: int, day_type: str) -> int:
 # Block periodization has 3 phases: accumulation → intensification → peak
 # (deload is a per-microcycle flag, not a mesocycle phase — applied via `is_deload`).
 # The architect decides which mesocycle is in which phase, then applies these.
-# Phase-6 fix: previously the third key was `"deload"` (dead — `get_block_phases_for_program`
+# previously the third key was `"deload"` (dead — `get_block_phases_for_program`
 # emits `"peak"`), so the peak mesocycle of an advanced strength program silently
 # received NO modifier. Now the key matches the emitted phase name and contains
 # a real peak recipe (lower reps, fewer sets, higher RPE — classic peaking).
@@ -212,24 +203,19 @@ def apply_periodization(
                 rpe = max(4.0, min(10.0, rpe + mod["rpe_delta"]))
 
         # Layer 4: Deload week — reduce VOLUME, MAINTAIN INTENSITY.
-        # Phase-6 fix: previously this was a flat `sets - 1` which netted to 0
-        # change inside an accumulation mesocycle (block +1, deload -1 = 0).
-        # Now we apply a multiplicative -40% volume reduction (RippedBody
-        # Rule 8.3 spec, intensity_model.apply_deload recipe) computed from
-        # the post-block-modifier value. RPE is unchanged (intensity maintained).
+        # Apply a multiplicative -40% volume reduction (RippedBody Rule 8.3
+        # spec, intensity_model.apply_deload recipe) computed from the
+        # post-block-modifier value. RPE is unchanged (intensity maintained).
         if is_deload:
             sets = max(2, round(sets * 0.6))
             # rpe unchanged — intensity maintained per RippedBody deload protocol
 
-        # Layer 5 (Phase-6 fix): RIR clamp — moved AFTER DUP/block/deload
-        # modifications so it operates on the FINAL rep range. Previously
-        # the clamp used the preset reps (e.g. "5-8") and then DUP transformed
-        # reps to "3-6" for heavy days, leaving RPE clamped against the wrong
-        # rep range (RPE 6-8 instead of the correct RPE 7-9 for 3-6 reps on
-        # a heavy compound).
+        # Layer 5: RIR clamp — applied AFTER DUP/block/deload modifications
+        # so it operates on the FINAL rep range. (Clamping before DUP would
+        # use the preset reps and then DUP would transform them, leaving RPE
+        # clamped against the wrong range — e.g. RPE 6-8 instead of RPE 7-9
+        # for 3-6 reps on a heavy compound.)
         try:
-            # Phase-6 cleanup: ``get_rir_range`` / ``rir_to_rpe`` now imported
-            # at module top.
             # Parse the FINAL rep range (post-DUP, post-block) for the clamp.
             if "-" in reps and not reps.endswith("min") and not reps.endswith("sec"):
                 parts = reps.split("-")
@@ -237,8 +223,8 @@ def apply_periodization(
                 reps_hi = int(parts[-1])
                 rir_lo, rir_hi = get_rir_range(we.exercise, reps_lo, reps_hi)
                 # Convert RIR range to RPE range (RPE = 10 - RIR)
-                rir_based_rpe_hi = rir_to_rpe(rir_lo, reps_hi)
-                rir_based_rpe_lo = rir_to_rpe(rir_hi, reps_hi)
+                rir_based_rpe_hi = rir_to_rpe(rir_lo)
+                rir_based_rpe_lo = rir_to_rpe(rir_hi)
                 # Clamp the (possibly DUP-/block-modified) RPE to the RIR-based
                 # range so heavy compounds aren't prescribed above RPE 9.
                 if rpe > rir_based_rpe_hi:
@@ -248,9 +234,8 @@ def apply_periodization(
         except (ValueError, TypeError, AttributeError):
             # If RIR lookup fails (e.g. cardio/mobility reps, or we.exercise is
             # None and category access raises AttributeError), keep preset RPE.
-            # Phase-6: narrowed from bare `Exception` to avoid masking real bugs.
-            # Phase-6 fix: added AttributeError to handle the (defensive) case
-            # where we.exercise is None — previously crashed the whole workout.
+            # Narrowed exception to avoid masking real bugs; includes
+            # AttributeError for the defensive case where we.exercise is None.
             pass
 
         we.reps = reps
@@ -265,7 +250,6 @@ def apply_periodization(
 
 def get_mesocycle_length(experience) -> int:
     """Return the recommended mesocycle length (in weeks, including deload)."""
-    # Phase-6 cleanup: ``TrainingStatus`` now imported at module top.
     return {
         TrainingStatus.BEGINNER: 4,        # 3 acc + 1 deload
         TrainingStatus.NOVICE: 4,          # 3 acc + 1 deload
@@ -286,7 +270,6 @@ def get_program_duration_weeks(
     Intermediate: 10-12 weeks (2 mesocycles)
     Advanced:     12-16 weeks (2-3 mesocycles — block periodization)
     """
-    # Phase-6 cleanup: ``TrainingStatus`` now imported at module top.
     base = {
         TrainingStatus.BEGINNER: 4,        # 1 mesocycle
         TrainingStatus.NOVICE: 8,          # 2 mesocycles

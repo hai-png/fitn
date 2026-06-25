@@ -10,8 +10,6 @@ Sources:
 """
 from __future__ import annotations
 
-from typing import Optional
-
 from ..models.profile import UserProfile, ActivityLevel
 from ..models.nutrition import RMRResult, TDEEResult
 
@@ -34,10 +32,9 @@ ACTIVITY_FACTORS_HARRIS_BENEDICT = {
     ActivityLevel.HIGHLY_ACTIVE:     1.90,
 }
 
-# Phase-6 fix: extract named constants for the adaptive-TDEE ramp window.
-# The 53.0 denominator was previously a magic number — it equals
-# RAMP_WINDOW_DAYS - RAMP_OFFSET_DAYS, i.e. the linear-ramp span over which
-# the blend weight ramps from 0 (pure prior) to 1 (pure observed).
+# adaptive-TDEE ramp window. RAMP_WINDOW_DAYS - RAMP_OFFSET_DAYS = 53,
+# the linear-ramp span over which the blend weight ramps from 0 (pure prior)
+# to 1 (pure observed).
 RAMP_WINDOW_DAYS = 60   # n_days >= this → pure observed TDEE
 RAMP_OFFSET_DAYS = 7    # n_days <= this → pure prior (Mifflin-St Jeor)
 
@@ -118,8 +115,6 @@ def adaptive_weight_data(n_days: int) -> float:
         return 0.0
     if n_days >= RAMP_WINDOW_DAYS:
         return 1.0
-    # Phase-6 fix: 53.0 was an unnamed magic number; it equals RAMP_WINDOW_DAYS -
-    # RAMP_OFFSET_DAYS (the linear-ramp span).
     return (n_days - RAMP_OFFSET_DAYS) / (RAMP_WINDOW_DAYS - RAMP_OFFSET_DAYS)
 
 

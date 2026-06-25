@@ -17,16 +17,14 @@ those kwargs.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Union
 
-# Phase-6 cleanup: hoisted from inside PlanPreferences.from_kwargs.
 import logging
 
 from .training import PlanType
 from .profile import ExerciseIntensity, Climate
 
 
-def _coerce_intensity(v: Union[str, ExerciseIntensity, None]) -> ExerciseIntensity:
+def _coerce_intensity(v: str | ExerciseIntensity | None) -> ExerciseIntensity:
     if v is None:
         return ExerciseIntensity.MODERATE
     if isinstance(v, ExerciseIntensity):
@@ -39,7 +37,7 @@ def _coerce_intensity(v: Union[str, ExerciseIntensity, None]) -> ExerciseIntensi
     return ExerciseIntensity.MODERATE
 
 
-def _coerce_climate(v: Union[str, Climate, None]) -> Climate:
+def _coerce_climate(v: str | Climate | None) -> Climate:
     if v is None:
         return Climate.TEMPERATE
     if isinstance(v, Climate):
@@ -70,7 +68,6 @@ class PlanPreferences:
     exercise_hours_per_day:  for hydration calc (default 1.0)
     exercise_intensity:      ExerciseIntensity enum (LIGHT/MODERATE/INTENSE)
     climate:                 Climate enum (COLD/TEMPERATE/HOT/HOT_HUMID)
-    in_active_deficit:       True if user is currently cutting (default False)
     weight_reduced_pct:      0-1, fraction below all-time high (default 0)
 
     === Training preferences ===
@@ -91,25 +88,24 @@ class PlanPreferences:
 
     # === Nutrition ===
     exercise_hours_per_day: float = 1.0
-    exercise_intensity: Union[ExerciseIntensity, str] = ExerciseIntensity.MODERATE
-    climate: Union[Climate, str] = Climate.TEMPERATE
-    in_active_deficit: bool = False
+    exercise_intensity: ExerciseIntensity | str = ExerciseIntensity.MODERATE
+    climate: Climate | str = Climate.TEMPERATE
     weight_reduced_pct: float = 0.0
 
     # === Training ===
-    plan_type: Optional[PlanType] = None
-    muscle_focus: Optional[list[str]] = None
-    program_duration_weeks: Optional[int] = None
+    plan_type: PlanType | None = None
+    muscle_focus: list[str] | None = None
+    program_duration_weeks: int | None = None
 
     # === Meal plan ===
     meal_frequency: int = 3
-    cuisine_preference: Optional[str] = None
-    allergens_to_avoid: Optional[list[str]] = None
-    excluded_ingredients: Optional[list[str]] = None
+    cuisine_preference: str | None = None
+    allergens_to_avoid: list[str] | None = None
+    excluded_ingredients: list[str] | None = None
     include_pre_post_workout: bool = False
 
     def __post_init__(self) -> None:
-        # Phase-6: coerce string values to enums for type safety.
+        # coerce string values to enums for type safety.
         self.exercise_intensity = _coerce_intensity(self.exercise_intensity)
         self.climate = _coerce_climate(self.climate)
         # Validate weight_reduced_pct is in [0, 1]
@@ -117,7 +113,7 @@ class PlanPreferences:
             raise ValueError(
                 f"weight_reduced_pct must be in [0, 1], got {self.weight_reduced_pct}"
             )
-        # Warn on unknown kwargs in from_kwargs (Phase-6 fix)
+        # Warn on unknown kwargs in from_kwargs
         # (handled in from_kwargs via logging)
 
     @classmethod
@@ -128,7 +124,7 @@ class PlanPreferences:
         Phase-6: logs a warning for unknown kwargs (e.g. typos like
         `meal_freqency=4`) instead of silently dropping them.
         """
-        # Phase-6 cleanup: ``import logging`` hoisted to module top.
+        # ``import logging`` is at module top.
         valid_fields = {f.name for f in cls.__dataclass_fields__.values()}
         filtered = {}
         unknown = []

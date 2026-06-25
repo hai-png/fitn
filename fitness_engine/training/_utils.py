@@ -15,8 +15,15 @@ def parse_view_count(ex: Exercise) -> int:
     an integer for popularity sorting.
 
     Returns 0 if the field is missing or unparseable.
+
+    Task 9-engine-bug-fixes Bug 3: now also returns 0 when ``ex`` is
+    ``None`` or lacks a ``views`` attribute (previously raised
+    ``AttributeError``), matching the documented contract "Returns 0 if
+    the field is missing or unparseable".
     """
-    if not ex.views:
+    # guard against None / non-Exercise input so the function matches its
+    # stated "Returns 0 if the field is missing or unparseable" contract.
+    if ex is None or not hasattr(ex, "views") or ex.views is None:
         return 0
     v = ex.views.upper().replace(" ", "")
     try:

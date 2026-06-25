@@ -7,15 +7,10 @@ allocation percentages. The user will supply detailed meal resources later.
 from __future__ import annotations
 
 from ..models.meal import MealType
-# Phase-6 cleanup: ``MEAL_ALLOCATIONS`` was byte-identical to
-# ``STANDARD_ALLOCATIONS`` in ``profile_requirements``. Deduplicated to a
-# single source of truth; this alias preserves the legacy public name.
-from .profile_requirements import STANDARD_ALLOCATIONS as MEAL_ALLOCATIONS
 
 
 # === Macro allocation per meal (% of daily calories per meal) ===
-# (formerly defined inline here — see STANDARD_ALLOCATIONS in
-# profile_requirements for the canonical definition.)
+# Canonical definition lives in STANDARD_ALLOCATIONS in profile_requirements.
 
 # For 5 meals, we add a second snack labeled as SNACK too — we'll handle
 # this in the allocator by splitting the snack allocation evenly.
@@ -24,12 +19,6 @@ MEAL_ORDER = [
     MealType.SNACK, MealType.DINNER,
 ]
 
-
-# Phase-6 cleanup: removed the local ``get_meal_allocation(meal_frequency)``
-# function — it was superseded by the richer-signature
-# ``profile_requirements.get_meal_allocation(meal_frequency,
-# include_pre_post_workout=False, is_training_day=False)``. The 1-arg form
-# is no longer needed (callers should use the canonical version).
 
 
 def get_meal_plan_template(meal_frequency: int) -> list[MealType]:
@@ -97,8 +86,6 @@ def get_meal_name(meal_type: MealType, day: int = 1) -> str:
 
 
 __all__ = [
-    "MEAL_ALLOCATIONS", "MEAL_ORDER", "MEAL_NAMES",
-    # Phase-6 cleanup: removed ``get_meal_allocation`` from __all__ — callers
-    # should import the canonical version from profile_requirements.
+    "MEAL_ORDER", "MEAL_NAMES",
     "get_meal_plan_template", "get_meal_name",
 ]

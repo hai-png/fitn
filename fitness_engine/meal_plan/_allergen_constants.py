@@ -29,10 +29,13 @@ PLANT_QUALIFIERS: tuple[str, ...] = (
 # are themselves plant-based. Matched as whole-word phrases so they short-circuit
 # the conditional keyword check.
 #
-# Phase-6 cleanup: union of the three previous copies:
-#   - recipe_loader._PLANT_NAMED_PHRASES         (had "broth of")
-#   - recipe_scorer._PLANT_NAMED_PHRASES_FOR_ALLERGENS  (had egg substitutes)
-#   - swap_system._PLANT_NAMED_PHRASES           (had plant milks)
+# Union of plant-named phrases across the allergen + excluded-ingredient
+# scanners. Single-word nut/spice/coconut phrases are placed AFTER the
+# multi-word phrases that contain them (e.g. "almond milk", "peanut butter",
+# "coconut cream", "cashew butter") so the longer phrases get blanked out
+# first — otherwise a naive replace("almond", ...) would break "almond milk"
+# into "<spaces> milk" and re-introduce a false dairy match for the almond-milk
+# plant-qualifier suppression.
 PLANT_NAMED_PHRASES: tuple[str, ...] = (
     "eggplant", "eggsplant",
     "butter lettuce", "butterleaf", "buttercup squash",
@@ -49,4 +52,12 @@ PLANT_NAMED_PHRASES: tuple[str, ...] = (
     # Plant milks:
     "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk",
     "cashew milk", "hemp milk", "macadamia milk", "pea milk",
+    # Single-word nut/spice/coconut phrases used to suppress generic "nut"
+    # exclusions matching nutmeg/coconut/hazelnut/peanut/etc. Kept AFTER the
+    # multi-word phrases above so e.g. "almond butter" / "almond milk" /
+    # "peanut butter" / "coconut milk" / "coconut cream" / "cashew butter" /
+    # "cashew milk" / "macadamia milk" get blanked out before their
+    # single-word root would also match.
+    "nutmeg", "coconut", "hazelnut", "peanut", "brazil nut", "walnut",
+    "pecan", "almond", "cashew", "pistachio", "macadamia",
 )

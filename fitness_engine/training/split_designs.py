@@ -85,7 +85,7 @@ class SplitDesign:
 # === Helper builders for common slot patterns ===
 
 def _compound_primary(primary: str, pattern: str, sets: int = 4,
-                      secondary: list[str] = None, force: str = None,
+                      secondary: list[str] | None = None, force: str | None = None,
                       is_focus: bool = False) -> MovementPatternSlot:
     return MovementPatternSlot(
         name=f"{pattern.replace('_', ' ').title()} Primary",
@@ -100,7 +100,7 @@ def _compound_primary(primary: str, pattern: str, sets: int = 4,
 
 
 def _compound_secondary(primary: str, pattern: str, sets: int = 3,
-                        secondary: list[str] = None, force: str = None,
+                        secondary: list[str] | None = None, force: str | None = None,
                         is_focus: bool = False) -> MovementPatternSlot:
     return MovementPatternSlot(
         name=f"{pattern.replace('_', ' ').title()} Secondary",
@@ -115,7 +115,7 @@ def _compound_secondary(primary: str, pattern: str, sets: int = 3,
 
 
 def _accessory(primary: str, pattern: str, sets: int = 3,
-                secondary: list[str] = None, is_focus: bool = False) -> MovementPatternSlot:
+                secondary: list[str] | None = None, is_focus: bool = False) -> MovementPatternSlot:
     return MovementPatternSlot(
         name=f"{pattern.replace('_', ' ').title()} Accessory",
         primary_muscle=primary,
@@ -159,11 +159,11 @@ FULL_BODY_2DAY = SplitDesign(
             ],
         ),
     ],
-    rest_days=[2, 3, 5, 6, 7],   # Tier 2.21 fix: 5 rest days for 2-day/week (was [1,4,7] = 3 rest → implied 4 training)
+    rest_days=[2, 3, 5, 6, 7],   # 5 rest days for 2-day/week (was [1,4,7] = 3 rest → implied 4 training)
     suitable_for_experience=[TrainingStatus.BEGINNER, TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE],
     suitable_for_goals=[
         TrainingGoal.STRENGTH, TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.RECOMP, TrainingGoal.GENERAL_FITNESS,
-        TrainingGoal.FAT_LOSS, TrainingGoal.RECOMP, TrainingGoal.MAINTENANCE,
+        TrainingGoal.FAT_LOSS, TrainingGoal.MAINTENANCE,
     ],
 )
 
@@ -209,11 +209,11 @@ FULL_BODY_3DAY = SplitDesign(
             ],
         ),
     ],
-    rest_days=[2, 4, 6, 7],   # Tier 2.21 fix: 4 rest days for 3-day/week (was [1,4,7] = 3 rest)
+    rest_days=[2, 4, 6, 7],   # 4 rest days for 3-day/week (was [1,4,7] = 3 rest)
     suitable_for_experience=[TrainingStatus.BEGINNER, TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE],
     suitable_for_goals=[
         TrainingGoal.STRENGTH, TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.RECOMP, TrainingGoal.GENERAL_FITNESS,
-        TrainingGoal.FAT_LOSS, TrainingGoal.RECOMP, TrainingGoal.MAINTENANCE,
+        TrainingGoal.FAT_LOSS, TrainingGoal.MAINTENANCE,
     ],
 )
 
@@ -284,7 +284,7 @@ UPPER_LOWER_4DAY = SplitDesign(
     suitable_for_experience=[TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE, TrainingStatus.ADVANCED],
     suitable_for_goals=[
         TrainingGoal.STRENGTH, TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.RECOMP,
-        TrainingGoal.FAT_LOSS, TrainingGoal.RECOMP, TrainingGoal.MAINTENANCE,
+        TrainingGoal.FAT_LOSS, TrainingGoal.MAINTENANCE,
     ],
 )
 
@@ -334,7 +334,7 @@ PPL_3DAY = SplitDesign(
             ],
         ),
     ],
-    rest_days=[2, 4, 5, 7],   # Tier 2.21 fix: 4 rest days for 3-day/week (was [4,5,7] = 3 rest → implied 4 training)
+    rest_days=[2, 4, 5, 7],   # 4 rest days for 3-day/week (was [4,5,7] = 3 rest → implied 4 training)
     suitable_for_experience=[TrainingStatus.NOVICE, TrainingStatus.INTERMEDIATE, TrainingStatus.ADVANCED],
     suitable_for_goals=[
         TrainingGoal.HYPERTROPHY, TrainingGoal.MUSCLE_GAIN, TrainingGoal.GENERAL_FITNESS,

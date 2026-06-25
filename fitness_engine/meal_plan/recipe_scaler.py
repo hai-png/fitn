@@ -34,10 +34,9 @@ from .food_database import get_food
 
 # === Scaling limits ===
 
-# Phase-6 fix: previously MIN_SCALE, MAX_SCALE, the ±10% no-scale thresholds,
-# and the various filler serving-cap multipliers (×4, ×3, ×2, ×0.5, etc.)
-# were scattered as bare literals throughout this module. Hoisted into a
-# ScalerConfig dataclass so they can be inspected / overridden in one place.
+# ScalerConfig centralizes the scaler + filler tuning knobs (scale clamps,
+# no-scale band, deviation limit, filler thresholds, serving-cap multipliers,
+# veg-gram range) so they can be inspected / overridden in one place.
 @dataclass(frozen=True)
 class ScalerConfig:
     """Tunable knobs for the recipe scaler + filler system.
@@ -80,12 +79,6 @@ SCALER_CONFIG = ScalerConfig()
 MIN_SCALE = SCALER_CONFIG.min_scale
 MAX_SCALE = SCALER_CONFIG.max_scale
 SCALE_DEVIATION_LIMIT = SCALER_CONFIG.scale_deviation_limit
-
-# Phase-6: if the scaled kcal deviates from target by more than this fraction,
-# the recipe is a poor fit and the caller should fall back to fillers-only.
-# 40% allows MIN_SCALE=0.7 (30% under) and MAX_SCALE=1.5 (50% over) but flags
-# extreme cases where the clamp is the only thing keeping the recipe in range.
-# (Kept as a comment for historical context; the value now lives in SCALER_CONFIG.)
 
 
 @dataclass
@@ -204,7 +197,7 @@ def compute_filler_gap(
 
 
 # === Filler thresholds ===
-# Phase-6 fix: previously a dict with hardcoded values; now sourced from
+# previously a dict with hardcoded values; now sourced from
 # ScalerConfig (single source of truth). Kept as a dict for back-compat with
 # callers that index by string key (e.g. FILLER_THRESHOLDS["protein_g"]).
 FILLER_THRESHOLDS = {
@@ -282,6 +275,61 @@ def _grams_to_hit_macro(food: FoodItem, macro: str, target_g: float) -> float:
     return target_g / per_100g * 100
 
 
+def _select_filler(
+    gap_g: float,
+    options: list[tuple[str, float]],
+    threshold_key: str,
+    cap_multiplier: float | None = None,
+    min_grams: float | None = None,
+    max_grams: float | None = None,
+    exclude_foods: set[str] | None = None,
+) -> Optional[MealFood]:
+    """Internal helper shared by all four `select_*_filler` wrappers.
+
+    Picks the first filler in `options` whose `_grams_to_hit_macro` for the
+    macro named by `threshold_key` (strip the `_g` suffix) closes `gap_g`.
+
+    Two cap modes:
+      * `cap_multiplier` set (protein/carb/fat): cap grams at
+        `serving_size_g * cap_multiplier`; skip the food if the min serving
+        (`serving_size_g * filler_min_serving_fraction`) would overshoot the
+        gap (Phase-6 fix — was previously clamped UP, doubling the gap).
+      * `cap_multiplier` is None (veg): clamp grams to
+        `[min_grams, max_grams]` (vegetables are 'free' — high volume, low
+        kcal, so we add them liberally without skipping).
+    """
+    if gap_g < FILLER_THRESHOLDS[threshold_key]:
+        return None
+
+    exclude_foods = exclude_foods or set()
+    macro = threshold_key[:-2] if threshold_key.endswith("_g") else threshold_key
+
+    for food_name, _ in options:
+        if food_name in exclude_foods:
+            continue
+        food = get_food(food_name)
+        if food is None:
+            continue
+        grams = _grams_to_hit_macro(food, macro, gap_g)
+        if grams <= 0:
+            continue
+        if cap_multiplier is not None:
+            # Protein/carb/fat mode: cap + skip-if-overshoot.
+            cap = food.serving_size_g * cap_multiplier
+            grams = min(grams, cap)
+            min_serving = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
+            if grams < min_serving:
+                # Min serving would overshoot the gap — try the next food.
+                continue
+        else:
+            # Veg mode: fixed min/max grams, no skip.
+            grams = min(grams, max_grams)
+            grams = max(grams, min_grams)
+        return MealFood(food=food, grams=round(grams, 0))
+
+    return None
+
+
 def select_protein_filler(
     gap_protein_g: float,
     diet_tag: str,
@@ -299,39 +347,19 @@ def select_protein_filler(
     Vegan users got non-vegan fillers. Now we check the diet_tag prefix:
     any tag starting with "VEGAN" uses the VEGAN list.
     """
-    if gap_protein_g < FILLER_THRESHOLDS["protein_g"]:
-        return None
-
-    exclude_foods = exclude_foods or set()
-    # Phase-6 fix: match by prefix so VEGAN_ETHIOPIAN / VEGAN_* tags
+    # match by prefix so VEGAN_ETHIOPIAN / VEGAN_* tags
     # resolve to the vegan list rather than silently falling back to OMNI.
     if diet_tag.startswith("VEGAN"):
         options = PROTEIN_FILLERS["VEGAN"]
     else:
         options = PROTEIN_FILLERS["OMNI"]
-
-    for food_name, _ in options:
-        if food_name in exclude_foods:
-            continue
-        food = get_food(food_name)
-        if food is None:
-            continue
-        grams = _grams_to_hit_macro(food, "protein", gap_protein_g)
-        if grams > 0:
-            # Phase-6 fix: cap multiplier + min fraction sourced from ScalerConfig.
-            max_grams = food.serving_size_g * SCALER_CONFIG.protein_serving_cap_multiplier
-            grams = min(grams, max_grams)
-            # Phase-6 fix: min-serving floor should NOT over-shoot the gap.
-            # Previously `max(grams, serving * min_fraction)` could double
-            # the protein gap (e.g. 6g gap → 15g whey → 12g protein). Now
-            # we skip the food entirely if the min serving would overshoot.
-            min_grams = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
-            if grams < min_grams:
-                # Min serving would overshoot — try the next food.
-                continue
-            return MealFood(food=food, grams=round(grams, 0))
-
-    return None
+    return _select_filler(
+        gap_protein_g,
+        options,
+        threshold_key="protein_g",
+        cap_multiplier=SCALER_CONFIG.protein_serving_cap_multiplier,
+        exclude_foods=exclude_foods,
+    )
 
 
 def select_carb_filler(
@@ -339,29 +367,13 @@ def select_carb_filler(
     exclude_foods: set[str] | None = None,
 ) -> Optional[MealFood]:
     """Select a carb filler to close the carb gap."""
-    if gap_carb_g < FILLER_THRESHOLDS["carb_g"]:
-        return None
-
-    exclude_foods = exclude_foods or set()
-
-    for food_name, _ in CARB_FILLERS:
-        if food_name in exclude_foods:
-            continue
-        food = get_food(food_name)
-        if food is None:
-            continue
-        grams = _grams_to_hit_macro(food, "carb", gap_carb_g)
-        if grams > 0:
-            max_grams = food.serving_size_g * SCALER_CONFIG.carb_serving_cap_multiplier
-            grams = min(grams, max_grams)
-            # Phase-6 fix: skip the food if the min serving would overshoot
-            # the gap (was previously clamped UP, doubling the gap).
-            min_grams = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
-            if grams < min_grams:
-                continue
-            return MealFood(food=food, grams=round(grams, 0))
-
-    return None
+    return _select_filler(
+        gap_carb_g,
+        CARB_FILLERS,
+        threshold_key="carb_g",
+        cap_multiplier=SCALER_CONFIG.carb_serving_cap_multiplier,
+        exclude_foods=exclude_foods,
+    )
 
 
 def select_fat_filler(
@@ -369,29 +381,13 @@ def select_fat_filler(
     exclude_foods: set[str] | None = None,
 ) -> Optional[MealFood]:
     """Select a fat filler to close the fat gap."""
-    if gap_fat_g < FILLER_THRESHOLDS["fat_g"]:
-        return None
-
-    exclude_foods = exclude_foods or set()
-
-    for food_name, _ in FAT_FILLERS:
-        if food_name in exclude_foods:
-            continue
-        food = get_food(food_name)
-        if food is None:
-            continue
-        grams = _grams_to_hit_macro(food, "fat", gap_fat_g)
-        if grams > 0:
-            max_grams = food.serving_size_g * SCALER_CONFIG.fat_serving_cap_multiplier
-            grams = min(grams, max_grams)
-            # Phase-6 fix: skip the food if the min serving would overshoot
-            # the gap (was previously clamped UP, doubling the gap).
-            min_grams = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
-            if grams < min_grams:
-                continue
-            return MealFood(food=food, grams=round(grams, 0))
-
-    return None
+    return _select_filler(
+        gap_fat_g,
+        FAT_FILLERS,
+        threshold_key="fat_g",
+        cap_multiplier=SCALER_CONFIG.fat_serving_cap_multiplier,
+        exclude_foods=exclude_foods,
+    )
 
 
 def select_veg_filler(
@@ -403,26 +399,15 @@ def select_veg_filler(
 
     Vegetables are 'free' (low kcal, high volume) — added liberally.
     """
-    if gap_fiber_g < FILLER_THRESHOLDS["fiber_g"]:
-        return None
-
-    exclude_foods = exclude_foods or set()
-
-    for food_name, _ in VEG_FILLERS:
-        if food_name in exclude_foods:
-            continue
-        food = get_food(food_name)
-        if food is None:
-            continue
-        grams = _grams_to_hit_macro(food, "fiber", gap_fiber_g)
-        if grams > 0:
-            # Phase-6 fix: veg is 'free' (low kcal, high volume) — caps from
-            # ScalerConfig.veg_max_grams / veg_min_grams.
-            grams = min(grams, SCALER_CONFIG.veg_max_grams)
-            grams = max(grams, SCALER_CONFIG.veg_min_grams)
-            return MealFood(food=food, grams=round(grams, 0))
-
-    return None
+    return _select_filler(
+        gap_fiber_g,
+        VEG_FILLERS,
+        threshold_key="fiber_g",
+        cap_multiplier=None,
+        min_grams=SCALER_CONFIG.veg_min_grams,
+        max_grams=SCALER_CONFIG.veg_max_grams,
+        exclude_foods=exclude_foods,
+    )
 
 
 # === Main filler orchestrator ===

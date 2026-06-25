@@ -158,12 +158,11 @@ def compute_rmr(
       in_active_deficit: True if user is currently in a cutting phase
       weight_reduced_pct: 0-1, fraction below all-time high body weight
     """
-    # Tier 2.11 fix: pass body_fat_pct to select_rmr_formula so it can use
+    # pass body_fat_pct to select_rmr_formula so it can use
     # the assessment-derived BF% even when profile.body_fat_pct is None.
     formula = select_rmr_formula(profile, body_fat_pct)
 
-    # Tier 2.10 fix: explicit branch for HARRIS_BENEDICT_REVISED (previously
-    # silently downgraded to Mifflin-St Jeor).
+    # explicit branch for HARRIS_BENEDICT_REVISED.
     if formula == RMRFormula.KATCH_MCARDLE and body_fat_pct is not None:
         base_rmr = rmr_katch_mcardle(profile, body_fat_pct)
     elif formula == RMRFormula.CUNNINGHAM and body_fat_pct is not None:

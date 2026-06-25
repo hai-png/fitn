@@ -146,7 +146,7 @@ def _user_max_experience_rank(status: TrainingStatus) -> int:
 
 
 # === View-count parsing for popularity sort ===
-# Tier 4.43 fix: _view_count now imports from the shared _utils module
+# _view_count now imports from the shared _utils module
 # (was duplicated in exercise_categorization.py).
 from ._utils import parse_view_count as _view_count
 
@@ -161,7 +161,7 @@ def _matches_pattern(ex: Exercise, pattern: str) -> bool:
     detect the exercise's canonical pattern, then compares to the slot's
     pattern. Falls back to force_type matching if categorization fails.
     """
-    # Phase-4: use canonical pattern detection
+    # use canonical pattern detection
     ex_pattern = get_movement_pattern(ex)
     if ex_pattern == pattern:
         return True

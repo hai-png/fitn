@@ -145,7 +145,7 @@ _COMPOUND_PRIMARY_SLUGS = {
     # Vertical pull
     "pull-up", "chin-up", "lat-pull-down", "wide-grip-pull-down",
     "v-bar-pull-down",
-    # Phase-6 fix: weighted variants of pull-up / chin-up were missing —
+    # weighted variants of pull-up / chin-up were missing —
     # they would be demoted to COMPOUND_SECONDARY despite being mechanically
     # identical to the bodyweight versions (just loaded). Add them so the
     # slug-based promotion is consistent.
@@ -168,7 +168,7 @@ def derive_category(
       2. exercise_type contains "Mobility" / "Stretching" / "Foam Roll" → MOBILITY
       3. slug in _COMPOUND_PRIMARY_SLUGS → COMPOUND_PRIMARY
       4. mechanics == "Compound" → COMPOUND_SECONDARY
-      5. mechanics == "Isolation" → ACCESSORY (alias ISOLATION)
+      5. mechanics == "Isolation" → ACCESSORY
       6. Default → ACCESSORY
     """
     if exercise_type:
@@ -194,14 +194,7 @@ def derive_category(
 _DEFAULTS_BY_CATEGORY = {
     ExerciseCategory.COMPOUND_PRIMARY:    (4, "5-8",   180),
     ExerciseCategory.COMPOUND_SECONDARY:  (3, "8-12",  120),
-    # Phase-6 fix: ACCESSORY and ISOLATION entries are intentionally near-
-    # duplicates (differ only by the rep-range floor: 10 vs 12). ACCESSORY
-    # covers compound-ish accessories like glute bridges / face pulls where a
-    # 10-rep floor leaves room for slightly heavier loading; ISOLATION covers
-    # true single-joint moves (biceps curl, triceps extension) where 12 reps
-    # is the standard hypertrophy floor (less weight, more volume per set).
     ExerciseCategory.ACCESSORY:           (3, "10-15",  60),
-    ExerciseCategory.ISOLATION:           (3, "12-15",  60),
     ExerciseCategory.CARDIO:              (1, "20-45 min", 0),
     ExerciseCategory.MOBILITY:            (2, "30-60 sec", 30),
 }

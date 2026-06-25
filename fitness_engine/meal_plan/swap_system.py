@@ -20,14 +20,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Optional
 
-# Phase-6 cleanup: hoisted from inside ``get_ingredient_swaps`` (was a deferred
-# import for no reason — ``re`` has no circular dependency here).
 import re
 
 from ..models.meal import Recipe
 from .recipe_loader import load_recipes, get_recipe_by_id
-# Phase-6 cleanup: plant-named phrases were duplicated here and in recipe_loader/
-# recipe_scorer; now sourced from the shared ``_allergen_constants`` module.
 from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES
 from .recipe_scorer import (
     score_diet_match, check_allergens, check_excluded_ingredients,
@@ -212,6 +208,15 @@ INGREDIENT_SWAPS: dict[str, list[IngredientSwap]] = {
 }
 
 
+# pre-compile the per-key word-boundary regex once at module load so
+# get_ingredient_swaps() doesn't re-compile the same pattern on every call
+# inside its `for key in INGREDIENT_SWAPS` loop.
+_INGREDIENT_SWAP_REGEXES: dict[str, re.Pattern] = {
+    key: re.compile(r"\b" + re.escape(key) + r"\b", re.IGNORECASE)
+    for key in INGREDIENT_SWAPS
+}
+
+
 def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     """
     Get swap options for a specific ingredient.
@@ -223,8 +228,6 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     so the dairy/egg swap keys don't fire on them.
     Exact match still takes precedence.
     """
-    # Phase-6 cleanup: ``_PLANT_NAMED_PHRASES`` is now imported at module top
-    # from ``_allergen_constants``. The local ``import re`` was hoisted too.
     ing_lower = ingredient.lower().strip()
 
     # Exact match
@@ -238,19 +241,16 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
             return []
 
     # Word-boundary partial match (e.g. "boneless chicken breast" → "chicken
-    # breast"). Phase-6 fix: previously used `if key in ing_lower` which
-    # caused false positives (e.g. "egg" matching "eggplant", "butter"
-    # matching "butter lettuce", "milk" matching "milk thistle").
-    # We also skip matching if the ingredient contains a plant-named phrase
-    # that subsumes the key (e.g. "butter lettuce" contains "butter" but
-    # "butter lettuce" is a plant).
+    # breast"). Also skip matching if the ingredient contains a plant-named
+    # phrase that subsumes the key (e.g. "butter lettuce" contains "butter"
+    # but "butter lettuce" is a plant).
     for key, swaps in INGREDIENT_SWAPS.items():
         # If any plant-named phrase containing this key is present in the
         # ingredient, skip this key (the dairy/egg keyword is part of a
         # plant name, not the actual ingredient).
         if any(phrase in ing_lower for phrase in _PLANT_NAMED_PHRASES if key in phrase):
             continue
-        pat = re.compile(r"\b" + re.escape(key) + r"\b", re.IGNORECASE)
+        pat = _INGREDIENT_SWAP_REGEXES[key]
         if pat.search(ing_lower):
             return swaps
 
@@ -266,23 +266,27 @@ def get_swaps_for_recipe_ingredients(recipe: Recipe) -> dict[str, list[Ingredien
     """
     swaps: dict[str, list[IngredientSwap]] = {}
     for ing in recipe.ingredients:
-        # Extract the main ingredient name (strip quantities/units)
-        # Simple heuristic: take first 2-3 words
+        # Extract the main ingredient name (strip quantities/units).
+        # Simple heuristic: take first 2-3 words. Test once, cache the result,
+        # and reuse it.
         words = ing.split()
         if len(words) <= 2:
             main = ing
+            swap_list = get_ingredient_swaps(main)
         else:
-            # Try first 2 words, then 3
-            main_2 = " ".join(words[:2])
+            # Try first 3 words, then 2, then fall back to the full string.
             main_3 = " ".join(words[:3])
-            if get_ingredient_swaps(main_3):
+            swap_list = get_ingredient_swaps(main_3)
+            if swap_list:
                 main = main_3
-            elif get_ingredient_swaps(main_2):
-                main = main_2
             else:
-                main = ing
-
-        swap_list = get_ingredient_swaps(main)
+                main_2 = " ".join(words[:2])
+                swap_list = get_ingredient_swaps(main_2)
+                if swap_list:
+                    main = main_2
+                else:
+                    main = ing
+                    swap_list = get_ingredient_swaps(ing)
         if swap_list:
             swaps[ing] = swap_list
 
@@ -327,10 +331,7 @@ def get_recipe_swaps(
 
     Returns list of Recipes sorted by kcal closeness to target.
     """
-    # Phase-6 fix: copy the caller's set so we don't mutate it.
-    # Previously `exclude_ids or set()` returned the original set when
-    # non-empty, and `exclude_ids.add(recipe.id)` then mutated the caller's
-    # set. Now always work on a fresh copy.
+    # copy the caller's set so we don't mutate it.
     exclude_ids = set(exclude_ids) if exclude_ids else set()
     if recipe.id:
         exclude_ids.add(recipe.id)
@@ -354,13 +355,13 @@ def get_recipe_swaps(
         # Skip recipes with diet warnings
         if "[diet-warning" in (r.notes or ""):
             continue
-        # Phase-6: must not contain allergens
+        # must not contain allergens
         if allergens_to_avoid and check_allergens(r, allergens_to_avoid):
             continue
-        # Phase-6: must not contain excluded ingredients
+        # must not contain excluded ingredients
         if excluded_ingredients and check_excluded_ingredients(r, excluded_ingredients):
             continue
-        # Phase-6: must match cuisine preference if specified
+        # must match cuisine preference if specified
         if cuisine_preference:
             recipe_cuisine = (r.cuisine or "").lower()
             pref_lower = cuisine_preference.lower()

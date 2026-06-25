@@ -12,8 +12,12 @@ Replaces the single-RPE-per-category model with:
       ISOLATION                   (curls, extensions, raises, flyes, calves)
 
   - Warm-up set generator (Table 7.18):
-      LEQ_6_REP recipe  (for sets of ≤6 reps)
-      GEQ_6_REP recipe  (for sets of ≥6 reps)
+      LEQ_6_REP recipe  (for sets of 1-5 reps)
+      GEQ_6_REP recipe  (for sets of 6+ reps)
+
+    Task 3-quickfixes #16: previously both recipes claimed to cover "6 reps"
+    (LEQ was `target_reps <= 6`, GEQ was `> 6`). The boundary is now
+    `target_reps < 6` so 6 uses the GEQ recipe, removing the overlap.
 
   - Reactive deload (Rule 8.1–8.3):
       5-question self-assessment → ≥2 Yes triggers deload
@@ -169,7 +173,7 @@ def get_rir_range(
     return last_range
 
 
-def rir_to_rpe(rir: int, reps: int) -> float:
+def rir_to_rpe(rir: int) -> float:
     """
     Convert RIR to RPE.
 
@@ -182,16 +186,22 @@ def rir_to_rpe(rir: int, reps: int) -> float:
     RIR-based RPE is unreliable above ~12 reps (cardio-respiratory failure
     vs. muscular failure), but the fix is to document that caveat, not to
     silently cap. Now we return the true RPE = 10 - RIR for all rep ranges.
+
+    Task 3-quickfixes #17: removed the unused `reps: int` parameter (the
+    function never referenced it after the Tier 5.65 cap removal).
     """
     rpe = 10.0 - rir
     return max(4.0, min(10.0, rpe))
 
 
-def rpe_to_rir(rpe: float, reps: int) -> int:
+def rpe_to_rir(rpe: float) -> int:
     """Convert RPE to RIR.
 
     Tier 5.65 fix: removed the high-rep cap (was min(rpe, 8.0) for reps > 12)
     for the same reason as rir_to_rpe — it under-reported intensity.
+
+    Task 3-quickfixes #17: removed the unused `reps: int` parameter (the
+    function never referenced it after the Tier 5.65 cap removal).
     """
     return max(0, int(round(10 - rpe)))
 
@@ -209,7 +219,7 @@ class WarmUpSet:
 
 # Two recipes from Table 7.18
 WARMUP_LEQ_6_REP = [
-    # For target sets of ≤6 reps
+    # For target sets of 1-5 reps
     WarmUpSet(1, "5-10", 0.40, 90),    # optional, 40% 1RM
     WarmUpSet(2, "3-5",  0.60, 90),    # 60% 1RM
     WarmUpSet(3, "1-3",  0.80, 90),    # 80% 1RM
@@ -217,7 +227,7 @@ WARMUP_LEQ_6_REP = [
 ]
 
 WARMUP_GEQ_6_REP = [
-    # For target sets of ≥6 reps
+    # For target sets of 6+ reps
     WarmUpSet(1, "5-10", 0.40, 90),    # optional, 40% 1RM
     WarmUpSet(2, "4-6",  0.60, 90),    # 60% 1RM
     WarmUpSet(3, "2-4",  0.80, 90),    # 80% 1RM
@@ -232,10 +242,13 @@ def generate_warmup_sets(
     """
     Generate warm-up sets for a working set with the given target reps.
 
-    Uses LEQ_6_REP recipe for targets ≤6 reps, GEQ_6_REP for ≥6 reps.
+    Uses LEQ_6_REP recipe for targets of 1-5 reps, GEQ_6_REP for 6+ reps.
     The first set (40% 1RM) is optional — included only if include_optional=True.
+
+    Task 3-quickfixes #16: the boundary at 6 reps was previously ambiguous
+    (`<=6` for LEQ, `>6` for GEQ → 6 matched LEQ). Now 6 uses GEQ.
     """
-    recipe = WARMUP_LEQ_6_REP if target_reps <= 6 else WARMUP_GEQ_6_REP
+    recipe = WARMUP_LEQ_6_REP if target_reps < 6 else WARMUP_GEQ_6_REP
     if not include_optional:
         # Skip the first (40%) set
         recipe = recipe[1:]
@@ -303,10 +316,6 @@ def should_deload(answers: list[bool]) -> bool:
         )
     return sum(1 for a in answers if a) >= 2
 
-
-# Phase-6 cleanup: removed ``apply_deload`` (dead code — the architect never
-# calls it; ``apply_periodization`` with ``is_deload=True`` is the production
-# path, with its own deload recipe in periodization.py around line 211).
 
 
 # === Strength block phases (Tables 7.11–7.13) ===
@@ -385,10 +394,6 @@ STRENGTH_PHASE_SPECS: dict[StrengthPhase, StrengthPhaseSpec] = {
     ),
 }
 
-
-# Phase-6 cleanup: removed ``get_peak_phase_duration`` (dead code — never
-# called from production; program duration is derived via
-# ``get_program_duration_weeks`` in periodization.py).
 
 
 __all__ = [

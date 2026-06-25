@@ -1,7 +1,7 @@
 """
 Fitness Engine — top-level orchestrator.
 
-Clean information flow:
+Information flow:
 
     UserProfile
         ↓
@@ -13,6 +13,7 @@ Clean information flow:
         └── build_meal_plan(profile, assessment, nutrition, prefs.meal)
 
 Public API:
+
     from fitness_engine import (
         UserProfile, assess_profile, propose_plan, PlanPreferences,
     )
@@ -21,48 +22,26 @@ Public API:
     assessment = assess_profile(profile)
     preferences = PlanPreferences(meal_frequency=4, include_pre_post_workout=True)
     plan = propose_plan(profile, assessment, preferences)
-
-Backward compatibility: the flat-kwargs signature still works:
-
-    plan = propose_plan(
-        profile, assessment,
-        meal_frequency=4,
-        include_pre_post_workout=True,
-    )
 """
 from __future__ import annotations
 
-import warnings
-
 from .models.profile import UserProfile
-from .models.assessment import AssessmentResult, RecommendedStrategy
-from .models.training import PlanType
+from .models.assessment import AssessmentResult
 from .models.meal import FitnessPlan
 from .models.preferences import PlanPreferences
 from .assessment.assessor import assess_profile
 from .nutrition.planner import build_nutrition_plan
 from .training.architect import build_training_plan
 from .meal_plan.planner import build_meal_plan
+from .models.nutrition import NutritionPlan
+from .models.training import TrainingPlan
+from .models.meal import MealPlan
 
 
 def propose_plan(
     profile: UserProfile,
     assessment: AssessmentResult,
     preferences: PlanPreferences | None = None,
-    # === Backward-compat flat kwargs (deprecated, use PlanPreferences) ===
-    meal_frequency: int | None = None,
-    exercise_hours_per_day: float | None = None,
-    exercise_intensity: str | None = None,
-    climate: str | None = None,
-    in_active_deficit: bool | None = None,
-    weight_reduced_pct: float | None = None,
-    plan_type: PlanType | None = None,
-    muscle_focus: list[str] | None = None,
-    program_duration_weeks: int | None = None,
-    cuisine_preference: str | None = None,
-    allergens_to_avoid: list[str] | None = None,
-    excluded_ingredients: list[str] | None = None,
-    include_pre_post_workout: bool | None = None,
 ) -> FitnessPlan:
     """
     Build the complete fitness plan: nutrition + training + meal plan.
@@ -73,75 +52,22 @@ def propose_plan(
       preferences: optional PlanPreferences dataclass grouping all tunable
                    preferences. If None, default preferences are used.
 
-    Backward-compat kwargs (deprecated — prefer PlanPreferences):
-      meal_frequency, exercise_hours_per_day, exercise_intensity, climate,
-      in_active_deficit, weight_reduced_pct, plan_type, muscle_focus,
-      program_duration_weeks, cuisine_preference, allergens_to_avoid,
-      excluded_ingredients, include_pre_post_workout
-
     Returns FitnessPlan.
     """
-    # === Resolve preferences ===
     if preferences is None:
         preferences = PlanPreferences()
 
-    # Collect any flat kwargs and merge via from_kwargs (single coercion path).
-    # Phase-6 cleanup: consolidated 13 inline conditionals + 2 deferred imports
-    # into one dict + one from_kwargs call. Emits DeprecationWarning.
-    flat_kwargs: dict = {}
-    if meal_frequency is not None:
-        flat_kwargs["meal_frequency"] = meal_frequency
-    if exercise_hours_per_day is not None:
-        flat_kwargs["exercise_hours_per_day"] = exercise_hours_per_day
-    if exercise_intensity is not None:
-        flat_kwargs["exercise_intensity"] = exercise_intensity
-    if climate is not None:
-        flat_kwargs["climate"] = climate
-    if in_active_deficit is not None:
-        flat_kwargs["in_active_deficit"] = in_active_deficit
-    if weight_reduced_pct is not None:
-        flat_kwargs["weight_reduced_pct"] = weight_reduced_pct
-    if plan_type is not None:
-        flat_kwargs["plan_type"] = plan_type
-    if muscle_focus is not None:
-        flat_kwargs["muscle_focus"] = muscle_focus
-    if program_duration_weeks is not None:
-        flat_kwargs["program_duration_weeks"] = program_duration_weeks
-    if cuisine_preference is not None:
-        flat_kwargs["cuisine_preference"] = cuisine_preference
-    if allergens_to_avoid is not None:
-        flat_kwargs["allergens_to_avoid"] = allergens_to_avoid
-    if excluded_ingredients is not None:
-        flat_kwargs["excluded_ingredients"] = excluded_ingredients
-    if include_pre_post_workout is not None:
-        flat_kwargs["include_pre_post_workout"] = include_pre_post_workout
-
-    if flat_kwargs:
-        warnings.warn(
-            "propose_plan() flat kwargs are deprecated. Pass a PlanPreferences "
-            "dataclass as the third argument instead. Flat kwargs will be "
-            "removed in a future major version.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        # Build a fresh PlanPreferences from the flat kwargs (handles enum
-        # coercion via __post_init__), then overlay onto existing preferences.
-        from_kwargs_prefs = PlanPreferences.from_kwargs(**flat_kwargs)
-        for field_name in flat_kwargs:
-            setattr(preferences, field_name, getattr(from_kwargs_prefs, field_name))
-
-    # === 1. Nutrition plan ===
+    # 1. Nutrition plan
     nutrition = build_nutrition_plan(
         profile=profile,
         assessment=assessment,
         exercise_hours_per_day=preferences.exercise_hours_per_day,
         exercise_intensity=preferences.exercise_intensity,
         climate=preferences.climate,
-        in_active_deficit=preferences.in_active_deficit,
         weight_reduced_pct=preferences.weight_reduced_pct,
     )
 
-    # === 2. Training plan ===
+    # 2. Training plan
     training = build_training_plan(
         profile=profile,
         assessment=assessment,
@@ -150,7 +76,7 @@ def propose_plan(
         program_duration_weeks=preferences.program_duration_weeks,
     )
 
-    # === 3. Meal plan ===
+    # 3. Meal plan
     meal = build_meal_plan(
         profile=profile,
         assessment=assessment,
@@ -162,7 +88,7 @@ def propose_plan(
         include_pre_post_workout=preferences.include_pre_post_workout,
     )
 
-    # === 4. Build unified summary ===
+    # 4. Build unified summary
     summary = _build_summary(profile, assessment, nutrition, training, meal, preferences)
 
     return FitnessPlan(
@@ -176,9 +102,9 @@ def propose_plan(
 def _build_summary(
     profile: UserProfile,
     assessment: AssessmentResult,
-    nutrition,
-    training,
-    meal,
+    nutrition: NutritionPlan,
+    training: TrainingPlan,
+    meal: MealPlan,
     preferences: PlanPreferences,
 ) -> str:
     """Build a human-readable plan summary."""
@@ -248,7 +174,6 @@ def _build_summary(
 __all__ = [
     "UserProfile",
     "AssessmentResult",
-    "RecommendedStrategy",
     "FitnessPlan",
     "PlanPreferences",
     "assess_profile",

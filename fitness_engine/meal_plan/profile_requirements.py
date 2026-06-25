@@ -30,7 +30,7 @@ from ..models.meal import MealType
 
 
 # === Diet type mapping ===
-# Phase-6 fix: removed dead `DIET_TYPE_RECIPE_TAG` dict — it was defined but
+# removed dead `DIET_TYPE_RECIPE_TAG` dict — it was defined but
 # never used (get_recipe_diet_tag below uses its own substring logic). Keeping
 # a second source of truth for the same mapping would invite drift.
 
@@ -48,10 +48,8 @@ def get_recipe_diet_tag(profile_diet: DietType) -> str:
     We need to detect the Ethiopian preference from cuisine_preference
     because the profile's DietType enum doesn't have ETHIOPIAN variants.
     """
-    # Check for Ethiopian preference via profile.cuisine_preference (Phase-5 addition)
-    # or via the diet_type itself if it's a Phase-5 enum value
-    # Phase-6 cleanup: DietType is an Enum and always has ``.value``; the
-    # hasattr shim was a leftover from before the field was typed as DietType.
+    # Check for Ethiopian preference via profile.cuisine_preference or
+    # via the diet_type itself. DietType is an Enum and always has ``.value``.
     diet_str = profile_diet.value.upper()
 
     if "VEGAN_ETHIOPIAN" in diet_str or "VEGAN-ETHIOPIAN" in diet_str:
@@ -227,7 +225,7 @@ STANDARD_ALLOCATIONS: dict[int, dict[MealType, float]] = {
         MealType.DINNER: 0.30,
         MealType.SNACK: 0.15,
     },
-    5: {  # 3 meals + 2 snacks — must sum to 1.0 (Tier 1.3 fix)
+    5: {  # 3 meals + 2 snacks — must sum to 1.0
         MealType.BREAKFAST: 0.20,
         MealType.LUNCH: 0.25,
         MealType.DINNER: 0.25,
@@ -276,7 +274,7 @@ def get_meal_allocation(
             MealType.DINNER: 0.225,
             MealType.SNACK: 0.15,
         }
-    else:  # 5 meals — must sum to 1.0 (Tier 1.3 fix: was 0.90)
+    else:  # 5 meals — must sum to 1.0
         return {
             MealType.PRE_WORKOUT: 0.10,
             MealType.POST_WORKOUT: 0.15,
@@ -310,10 +308,6 @@ class MealPlanRequirements:
     meal_frequency: int = 3
     include_pre_post_workout: bool = False
     training_days_per_week: int = 3
-    # Phase-6 cleanup: removed ``training_time_of_day: str = "evening"`` field
-    # — it was set but never read by any consumer (the actual training time
-    # is read from ``profile.training_time_of_day`` at slot-construction time).
-
     # Diet + filtering
     diet_tag: str = "OMNI"
     cuisine_preference: Optional[str] = None
@@ -373,126 +367,29 @@ def compute_meal_plan_requirements(
     daily_fiber = nutrition.micronutrients.fiber_g
 
     # === Standard day slot targets ===
-    standard_alloc = get_meal_allocation(
-        meal_frequency,
-        include_pre_post_workout=False,
-        is_training_day=False,
+    slot_targets = _build_slot_list(
+        meal_frequency, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
+        training_day=False,
     )
 
-    slot_targets: list[MealSlotTarget] = []
-    # Handle 5-meal case (SNACK appears twice)
-    if meal_frequency == 5:
-        snack_pct = standard_alloc[MealType.SNACK] / 2
-        template = [MealType.BREAKFAST, MealType.SNACK, MealType.LUNCH,
-                    MealType.SNACK, MealType.DINNER]
-        snack_count = 0
-        for mt in template:
-            if mt == MealType.SNACK:
-                snack_count += 1
-                pct = snack_pct
-                slot_targets.append(_make_slot(
-                    mt, pct, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
-                    timing_note=f"snack {snack_count}",
-                ))
-            else:
-                pct = standard_alloc[mt]
-                slot_targets.append(_make_slot(
-                    mt, pct, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
-                ))
-    else:
-        for mt, pct in standard_alloc.items():
-            slot_targets.append(_make_slot(
-                mt, pct, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
-            ))
-
     # === Training day slot targets (with PRE/POST workout) ===
-    training_day_slot_targets: list[MealSlotTarget] = []
+    # ``_build_slot_list(..., training_day=True)`` builds the residual slots
+    # (PRE/POST macros subtracted from daily totals, no PRE/POST in the list).
+    # ``_insert_pre_post_slots`` then inserts PRE/POST at the right positions
+    # based on ``training_time_of_day`` (declarative, no fragile index math).
+    # The field is always present with a default (TrainingTimeOfDay enum),
+    # so no hasattr shim is needed.
     if include_pre_post_workout:
-        training_alloc = get_meal_allocation(
-            meal_frequency,
-            include_pre_post_workout=True,
-            is_training_day=True,
+        training_day_slot_targets = _build_slot_list(
+            meal_frequency, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
+            training_day=True,
         )
-
-        # Pre/Post workout slots (Phase-6 fix: these now preserve daily macros
-        # by blending 10%/15% of daily macros with the workout ratio).
         pre_target = compute_pre_workout_target(daily_kcal, daily_p, daily_c, daily_f)
         post_target = compute_post_workout_target(daily_kcal, daily_p, daily_c, daily_f)
-
-        # Standard slots on training days must absorb the macro offset caused
-        # by the PRE/POST ratio override. Compute the residual macros that the
-        # standard slots need to deliver, then distribute proportionally to
-        # each standard slot's kcal share.
-        std_p_total = daily_p - pre_target.target_protein_g - post_target.target_protein_g
-        std_c_total = daily_c - pre_target.target_carb_g - post_target.target_carb_g
-        std_f_total = daily_f - pre_target.target_fat_g - post_target.target_fat_g
-        std_kcal_total = daily_kcal - pre_target.target_kcal - post_target.target_kcal
-
-        # Standard slots (minus the pre/post allocation)
-        if meal_frequency == 5:
-            snack_pct = training_alloc[MealType.SNACK] / 2
-            template = [MealType.BREAKFAST, MealType.SNACK, MealType.LUNCH,
-                        MealType.SNACK, MealType.DINNER]
-            snack_count = 0
-            for mt in template:
-                if mt == MealType.SNACK:
-                    snack_count += 1
-                    pct = snack_pct
-                    training_day_slot_targets.append(_make_residual_slot(
-                        mt, pct, std_kcal_total, std_p_total, std_c_total, std_f_total,
-                        daily_fiber, std_kcal_total,
-                        timing_note=f"snack {snack_count}",
-                    ))
-                else:
-                    pct = training_alloc[mt]
-                    training_day_slot_targets.append(_make_residual_slot(
-                        mt, pct, std_kcal_total, std_p_total, std_c_total, std_f_total,
-                        daily_fiber, std_kcal_total,
-                    ))
-        else:
-            for mt, pct in training_alloc.items():
-                if mt in (MealType.PRE_WORKOUT, MealType.POST_WORKOUT):
-                    continue   # handled separately
-                training_day_slot_targets.append(_make_residual_slot(
-                    mt, pct, std_kcal_total, std_p_total, std_c_total, std_f_total,
-                    daily_fiber, std_kcal_total,
-                ))
-
-        # Insert PRE/POST at appropriate positions based on training_time_of_day.
-        # Tier 3.38 fix: training_time_of_day is now a real field on UserProfile
-        # (TrainingTimeOfDay enum). Previously this was a dead getattr that always
-        # returned 'evening'. Now the morning/midday/evening branching actually fires.
-        # Phase-6 cleanup: the field is always present with a default, so the
-        # hasattr shim was unnecessary.
-        training_time = profile.training_time_of_day.value
-        if training_time == "morning":
-            # Phase-6 fix: corrected the misleading comment. For morning
-            # (fasted) training, PRE is consumed before breakfast and POST
-            # is consumed as/with breakfast — so they go at the START of the
-            # day's slot list: [PRE, POST/breakfast, lunch, dinner]. The
-            # original `insert(0, pre); insert(1, post)` correctly produced
-            # this order; the comment "PRE right after breakfast" was wrong
-            # (it described a different meal pattern).
-            training_day_slot_targets.insert(0, pre_target)
-            training_day_slot_targets.insert(1, post_target)
-        elif training_time == "midday":
-            # PRE before lunch, POST after lunch
-            # Insert at position 1 (after breakfast, before lunch)
-            insert_pos = 1
-            training_day_slot_targets.insert(insert_pos, pre_target)
-            training_day_slot_targets.insert(insert_pos + 2, post_target)
-        else:  # evening (default)
-            # Phase-6 fix: PRE before dinner, POST after dinner.
-            # Previously both were appended to the end, putting PRE AFTER
-            # dinner — contradicting the pre-workout semantics. Now find
-            # the dinner slot and insert PRE before it, POST after it.
-            dinner_idx = next(
-                (i for i, s in enumerate(training_day_slot_targets)
-                 if s.meal_type.value == "dinner"),
-                len(training_day_slot_targets),
-            )
-            training_day_slot_targets.insert(dinner_idx, pre_target)
-            training_day_slot_targets.insert(dinner_idx + 2, post_target)
+        training_day_slot_targets = _insert_pre_post_slots(
+            training_day_slot_targets, pre_target, post_target,
+            profile.training_time_of_day.value,
+        )
     else:
         training_day_slot_targets = list(slot_targets)
 
@@ -541,7 +438,7 @@ def compute_meal_plan_requirements(
         meal_frequency=meal_frequency,
         include_pre_post_workout=include_pre_post_workout,
         training_days_per_week=profile.training_days_per_week,
-        # Phase-6 cleanup: ``training_time_of_day`` field removed from
+        # ``training_time_of_day`` field removed from
         # MealPlanRequirements — was set but never read.
         diet_tag=diet_tag,
         cuisine_preference=cuisine_preference,
@@ -592,11 +489,6 @@ def _make_residual_slot(
     PRE/POST). The slot's macros are `pct` of the residual macros (daily
     macros minus what PRE/POST already took). This ensures that the sum of
     all training-day slots equals the daily macro targets exactly.
-
-    Phase-6 fix: previously each standard slot used `pct * daily_p/c/f`, which
-    double-counted the macros that PRE/POST already allocated — causing
-    training-day totals to exceed daily targets whenever PRE/POST used a
-    different macro ratio than the daily split.
     """
     # `pct` is expressed as a fraction of the standard slots' combined kcal
     # (std_kcal_for_pct), not of daily kcal. Convert to a fraction of std total.
@@ -615,6 +507,232 @@ def _make_residual_slot(
         target_fiber_g=daily_fiber * fraction,
         timing_note=timing_note,
     )
+
+
+# === Slot-list construction helpers (extracted from compute_meal_plan_requirements) ===
+
+
+def _build_slots_from_alloc(
+    alloc: dict[MealType, float],
+    meal_frequency: int,
+    make_slot,
+) -> list[MealSlotTarget]:
+    """Build a list of ``MealSlotTarget`` from an allocation dict.
+
+    For ``meal_frequency == 5``, uses the explicit template
+    ``[BREAKFAST, SNACK, LUNCH, SNACK, DINNER]`` with the SNACK percentage
+    split in half (so each of the two snack slots gets half the SNACK
+    allocation). For all other frequencies, iterates the alloc dict directly
+    (insertion order is preserved).
+
+    Args:
+        alloc:          ``{MealType: pct_of_daily}`` — should already exclude
+                        any slots the caller wants to handle separately (e.g.
+                        PRE_WORKOUT / POST_WORKOUT, which are inserted by
+                        ``_insert_pre_post_slots``).
+        meal_frequency: 2 / 3 / 4 / 5
+        make_slot:      ``callable(meal_type, pct, timing_note) -> MealSlotTarget``.
+                        Lets the standard-day and training-day callers plug in
+                        ``_make_slot`` (daily macros) or ``_make_residual_slot``
+                        (residual macros) without duplicating the snack-loop.
+    """
+    slots: list[MealSlotTarget] = []
+    if meal_frequency == 5:
+        snack_pct = alloc[MealType.SNACK] / 2
+        template = [MealType.BREAKFAST, MealType.SNACK, MealType.LUNCH,
+                    MealType.SNACK, MealType.DINNER]
+        snack_count = 0
+        for mt in template:
+            if mt == MealType.SNACK:
+                snack_count += 1
+                slots.append(make_slot(mt, snack_pct, f"snack {snack_count}"))
+            else:
+                slots.append(make_slot(mt, alloc[mt], ""))
+    else:
+        for mt, pct in alloc.items():
+            slots.append(make_slot(mt, pct, ""))
+    return slots
+
+
+def _build_slot_list(
+    meal_frequency: int,
+    daily_kcal: float,
+    daily_p: float,
+    daily_c: float,
+    daily_f: float,
+    daily_fiber: float,
+    training_day: bool,
+) -> list[MealSlotTarget]:
+    """Build the list of standard meal slots (no PRE/POST) for one day.
+
+    Consolidates the standard-day and training-day slot-construction paths
+    that were previously duplicated inline in ``compute_meal_plan_requirements``.
+
+    - ``training_day=False``: each slot's kcal/macros are a fraction of the
+      daily totals via :func:`_make_slot`.
+    - ``training_day=True``: PRE/POST workout targets are computed internally
+      and their macro contribution is subtracted from the daily totals; each
+      remaining slot then gets a fraction of the *residual* macros via
+      :func:`_make_residual_slot`. PRE/POST themselves are NOT included in
+      the returned list — the caller inserts them separately via
+      :func:`_insert_pre_post_slots` so they can be positioned by time of day.
+
+    Both branches route through :func:`_build_slots_from_alloc` so the
+    5-meal snack-split template is shared.
+
+    Args:
+        meal_frequency: 2 / 3 / 4 / 5.
+        daily_kcal/daily_p/daily_c/daily_f/daily_fiber: daily macro targets.
+        training_day: if True, build residual slots (PRE/POST macros
+            subtracted); if False, build standard fraction-of-daily slots.
+
+    Returns:
+        List of :class:`MealSlotTarget` objects (no PRE_WORKOUT / POST_WORKOUT).
+    """
+    if not training_day:
+        standard_alloc = get_meal_allocation(
+            meal_frequency,
+            include_pre_post_workout=False,
+            is_training_day=False,
+        )
+        return _build_slots_from_alloc(
+            standard_alloc, meal_frequency,
+            lambda mt, pct, timing: _make_slot(
+                mt, pct, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
+                timing_note=timing,
+            ),
+        )
+
+    # Training day: compute PRE/POST to derive residual macros, then build
+    # residual slots. PRE/POST themselves are returned separately by the
+    # caller via ``_insert_pre_post_slots``.
+    pre_target = compute_pre_workout_target(daily_kcal, daily_p, daily_c, daily_f)
+    post_target = compute_post_workout_target(daily_kcal, daily_p, daily_c, daily_f)
+    std_p_total = daily_p - pre_target.target_protein_g - post_target.target_protein_g
+    std_c_total = daily_c - pre_target.target_carb_g - post_target.target_carb_g
+    std_f_total = daily_f - pre_target.target_fat_g - post_target.target_fat_g
+    std_kcal_total = daily_kcal - pre_target.target_kcal - post_target.target_kcal
+
+    training_alloc_full = get_meal_allocation(
+        meal_frequency,
+        include_pre_post_workout=True,
+        is_training_day=True,
+    )
+    # PRE/POST are positioned separately by ``_insert_pre_post_slots`` —
+    # exclude them here so the standard-slot list contains only the slots
+    # that absorb residual macros.
+    training_alloc = {
+        mt: pct for mt, pct in training_alloc_full.items()
+        if mt not in (MealType.PRE_WORKOUT, MealType.POST_WORKOUT)
+    }
+    return _build_slots_from_alloc(
+        training_alloc, meal_frequency,
+        lambda mt, pct, timing: _make_residual_slot(
+            mt, pct, std_kcal_total, std_p_total, std_c_total, std_f_total,
+            daily_fiber, std_kcal_total, timing_note=timing,
+        ),
+    )
+
+
+# === PRE/POST insertion by time-of-day (declarative) ===
+#
+# Maps ``training_time_of_day`` to a (pre_position, post_position) pair where
+# each position is one of:
+#   - "before_breakfast" / "after_breakfast"  (canonical 5-meal-day index 0 / 1)
+#   - "before_lunch"      / "after_lunch"      (canonical 5-meal-day index 2 / 3)
+#   - "before_dinner"     / "after_dinner"     (find-based: index of DINNER)
+#   - "end"                                   (append at end of slot list)
+#
+# Canonical positions are absolute indices into the slot list (clamped
+# implicitly by ``list.insert`` when they exceed ``len(slots)``). They let us
+# express "PRE before lunch" as "after_breakfast" — which lands PRE between
+# BREAKFAST and LUNCH for meal_freq=3, and at index 1 regardless of frequency
+# (matching the legacy ``insert(1, pre)`` behavior for all frequencies).
+#
+# Find-based positions are used for DINNER because evening training should sit
+# relative to the user's *actual* dinner slot, not a canonical position —
+# e.g. a 2-meal IF user has only LUNCH+DINNER (no BREAKFAST), so "after_dinner"
+# must locate DINNER dynamically.
+_PRE_POST_POSITIONS: dict[str, tuple[str, str]] = {
+    "morning": ("before_breakfast", "after_breakfast"),
+    "midday":  ("after_breakfast",  "after_lunch"),
+    "evening": ("before_dinner",    "after_dinner"),
+}
+
+# Canonical 5-meal-day indices for the absolute position names.
+_CANONICAL_POSITIONS: dict[str, int] = {
+    "before_breakfast": 0,
+    "after_breakfast":  1,
+    "before_lunch":     2,
+    "after_lunch":      3,
+}
+
+
+def _resolve_pre_post_position(
+    slots: list[MealSlotTarget], position: str,
+) -> int:
+    """Resolve a named pre/post position to an integer index into ``slots``.
+
+    See the ``_PRE_POST_POSITIONS`` docstring for the semantics of each
+    position name. Find-based positions locate the DINNER slot in the current
+    list (and fall back to ``len(slots)`` — i.e. end-of-list — if DINNER is
+    absent, matching the legacy ``next(..., len(slots))`` fallback).
+    """
+    if position in _CANONICAL_POSITIONS:
+        return _CANONICAL_POSITIONS[position]
+    if position == "before_dinner":
+        return next(
+            (i for i, s in enumerate(slots) if s.meal_type == MealType.DINNER),
+            len(slots),
+        )
+    if position == "after_dinner":
+        # ``slots`` here is the list AFTER PRE was already inserted, so the
+        # DINNER index has shifted by +1 relative to the original — this is
+        # what makes POST land immediately after DINNER (not after PRE).
+        return next(
+            (i for i, s in enumerate(slots) if s.meal_type == MealType.DINNER),
+            len(slots),
+        ) + 1
+    if position == "end":
+        return len(slots)
+    raise ValueError(f"unknown pre/post position: {position!r}")
+
+
+def _insert_pre_post_slots(
+    slots: list[MealSlotTarget],
+    pre_target: MealSlotTarget,
+    post_target: MealSlotTarget,
+    training_time: str,
+) -> list[MealSlotTarget]:
+    """Return a new slot list with PRE/POST workout slots inserted.
+
+    Non-mutating: copies ``slots`` and inserts PRE first, then POST (with
+    POST's position resolved against the post-PRE list so positions like
+    ``"after_dinner"`` land one slot past DINNER — matching the legacy
+    ``insert(idx, pre); insert(idx+2, post)`` behavior).
+
+    Positions are looked up declaratively via :data:`_PRE_POST_POSITIONS`
+    keyed on ``training_time`` (one of ``morning`` / ``midday`` / ``evening``).
+    For morning training, PRE lands at index 0 ("before_breakfast") — i.e.
+    fasted training puts PRE ahead of breakfast. Unknown ``training_time``
+    values default to ``"evening"`` (matching the original code's else-branch).
+
+    Args:
+        slots:         standard-day slot list (no PRE/POST).
+        pre_target:    PRE_WORKOUT slot target to insert.
+        post_target:   POST_WORKOUT slot target to insert.
+        training_time: ``profile.training_time_of_day.value`` (e.g. "morning").
+
+    Returns:
+        A new list with PRE/POST inserted at the correct positions.
+    """
+    pre_pos, post_pos = _PRE_POST_POSITIONS.get(
+        training_time, _PRE_POST_POSITIONS["evening"],
+    )
+    new_slots = list(slots)
+    new_slots.insert(_resolve_pre_post_position(new_slots, pre_pos), pre_target)
+    new_slots.insert(_resolve_pre_post_position(new_slots, post_pos), post_target)
+    return new_slots
 
 
 __all__ = [

@@ -4,7 +4,7 @@ Exercise categorization system — Phase-4 (RippedBody-informed).
 This module systematically categorizes every exercise in the 1,217-exercise
 JSON database by:
 
-  1. **Movement pattern** (canonical taxonomy of 24 patterns)
+  1. **Movement pattern** (canonical taxonomy of 40 movement patterns)
      - squat, hinge, horizontal_push, vertical_push, horizontal_pull,
        vertical_pull, lunge, hip_thrust, knee_flexion, knee_extension,
        ankle_plantarflexion, elbow_flexion, elbow_extension, lateral_raise,
@@ -62,7 +62,7 @@ class PatternFamily(str, Enum):
     CARDIO = "cardio"
 
 
-# === Movement pattern taxonomy (24 canonical patterns) ===
+# === Movement pattern taxonomy (40 canonical patterns) ===
 
 @dataclass
 class MovementPatternSpec:
@@ -78,7 +78,7 @@ class MovementPatternSpec:
     detection_keywords: list[str] = field(default_factory=list)
 
 
-# === The 24-pattern taxonomy ===
+# === The 40-pattern taxonomy ===
 
 MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
     # === Lower body compound ===
@@ -92,7 +92,7 @@ MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
             "home_gym": ["barbell", "dumbbell", "kettlebell", "bodyweight"],
             "bodyweight_only": ["bodyweight", "bands"],
         },
-        detection_keywords=["squat", "hack-squat", "goblet-squat"],  # Tier 2.22 fix: removed "leg-press" (separate pattern, was tie-breaking to squat)
+        detection_keywords=["squat", "hack-squat", "goblet-squat"],  # removed "leg-press" (separate pattern, was tie-breaking to squat)
     ),
     "front_squat": MovementPatternSpec(
         name="front_squat",
@@ -226,7 +226,7 @@ MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
             "home_gym": ["barbell", "dumbbell", "bodyweight"],
             "bodyweight_only": ["bodyweight", "bands"],
         },
-        detection_keywords=["bench-press", "chest-press", "push-up", "pushup"],  # Tier 2.23 fix: removed "dumbbell-press" (caused seated-dumbbell-press/shoulder press to miscategorize as horizontal_push)
+        detection_keywords=["bench-press", "chest-press", "push-up", "pushup"],  # removed "dumbbell-press" (caused seated-dumbbell-press/shoulder press to miscategorize as horizontal_push)
     ),
     "horizontal_push_dumbbell": MovementPatternSpec(
         name="horizontal_push_dumbbell",
@@ -638,7 +638,7 @@ def _detect_pattern(exercise: Exercise) -> str:
         return "mobility"
 
     # 5. Cardio
-    # Phase-6 fix: a cardio exercise with exercise_type == "Cardio" was
+    # a cardio exercise with exercise_type == "Cardio" was
     # previously bucketed as "mobility" (the fallback comment said "group with
     # mobility for now"). That loses the cardio categorization entirely and
     # makes the volume-by-pattern summary misleading. Now we return a
@@ -649,7 +649,7 @@ def _detect_pattern(exercise: Exercise) -> str:
 
     # 6. Default by category
     if exercise.category == ExerciseCategory.CARDIO:
-        return "cardio"  # Phase-6 fix: was "mobility"
+        return "cardio"  # was "mobility"
     if exercise.category == ExerciseCategory.MOBILITY:
         return "mobility"
 
@@ -690,8 +690,19 @@ class ExerciseCategoryInfo:
 
 
 # === Cache ===
-# Pattern detection is deterministic per exercise; cache by slug.
+# Pattern detection is deterministic per exercise; cache by slug (or name as
+# fallback). Kept as a module-level dict because `Exercise` is a regular
+# @dataclass (not frozen), so @lru_cache can't be applied directly to a
+# function that takes an Exercise. The dict is clearable via
+# `_clear_pattern_cache()`, which is registered with
+# `exercise_library._clear_exercise_cache` so tests that monkey-patch the
+# exercise JSON path also invalidate pattern detection.
 _pattern_cache: dict[str, str] = {}
+
+
+def _clear_pattern_cache() -> None:
+    """Clear the movement-pattern cache (for tests)."""
+    _pattern_cache.clear()
 
 
 def get_movement_pattern(exercise: Exercise) -> str:
@@ -832,7 +843,7 @@ def get_swappable_exercises(
     env = _infer_environment(equipment_allowed)
     preferred_order = get_environment_preferred_equipment(pattern, env)
 
-    # Tier 4.43 fix: use shared _view_count from _utils (was a local duplicate).
+    # use shared _view_count from _utils (was a local duplicate).
     from ._utils import parse_view_count as _view_count
 
     def _sort_key(ex: Exercise) -> tuple:
@@ -861,18 +872,6 @@ def _infer_environment(equipment_allowed: set[str] | None) -> str:
     return "home_gym"
 
 
-# === Volume family (for tallying) ===
-
-def get_volume_family(pattern: str) -> PatternFamily:
-    """
-    Get the volume family for a pattern.
-
-    RippedBody Rule 10.3: horizontal push + vertical push = combined "push" volume.
-    horizontal pull + vertical pull = combined "pull" volume.
-    """
-    return get_pattern_family(pattern)
-
-
 __all__ = [
     "PatternFamily",
     "MovementPatternSpec",
@@ -881,7 +880,6 @@ __all__ = [
     "categorize_exercise",
     "get_movement_pattern",
     "get_pattern_family",
-    "get_volume_family",
     "get_environment_preferred_equipment",
     "get_swappable_exercises",
 ]

@@ -29,6 +29,7 @@ Public API:
 from __future__ import annotations
 
 import json
+import re
 from collections import Counter
 from functools import lru_cache
 from pathlib import Path
@@ -38,6 +39,7 @@ from ..models.meal import (
     Recipe,
     NutritionPerServing,
 )
+from .pre_post_workout import get_pre_post_workout_recipes
 
 
 # === Path resolution ===
@@ -73,8 +75,6 @@ def _parse_nutrition(raw: dict) -> NutritionPerServing:
 #   - Exclude plant-based substitutes (e.g. "almond milk", "peanut butter",
 #     "cocoa butter", "vegan butter", "Beyond Beef", "Just Egg")
 
-import re
-
 # Strict animal-product keywords (always non-vegan) — matched as whole words
 _STRICT_MEAT_KEYWORDS = (
     "beef", "pork", "chicken", "turkey", "duck", "lamb", "veal", "venison",
@@ -97,10 +97,9 @@ _STRICT_MEAT_PHRASES = (
 # (e.g. "almond milk", "soy milk", "oat milk", "coconut milk", "vegan butter")
 _CONDITIONAL_KEYWORDS = ("milk", "butter", "cream", "cheese", "yogurt", "whey", "egg", "honey", "broth")
 
-# Phase-6 cleanup: PLANT_QUALIFIERS / PLANT_NAMED_PHRASES now live in
-# ``_allergen_constants`` (single source of truth — previously this tuple was
-# duplicated across recipe_loader, recipe_scorer and swap_system and had
-# drifted). Imported here under the original local name for minimal diff.
+# PLANT_QUALIFIERS / PLANT_NAMED_PHRASES sourced from ``_allergen_constants``
+# (single source of truth). Imported here under the original local name for
+# minimal diff.
 from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS
 from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES
 
@@ -110,13 +109,42 @@ _STRICT_WORD_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Tier 1.4 fix: compile conditional keywords with word boundaries on BOTH sides.
+# compile conditional keywords with word boundaries on BOTH sides.
 # This prevents "egg" from matching inside "eggplant", "butter" inside
 # "butter lettuce", "cream" inside "cream of tartar", etc.
 _CONDITIONAL_WORD_RE = re.compile(
     r"\b(" + "|".join(_CONDITIONAL_KEYWORDS) + r")\b",
     re.IGNORECASE,
 )
+
+# Compile strict multi-word phrases into a single regex. The regex uses
+# ``re.escape`` so any phrase containing regex metacharacters is matched
+# literally. Substring semantics (no ``\b`` around the alternation) so e.g.
+# "pork chop" still matches inside "pork chops". (Note: "pork chops" is also
+# caught by the single-word "pork" scan, so this is belt-and-suspenders
+# rather than a load-bearing match.)
+_STRICT_PHRASES_RE = re.compile(
+    "|".join(re.escape(p) for p in _STRICT_MEAT_PHRASES),
+    re.IGNORECASE,
+)
+
+
+def _has_plant_qualifier_before(text: str, position: int) -> bool:
+    """Return True if any plant qualifier appears in the 25-char window
+    immediately before ``position`` in ``text``.
+
+    Used by all three scans in ``_recipe_has_meat_ingredients`` (multi-word
+    phrase, strict single-word, and conditional keyword) to suppress
+    false-positives on plant-based substitutes like "almond milk", "Beyond
+    beef", "no-chicken broth", "vegan butter", etc.
+
+    The 25-char window is the legacy context size — wide enough to catch
+    "no-chicken" / "vegan" / "beyond" qualifiers that precede the keyword
+    with a short gap, narrow enough not to false-suppress a real animal
+    product that just happens to follow a plant ingredient 20+ chars earlier.
+    """
+    context = text[max(0, position - 25):position]
+    return any(pq in context for pq in _PLANT_QUALIFIERS)
 
 
 def _recipe_has_meat_ingredients(recipe: Recipe) -> bool:
@@ -140,61 +168,39 @@ def _recipe_has_meat_ingredients(recipe: Recipe) -> bool:
         return False
     combined = " ".join(recipe.ingredients).lower()
 
-    # 0. Tier 1.4 fix: short-circuit on plant-named phrases that contain a
-    # conditional keyword as a substring. If the ONLY occurrence of a
-    # conditional keyword is inside one of these phrases, we should not flag.
-    # We handle this by removing these phrases from the combined string
-    # before the conditional-keyword scan. Strict keywords (meat) are not
-    # affected.
+    # 0. Short-circuit on plant-named phrases that contain a conditional
+    # keyword as a substring (eggplant, butter lettuce, cream of tartar, …).
+    # We blank these out (with equal-length space runs so character offsets
+    # are preserved) before the conditional-keyword scan. Strict meat
+    # keywords are not affected by this sanitization.
     sanitized = combined
     for phrase in _PLANT_NAMED_PHRASES:
         sanitized = sanitized.replace(phrase, " " * len(phrase))
 
-    # 1. Strict multi-word phrases — always flag (substring is fine here)
-    # Phase-6 fix: previously this used `combined.find(phrase)` which only
-    # returns the FIRST occurrence. For an ingredient list like
-    # "Beyond beef and pure beef", the first "beef" is preceded by "Beyond"
-    # (a plant qualifier) so the phrase was skipped, and the second "beef"
-    # (preceded by "pure ") was never checked. Now we scan ALL occurrences
-    # via str.find in a loop, mirroring the regex-based approach used for
-    # single-word keywords below.
-    for phrase in _STRICT_MEAT_PHRASES:
-        start = 0
-        while True:
-            pos = combined.find(phrase, start)
-            if pos == -1:
-                break
-            context = combined[max(0, pos - 25):pos]
-            # Tier 1.4 fix: use the full _PLANT_QUALIFIERS list (was only 3 entries).
-            # This catches "no-chicken broth", "vegan beef", "beyond beef", etc.
-            if not any(pq in context for pq in _PLANT_QUALIFIERS):
-                return True
-            start = pos + len(phrase)
+    # 1. Strict multi-word phrases (corned beef, fish sauce, …). Always flag
+    #    unless preceded by a plant qualifier.
+    for m in _STRICT_PHRASES_RE.finditer(combined):
+        if not _has_plant_qualifier_before(combined, m.start()):
+            return True
 
-    # 2. Strict single-word keywords with word boundaries
+    # 2. Strict single-word keywords (beef, chicken, …) with word boundaries.
+    #    Plant qualifier check is delegated to the helper; the immediate
+    #    "no-" / "no " prefix check is inlined because it's specific to this
+    #    scan (handles "no-chicken broth" / "no beef stock" — phrases whose
+    #    qualifier would otherwise be hidden behind the keyword itself).
     for m in _STRICT_WORD_RE.finditer(combined):
-        kw = m.group(1)
-        # Check for plant qualifier in 25 chars before
-        context = combined[max(0, m.start() - 25):m.start()]
-        # Tier 1.4 fix: use the full _PLANT_QUALIFIERS list (was only 3 entries).
-        if not any(pq in context for pq in _PLANT_QUALIFIERS):
-            # Tier 1.4 fix: also check for "no-" or "no " immediately before the
-            # keyword (e.g. "no-chicken broth", "no beef stock"). The qualifier
-            # list includes "no-chicken" / "no chicken" but those phrases include
-            # the keyword itself, so they can't appear in the BEFORE context.
-            # We check the 4 chars immediately before the match for "no-" or "no ".
-            immediate_prefix = combined[max(0, m.start() - 4):m.start()]
-            if not (immediate_prefix.endswith("no-") or immediate_prefix.endswith("no ")):
-                return True
+        if _has_plant_qualifier_before(combined, m.start()):
+            continue
+        immediate_prefix = combined[max(0, m.start() - 4):m.start()]
+        if immediate_prefix.endswith("no-") or immediate_prefix.endswith("no "):
+            continue
+        return True
 
-    # 3. Conditional keywords with word boundaries on BOTH sides (Tier 1.4 fix).
-    # Uses the sanitized string so plant-named phrases (eggplant, butter lettuce,
-    # cream of tartar) don't false-positive.
+    # 3. Conditional keywords (milk, butter, egg, …) with word boundaries on
+    #    BOTH sides. Uses the sanitized string so plant-named phrases
+    #    (eggplant, butter lettuce, cream of tartar) don't false-positive.
     for m in _CONDITIONAL_WORD_RE.finditer(sanitized):
-        # Check the 25 chars before the keyword for a plant qualifier
-        context = sanitized[max(0, m.start() - 25):m.start()]
-        has_plant_qualifier = any(pq in context for pq in _PLANT_QUALIFIERS)
-        if not has_plant_qualifier:
+        if not _has_plant_qualifier_before(sanitized, m.start()):
             return True
 
     return False
@@ -249,7 +255,7 @@ def _sanitize_recipe(recipe: Recipe) -> Recipe:
                 f"{recipe.notes or ''} {warning}".strip()
             )
 
-    # Tier 3.40 fix: kcal-vs-macro consistency check
+    # kcal-vs-macro consistency check
     kcal_warning = _check_kcal_macro_consistency(recipe)
     if kcal_warning and kcal_warning not in (recipe.notes or ""):
         recipe.notes = f"{recipe.notes or ''} {kcal_warning}".strip()
@@ -268,7 +274,6 @@ def _parse_recipe(raw: dict, is_curated: bool) -> Recipe:
         id=raw.get("id"),
         source=raw.get("source"),
         source_file=raw.get("source_file"),
-        # Phase-6 cleanup: ``legacy_id`` field removed from Recipe (no consumers).
         cuisine=raw.get("cuisine") or "american",
         category=raw.get("category") or "",
         recipe_kind=raw.get("recipe_kind") or "meal",
@@ -291,7 +296,6 @@ def _parse_recipe(raw: dict, is_curated: bool) -> Recipe:
         injera_accompaniment=bool(raw.get("injera_accompaniment")),
         image_url=raw.get("image_url"),
         notes=notes,
-        # Phase-6 cleanup: ``_extraction_method`` field removed from Recipe.
     )
     return _sanitize_recipe(recipe)
 
@@ -316,29 +320,24 @@ def _load_raw_dbs() -> tuple[dict, dict]:
     return curated, uncurated
 
 
-# Tier 3.35 fix: module-level cache for parsed recipes. load_recipes() is called
-# per meal slot (7 days × 3-5 slots = 21-35 calls per plan), and each call
-# re-parses 460+ recipes with regex sanitization. The cache stores the parsed
-# list so subsequent calls are O(1).
-_RECIPES_CACHE: list[Recipe] | None = None
-
-
-def load_recipes() -> list[Recipe]:
+# load_recipes() is called per meal slot (7 days × 3-5 slots =
+# 21-35 calls per plan), and each call re-parses 460+ recipes with regex
+# sanitization. The first call pays the parse cost; subsequent calls return
+# the cached tuple. Use `clear_recipes_cache()` to force a re-parse (e.g.
+# in tests).
+@lru_cache(maxsize=1)
+def load_recipes() -> tuple[Recipe, ...]:
     """
     Load all recipes from both databases + Pre/Post Workout recipes.
 
-    Returns a list of Recipe dataclasses. Curated recipes appear first
-    (and override uncurated on ID collision). Pre/Post Workout recipes
-    are appended last (Phase-5).
+    Returns a tuple of Recipe dataclasses (hashable, so @lru_cache can memoize).
+    Curated recipes appear first (and override uncurated on ID collision).
+    Pre/Post Workout recipes are appended last (Phase-5).
 
-    Tier 3.35 fix: results are cached at module level. The first call pays
-    the parse cost; subsequent calls return the cached list. Use
+    Tier 3.35 fix: results are cached via @lru_cache. The first call pays
+    the parse cost; subsequent calls return the cached tuple. Use
     `clear_recipes_cache()` to force a re-parse (e.g. in tests).
     """
-    global _RECIPES_CACHE
-    if _RECIPES_CACHE is not None:
-        return _RECIPES_CACHE
-
     curated_db, uncurated_db = _load_raw_dbs()
 
     seen_ids: set[str] = set()
@@ -362,20 +361,15 @@ def load_recipes() -> list[Recipe]:
             seen_ids.add(r.id)
         out.append(r)
 
-    # Phase-5: Pre/Post Workout recipes (engine-generated)
-    try:
-        from .pre_post_workout import get_pre_post_workout_recipes
-        for r in get_pre_post_workout_recipes():
-            if r.id and r.id in seen_ids:
-                continue
-            if r.id:
-                seen_ids.add(r.id)
-            out.append(r)
-    except ImportError:
-        pass  # pre_post_workout module not available
+    # Pre/Post Workout recipes (engine-generated). Imported at module top.
+    for r in get_pre_post_workout_recipes():
+        if r.id and r.id in seen_ids:
+            continue
+        if r.id:
+            seen_ids.add(r.id)
+        out.append(r)
 
-    _RECIPES_CACHE = out
-    return out
+    return tuple(out)
 
 
 def clear_recipes_cache() -> None:
@@ -387,10 +381,11 @@ def clear_recipes_cache() -> None:
     cached object from BEFORE the clear (cache_info showed hits=1, misses=1).
     Now also clears the index and raw-DB caches so tests that mutate the
     JSON files see fresh data.
+
+    Phase-6 consolidation: `_RECIPES_CACHE` global replaced with @lru_cache
+    on `load_recipes`; this clearer now calls `load_recipes.cache_clear()`.
     """
-    global _RECIPES_CACHE
-    _RECIPES_CACHE = None
-    # Phase-6 fix: clear the dependent lru_caches too.
+    load_recipes.cache_clear()
     _build_indexes.cache_clear()
     _load_raw_dbs.cache_clear()
 
@@ -468,10 +463,17 @@ def recipes_by_goal_fit(goal: str) -> list[Recipe]:
 
 
 def recipes_by_kcal_range(lo: float, hi: float) -> list[Recipe]:
-    """Return all recipes whose per-serving kcal is in [lo, hi]."""
+    """Return all recipes whose per-serving kcal is in [lo, hi].
+
+    Task 3-quickfixes #12: also include ``nutrition_source == "calculated"``
+    so PRE_POST_WORKOUT_RECIPES (which are engine-generated with
+    ``nutrition_source: "calculated"``) are visible to kcal-range queries,
+    not just the published/estimated human-authored recipes.
+    """
     return [
         r for r in load_recipes()
-        if lo <= r.kcal <= hi and r.nutrition_source in ("published", "estimated")
+        if lo <= r.kcal <= hi
+        and r.nutrition_source in ("published", "estimated", "calculated")
     ]
 
 
@@ -525,11 +527,11 @@ def recipes_by_filters(
         else:
             # Exact match for other diet types
             out = [r for r in out if dt in [d.upper() for d in r.diet_types]]
-        # Phase-6 fix: filter diet-warnings universally (was VEGAN-only).
-        # A "VEGAN" recipe whose ingredient scan flagged meat/dairy/eggs is a
-        # curation error and should not be served to OMNI users either —
-        # otherwise the same mislabeled recipe appears differently depending
-        # on the user's diet tag, breaking cuisine_mix and is_vegan checks.
+        # filter diet-warnings universally. A "VEGAN" recipe whose
+        # ingredient scan flagged meat/dairy/eggs is a curation error and
+        # should not be served to OMNI users either — otherwise the same
+        # mislabeled recipe appears differently depending on the user's diet
+        # tag, breaking cuisine_mix and is_vegan checks.
         out = [r for r in out if "[diet-warning" not in (r.notes or "")]
     if exclude_diet_warnings:
         out = [r for r in out if "[diet-warning" not in (r.notes or "")]

@@ -18,9 +18,6 @@ from ..models.assessment import (
     BodyComposition, BodyFatMethod, BodyFatCategory, BMICategory,
 )
 from ..utils.units import cm_to_in
-# Phase-6 fix: HORMONAL_FLOOR was previously imported inside the function body
-# of assess_body_composition (a Tier 4.42 fix). Moved to module-level imports
-# for consistency and to avoid repeated import overhead.
 from ._thresholds import HORMONAL_FLOOR
 
 
@@ -123,26 +120,6 @@ def body_fat_navy(profile: UserProfile) -> Optional[float]:
     return max(2.0, min(60.0, bf))
 
 
-def body_fat_bmi_jackson(profile: UserProfile) -> float:
-    """
-    BMI-based body fat estimation (Jackson et al. 2002, HERITAGE Family Study).
-
-    Source: Jackson et al. 2002, Med Sci Sports Exerc 34(Suppl):S485.
-    (Tier 2.16 fix: previously cited fatcalc.com__rmr-calculator which is the
-    RMR page, not the BF page — likely an LLM-hallucinated URL.)
-    Use when no circumference measurements are available.
-    """
-    bmi = profile.bmi
-    if bmi <= 0:
-        raise ValueError(f"bmi must be positive for Jackson formula, got {bmi}")
-    age = profile.age
-    if profile.sex == Sex.MALE:
-        bf = 0.14 * age + 37.31 * math.log(bmi) - 103.94
-    else:
-        bf = 0.14 * age + 39.96 * math.log(bmi) - 102.01
-    return max(2.0, min(60.0, bf))
-
-
 def body_fat_cun_bae(profile: UserProfile) -> float:
     """
     CUN-BAE (Clínica Universidad de Navarra – Body Adiposity Estimator).
@@ -206,8 +183,7 @@ def compute_body_fat(profile: UserProfile) -> tuple[float, BodyFatMethod]:
     if navy is not None:
         return navy, BodyFatMethod.NAVY
 
-    # Phase-6: CUN-BAE is now properly implemented — use it as the BMI-based
-    # fallback and honestly report the method.
+    # CUN-BAE is the BMI-based fallback; report the method honestly.
     return body_fat_cun_bae(profile), BodyFatMethod.CUN_BAE
 
 
@@ -288,10 +264,7 @@ def assess_body_composition(profile: UserProfile) -> BodyComposition:
             notes.append("BF% ≥32% (women) — obesity class; prioritise fat loss.")
 
     # Target weight at a few common target BF%.
-    # Tier 4.42 fix: use shared HORMONAL_FLOOR constant from _thresholds.py
-    # (was hardcoded 10.0/18.0 that could drift from CUT_BULK_BOUNDARIES).
-    # Phase-6 fix: HORMONAL_FLOOR is now imported at module top-level (above)
-    # rather than inside this function body.
+    # use shared HORMONAL_FLOOR constant from _thresholds.py.
     target_bf = float(HORMONAL_FLOOR[profile.sex])
     target_w = target_weight_at_target_bf(profile.weight_kg, bf_pct, target_bf)
 
@@ -313,7 +286,7 @@ def assess_body_composition(profile: UserProfile) -> BodyComposition:
 __all__ = [
     "BF_CATEGORIES", "BMI_CATEGORIES",
     "classify_bf", "classify_bmi",
-    "body_fat_navy", "body_fat_bmi_jackson", "body_fat_cun_bae",
+    "body_fat_navy", "body_fat_cun_bae",
     "compute_body_fat", "compute_ffmi", "target_weight_at_target_bf",
     "assess_body_composition",
 ]

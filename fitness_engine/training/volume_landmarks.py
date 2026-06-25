@@ -71,8 +71,8 @@ class MuscleVolumeLandmarks:
 
 
 # Default landmarks per muscle.
-# Phase-6 fix: values now align with Renaissance Periodization (Dr. Mike
-# Israetel) consensus rather than the previous flat MEV=4 heuristic. Source:
+# Aligns with Renaissance Periodization (Dr. Mike Israetel) consensus.
+# Source:
 #   - RP "Volume Landmarks" series (Israetel & Hoffmann)
 #   - chest:   MEV=8,  MAV=10-22, MRV=22-24
 #   - back:    MEV=10, MAV=14-22, MRV=25-27  (back needs ~2-3x chest MEV)
@@ -109,10 +109,9 @@ def get_muscle_landmarks(muscle: str) -> MuscleVolumeLandmarks:
     muscle_lower = muscle.lower()
     if muscle_lower in DEFAULT_MUSCLE_LANDMARKS:
         return DEFAULT_MUSCLE_LANDMARKS[muscle_lower]
-    # Phase-6 fix: MEV fallback raised from 4 → 6 to match the Phase-6 RP
-    # consensus update (which raised known-muscle MEVs to 6-10). Unknown
-    # muscles like tibialis_anterior or neck previously got MEV=4, which
-    # under-estimated MEV and triggered spurious "below MEV" warnings.
+    # MEV fallback = 6 to match the RP consensus update (known-muscle MEVs
+    # are 6-10). Unknown muscles get MEV=6 so they don't trigger spurious
+    # "below MEV" warnings.
     return MuscleVolumeLandmarks(muscle_lower, 6, 10, 16, 25, 5)
 
 
@@ -130,10 +129,9 @@ class StrengthLiftLandmarks:
 
 
 STRENGTH_LIFT_LANDMARKS: dict[str, StrengthLiftLandmarks] = {
-    # Tier 2.24 fix: MRV must be >= MAV_hi (Maximum Recoverable Volume must
-    # be >= upper bound of Maximum Adaptive Volume). Previously MRV=5 < MAV_hi=10,
-    # which is mathematically incoherent (you can't recover from less volume
-    # than the upper bound of what's adaptive). Now MRV = MAV_hi + 2.
+    # MRV must be >= MAV_hi (Maximum Recoverable Volume must be >= upper
+    # bound of Maximum Adaptive Volume — you can't recover from less volume
+    # than the upper bound of what's adaptive). MRV = MAV_hi + 2.
     "squat":       StrengthLiftLandmarks("squat",       1, 3, 10, 12, 2),
     "bench":       StrengthLiftLandmarks("bench",       1, 3, 10, 12, 2),
     "deadlift":    StrengthLiftLandmarks("deadlift",    1, 3, 10, 12, 2),
@@ -204,32 +202,20 @@ def count_sets_toward_muscle(
     exercise: Exercise,
     muscle: str,
     sets: int,
-    is_strength: bool = False,
 ) -> float:
     """
     Count how many sets an exercise contributes toward a target muscle.
 
     RippedBody Rule 2.5:
       - Hypertrophy: primary muscle = 1.0 set; secondary muscle = 0.5 set.
-      - Strength: main-lift sets = 1.0; any other lift sharing muscles = 0.5.
 
     Args:
       exercise: the exercise being counted
       muscle: target muscle (normalized lowercase)
       sets: number of hard sets performed
-      is_strength: if True, use strength counting rules. NOTE: the proper
-        strength "sharing" check requires the main lift's muscles, which
-        this function does not receive. The previous implementation
-        unconditionally returned 0.5 for ANY muscle when is_strength=True,
-        meaning a bicep curl would count 2 sets toward calves — clearly
-        wrong. To avoid silently inflating strength volume, we now treat
-        is_strength the same as hypertrophy (primary=1.0, secondary=0.5,
-        unrelated=0.0). Callers needing the main-lift-sharing rule should
-        use a dedicated helper that takes the main lift's muscles.
 
     Returns: fractional set count (e.g. 4.0 or 2.0)
     """
-    _ = is_strength  # deprecated; kept for backwards-compat
     muscle_lower = muscle.lower()
     primary_muscles = [m.lower() for m in exercise.muscle_groups]
     secondary_muscles = [m.lower() for m in exercise.secondary_muscles]
@@ -423,12 +409,6 @@ SPECIALIZATION_FOCUS = SpecializationConfig(
     other_muscles_sets=(5, 15),
 )
 
-
-# Phase-6 cleanup: removed ``get_specialization_program`` (dead code — ignored
-# its ``focus_muscles`` parameter and always returned the same constant list
-# ``[BALANCED, FOCUS, BALANCED]``; only the tests exercised it, never the
-# architect). Callers needing the 3-phase template can import
-# SPECIALIZATION_BALANCED / SPECIALIZATION_FOCUS directly.
 
 
 __all__ = [

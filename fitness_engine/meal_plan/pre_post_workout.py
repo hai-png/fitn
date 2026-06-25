@@ -315,7 +315,8 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
         "nutrition_source": "calculated",
         "protein_density": "high",
         "calorie_density": "medium",
-        "allergens": ["soy"],
+        # recipe includes "1 tsp sesame oil" → sesame allergen.
+        "allergens": ["soy", "sesame"],
         "notes": "Post-workout: complete plant protein from tofu + carbs from rice.",
         "image_url": None,
         "source": "engine-generated",
@@ -334,7 +335,7 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
         "cook_time_min": 0,
         "ingredients": [
             "1 piece injera (teff, ~50g)",
-            "1 tbsp maple syrup",  # Tier 1.6 fix: was honey (not vegan)
+            "1 tbsp maple syrup",  # vegan (replaces honey)
             "1/4 tsp berbere spice (optional)",
         ],
         "instructions": [
@@ -350,7 +351,7 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
         "protein_density": "low",
         "calorie_density": "low",
         "allergens": ["gluten"],
-        "notes": "Pre-workout: traditional Ethiopian fast carbs. Use 100% teff injera for GF. Tier 1.6: honey replaced with maple syrup so recipe is genuinely vegan.",
+        "notes": "Pre-workout: traditional Ethiopian fast carbs. Use 100% teff injera for GF. Maple syrup instead of honey so the recipe is genuinely vegan.",
         "image_url": None,
         "source": "engine-generated",
     },
@@ -489,7 +490,7 @@ PRE_POST_WORKOUT_RECIPES: list[dict] = [
             "30g roasted barley (or oats for GF)",
             "20g peanuts",
             "10g sunflower seeds",
-            "1 tsp maple syrup",  # Tier 1.6 fix: was "honey (or maple syrup for vegan)" — honey is not vegan
+            "1 tsp maple syrup",  # was "honey (or maple syrup for vegan)" — honey is not vegan
         ],
         "instructions": [
             "Mix barley (or oats), peanuts, and sunflower seeds.",
@@ -638,7 +639,11 @@ def get_pre_post_workout_recipes() -> list[Recipe]:
     queryable like any other recipe.
     """
     from .recipe_loader import _parse_recipe
-    return [_parse_recipe(r, is_curated=True) for r in PRE_POST_WORKOUT_RECIPES]
+    # PRE_POST_WORKOUT_RECIPES are engine-generated
+    # (nutrition_source="calculated", source="engine-generated"), not human-
+    # curated. Marking them is_curated=False keeps the curated_count at the
+    # actual 107 human-authored recipes.
+    return [_parse_recipe(r, is_curated=False) for r in PRE_POST_WORKOUT_RECIPES]
 
 
 def get_pre_workout_recipes() -> list[Recipe]:

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Callable
 
 from ..models.assessment import RecommendedStrategy
 from ..models.nutrition import MacroSplit, CalorieTargets
@@ -20,6 +21,9 @@ from .calories import (
     SURPLUS_KCAL_PER_LB_PER_MONTH, SURPLUS_KCAL_PER_KG_PER_MONTH,
 )
 from .macros import cut_macro_adjustment, bulk_macro_adjustment
+# use shared unit conversion helper.
+# (target - actual) is in kg/wk (or kg/mo); kg_to_lb converts to lb/wk (or lb/mo).
+from ..utils.units import kg_to_lb
 
 
 class PlateauType(str, Enum):
@@ -27,7 +31,28 @@ class PlateauType(str, Enum):
     SUDDEN_STALL = "sudden_stall"           # water retention — wait
     GRADUAL_SLOWDOWN = "gradual_slowdown"   # real adaptation — adjust
     WHOOSH = "whoosh"                        # sudden drop — no action needed
-    WEIGHT_GAIN = "weight_gain"              # Phase-6: gaining weight during a cut
+    WEIGHT_GAIN = "weight_gain"              # gaining weight during a cut
+
+
+# plateau detection thresholds as named constants.
+_STALL_THRESHOLD_FRACTION = 0.003   # |delta| < 0.3% of body weight → flat
+_WHOOSH_THRESHOLD_FRACTION = 0.015  # delta > 1.5% of body weight → whoosh
+
+# Decision table for detect_plateau: ordered (condition_fn, plateau_type) tuples.
+# First match wins. The condition_fn signature is (deltas, last_3, body_weight_kg).
+# Order: recent signals (weight gain, sudden stall, gradual slowdown) BEFORE the
+# historical whoosh check — a historical whoosh shouldn't mask a current gaining
+# streak or stall.
+_PLATEAU_RULES: list[tuple[Callable[[list[float], list[float], float], bool], PlateauType]] = [
+    (lambda deltas, last_3, bw: all(d < 0 for d in last_3),
+     PlateauType.WEIGHT_GAIN),
+    (lambda deltas, last_3, bw: all(abs(d) < bw * _STALL_THRESHOLD_FRACTION for d in last_3),
+     PlateauType.SUDDEN_STALL),
+    (lambda deltas, last_3, bw: all(d > 0 for d in last_3) and last_3[0] > last_3[1] > last_3[2],
+     PlateauType.GRADUAL_SLOWDOWN),
+    (lambda deltas, last_3, bw: any(d > bw * _WHOOSH_THRESHOLD_FRACTION for d in last_3),
+     PlateauType.WHOOSH),
+]
 
 
 @dataclass
@@ -45,7 +70,6 @@ class AdjustmentRecommendation:
 
 def detect_plateau(
     weekly_weight_log_kg: list[float],
-    expected_weekly_rate_pct: float,
     body_weight_kg: float,
 ) -> PlateauType:
     """
@@ -66,11 +90,10 @@ def detect_plateau(
       - Weight gain: last 3 weekly deltas all negative (weight went up).
       - None: insufficient data (< 3 weeks) or normal progress.
 
-    Note: `expected_weekly_rate_pct` is accepted for backwards-compatibility
-    but no longer used by the detection logic (Phase-6: thresholds are now
-    derived from `body_weight_kg` alone).
+    Phase-6 consolidation: refactored from 4 sequential `if` blocks to a
+    decision table (`_PLATEAU_RULES`) — first matching condition wins.
+    Behavior is identical to the prior sequential form.
     """
-    _ = expected_weekly_rate_pct  # deprecated; kept for backwards-compat
     if len(weekly_weight_log_kg) < 3:
         return PlateauType.NONE
 
@@ -80,29 +103,9 @@ def detect_plateau(
     ]
     last_3 = deltas[-3:]
 
-    # Phase-6 fix: prioritize RECENT signals (weight gain, sudden stall,
-    # gradual slowdown) BEFORE the historical whoosh check. Previously a
-    # single whoosh at any prior week would mask a current gaining streak
-    # or stall — the user's actionable current state was hidden.
-    # Weight gain during a cut: all 3 recent weeks showing weight gain.
-    if all(d < 0 for d in last_3):
-        return PlateauType.WEIGHT_GAIN
-
-    # Sudden stall: last 3 deltas all < 0.3% body weight
-    threshold = body_weight_kg * 0.003
-    if all(abs(d) < threshold for d in last_3):
-        return PlateauType.SUDDEN_STALL
-
-    # Gradual slowdown: deltas decreasing in magnitude
-    if all(d > 0 for d in last_3) and last_3[0] > last_3[1] > last_3[2]:
-        return PlateauType.GRADUAL_SLOWDOWN
-
-    # Whoosh: any single week delta > 1.5% body weight (absolute).
-    # Phase-6 fix: only check the last 3 weeks so a historical whoosh doesn't
-    # mask a current plateau.
-    whoosh_threshold = body_weight_kg * 0.015
-    if any(d > whoosh_threshold for d in last_3):
-        return PlateauType.WHOOSH
+    for condition_fn, plateau_type in _PLATEAU_RULES:
+        if condition_fn(deltas, last_3, body_weight_kg):
+            return plateau_type
 
     return PlateauType.NONE
 
@@ -129,12 +132,12 @@ def recommend_cut_adjustment(
         actual_loss = weekly_weight_log_kg[0] - weekly_weight_log_kg[-1]
         actual_weekly_rate = actual_loss / n_weeks if n_weeks > 0 else 0
         target_weekly_loss = body_weight_kg * target_weekly_rate_pct
-        delta_off_target_lb = (target_weekly_loss - actual_weekly_rate) / 0.45359237
+        delta_off_target_lb = kg_to_lb(target_weekly_loss - actual_weekly_rate)
     else:
         delta_off_target_lb = 0
         actual_weekly_rate = 0
 
-    plateau = detect_plateau(weekly_weight_log_kg, target_weekly_rate_pct, body_weight_kg)
+    plateau = detect_plateau(weekly_weight_log_kg, body_weight_kg)
 
     # Troubleshooting checklist (RippedBody order)
     troubleshooting = [
@@ -183,7 +186,7 @@ def recommend_cut_adjustment(
             troubleshooting_steps=troubleshooting,
         )
 
-    # Phase-6: weight gain during a cut — strong signal of adherence issue
+    # weight gain during a cut — strong signal of adherence issue
     # or miscalculated TDEE. Do NOT reduce calories further; instead surface
     # the troubleshooting checklist prominently.
     if plateau == PlateauType.WEIGHT_GAIN:
@@ -277,7 +280,7 @@ def recommend_bulk_adjustment(
         actual_gain = monthly_weight_log_kg[-1] - monthly_weight_log_kg[0]
         actual_monthly_rate = actual_gain / n_months if n_months > 0 else 0
         target_monthly_gain = body_weight_kg * target_monthly_rate_pct
-        delta_off_target_lb = (target_monthly_gain - actual_monthly_rate) / 0.45359237
+        delta_off_target_lb = kg_to_lb(target_monthly_gain - actual_monthly_rate)
     else:
         delta_off_target_lb = 0
         actual_monthly_rate = 0

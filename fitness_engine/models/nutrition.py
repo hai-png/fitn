@@ -7,11 +7,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
-# Phase-6 cleanup: hoisted from inside CalorieTargets.__post_init__.
 import math
 
-# Phase-6 cleanup: shared JSON-serializer replaces the per-class ``_convert``
-# helper that was duplicated across assessment / nutrition models.
 from ..utils.serialize import convert_for_json
 
 
@@ -29,9 +26,6 @@ class RMRFormula(str, Enum):
     HARRIS_BENEDICT_REVISED = "harris_benedict_revised"
     CUNNINGHAM = "cunningham"           # Cunningham 1991: RMR = 500 + 22 × FFM
     KATCH_MCARDLE = "katch_mcardle"     # Katch-McArdle 1975: RMR = 370 + 21.6 × LBM
-    # (Tier 2.10 fix: previously CUNNINGHAM was mislabeled as "a.k.a. Katch-McArdle"
-    # but the implemented formula was Katch-McArdle, not Cunningham. Now both
-    # are distinct enum values with their own implementations.)
 
 
 @dataclass
@@ -163,8 +157,6 @@ class NutritionPlan:
     notes: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
-        # Phase-6 cleanup: uses the shared ``convert_for_json`` helper from
-        # ``utils.serialize`` (was a duplicated local ``_convert`` function).
         return convert_for_json(self)
 
 

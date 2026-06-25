@@ -59,7 +59,7 @@ def berkhan_stage_max_weight_kg(height_cm: float) -> float:
 # === Expected monthly muscle gain by training status (Lyle McDonald model) ===
 # Source: fatcalc.com__body-recomp-calculator
 # Men values; women are ~50%.
-# Phase-6 fix: use the MIDPOINT of each band rather than the upper bound
+# use the MIDPOINT of each band rather than the upper bound
 # (upper bound systematically over-promises gains; midpoint is the unbiased
 # estimate for planning). Bands per Lyle McDonald:
 #   Beginner     0.7-1.0 kg/mo   → midpoint 0.85
@@ -72,10 +72,6 @@ EXPECTED_MONTHLY_MUSCLE_GAIN_KG_MEN = {
     TrainingStatus.INTERMEDIATE: 0.325,     # 0.2-0.45 kg/mo, midpoint
     TrainingStatus.ADVANCED:     0.10,      # <0.2 kg/mo, representative value
 }
-
-# NOTE: BULK_RATE_BY_STATUS was previously duplicated here AND in
-# nutrition/calories.py. Tier 2.12 fix: removed from this module — the
-# canonical copy lives in nutrition.calories. Import from there if needed.
 
 
 def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> MuscularPotential:
@@ -96,8 +92,8 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
     ffmi = ffm_kg / (profile.height_m ** 2)
     normalized_ffmi = ffmi + NORM_FFMI_COEFF * (NORM_FFMI_REF_HEIGHT_M - profile.height_m)
 
-    # Tier 1.9 fix: use NORMALIZED FFMI for ceiling comparison.
-    # Phase-6 fix: clamp to [0, 100] — PED users and genetic outliers can
+    # use NORMALIZED FFMI for ceiling comparison.
+    # clamp to [0, 100] — PED users and genetic outliers can
     # exceed the natural ceiling, but a >100% "progress to ceiling" reading
     # is misleading. Negative percentages (from BF% > 100) are clamped to 0.
     # The over-ceiling signal is preserved via is_above_ceiling.
@@ -105,14 +101,14 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
     is_above_ceiling = normalized_ffmi > FFMI_NATURAL_COMMON
     ffmi_to_ceiling_pct = max(0.0, min(100.0, raw_ffmi_to_ceiling_pct))
 
-    # Tier 1.9 fix: compute the height-specific RAW FFMI at the normalized ceiling.
+    # compute the height-specific RAW FFMI at the normalized ceiling.
     # If normalized_ffmi = 25 = raw_ffmi + 6.1*(1.8 - h), then
     # raw_ffmi_at_ceiling = 25 - 6.1*(1.8 - h).
     raw_ffmi_at_ceiling = FFMI_NATURAL_COMMON - NORM_FFMI_COEFF * (NORM_FFMI_REF_HEIGHT_M - profile.height_m)
     ffm_at_ceiling = raw_ffmi_at_ceiling * (profile.height_m ** 2)
     headroom_kg = max(0.0, ffm_at_ceiling - ffm_kg)
 
-    # Tier 2.17 fix: Berkhan model is men-only.
+    # Berkhan model is men-only.
     berkhan_max: Optional[float] = None
     if profile.sex == Sex.MALE:
         berkhan_max = berkhan_stage_max_weight_kg(profile.height_cm)
@@ -123,7 +119,7 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
         base_gain *= 0.5    # women ~50% of men's rates
 
     notes: list[str] = []
-    # Tier 1.9 fix: compare NORMALIZED FFMI against the ceiling.
+    # compare NORMALIZED FFMI against the ceiling.
     if normalized_ffmi >= FFMI_NATURAL_COMMON:
         notes.append(
             f"Normalized FFMI={normalized_ffmi:.1f} ≥ natural common ceiling ({FFMI_NATURAL_COMMON}). "
@@ -141,7 +137,7 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
             f"({headroom_kg:.1f} kg FFM remaining at normalized FFMI=25)."
         )
 
-    # Tier 2.17 fix: only add Berkhan note for male profiles.
+    # only add Berkhan note for male profiles.
     if berkhan_max is not None:
         notes.append(
             f"Berkhan stage-shredded max for height={profile.height_cm}cm (men only): "
@@ -167,7 +163,7 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
         ffmi_to_ceiling_pct=round(ffmi_to_ceiling_pct, 1),
         headroom_kg=round(headroom_kg, 1),
         expected_monthly_muscle_gain_kg=round(base_gain, 2),
-        is_above_ceiling=is_above_ceiling,  # Phase-6 fix: expose over-ceiling flag
+        is_above_ceiling=is_above_ceiling,  # expose over-ceiling flag
         notes=notes,
     )
 

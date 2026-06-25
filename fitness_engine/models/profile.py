@@ -14,9 +14,9 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
-# Phase-6 cleanup: shared JSON-serializer replaces the inline Enum loop in
-# ``UserProfile.to_dict`` (consistent with assessment/nutrition models).
 from ..utils.serialize import convert_for_json
+# use shared unit conversion helper.
+from ..utils.units import kg_to_lb
 
 
 class Sex(str, Enum):
@@ -45,7 +45,7 @@ class PrimaryGoal(str, Enum):
     MUSCLE_GAIN = "muscle_gain"
     RECOMP = "recomp"
     MAINTENANCE = "maintenance"
-    STRENGTH = "strength"   # Tier 2.18: added so users can request strength-focused training
+    STRENGTH = "strength"   # users can request strength-focused training
 
 
 class EquipmentAccess(str, Enum):
@@ -112,21 +112,21 @@ class UserProfile:
     """
 
     # === Identity (required) ===
-    age: int                                  # 18-100 (Tier 3.33: widened from 18-65)
+    age: int                                  # 18-100
     sex: Sex                                   # male / female
-    height_cm: float                           # 140-230 (Tier 3.33: widened from 140-220)
-    weight_kg: float                           # 35-300  (Tier 3.33: widened from 35-250)
+    height_cm: float                           # 140-230
+    weight_kg: float                           # 35-300
 
     # === Activity & Training (required) ===
     activity_level: ActivityLevel
     training_status: TrainingStatus
     primary_goal: PrimaryGoal
-    training_days_per_week: int                # 2-7 (Tier 3.33: widened from 2-6)
+    training_days_per_week: int                # 2-6 (architect._pick_split supports 2-6)
     equipment_access: EquipmentAccess
     diet_type: DietType = DietType.OMNIVORE
 
     # === Body Composition (optional) ===
-    body_fat_pct: Optional[float] = None       # 2-60 (Tier 3.33: widened from 3-55)
+    body_fat_pct: Optional[float] = None       # 2-60
     neck_cm: Optional[float] = None
     waist_cm: Optional[float] = None           # men: at navel; women: narrowest
     hip_cm: Optional[float] = None             # required for women Navy method; optional for men
@@ -135,7 +135,7 @@ class UserProfile:
     cut_rate_tier: Optional[CutRateTier] = None
     bulk_aggressiveness: Optional[BulkAggressiveness] = None
 
-    # === Training schedule (optional, Tier 3.38) ===
+    # === Training schedule (optional) ===
     training_time_of_day: TrainingTimeOfDay = TrainingTimeOfDay.EVENING
 
     # === Health markers (optional, for future expansion) ===
@@ -180,16 +180,21 @@ class UserProfile:
             raise ValueError(f"height_cm must be 140-230, got {self.height_cm}")
         if not 35 <= self.weight_kg <= 300:
             raise ValueError(f"weight_kg must be 35-300, got {self.weight_kg}")
-        if not 2 <= self.training_days_per_week <= 7:
+        # training_days_per_week must be 2-6 (not 2-7).
+        # The training architect's _pick_split only supports 2, 3, 4, 5, 6
+        # days/week (it raises ValueError for 1 or 7). Allowing 7 here would
+        # crash the engine later when propose_plan calls _pick_split. Reject
+        # at construction time so the user gets a clear, immediate error.
+        if not 2 <= self.training_days_per_week <= 6:
             raise ValueError(
-                f"training_days_per_week must be 2-7, got {self.training_days_per_week}"
+                f"training_days_per_week must be 2-6, got {self.training_days_per_week}"
             )
         if self.body_fat_pct is not None and not 2 <= self.body_fat_pct <= 60:
             raise ValueError(
                 f"body_fat_pct must be 2-60 if provided, got {self.body_fat_pct}"
             )
 
-        # Diet type — Phase-2 supports OMNIVORE, VEGAN, VEGETARIAN
+        # Diet type — supports OMNIVORE, VEGAN, VEGETARIAN
         # (KETO/PALEO still pending nutrition-side support)
         if self.diet_type not in (DietType.OMNIVORE, DietType.VEGAN, DietType.VEGETARIAN):
             raise ValueError(
@@ -208,7 +213,7 @@ class UserProfile:
 
     @property
     def weight_lb(self) -> float:
-        return self.weight_kg * 2.20462
+        return kg_to_lb(self.weight_kg)
 
     @property
     def bmi(self) -> float:
@@ -226,9 +231,6 @@ class UserProfile:
             )
 
     def to_dict(self) -> dict:
-        # Phase-6 cleanup: uses the shared ``convert_for_json`` helper from
-        # ``utils.serialize`` (was a shallow inline Enum-conversion loop that
-        # missed any nested dataclasses/containers).
         return convert_for_json(self)
 
 

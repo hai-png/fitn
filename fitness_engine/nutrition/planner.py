@@ -6,7 +6,6 @@ from __future__ import annotations
 from ..models.profile import UserProfile, Sex
 from ..models.assessment import AssessmentResult, RecommendedStrategy
 from ..models.nutrition import NutritionPlan
-# Phase-6 cleanup: hoisted from inside ``_estimate_timeline`` (no circular dep).
 from ..assessment.decision import CUT_BULK_BOUNDARIES
 from .rmr import compute_rmr
 from .tdee import compute_tdee
@@ -14,6 +13,7 @@ from .calories import compute_calorie_targets, BULK_RATE_BY_STATUS
 from .macros import compute_macros
 from .hydration import compute_hydration
 from .micronutrients import compute_micronutrients
+from ..utils.units import WEEKS_PER_MONTH
 
 
 def build_nutrition_plan(
@@ -22,12 +22,6 @@ def build_nutrition_plan(
     exercise_hours_per_day: float = 1.0,
     exercise_intensity: str = "moderate",
     climate: str = "temperate",
-    # Phase-6 fix: `in_active_deficit` parameter was previously accepted and
-    # used for the RMR computation, then separately recomputed locally for
-    # compute_calorie_targets (which ignores it). We retain the parameter for
-    # the RMR call but derive the local value from strategy (single source of
-    # truth) so the two paths never disagree.
-    in_active_deficit: bool | None = None,
     weight_reduced_pct: float = 0.0,
 ) -> NutritionPlan:
     """
@@ -45,23 +39,18 @@ def build_nutrition_plan(
             tdee = update_tdee_with_logs(tdee, ...)
     between steps 2 and 3.
     """
-    # Phase-6 fix: derive `active_deficit` from strategy (single source of
-    # truth). If the caller explicitly passes `in_active_deficit`, we still
-    # honor it for the RMR call (legacy API) but the calorie-target path uses
-    # the derived value so the two never disagree.
-    active_deficit = (
-        assessment.recommended_strategy == RecommendedStrategy.CUT
-        or assessment.recommended_strategy == RecommendedStrategy.RECOMP
-    )
-    rmr_active_deficit = (
-        in_active_deficit if in_active_deficit is not None else active_deficit
+    # derive `active_deficit` from strategy (single source of
+    # truth). CUT and RECOMP both place the user in an energy deficit.
+    active_deficit = assessment.recommended_strategy in (
+        RecommendedStrategy.CUT,
+        RecommendedStrategy.RECOMP,
     )
 
     # 1. RMR
     rmr = compute_rmr(
         profile=profile,
         body_fat_pct=assessment.body_composition.body_fat_pct,
-        in_active_deficit=rmr_active_deficit,
+        in_active_deficit=active_deficit,
         weight_reduced_pct=weight_reduced_pct,
     )
 
@@ -69,15 +58,11 @@ def build_nutrition_plan(
     tdee = compute_tdee(rmr, profile)
 
     # 3. Calorie targets
-    # Phase-6 fix: in_active_deficit is derived from strategy above; the
-    # compute_calorie_targets function accepts it for API compat but ignores
-    # it (the strategy encodes everything needed).
     calories = compute_calorie_targets(
         profile=profile,
         tdee_kcal=tdee.final_tdee_kcal,
         strategy=assessment.recommended_strategy,
         body_fat_pct=assessment.body_composition.body_fat_pct,
-        in_active_deficit=active_deficit,
     )
 
     # 4. Macros
@@ -137,12 +122,9 @@ def _estimate_timeline(
     - Bulk: time to reach FFMI ceiling or operational_hi BF%
     - Maintenance / Recomp: 12 weeks (typical mesocycle)
     """
-    # Phase-6 cleanup: ``CUT_BULK_BOUNDARIES`` now imported at module top.
     strategy = assessment.recommended_strategy
     b = CUT_BULK_BOUNDARIES[profile.sex]
-    # Tier 4.53 fix: extracted magic numbers to named constants.
     ADAPTATION_BUFFER_WEEKS = 4     # extra weeks to account for metabolic adaptation
-    WEEKS_PER_MONTH = 4.348         # 365.25 / 12 / 7
     DEFAULT_BULK_DURATION_GAIN_PCT = 0.05  # 5% BW target for bulk duration estimate
     DEFAULT_RECOMP_TIMELINE_WEEKS = 12
     DEFAULT_MAINTENANCE_TIMELINE_WEEKS = 12
@@ -175,7 +157,7 @@ def _estimate_timeline(
         return DEFAULT_MAINTENANCE_TIMELINE_WEEKS
 
     if strategy == RecommendedStrategy.HABIT_CHANGE_FIRST:
-        # Phase-6 fix: HABIT_CHANGE_FIRST returns maintenance calories from
+        # HABIT_CHANGE_FIRST returns maintenance calories from
         # compute_calorie_targets (no deficit), but the timeline estimate is
         # 8 weeks (the “habit-change phase” before formal calorie counting).
         # This asymmetry is intentional — the user spends 8 weeks building

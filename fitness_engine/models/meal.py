@@ -15,7 +15,7 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Optional, TYPE_CHECKING
 
-# Phase-6 cleanup: shared JSON-serializer for consistent Enum conversion.
+# shared JSON-serializer for consistent Enum conversion.
 from ..utils.serialize import convert_for_json
 
 
@@ -59,10 +59,6 @@ class RecipeDietTag(str, Enum):
     VEGETARIAN = "VEGETARIAN"
 
 
-# Backward-compat alias (deprecated — use RecipeDietTag directly)
-DietType = RecipeDietTag
-
-
 class GoalFit(str, Enum):
     """Recipe goal_fit tags."""
     CUT = "cut"
@@ -88,7 +84,7 @@ class RecipeKind(str, Enum):
     PANTRY = "pantry"
 
 
-# === Phase-1 raw food model (kept for backward compat) ===
+# === Raw food model (kept for backward compat) ===
 
 @dataclass
 class FoodItem:
@@ -131,12 +127,10 @@ class MealFood:
     @property
     def fiber_g(self) -> float:
         """Fiber grams (Phase-5: needed for filler tracking)."""
-        # Phase-6 cleanup: ``fiber_g_per_100g`` is a required field on FoodItem
-        # (default 0.0), so the getattr shim was unnecessary.
         return self.food.fiber_g_per_100g * self.grams / 100
 
 
-# === Phase-2 Recipe model ===
+# === Recipe model ===
 
 @dataclass
 class NutritionPerServing:
@@ -162,9 +156,6 @@ class Recipe:
     id: Optional[str] = None               # e.g. "R001"
     source: Optional[str] = None            # URL
     source_file: Optional[str] = None
-    # Phase-6 cleanup: removed ``legacy_id`` field (no consumers — the loader
-    # set it but nothing ever read it).
-
     # === Classification ===
     cuisine: str = "american"
     category: str = ""                      # free-text: "dinner, main, main course"
@@ -202,9 +193,6 @@ class Recipe:
 
     # === Misc ===
     notes: str = ""
-    # Phase-6 cleanup: removed ``_extraction_method`` field (no consumers —
-    # the loader set it from a JSON key but nothing ever read it).
-
     @property
     def total_time_min(self) -> Optional[int]:
         """Total prep + cook time, or None if either is missing."""
@@ -255,11 +243,8 @@ class Recipe:
         return self.nutrition_per_serving.fiber_g
 
     def to_dict(self) -> dict:
-        # Phase-6 fix: use convert_for_json for consistent Enum conversion.
-        # Previously `asdict(self)` returned raw Enum objects (Recipe has no
-        # Enum fields today, but if one is ever added the output would
-        # silently break json.dumps). Also inconsistent with Meal.to_dict
-        # which explicitly converts Enums.
+        # use convert_for_json for consistent Enum conversion (also
+        # consistent with Meal.to_dict which explicitly converts Enums).
         return convert_for_json(self)
 
 
@@ -292,7 +277,7 @@ class Meal:
     name: str
     foods: list[MealFood] = field(default_factory=list)
     recipe: Optional[Recipe] = None
-    # Scaled recipe nutrition (Tier 1.2). When `recipe` is set, these hold the
+    # Scaled recipe nutrition. When `recipe` is set, these hold the
     # scaled per-serving values; `total_*` properties add filler contributions
     # on top. When `recipe` is None, they're 0 and `total_*` falls back to
     # summing `foods` only.
@@ -302,8 +287,7 @@ class Meal:
     scaled_carb_g: float = 0.0
     scaled_fat_g: float = 0.0
     scaled_fiber_g: float = 0.0
-    # Phase-5 metadata (Tier 1.2 — previously computed by allocator then
-    # discarded; now preserved end-to-end).
+    # Swap options + targets preserved end-to-end (allocator → planner → JSON).
     swap_options: list[dict] = field(default_factory=list)
     ingredient_swaps: dict = field(default_factory=dict)
     target_kcal: float = 0.0
@@ -315,7 +299,7 @@ class Meal:
     @property
     def total_kcal(self) -> float:
         if self.recipe is not None:
-            # Scaled recipe + fillers (Tier 1.2 fix).
+            # Scaled recipe + fillers.
             return self.scaled_kcal + sum(f.kcal for f in self.foods)
         return sum(f.kcal for f in self.foods)
 
@@ -339,11 +323,6 @@ class Meal:
 
     @property
     def total_fiber_g(self) -> float:
-        # Phase-6 fix: fiber was tracked in scaled_fiber_g + MealFood.fiber_g
-        # but never surfaced as a property or in to_dict. Downstream consumers
-        # (DayPlan.total_fiber_g, JSON output, weekly tracking) had no way to
-        # read the actual fiber total, so fiber targets were reported but
-        # never validated against actuals.
         if self.recipe is not None:
             return self.scaled_fiber_g + sum(f.fiber_g for f in self.foods)
         return sum(f.fiber_g for f in self.foods)
@@ -380,7 +359,7 @@ class Meal:
                     "protein_g": round(f.protein_g, 1),
                     "carb_g": round(f.carb_g, 1),
                     "fat_g": round(f.fat_g, 1),
-                    # Phase-6 fix: include fiber_g per food (was missing).
+                    # include fiber_g per food.
                     "fiber_g": round(f.fiber_g, 1),
                 }
                 for f in self.foods
@@ -395,8 +374,7 @@ class Meal:
             "actual_protein_g": round(self.total_protein_g, 1),
             "actual_carb_g": round(self.total_carb_g, 1),
             "actual_fat_g": round(self.total_fat_g, 1),
-            # Phase-6 fix: include actual_fiber_g (was missing — fiber was
-            # tracked internally but dropped from the JSON output).
+            # include actual_fiber_g.
             "actual_fiber_g": round(self.total_fiber_g, 1),
             "notes": self.notes,
         }
@@ -427,8 +405,6 @@ class DayPlan:
 
     @property
     def total_fiber_g(self) -> float:
-        # Phase-6 fix: DayPlan had no total_fiber_g property — fiber was
-        # tracked per Meal but never aggregated to the day level.
         return sum(m.total_fiber_g for m in self.meals)
 
     def to_dict(self) -> dict:
@@ -440,8 +416,7 @@ class DayPlan:
             "total_protein_g": self.total_protein_g,
             "total_carb_g": self.total_carb_g,
             "total_fat_g": self.total_fat_g,
-            # Phase-6 fix: include total_fiber_g (was missing — fiber was
-            # tracked per meal but never aggregated to the day level).
+            # include total_fiber_g.
             "total_fiber_g": round(self.total_fiber_g, 1),
         }
 
@@ -476,7 +451,7 @@ class FitnessPlan:
     summary: str = ""
 
     def __post_init__(self):
-        # Phase-6 fix: validate that all three sub-plans are non-None. A None
+        # validate that all three sub-plans are non-None. A None
         # value here would silently produce a AttributeError downstream when
         # to_dict() tries to call .to_dict() on the sub-plan.
         missing = [
@@ -492,11 +467,6 @@ class FitnessPlan:
             )
 
     def to_dict(self) -> dict:
-        # Phase-6 fix: removed dead deferred imports — the imports were
-        # marked `# noqa: F401` and never actually used inside this method
-        # body (we just call .to_dict() on the already-typed sub-plans).
-        # The classes were already imported at module construction time
-        # when the FitnessPlan instance was built.
         return {
             "nutrition": self.nutrition.to_dict(),
             "training": self.training.to_dict(),
@@ -505,9 +475,8 @@ class FitnessPlan:
         }
 
 
-# Phase-6 fix: forward-imports previously at file bottom (after FitnessPlan)
-# moved into TYPE_CHECKING + deferred inside to_dict() to avoid circular import
-# at module load time.
+# TYPE_CHECKING + deferred imports inside to_dict() to avoid circular
+# import at module load time.
 if TYPE_CHECKING:
     from .nutrition import NutritionPlan
     from .training import TrainingPlan
@@ -516,7 +485,7 @@ if TYPE_CHECKING:
 __all__ = [
     "MealType",
     "FoodCategory",
-    "DietType",
+    "RecipeDietTag",
     "GoalFit",
     "ProteinDensity",
     "CalorieDensity",

@@ -49,6 +49,6 @@ def convert_for_json(obj: Any) -> Any:
             # Unorderable mixed types — fall back to sorted-by-repr.
             return [convert_for_json(x) for x in sorted(obj, key=lambda v: repr(v))]
     if isinstance(obj, dict):
-        # Phase-6 fix: convert keys too (was only converting values).
+        # convert keys too (was only converting values).
         return {convert_for_json(k): convert_for_json(v) for k, v in obj.items()}
     return obj

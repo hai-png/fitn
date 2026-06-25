@@ -140,6 +140,28 @@ def build_meal_plan(
                 is_main_meal=is_main,
             )
 
+            # if the allocator returned a fully-empty meal (recipe=None
+            # AND fillers=[]), the variety exclusion (last-3-days) likely
+            # depleted the candidate pool for this slot. Retry with the
+            # variety constraint relaxed (empty used_recipe_ids_last_3_days)
+            # so we still produce a non-empty meal. We keep used_today and
+            # used_recipe_ids_last_7_days intact — those are weaker (soft
+            # score) constraints, but dropping them is unnecessary and would
+            # hurt variety.
+            if selected.recipe is None and not selected.fillers:
+                selected = allocate_meal(
+                    slot=slot,
+                    diet_tag=requirements.diet_tag,
+                    user_goal=requirements.goal,
+                    cuisine_preference=requirements.cuisine_preference,
+                    allergens_to_avoid=requirements.allergens_to_avoid,
+                    excluded_ingredients=requirements.excluded_ingredients,
+                    used_recipe_ids_last_3_days=set(),  # relaxed
+                    used_recipe_ids_last_7_days=used_recipe_ids_last_7_days,
+                    used_today=used_today,
+                    is_main_meal=is_main,
+                )
+
             # Build Meal object
             if selected.recipe is not None:
                 # Recipe-based meal
@@ -160,10 +182,8 @@ def build_meal_plan(
                     name=selected.recipe.name,
                     recipe=selected.recipe,
                     foods=selected.fillers,   # fillers stored in foods list
-                    # Tier 1.2: preserve scaled nutrition + Phase-5 metadata so
-                    # `Meal.total_*` and `Meal.to_dict()` produce correct numbers
-                    # (previously the JSON output reported unscaled recipe kcal
-                    # and ignored fillers, contradicting the weekly summary).
+                    # preserve scaled nutrition + selected-meal metadata so
+                    # `Meal.total_*` and `Meal.to_dict()` produce correct numbers.
                     scale_factor=selected.scale_factor,
                     scaled_kcal=selected.scaled_kcal,
                     scaled_protein_g=selected.scaled_protein_g,
@@ -185,8 +205,38 @@ def build_meal_plan(
                 weekly_protein_total += selected.total_protein_g
                 weekly_carb_total += selected.total_carb_g
                 weekly_fat_total += selected.total_fat_g
+            elif selected.fillers:
+                # fillers-only meal — the allocator couldn't scale any
+                # recipe to the slot target (e.g. a 700-kcal recipe can't
+                # satisfy a 250-kcal snack slot even at MIN_SCALE=0.7).
+                # Build a Meal with recipe=None but carry the fillers so the
+                # day's total_kcal reflects the actual food (instead of 0).
+                fallback_count += 1
+                meal_notes = "; ".join(selected.notes) if selected.notes else ""
+                meal = Meal(
+                    meal_type=slot.meal_type,
+                    name=f"{slot.meal_type.value.title()} (fillers-only)",
+                    foods=selected.fillers,
+                    scale_factor=0.0,
+                    scaled_kcal=0.0,
+                    scaled_protein_g=0.0,
+                    scaled_carb_g=0.0,
+                    scaled_fat_g=0.0,
+                    scaled_fiber_g=0.0,
+                    target_kcal=round(slot.target_kcal, 0),
+                    target_protein_g=round(slot.target_protein_g, 0),
+                    target_carb_g=round(slot.target_carb_g, 0),
+                    target_fat_g=round(slot.target_fat_g, 0),
+                    notes=meal_notes,
+                )
+                meals.append(meal)
+                # Track weekly totals using the fillers' actual nutrition.
+                weekly_kcal_total += selected.total_kcal
+                weekly_protein_total += selected.total_protein_g
+                weekly_carb_total += selected.total_carb_g
+                weekly_fat_total += selected.total_fat_g
             else:
-                # Fallback — no recipe found
+                # Fallback — no recipe found AND no fillers (last resort)
                 fallback_count += 1
                 meals.append(Meal(
                     meal_type=slot.meal_type,
@@ -232,7 +282,7 @@ def build_meal_plan(
     target_c = requirements.daily_carb_g
     target_f = requirements.daily_fat_g
 
-    # Phase-6 fix: clamp match-pct to [0, 100] — previously a weekly_avg
+    # clamp match-pct to [0, 100] — previously a weekly_avg
     # more than 2× the target produced a NEGATIVE match (e.g. 4500 vs 2000
     # → -25%). The allocator's `kcal_match_pct` already clamps with
     # `max(0.0, ...)`; this code path was the odd one out.
@@ -258,13 +308,13 @@ def build_meal_plan(
         f"Unique recipes used: {len(unique_recipes)} (target: ≥14 for variety)",
         f"Cuisine mix: {dict(cuisine_mix.most_common(10))}",
         f"Training days: {sorted(training_days)}",
-        "Phase-5 best-fit scoring + acceptable scaling + filler system + swap alternatives.",
+        "Best-fit scoring + acceptable scaling + filler system + swap alternatives.",
     ]
 
     return MealPlan(
         days=days,
         meal_frequency=meal_frequency,
-        macro_allocation={},  # computed in requirements; left empty for Phase-5
+        macro_allocation={},  # computed in requirements; left empty here
         cuisine_mix=dict(cuisine_mix.most_common(20)),
         recipe_source_summary={
             "curated_used": curated_count,

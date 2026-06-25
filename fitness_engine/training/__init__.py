@@ -53,7 +53,6 @@ from .exercise_categorization import (
     categorize_exercise,
     get_movement_pattern,
     get_pattern_family,
-    get_volume_family,
     get_environment_preferred_equipment,
     get_swappable_exercises,
 )
@@ -139,7 +138,7 @@ __all__ = [
     "PatternFamily", "MovementPatternSpec", "ExerciseCategoryInfo",
     "MOVEMENT_PATTERNS",
     "categorize_exercise", "get_movement_pattern", "get_pattern_family",
-    "get_volume_family", "get_environment_preferred_equipment",
+    "get_environment_preferred_equipment",
     "get_swappable_exercises",
     # Volume landmarks
     "VolumeTier", "TIER_SET_RANGES", "TIER_HOURS_RANGES",
