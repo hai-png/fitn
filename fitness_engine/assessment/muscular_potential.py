@@ -59,11 +59,18 @@ def berkhan_stage_max_weight_kg(height_cm: float) -> float:
 # === Expected monthly muscle gain by training status (Lyle McDonald model) ===
 # Source: fatcalc.com__body-recomp-calculator
 # Men values; women are ~50%.
+# Phase-6 fix: use the MIDPOINT of each band rather than the upper bound
+# (upper bound systematically over-promises gains; midpoint is the unbiased
+# estimate for planning). Bands per Lyle McDonald:
+#   Beginner     0.7-1.0 kg/mo   → midpoint 0.85
+#   Novice       0.45-0.7 kg/mo  → midpoint 0.575
+#   Intermediate 0.2-0.45 kg/mo  → midpoint 0.325
+#   Advanced     <0.2 kg/mo      → use 0.10 as a representative sub-floor value
 EXPECTED_MONTHLY_MUSCLE_GAIN_KG_MEN = {
-    TrainingStatus.BEGINNER:     1.0,       # 0.7-1.0 kg/mo, use upper bound
-    TrainingStatus.NOVICE:       0.7,       # ~0.7-1.0 declining to 0.45-0.7
-    TrainingStatus.INTERMEDIATE: 0.45,      # 0.45-0.7 kg/mo
-    TrainingStatus.ADVANCED:     0.20,      # <0.2-0.45 kg/mo
+    TrainingStatus.BEGINNER:     0.85,      # 0.7-1.0 kg/mo, midpoint
+    TrainingStatus.NOVICE:       0.575,     # 0.45-0.7 kg/mo, midpoint
+    TrainingStatus.INTERMEDIATE: 0.325,     # 0.2-0.45 kg/mo, midpoint
+    TrainingStatus.ADVANCED:     0.10,      # <0.2 kg/mo, representative value
 }
 
 # NOTE: BULK_RATE_BY_STATUS was previously duplicated here AND in
@@ -83,7 +90,12 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
     normalized_ffmi = ffmi + NORM_FFMI_COEFF * (NORM_FFMI_REF_HEIGHT_M - profile.height_m)
 
     # Tier 1.9 fix: use NORMALIZED FFMI for ceiling comparison.
-    ffmi_to_ceiling_pct = (normalized_ffmi / FFMI_NATURAL_COMMON) * 100
+    # Phase-6 fix: clamp to 100% — PED users and genetic outliers can exceed
+    # the natural ceiling, but a >100% "progress to ceiling" reading is
+    # misleading. The over-ceiling signal is preserved via is_above_ceiling.
+    raw_ffmi_to_ceiling_pct = (normalized_ffmi / FFMI_NATURAL_COMMON) * 100
+    is_above_ceiling = normalized_ffmi > FFMI_NATURAL_COMMON
+    ffmi_to_ceiling_pct = min(100.0, raw_ffmi_to_ceiling_pct)
 
     # Tier 1.9 fix: compute the height-specific RAW FFMI at the normalized ceiling.
     # If normalized_ffmi = 25 = raw_ffmi + 6.1*(1.8 - h), then
@@ -147,6 +159,7 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
         ffmi_to_ceiling_pct=round(ffmi_to_ceiling_pct, 1),
         headroom_kg=round(headroom_kg, 1),
         expected_monthly_muscle_gain_kg=round(base_gain, 2),
+        is_above_ceiling=is_above_ceiling,  # Phase-6 fix: expose over-ceiling flag
         notes=notes,
     )
 

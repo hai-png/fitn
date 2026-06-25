@@ -15,6 +15,8 @@ import json
 import sys
 from pathlib import Path
 from collections import defaultdict
+# Phase-6 fix: use the actual run date instead of a hardcoded future timestamp.
+import datetime
 
 # Add project root to path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -141,7 +143,7 @@ def write_markdown_report(analysis, path):
     lines = [
         "# Recipe Database Coverage Analysis",
         "",
-        f"**Generated**: 2026-06-25",
+        f"**Generated**: {datetime.date.today().isoformat()}",  # Phase-6 fix: was hardcoded "2026-06-25"
         f"**Database stats**: {database_stats()}",
         "",
         "## Summary",

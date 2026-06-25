@@ -7,11 +7,19 @@ from fitness_engine.models.profile import (
     EquipmentAccess, DietType,
 )
 from fitness_engine.assessment import (
+    classify_bf, classify_bmi,
+    assess_profile,
+)
+# Phase-6 fix: assessment package __all__ was trimmed to the intended public
+# API per CLEANUP_PLAN.md. Internal helpers are now imported from their
+# submodules directly.
+from fitness_engine.assessment.body_composition import (
     body_fat_navy, body_fat_bmi_jackson, body_fat_cun_bae,
-    classify_bf, classify_bmi, compute_ffmi,
+    compute_ffmi, compute_body_fat,
+)
+from fitness_engine.assessment.health_risk import (
     compute_whr, classify_whr, compute_whtr, classify_whtr,
     compute_absi, classify_absi, ibw_devine,
-    assess_profile, compute_body_fat,
 )
 from fitness_engine.assessment.decision import decide_strategy
 from fitness_engine.assessment.muscular_potential import (
@@ -119,14 +127,20 @@ class TestBodyFatBMIMethods:
         # Women should have higher BF% at same BMI+age (Jackson's female coefficient is higher)
         assert bf_f > bf_m
 
-    def test_compute_body_fat_reports_bmi_jackson_not_cun_bae(self):
-        """Tier 2.16 regression: when body_fat_cun_bae is used as the fallback,
-        compute_body_fat must report BodyFatMethod.BMI_JACKSON (not CUN_BAE),
-        since the function actually returns Jackson values. Previously the
-        method label was wrong, misleading downstream consumers."""
+    def test_compute_body_fat_reports_cun_bae_when_used(self):
+        """Phase-6 regression: CUN-BAE is now properly implemented (was a
+        Jackson fallback). compute_body_fat must report BodyFatMethod.CUN_BAE
+        when the CUN-BAE formula fires, so downstream consumers know which
+        formula was actually used.
+
+        Previously (Tier 2.16) the function returned Jackson values but
+        mislabeled them as CUN_BAE. Then it was "fixed" to honestly report
+        BMI_JACKSON. Now (Phase-6) CUN-BAE is actually implemented, so the
+        correct label is CUN_BAE.
+        """
         from fitness_engine.models.assessment import BodyFatMethod
         # Profile with no body_fat_pct and no circumference measurements →
-        # falls through to the Jackson/CUN-BAE fallback.
+        # falls through to the CUN-BAE fallback.
         profile = UserProfile(
             age=30, sex=Sex.MALE, height_cm=178, weight_kg=80,
             activity_level=ActivityLevel.SEDENTARY,
@@ -138,11 +152,12 @@ class TestBodyFatBMIMethods:
             # No body_fat_pct, no neck/waist/hip → fallback path
         )
         bf, method = compute_body_fat(profile)
-        assert method == BodyFatMethod.BMI_JACKSON, (
-            f"compute_body_fat should report BMI_JACKSON (not CUN_BAE) when "
-            f"using the Jackson fallback; got {method}. This was the original "
-            f"mislabeling bug."
+        assert method == BodyFatMethod.CUN_BAE, (
+            f"compute_body_fat should report CUN_BAE now that the formula is "
+            f"properly implemented; got {method}."
         )
+        # Verify the BF% is in a reasonable range for a 30yo male with BMI=25.2
+        assert 10 <= bf <= 30, f"CUN-BAE BF% should be reasonable; got {bf}"
 
 
 class TestBodyFatCategories:

@@ -30,5 +30,12 @@ OBESE_THRESHOLD = {
     Sex.FEMALE: 32,
 }
 
+# Phase-6 fix: medical disclaimer was previously duplicated in assessor.py
+# (MEDICAL_DISCLAIMER) and health_risk.py (inline string in assess_health_risk).
+# Moved here as the single source of truth.
+MEDICAL_DISCLAIMER = (
+    "Not a substitute for clinical assessment — consult a physician for personalized guidance."
+)
 
-__all__ = ["OPERATIONAL_BF_RANGE", "HORMONAL_FLOOR", "OBESE_THRESHOLD"]
+
+__all__ = ["OPERATIONAL_BF_RANGE", "HORMONAL_FLOOR", "OBESE_THRESHOLD", "MEDICAL_DISCLAIMER"]

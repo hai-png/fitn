@@ -3,7 +3,8 @@ User Profile data models — the primary input to the engine.
 
 Phase-1 scope:
   - Standard input depth (basic + BF% + measurements + training experience + schedule)
-  - General healthy adults 18-65, omnivore diet only
+  - General healthy adults 18-100, omnivore / vegan / vegetarian diets
+    (Tier 3.33 widened ranges from the original 18-65 / omnivore-only scope.)
 
 All measurements use METRIC units (kg, cm, L) internally.
 """
@@ -107,24 +108,24 @@ class UserProfile:
     """
 
     # === Identity (required) ===
-    age: int                                  # 18-100 (Tier 3.33: was 18-65 in docstring; validator allows 18-100)
+    age: int                                  # 18-100 (Tier 3.33: widened from 18-65)
     sex: Sex                                   # male / female
-    height_cm: float                           # 140-230 (Tier 3.33: was 140-220 in docstring)
-    weight_kg: float                           # 35-300 (Tier 3.33: was 35-250 in docstring)
+    height_cm: float                           # 140-230 (Tier 3.33: widened from 140-220)
+    weight_kg: float                           # 35-300  (Tier 3.33: widened from 35-250)
 
     # === Activity & Training (required) ===
     activity_level: ActivityLevel
     training_status: TrainingStatus
     primary_goal: PrimaryGoal
-    training_days_per_week: int                # 2-7 (Tier 3.33: was 2-6 in docstring)
+    training_days_per_week: int                # 2-7 (Tier 3.33: widened from 2-6)
     equipment_access: EquipmentAccess
     diet_type: DietType = DietType.OMNIVORE
 
     # === Body Composition (optional) ===
-    body_fat_pct: Optional[float] = None       # 2-60 (Tier 3.33: was 3-55 in docstring)
+    body_fat_pct: Optional[float] = None       # 2-60 (Tier 3.33: widened from 3-55)
     neck_cm: Optional[float] = None
     waist_cm: Optional[float] = None           # men: at navel; women: narrowest
-    hip_cm: Optional[float] = None             # required for women Navy method
+    hip_cm: Optional[float] = None             # required for women Navy method; optional for men
 
     # === Aggressiveness (optional overrides) ===
     cut_rate_tier: Optional[CutRateTier] = None

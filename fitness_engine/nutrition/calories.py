@@ -11,6 +11,8 @@ Sources:
 """
 from __future__ import annotations
 
+import math
+
 from ..models.profile import (
     UserProfile, Sex, TrainingStatus, PrimaryGoal, CutRateTier, BulkAggressiveness,
 )
@@ -115,24 +117,29 @@ def cut_target_calories(
                 # moderate tier and applies to both sexes).
                 rate_pct = DEFAULT_CUT_RATE_PCT
             else:
+                # Phase-6 fix: previously these inline thresholds hardcoded
+                # 0.005/0.0075/0.010 instead of referencing SWEET_SPOT_CUT_RATE_PCT /
+                # DEFAULT_CUT_RATE_PCT / MAX_WEEKLY_LOSS_PCT. Now we use the exported
+                # constants as the single source of truth (so future changes to the
+                # constants propagate here automatically).
                 if profile.sex == Sex.MALE:
                     if bf_pct >= 25:
-                        rate_pct = 0.010   # 1.0 %
+                        rate_pct = MAX_WEEKLY_LOSS_PCT       # 1.0 % — obese, max safe rate
                     elif bf_pct >= 20:
-                        rate_pct = 0.0075  # 0.75 %
+                        rate_pct = DEFAULT_CUT_RATE_PCT      # 0.75 % — moderate
                     elif bf_pct >= 15:
-                        rate_pct = 0.005   # 0.5 %
+                        rate_pct = SWEET_SPOT_CUT_RATE_PCT   # 0.5 % — sweet spot
                     else:
-                        rate_pct = 0.005   # ≤0.5 % for lean
+                        rate_pct = SWEET_SPOT_CUT_RATE_PCT   # ≤0.5 % for lean
                 else:
                     if bf_pct >= 35:
-                        rate_pct = 0.010
+                        rate_pct = MAX_WEEKLY_LOSS_PCT
                     elif bf_pct >= 28:
-                        rate_pct = 0.0075
+                        rate_pct = DEFAULT_CUT_RATE_PCT
                     elif bf_pct >= 22:
-                        rate_pct = 0.005
+                        rate_pct = SWEET_SPOT_CUT_RATE_PCT
                     else:
-                        rate_pct = 0.005
+                        rate_pct = SWEET_SPOT_CUT_RATE_PCT
 
     # Enforce hard cap (>= so the VERY_AGGRESSIVE tier is also clipped)
     capped = rate_pct >= MAX_WEEKLY_LOSS_PCT
@@ -346,7 +353,11 @@ def reverse_diet_plan(
             notes=["Already at or above target — no reverse diet needed."],
         )
 
-    weeks_needed = max(1, int(delta / increment) + (1 if delta % increment else 0))
+    # Phase-6 fix: replace fragile float-modulo expression
+    #   `int(delta / increment) + (1 if delta % increment else 0)`
+    # with math.ceil which is the documented intent (round up to cover any
+    # remainder). Float modulo can produce surprising results due to FP error.
+    weeks_needed = max(1, math.ceil(delta / increment))
     weekly_targets = []
     for w in range(weeks_needed):
         target = min(current_calories + (w + 1) * increment, target_calories)
@@ -380,9 +391,16 @@ def compute_calorie_targets(
     tdee_kcal: float,
     strategy: RecommendedStrategy,
     body_fat_pct: float,
-    in_active_deficit: bool = False,
+    in_active_deficit: bool = False,  # Phase-6 fix: kept for API compat but ignored (see planner.py)
 ) -> CalorieTargets:
-    """Compute calorie targets based on the recommended strategy."""
+    """Compute calorie targets based on the recommended strategy.
+
+    Phase-6 fix: the `in_active_deficit` parameter is accepted for backward
+    API compatibility but is NOT used by this function — the strategy +
+    profile already encode everything needed. The single source of truth for
+    "is the user currently in a deficit" now lives in the planner (derived
+    from strategy); see nutrition/planner.py for the consolidation.
+    """
     if strategy == RecommendedStrategy.CUT:
         return cut_target_calories(profile, tdee_kcal)
     elif strategy == RecommendedStrategy.BULK:

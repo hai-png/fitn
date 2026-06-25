@@ -1,37 +1,27 @@
-"""Assessment module — body composition, health risk, muscular potential, decision tree."""
+"""Assessment module — body composition, health risk, muscular potential, decision tree.
+
+Phase-6 fix: trimmed __all__ to the intended public API (≤20 symbols per
+CLEANUP_PLAN.md). Internal helpers (compute_*, classify_*, ibw_*, FFMI constants,
+berkhan_stage_max_weight_kg, CUT_BULK_BOUNDARIES) are still importable from
+their submodules but are no longer re-exported at the package level.
+"""
 from .body_composition import (
-    assess_body_composition, compute_body_fat, compute_ffmi,
-    body_fat_navy, body_fat_bmi_jackson, body_fat_cun_bae,
-    classify_bf, classify_bmi, target_weight_at_target_bf,
+    assess_body_composition, classify_bf, classify_bmi,
 )
-from .health_risk import (
-    assess_health_risk, compute_whr, classify_whr,
-    compute_whtr, classify_whtr,
-    compute_absi, absi_z_score, classify_absi,
-    ibw_devine, ibw_robinson, ibw_miller, ibw_hamwi,
-)
-from .muscular_potential import (
-    assess_muscular_potential, berkhan_stage_max_weight_kg,
-    FFMI_NATURAL_COMMON, FFMI_NATURAL_ATTAINABLE, FFMI_NATURAL_LIKELY_MAX,
-)
-from .decision import decide_strategy, CUT_BULK_BOUNDARIES
+from .health_risk import assess_health_risk
+from .muscular_potential import assess_muscular_potential
+from .decision import decide_strategy
 from .assessor import assess_profile
 
 __all__ = [
     # Body composition
-    "assess_body_composition", "compute_body_fat", "compute_ffmi",
-    "body_fat_navy", "body_fat_bmi_jackson", "body_fat_cun_bae",
-    "classify_bf", "classify_bmi", "target_weight_at_target_bf",
+    "assess_body_composition", "classify_bf", "classify_bmi",
     # Health risk
-    "assess_health_risk", "compute_whr", "classify_whr",
-    "compute_whtr", "classify_whtr",
-    "compute_absi", "absi_z_score", "classify_absi",
-    "ibw_devine", "ibw_robinson", "ibw_miller", "ibw_hamwi",
+    "assess_health_risk",
     # Muscular potential
-    "assess_muscular_potential", "berkhan_stage_max_weight_kg",
-    "FFMI_NATURAL_COMMON", "FFMI_NATURAL_ATTAINABLE", "FFMI_NATURAL_LIKELY_MAX",
+    "assess_muscular_potential",
     # Decision
-    "decide_strategy", "CUT_BULK_BOUNDARIES",
+    "decide_strategy",
     # Orchestrator
     "assess_profile",
 ]

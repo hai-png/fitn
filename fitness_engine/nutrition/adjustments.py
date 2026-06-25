@@ -51,10 +51,18 @@ def detect_plateau(
     """
     Detect plateau type from weekly weight log.
 
-    - Sudden stall: 3+ weeks with avg within ±0.3% of prior avg
-    - Gradual slowdown: rate of loss decelerating week-over-week
-    - Whoosh: sudden drop > 1.5% in single week after plateau
-    - None: insufficient data (< 3 weeks) or normal progress
+    Phase-6 fix: clarifying the docstring to match the actual implementation:
+      - Sudden stall: last 3 weekly deltas ALL have |delta| < 0.3% of body
+        weight (i.e. weight is essentially flat for 3 consecutive weeks).
+        Previously the docstring said "within ±0.3% of prior avg" which
+        suggested a comparison to the prior moving average — the code does
+        not compute a moving average; it checks absolute weekly deltas
+        against a fixed 0.3%-of-BW threshold.
+      - Gradual slowdown: rate of loss decelerating week-over-week (last 3
+        deltas all positive AND monotonically decreasing in magnitude).
+      - Whoosh: any single week delta > 1.5% of body weight (absolute).
+      - Weight gain: last 3 weekly deltas all negative (weight went up).
+      - None: insufficient data (< 3 weeks) or normal progress.
     """
     if len(weekly_weight_log_kg) < 3:
         return PlateauType.NONE

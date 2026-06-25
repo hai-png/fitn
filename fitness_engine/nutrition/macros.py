@@ -43,6 +43,12 @@ FAT_PER_LB_FLOOR = 0.25            # 0.25 g/lb body weight (alt floor)
 # Saturated fat ceiling (% of total calories)
 SATURATED_FAT_CEILING_PCT = 0.10
 
+# Phase-6 fix: named constant for the obese-override protein rule. Previously
+# the code used `float(height_cm)` directly as protein grams — a cm→g unit
+# coincidence (1 g protein per cm of height) that works but is opaque. The
+# constant makes the rule explicit.
+PROTEIN_G_PER_CM_HEIGHT_OBESE = 1.0
+
 
 # === Protein ===
 
@@ -89,10 +95,13 @@ def compute_protein(
 
     # Obese override: 1 g per cm of height
     if obese and effective_bf is not None:
-        protein_g = float(height_cm)
+        # Phase-6 fix: named constant replaces the opaque `float(height_cm)`
+        # (which worked by cm→g coincidence: 1 g protein per cm height).
+        protein_g = height_cm * PROTEIN_G_PER_CM_HEIGHT_OBESE
         notes.append(
             f"Obese override (BF%={effective_bf:.1f}% ≥ {obese_threshold}% threshold): "
-            f"protein = 1 g/cm height = {protein_g:.0f} g "
+            f"protein = {PROTEIN_G_PER_CM_HEIGHT_OBESE} g/cm height × {height_cm:.0f} cm "
+            f"= {protein_g:.0f} g "
             "(avoids excessive intake based on body weight)."
         )
         return protein_g, notes
@@ -321,6 +330,7 @@ def bulk_macro_adjustment(calorie_delta_kcal: float) -> tuple[float, float, str]
 __all__ = [
     "KCAL_PER_GRAM", "FAT_PCT_RANGES",
     "FAT_ABSOLUTE_FLOOR_G", "FAT_PER_LB_FLOOR", "SATURATED_FAT_CEILING_PCT",
+    "PROTEIN_G_PER_CM_HEIGHT_OBESE",
     "compute_protein", "compute_fat", "compute_carbs",
     "compute_macros", "cut_macro_adjustment", "bulk_macro_adjustment",
 ]

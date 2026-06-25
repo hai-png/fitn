@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 
 class MealType(str, Enum):
@@ -434,12 +434,32 @@ class MealPlan:
 @dataclass
 class FitnessPlan:
     """Top-level engine output combining all sub-plans."""
-    nutrition: NutritionPlan
-    training: TrainingPlan
+    nutrition: "NutritionPlan"
+    training: "TrainingPlan"
     meal: MealPlan
     summary: str = ""
 
+    def __post_init__(self):
+        # Phase-6 fix: validate that all three sub-plans are non-None. A None
+        # value here would silently produce a AttributeError downstream when
+        # to_dict() tries to call .to_dict() on the sub-plan.
+        missing = [
+            name for name, val in (
+                ("nutrition", self.nutrition),
+                ("training", self.training),
+                ("meal", self.meal),
+            ) if val is None
+        ]
+        if missing:
+            raise ValueError(
+                f"FitnessPlan requires non-None sub-plans; missing: {missing}"
+            )
+
     def to_dict(self) -> dict:
+        # Phase-6 fix: deferred imports avoid circular import at module load
+        # (nutrition.training modules import from this module).
+        from .nutrition import NutritionPlan  # noqa: F401
+        from .training import TrainingPlan    # noqa: F401
         return {
             "nutrition": self.nutrition.to_dict(),
             "training": self.training.to_dict(),
@@ -448,9 +468,12 @@ class FitnessPlan:
         }
 
 
-# Forward-import NutritionPlan & TrainingPlan to satisfy type hints
-from .nutrition import NutritionPlan
-from .training import TrainingPlan
+# Phase-6 fix: forward-imports previously at file bottom (after FitnessPlan)
+# moved into TYPE_CHECKING + deferred inside to_dict() to avoid circular import
+# at module load time.
+if TYPE_CHECKING:
+    from .nutrition import NutritionPlan
+    from .training import TrainingPlan
 
 
 __all__ = [

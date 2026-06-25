@@ -216,7 +216,8 @@ class TestFemaleAssessment:
 
     def test_female_body_fat_navy_uses_hip(self):
         """Female Navy method requires hip circumference."""
-        from fitness_engine.assessment import body_fat_navy
+        # Phase-6 fix: body_fat_navy now imported from submodule (package __all__ trimmed).
+        from fitness_engine.assessment.body_composition import body_fat_navy
         profile = UserProfile(
             age=28, sex=Sex.FEMALE, height_cm=165, weight_kg=68,
             neck_cm=33, waist_cm=75, hip_cm=100,

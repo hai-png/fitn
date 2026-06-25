@@ -116,13 +116,23 @@ class MuscularPotential:
     """Assessment of muscular development relative to genetic potential."""
     current_ffmi: float
     current_normalized_ffmi: float
-    natural_ceiling_ffmi: float = 25.0              # Kouri 1995
-    attainable_ceiling_ffmi: float = 27.3            # Mr. America 1939-1953
-    likely_max_ffmi: float = 28.0                    # RippedBody editorial
+    # Phase-6 fix: these literals mirror the canonical constants in
+    # assessment.muscular_potential (FFMI_NATURAL_COMMON/ATTAINABLE/LIKELY_MAX).
+    # We can't import them at module top-level here because muscular_potential
+    # imports MuscularPotential from this module (circular). The values are kept
+    # in sync via the cross-reference comments on both sides; floats are
+    # immutable so there is no mutable-default issue.
+    natural_ceiling_ffmi: float = 25.0              # == FFMI_NATURAL_COMMON (Kouri 1995)
+    attainable_ceiling_ffmi: float = 27.3            # == FFMI_NATURAL_ATTAINABLE (Mr. America 1939-1953)
+    likely_max_ffmi: float = 28.0                    # == FFMI_NATURAL_LIKELY_MAX (RippedBody editorial)
     berkhan_stage_max_kg: Optional[float] = None     # height_cm - 100
     ffmi_to_ceiling_pct: float = 0.0                 # current / natural ceiling
     headroom_kg: float = 0.0                         # FFM kg remaining to ceiling
     expected_monthly_muscle_gain_kg: float = 0.0     # by training status
+    # Phase-6 fix: flag when normalized FFMI exceeds the natural ceiling
+    # (PED users, genetic outliers) so ffmi_to_ceiling_pct can be clamped to 100
+    # without losing the signal that the user is over-ceiling.
+    is_above_ceiling: bool = False
     notes: list[str] = field(default_factory=list)
 
     def __post_init__(self):
@@ -142,6 +152,13 @@ class MuscularPotential:
             )
         if self.headroom_kg < 0:
             raise ValueError(f"MuscularPotential.headroom_kg must be non-negative; got {self.headroom_kg}")
+        # Phase-6 fix: ffmi_to_ceiling_pct is documented as ≤100; ensure the
+        # producer has clamped it (defensive check).
+        if self.ffmi_to_ceiling_pct < 0:
+            raise ValueError(
+                f"MuscularPotential.ffmi_to_ceiling_pct must be non-negative; "
+                f"got {self.ffmi_to_ceiling_pct}"
+            )
 
 
 @dataclass

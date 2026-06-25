@@ -19,7 +19,7 @@ from ..models.nutrition import RMRResult, TDEEResult
 # === Activity multipliers (RippedBody 5-category — DEFAULT) ===
 ACTIVITY_FACTORS_RIPPEDBODY = {
     ActivityLevel.SEDENTARY:         1.25,
-    ActivityLevel.MOSTLY_SEDENTARY:  1.45,
+    ActivityLevel.MOSTLY_SEDENTARY: 1.45,
     ActivityLevel.LIGHTLY_ACTIVE:    1.65,
     ActivityLevel.ACTIVE:            1.85,
     ActivityLevel.HIGHLY_ACTIVE:     2.05,
@@ -33,6 +33,13 @@ ACTIVITY_FACTORS_HARRIS_BENEDICT = {
     ActivityLevel.ACTIVE:            1.725,
     ActivityLevel.HIGHLY_ACTIVE:     1.90,
 }
+
+# Phase-6 fix: extract named constants for the adaptive-TDEE ramp window.
+# The 53.0 denominator was previously a magic number — it equals
+# RAMP_WINDOW_DAYS - RAMP_OFFSET_DAYS, i.e. the linear-ramp span over which
+# the blend weight ramps from 0 (pure prior) to 1 (pure observed).
+RAMP_WINDOW_DAYS = 60   # n_days >= this → pure observed TDEE
+RAMP_OFFSET_DAYS = 7    # n_days <= this → pure prior (Mifflin-St Jeor)
 
 
 def activity_factor(profile: UserProfile) -> float:
@@ -107,11 +114,13 @@ def adaptive_weight_data(n_days: int) -> float:
     described; formula reconstructed as the unique solution consistent
     with all source claims).
     """
-    if n_days <= 7:
+    if n_days <= RAMP_OFFSET_DAYS:
         return 0.0
-    if n_days >= 60:
+    if n_days >= RAMP_WINDOW_DAYS:
         return 1.0
-    return (n_days - 7) / 53.0
+    # Phase-6 fix: 53.0 was an unnamed magic number; it equals RAMP_WINDOW_DAYS -
+    # RAMP_OFFSET_DAYS (the linear-ramp span).
+    return (n_days - RAMP_OFFSET_DAYS) / (RAMP_WINDOW_DAYS - RAMP_OFFSET_DAYS)
 
 
 def adaptive_tdee(
@@ -166,6 +175,7 @@ def update_tdee_with_logs(
 
 __all__ = [
     "ACTIVITY_FACTORS_RIPPEDBODY", "ACTIVITY_FACTORS_HARRIS_BENEDICT",
+    "RAMP_WINDOW_DAYS", "RAMP_OFFSET_DAYS",
     "activity_factor", "compute_tdee",
     "observed_tdee_first_principles", "adaptive_weight_data", "adaptive_tdee",
     "update_tdee_with_logs",

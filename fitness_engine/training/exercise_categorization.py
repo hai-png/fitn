@@ -638,12 +638,18 @@ def _detect_pattern(exercise: Exercise) -> str:
         return "mobility"
 
     # 5. Cardio
+    # Phase-6 fix: a cardio exercise with exercise_type == "Cardio" was
+    # previously bucketed as "mobility" (the fallback comment said "group with
+    # mobility for now"). That loses the cardio categorization entirely and
+    # makes the volume-by-pattern summary misleading. Now we return a
+    # dedicated "cardio" pattern so callers can route cardio volume
+    # separately from strength-training patterns.
     if exercise.exercise_type and "cardio" in exercise.exercise_type.lower():
-        return "mobility"  # group with mobility for now
+        return "cardio"
 
     # 6. Default by category
     if exercise.category == ExerciseCategory.CARDIO:
-        return "mobility"
+        return "cardio"  # Phase-6 fix: was "mobility"
     if exercise.category == ExerciseCategory.MOBILITY:
         return "mobility"
 

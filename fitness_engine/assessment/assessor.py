@@ -19,12 +19,10 @@ from .body_composition import assess_body_composition
 from .health_risk import assess_health_risk
 from .muscular_potential import assess_muscular_potential
 from .decision import decide_strategy
+# Phase-6 fix: MEDICAL_DISCLAIMER moved to _thresholds.py as single source of truth.
+from ._thresholds import MEDICAL_DISCLAIMER
 
 _log = logging.getLogger(__name__)
-
-MEDICAL_DISCLAIMER = (
-    "Not a substitute for clinical assessment — consult a physician for personalized guidance."
-)
 
 
 def assess_profile(profile: UserProfile) -> AssessmentResult:

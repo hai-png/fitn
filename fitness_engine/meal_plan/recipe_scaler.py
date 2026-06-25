@@ -34,13 +34,58 @@ from .food_database import get_food
 
 # === Scaling limits ===
 
-MIN_SCALE = 0.7
-MAX_SCALE = 1.5
+# Phase-6 fix: previously MIN_SCALE, MAX_SCALE, the ±10% no-scale thresholds,
+# and the various filler serving-cap multipliers (×4, ×3, ×2, ×0.5, etc.)
+# were scattered as bare literals throughout this module. Hoisted into a
+# ScalerConfig dataclass so they can be inspected / overridden in one place.
+@dataclass(frozen=True)
+class ScalerConfig:
+    """Tunable knobs for the recipe scaler + filler system.
+
+    Defaults match the original hardcoded values; expose them as a dataclass
+    so they can be reasoned about as a unit (and overridden in tests).
+    """
+    # Scale clamps
+    min_scale: float = 0.7
+    max_scale: float = 1.5
+    # ±this fraction → no scaling needed (recipe already close enough)
+    no_scale_band: float = 0.10
+    # Allow scaled-kcal deviation up to this fraction before declaring the
+    # recipe a poor fit (40% lets 0.7-1.5x clamp through but flags extremes)
+    scale_deviation_limit: float = 0.40
+
+    # Filler thresholds (don't add fillers for gaps below these)
+    filler_kcal_threshold: float = 50.0
+    filler_protein_g_threshold: float = 5.0
+    filler_carb_g_threshold: float = 5.0
+    filler_fat_g_threshold: float = 3.0
+    filler_fiber_g_threshold: float = 3.0
+
+    # Serving-cap multipliers (max grams = serving_size_g × this)
+    protein_serving_cap_multiplier: float = 4.0    # e.g. max 4× whey scoop
+    carb_serving_cap_multiplier: float = 3.0
+    fat_serving_cap_multiplier: float = 3.0
+    # Minimum fraction of a serving (so we don't add 1g of oats)
+    filler_min_serving_fraction: float = 0.5
+
+    # Veg filler (vegetables are 'free' — high volume, low kcal)
+    veg_max_grams: float = 200.0
+    veg_min_grams: float = 80.0
+
+
+# Default singleton used everywhere in this module.
+SCALER_CONFIG = ScalerConfig()
+
+# Back-compat module-level aliases (existing callers may reference these).
+MIN_SCALE = SCALER_CONFIG.min_scale
+MAX_SCALE = SCALER_CONFIG.max_scale
+SCALE_DEVIATION_LIMIT = SCALER_CONFIG.scale_deviation_limit
+
 # Phase-6: if the scaled kcal deviates from target by more than this fraction,
 # the recipe is a poor fit and the caller should fall back to fillers-only.
 # 40% allows MIN_SCALE=0.7 (30% under) and MAX_SCALE=1.5 (50% over) but flags
 # extreme cases where the clamp is the only thing keeping the recipe in range.
-SCALE_DEVIATION_LIMIT = 0.40
+# (Kept as a comment for historical context; the value now lives in SCALER_CONFIG.)
 
 
 @dataclass
@@ -74,12 +119,13 @@ def compute_scale_factor(recipe_kcal: float, target_kcal: float) -> float:
 
     raw_factor = target_kcal / recipe_kcal
 
-    # If within ±10%, no need to scale
-    if 0.9 <= raw_factor <= 1.1:
+    # If within ±no_scale_band, no need to scale
+    band = SCALER_CONFIG.no_scale_band
+    if (1.0 - band) <= raw_factor <= (1.0 + band):
         return 1.0
 
-    # Clamp to [MIN_SCALE, MAX_SCALE]
-    return max(MIN_SCALE, min(MAX_SCALE, raw_factor))
+    # Clamp to [min_scale, max_scale]
+    return max(SCALER_CONFIG.min_scale, min(SCALER_CONFIG.max_scale, raw_factor))
 
 
 def is_recipe_scalable_to_target(recipe_kcal: float, target_kcal: float) -> bool:
@@ -149,14 +195,15 @@ def compute_filler_gap(
 
 
 # === Filler thresholds ===
-# Only add fillers if the gap exceeds these thresholds (avoid micro-fillers)
-
+# Phase-6 fix: previously a dict with hardcoded values; now sourced from
+# ScalerConfig (single source of truth). Kept as a dict for back-compat with
+# callers that index by string key (e.g. FILLER_THRESHOLDS["protein_g"]).
 FILLER_THRESHOLDS = {
-    "kcal": 50,        # don't add fillers for <50 kcal gap
-    "protein_g": 5,    # don't add fillers for <5g protein gap
-    "carb_g": 5,
-    "fat_g": 3,
-    "fiber_g": 3,
+    "kcal":     SCALER_CONFIG.filler_kcal_threshold,
+    "protein_g": SCALER_CONFIG.filler_protein_g_threshold,
+    "carb_g":   SCALER_CONFIG.filler_carb_g_threshold,
+    "fat_g":    SCALER_CONFIG.filler_fat_g_threshold,
+    "fiber_g":  SCALER_CONFIG.filler_fiber_g_threshold,
 }
 
 
@@ -250,10 +297,10 @@ def select_protein_filler(
             continue
         grams = _grams_to_hit_macro(food, "protein", gap_protein_g)
         if grams > 0:
-            # Cap at reasonable serving (e.g. max 60g whey, max 400g chicken)
-            max_grams = food.serving_size_g * 4
+            # Phase-6 fix: cap multiplier + min fraction sourced from ScalerConfig.
+            max_grams = food.serving_size_g * SCALER_CONFIG.protein_serving_cap_multiplier
             grams = min(grams, max_grams)
-            grams = max(grams, food.serving_size_g * 0.5)  # at least half a serving
+            grams = max(grams, food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction)
             return MealFood(food=food, grams=round(grams, 0))
 
     return None
@@ -277,9 +324,9 @@ def select_carb_filler(
             continue
         grams = _grams_to_hit_macro(food, "carb", gap_carb_g)
         if grams > 0:
-            max_grams = food.serving_size_g * 3
+            max_grams = food.serving_size_g * SCALER_CONFIG.carb_serving_cap_multiplier
             grams = min(grams, max_grams)
-            grams = max(grams, food.serving_size_g * 0.5)
+            grams = max(grams, food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction)
             return MealFood(food=food, grams=round(grams, 0))
 
     return None
@@ -303,9 +350,9 @@ def select_fat_filler(
             continue
         grams = _grams_to_hit_macro(food, "fat", gap_fat_g)
         if grams > 0:
-            max_grams = food.serving_size_g * 3
+            max_grams = food.serving_size_g * SCALER_CONFIG.fat_serving_cap_multiplier
             grams = min(grams, max_grams)
-            grams = max(grams, food.serving_size_g * 0.5)
+            grams = max(grams, food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction)
             return MealFood(food=food, grams=round(grams, 0))
 
     return None
@@ -333,9 +380,10 @@ def select_veg_filler(
             continue
         grams = _grams_to_hit_macro(food, "fiber", gap_fiber_g)
         if grams > 0:
-            # Veg is free — cap at 200g
-            grams = min(grams, 200)
-            grams = max(grams, 80)  # at least 80g
+            # Phase-6 fix: veg is 'free' (low kcal, high volume) — caps from
+            # ScalerConfig.veg_max_grams / veg_min_grams.
+            grams = min(grams, SCALER_CONFIG.veg_max_grams)
+            grams = max(grams, SCALER_CONFIG.veg_min_grams)
             return MealFood(food=food, grams=round(grams, 0))
 
     return None
@@ -448,6 +496,7 @@ def select_fillers_for_meal(
 
 __all__ = [
     "MIN_SCALE", "MAX_SCALE",
+    "ScalerConfig", "SCALER_CONFIG",
     "ScaledRecipe",
     "compute_scale_factor",
     "scale_recipe",

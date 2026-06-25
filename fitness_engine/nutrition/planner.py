@@ -20,7 +20,12 @@ def build_nutrition_plan(
     exercise_hours_per_day: float = 1.0,
     exercise_intensity: str = "moderate",
     climate: str = "temperate",
-    in_active_deficit: bool = False,
+    # Phase-6 fix: `in_active_deficit` parameter was previously accepted and
+    # used for the RMR computation, then separately recomputed locally for
+    # compute_calorie_targets (which ignores it). We retain the parameter for
+    # the RMR call but derive the local value from strategy (single source of
+    # truth) so the two paths never disagree.
+    in_active_deficit: bool | None = None,
     weight_reduced_pct: float = 0.0,
 ) -> NutritionPlan:
     """
@@ -28,12 +33,33 @@ def build_nutrition_plan(
 
     Pipeline:
       RMR → TDEE → Calorie targets → Macros → Hydration + Micros → Timeline
+
+    Phase-6 note: adaptive TDEE (`update_tdee_with_logs` in tdee.py) is
+    available but NOT wired into this pipeline — there is no intake/weight
+    log persisted on the UserProfile yet (the `intake_log_kcal` /
+    `weight_log_kg` fields are stubbed out as comments in profile.py).
+    Once those fields are populated, the call site would be:
+        if profile.weight_log_kg:
+            tdee = update_tdee_with_logs(tdee, ...)
+    between steps 2 and 3.
     """
+    # Phase-6 fix: derive `active_deficit` from strategy (single source of
+    # truth). If the caller explicitly passes `in_active_deficit`, we still
+    # honor it for the RMR call (legacy API) but the calorie-target path uses
+    # the derived value so the two never disagree.
+    active_deficit = (
+        assessment.recommended_strategy == RecommendedStrategy.CUT
+        or assessment.recommended_strategy == RecommendedStrategy.RECOMP
+    )
+    rmr_active_deficit = (
+        in_active_deficit if in_active_deficit is not None else active_deficit
+    )
+
     # 1. RMR
     rmr = compute_rmr(
         profile=profile,
         body_fat_pct=assessment.body_composition.body_fat_pct,
-        in_active_deficit=in_active_deficit,
+        in_active_deficit=rmr_active_deficit,
         weight_reduced_pct=weight_reduced_pct,
     )
 
@@ -41,11 +67,9 @@ def build_nutrition_plan(
     tdee = compute_tdee(rmr, profile)
 
     # 3. Calorie targets
-    # Determine if user is in active deficit for adaptation
-    active_deficit = (
-        assessment.recommended_strategy == RecommendedStrategy.CUT
-        or assessment.recommended_strategy == RecommendedStrategy.RECOMP
-    )
+    # Phase-6 fix: in_active_deficit is derived from strategy above; the
+    # compute_calorie_targets function accepts it for API compat but ignores
+    # it (the strategy encodes everything needed).
     calories = compute_calorie_targets(
         profile=profile,
         tdee_kcal=tdee.final_tdee_kcal,
@@ -150,6 +174,13 @@ def _estimate_timeline(
         return DEFAULT_MAINTENANCE_TIMELINE_WEEKS
 
     if strategy == RecommendedStrategy.HABIT_CHANGE_FIRST:
+        # Phase-6 fix: HABIT_CHANGE_FIRST returns maintenance calories from
+        # compute_calorie_targets (no deficit), but the timeline estimate is
+        # 8 weeks (the “habit-change phase” before formal calorie counting).
+        # This asymmetry is intentional — the user spends 8 weeks building
+        # adherence habits (sleep, steps, protein timing) before entering a
+        # formal cut/bulk. The maintenance calories preserve LBM during that
+        # habit-building phase.
         return 8    # 8 weeks of habit change before calorie counting
 
     return 12

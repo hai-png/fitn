@@ -59,6 +59,11 @@ class SelectedMeal:
     target_protein_g: float = 0.0
     target_carb_g: float = 0.0
     target_fat_g: float = 0.0
+    # Phase-6 fix: target_fiber_g was missing from SelectedMeal even though
+    # the slot has a target_fiber_g and it's used in compute_filler_gap.
+    # Adding it so selected_meal_to_dict can surface it (asymmetric vs other
+    # target_*_g fields prior to this fix).
+    target_fiber_g: float = 0.0
     swap_options: list[dict] = field(default_factory=list)
     ingredient_swaps: dict = field(default_factory=dict)
     notes: list[str] = field(default_factory=list)
@@ -359,6 +364,7 @@ def allocate_meal(
         target_protein_g=slot.target_protein_g,
         target_carb_g=slot.target_carb_g,
         target_fat_g=slot.target_fat_g,
+        target_fiber_g=slot.target_fiber_g,  # Phase-6 fix: expose in dict output
         swap_options=swap_options,
         ingredient_swaps=ingredient_swaps,
         notes=notes,
@@ -419,6 +425,9 @@ def selected_meal_to_dict(selected: SelectedMeal) -> dict:
             "protein_g": round(selected.target_protein_g, 1),
             "carb_g": round(selected.target_carb_g, 1),
             "fat_g": round(selected.target_fat_g, 1),
+            # Phase-6 fix: target_fiber_g was previously omitted, asymmetric
+            # vs the other target_*_g fields.
+            "fiber_g": round(selected.target_fiber_g, 1),
         },
         "match_pct": {
             "kcal": round(selected.kcal_match_pct, 1),

@@ -16,6 +16,10 @@ Run: python /home/z/my-project/fitn/scripts/sample_runner.py
 import json
 import sys
 from pathlib import Path
+# Phase-6 fix: _json_default helper moved to module scope (was defined inside
+# the for-loop in main(), re-created on each iteration).
+from enum import Enum
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -209,6 +213,22 @@ def run_profile(name: str, spec: dict) -> dict:
     }
 
 
+def _json_default(obj):
+    """JSON default handler — converts Enums to their values, raises on
+    anything else (so un-serializable fields surface as bugs rather than
+    being silently stringified).
+
+    Phase-6 fix: previously defined inside main()'s for-loop, re-created on
+    each iteration. Hoisted to module scope.
+    """
+    if isinstance(obj, Enum):
+        return obj.value
+    raise TypeError(
+        f"Object of type {type(obj).__name__} is not JSON serializable. "
+        f"Fix the to_dict() method to convert this field explicitly."
+    )
+
+
 def main():
     print("=" * 60)
     print("FITNESS ENGINE — Sample Runner (v3.0 clean architecture)")
@@ -221,14 +241,7 @@ def main():
         # un-serializable object, hiding bugs) with a stricter default that
         # only handles Enums explicitly. Any other un-serializable type now
         # raises TypeError, surfacing the bug instead of hiding it.
-        from enum import Enum
-        def _json_default(obj):
-            if isinstance(obj, Enum):
-                return obj.value
-            raise TypeError(
-                f"Object of type {type(obj).__name__} is not JSON serializable. "
-                f"Fix the to_dict() method to convert this field explicitly."
-            )
+        # Phase-6 fix: _json_default is now defined at module scope (above).
         with open(out_path, "w") as f:
             json.dump(result, f, indent=2, default=_json_default)
         print(f"\n✓ Saved: {out_path}")

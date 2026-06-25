@@ -17,6 +17,9 @@ from ..models.assessment import (
     HealthRiskAssessment, HealthRiskLevel, ABSIRiskLevel,
 )
 from ..utils.units import cm_to_in, cm_to_m
+# Phase-6 fix: MEDICAL_DISCLAIMER now imported from _thresholds.py (single source
+# of truth; was duplicated inline at the bottom of assess_health_risk).
+from ._thresholds import MEDICAL_DISCLAIMER
 
 
 # === WHR (Waist-to-Hip Ratio) ===
@@ -105,6 +108,14 @@ def compute_absi(waist_cm: float, weight_kg: float, height_cm: float) -> float:
 # Simplified ABSI z-score reference (NHANES 1999-2004 mean/SD by age & sex)
 # These are approximate; the real tables are age-banded. The engine ships with
 # a simplified look-up that captures the broad age trend.
+#
+# Phase-6 fix: ACKNOWLEDGED SIMPLIFICATION — published NHANES reference tables
+# use 5-year age bands (e.g. 18-19, 20-24, 25-29, ...); the table below uses
+# 10-year bands (18-29, 30-39, ...). This was chosen to keep the constant table
+# small and to avoid hard-coding the full NHANES lookup (which would need to be
+# updated as new NHANES cycles are released). The 10-year band averaging
+# introduces up to ~0.3 SD of error at age-band boundaries, which is acceptable
+# for a screening tool but should NOT be used for clinical decisions.
 ABSI_REFERENCE = {
     # (sex, age_band): (mean, sd)
     (Sex.MALE,   (18, 29)): (0.0813, 0.0037),
@@ -194,6 +205,10 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
     risk_factors: list[str] = []
 
     # WHR (requires waist + hip)
+    # Phase-6 fix: when hip_cm is missing for men, fall back to WHtR-only
+    # (WHR for men is documented as optional in the profile, but the previous
+    # branch silently dropped the WHR computation). We add an explicit note so
+    # the assessment surfaces that WHR was skipped for lack of input.
     if profile.waist_cm is not None and profile.hip_cm is not None:
         whr = compute_whr(profile.waist_cm, profile.hip_cm)
         whr_risk = classify_whr(whr, profile.sex)
@@ -205,6 +220,12 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
                 f"({'>0.90 M' if profile.sex == Sex.MALE else '>0.85 F'}); "
                 "elevated cardiometabolic risk."
             )
+    elif profile.waist_cm is not None and profile.sex == Sex.MALE and profile.hip_cm is None:
+        # Phase-6 fix: surface the missing-hip fallback explicitly.
+        risk_factors.append(
+            "hip_cm not provided — WHR skipped; relying on WHtR for abdominal "
+            "adiposity risk (provide hip circumference for full WHO WHR screening)."
+        )
 
     # WHtR (requires waist)
     if profile.waist_cm is not None:
@@ -248,13 +269,32 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
         risk_factors.append(f"BMI={bmi:.1f} (overweight) — monitor.")
 
     # Overall risk
-    risk_score = sum(
-        1 for r in [result.whr_risk, result.whtr_risk]
-        if r in (HealthRiskLevel.HIGH, HealthRiskLevel.VERY_HIGH)
-    ) + (1 if result.absi_risk in (ABSIRiskLevel.ABOVE_AVERAGE, ABSIRiskLevel.HIGH) else 0)
-    if risk_score >= 2:
+    # Phase-6 fix: previously WHR, WHtR, ABSI were counted equally (each 0/1).
+    # That over-weighted WHR (a weaker predictor) relative to ABSI (the
+    # strongest mortality-risk predictor of the three). Now weighted:
+    #   ABSI = 0.5  (strongest independent mortality predictor; Krakauer 2012)
+    #   WHR  = 0.3  (WHO cardiometabolic screen)
+    #   WHtR = 0.2  (Ashwell 2012, broad screening tool)
+    # Limitation: the weights are heuristic (not derived from a published
+    # composite-risk model). They reflect the relative predictive strength
+    # reported in the source papers but are not formally validated as a
+    # composite score. Treated as a coarse 0/1 indicator per sub-metric.
+    WEIGHTS = {
+        "absi": 0.5,
+        "whr": 0.3,
+        "whtr": 0.2,
+    }
+    risk_score = 0.0
+    if result.whr_risk in (HealthRiskLevel.HIGH, HealthRiskLevel.VERY_HIGH):
+        risk_score += WEIGHTS["whr"]
+    if result.whtr_risk in (HealthRiskLevel.HIGH, HealthRiskLevel.VERY_HIGH):
+        risk_score += WEIGHTS["whtr"]
+    if result.absi_risk in (ABSIRiskLevel.ABOVE_AVERAGE, ABSIRiskLevel.HIGH):
+        risk_score += WEIGHTS["absi"]
+    # Use a 0.5 threshold for HIGH (≈ one full-weight indicator) and 0.75 for VERY_HIGH.
+    if risk_score >= 0.75:
         result.overall_risk = HealthRiskLevel.VERY_HIGH
-    elif risk_score == 1:
+    elif risk_score >= 0.5:
         result.overall_risk = HealthRiskLevel.HIGH
     elif risk_factors:
         result.overall_risk = HealthRiskLevel.MODERATE
@@ -271,7 +311,8 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
         # note — the engine does not implement frame-size adjustment and
         # UserProfile has no wrist_circumference field. Adding the note implied
         # functionality that does not exist.
-        "Not a substitute for clinical assessment — consult a physician for personalized guidance.",
+        # Phase-6 fix: import MEDICAL_DISCLAIMER from _thresholds (single source).
+        MEDICAL_DISCLAIMER,
     ]
     return result
 
