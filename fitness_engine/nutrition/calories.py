@@ -145,8 +145,12 @@ def cut_target_calories(
                     else:
                         rate_pct = SWEET_SPOT_CUT_RATE_PCT
 
-    # Enforce hard cap (>= so the VERY_AGGRESSIVE tier is also clipped)
-    capped = rate_pct >= MAX_WEEKLY_LOSS_PCT
+    # Enforce hard cap. Use strict `>` so the AGGRESSIVE tier (which exactly
+    # equals MAX_WEEKLY_LOSS_PCT = 0.010) is NOT clipped — only requests that
+    # EXCEED the cap are. Previously `>=` clipped AGGRESSIVE users and emitted
+    # a spurious "clipped to safety cap" warning even though the rate was
+    # already at the cap.
+    capped = rate_pct > MAX_WEEKLY_LOSS_PCT
     if capped:
         # Tier 2.14 fix: warn the user when their requested rate is clipped
         original_rate = rate_pct

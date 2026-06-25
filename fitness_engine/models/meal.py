@@ -15,6 +15,9 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Optional, TYPE_CHECKING
 
+# Phase-6 cleanup: shared JSON-serializer for consistent Enum conversion.
+from ..utils.serialize import convert_for_json
+
 
 class MealType(str, Enum):
     BREAKFAST = "breakfast"
@@ -252,8 +255,12 @@ class Recipe:
         return self.nutrition_per_serving.fiber_g
 
     def to_dict(self) -> dict:
-        d = asdict(self)
-        return d
+        # Phase-6 fix: use convert_for_json for consistent Enum conversion.
+        # Previously `asdict(self)` returned raw Enum objects (Recipe has no
+        # Enum fields today, but if one is ever added the output would
+        # silently break json.dumps). Also inconsistent with Meal.to_dict
+        # which explicitly converts Enums.
+        return convert_for_json(self)
 
 
 # === Meal / Day / Plan ===
@@ -330,6 +337,17 @@ class Meal:
             return self.scaled_fat_g + sum(f.fat_g for f in self.foods)
         return sum(f.fat_g for f in self.foods)
 
+    @property
+    def total_fiber_g(self) -> float:
+        # Phase-6 fix: fiber was tracked in scaled_fiber_g + MealFood.fiber_g
+        # but never surfaced as a property or in to_dict. Downstream consumers
+        # (DayPlan.total_fiber_g, JSON output, weekly tracking) had no way to
+        # read the actual fiber total, so fiber targets were reported but
+        # never validated against actuals.
+        if self.recipe is not None:
+            return self.scaled_fiber_g + sum(f.fiber_g for f in self.foods)
+        return sum(f.fiber_g for f in self.foods)
+
     def to_dict(self) -> dict:
         return {
             "meal_type": self.meal_type.value if isinstance(self.meal_type, MealType) else self.meal_type,
@@ -362,6 +380,8 @@ class Meal:
                     "protein_g": round(f.protein_g, 1),
                     "carb_g": round(f.carb_g, 1),
                     "fat_g": round(f.fat_g, 1),
+                    # Phase-6 fix: include fiber_g per food (was missing).
+                    "fiber_g": round(f.fiber_g, 1),
                 }
                 for f in self.foods
             ],
@@ -375,6 +395,9 @@ class Meal:
             "actual_protein_g": round(self.total_protein_g, 1),
             "actual_carb_g": round(self.total_carb_g, 1),
             "actual_fat_g": round(self.total_fat_g, 1),
+            # Phase-6 fix: include actual_fiber_g (was missing — fiber was
+            # tracked internally but dropped from the JSON output).
+            "actual_fiber_g": round(self.total_fiber_g, 1),
             "notes": self.notes,
         }
 
@@ -402,6 +425,12 @@ class DayPlan:
     def total_fat_g(self) -> float:
         return sum(m.total_fat_g for m in self.meals)
 
+    @property
+    def total_fiber_g(self) -> float:
+        # Phase-6 fix: DayPlan had no total_fiber_g property — fiber was
+        # tracked per Meal but never aggregated to the day level.
+        return sum(m.total_fiber_g for m in self.meals)
+
     def to_dict(self) -> dict:
         return {
             "day_number": self.day_number,
@@ -411,6 +440,9 @@ class DayPlan:
             "total_protein_g": self.total_protein_g,
             "total_carb_g": self.total_carb_g,
             "total_fat_g": self.total_fat_g,
+            # Phase-6 fix: include total_fiber_g (was missing — fiber was
+            # tracked per meal but never aggregated to the day level).
+            "total_fiber_g": round(self.total_fiber_g, 1),
         }
 
 
@@ -460,10 +492,11 @@ class FitnessPlan:
             )
 
     def to_dict(self) -> dict:
-        # Phase-6 fix: deferred imports avoid circular import at module load
-        # (nutrition.training modules import from this module).
-        from .nutrition import NutritionPlan  # noqa: F401
-        from .training import TrainingPlan    # noqa: F401
+        # Phase-6 fix: removed dead deferred imports — the imports were
+        # marked `# noqa: F401` and never actually used inside this method
+        # body (we just call .to_dict() on the already-typed sub-plans).
+        # The classes were already imported at module construction time
+        # when the FitnessPlan instance was built.
         return {
             "nutrition": self.nutrition.to_dict(),
             "training": self.training.to_dict(),

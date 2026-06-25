@@ -1,5 +1,4 @@
 """Unit tests for the assessment module."""
-import math
 import pytest
 
 from fitness_engine.models.profile import (

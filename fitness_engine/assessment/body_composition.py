@@ -58,7 +58,11 @@ def classify_bf(bf_pct: float, sex: Sex) -> BodyFatCategory:
 
     Bands are continuous and cover [0, inf), so the fallthrough is
     unreachable for finite inputs; it exists as a defensive default.
+
+    Raises ValueError on NaN or negative inputs.
     """
+    if math.isnan(bf_pct) or math.isinf(bf_pct):
+        raise ValueError(f"bf_pct must be a finite number, got {bf_pct}")
     if bf_pct < 0:
         raise ValueError(f"bf_pct must be non-negative, got {bf_pct}")
     for cat, lo, hi in BF_CATEGORIES[sex]:
@@ -69,7 +73,14 @@ def classify_bf(bf_pct: float, sex: Sex) -> BodyFatCategory:
 
 
 def classify_bmi(bmi: float) -> BMICategory:
-    """Classify BMI into WHO category."""
+    """Classify BMI into WHO category.
+
+    Raises ValueError on NaN, inf, or non-positive inputs.
+    """
+    if math.isnan(bmi) or math.isinf(bmi):
+        raise ValueError(f"bmi must be a finite number, got {bmi}")
+    if bmi <= 0:
+        raise ValueError(f"bmi must be positive, got {bmi}")
     for cat, lo, hi in BMI_CATEGORIES:
         if lo <= bmi < hi:
             return cat
@@ -122,6 +133,8 @@ def body_fat_bmi_jackson(profile: UserProfile) -> float:
     Use when no circumference measurements are available.
     """
     bmi = profile.bmi
+    if bmi <= 0:
+        raise ValueError(f"bmi must be positive for Jackson formula, got {bmi}")
     age = profile.age
     if profile.sex == Sex.MALE:
         bf = 0.14 * age + 37.31 * math.log(bmi) - 103.94
@@ -208,7 +221,13 @@ def compute_ffmi(weight_kg: float, bf_pct: float, height_m: float) -> tuple[floa
       (ffmi, normalized_ffmi)
 
     Source: rippedbody.com__maximum-muscular-potential
+
+    Raises ValueError on non-positive height or BF% outside [0, 100].
     """
+    if height_m <= 0:
+        raise ValueError(f"height_m must be positive, got {height_m}")
+    if not 0 <= bf_pct <= 100:
+        raise ValueError(f"bf_pct must be in [0, 100], got {bf_pct}")
     ffm_kg = weight_kg * (1 - bf_pct / 100)
     ffmi = ffm_kg / (height_m ** 2)
     # Normalized FFMI = FFMI + 6.1 × (1.8 - height_m)  (canonical Kouri form)
@@ -223,7 +242,14 @@ def target_weight_at_target_bf(
     Target weight holding LBM constant.
 
     Source: fatcalc.com__bf
+
+    Raises ValueError if target_bf_pct == 100 (division by zero) or if
+    current_bf_pct > 100 (negative LBM).
     """
+    if not 0 <= current_bf_pct < 100:
+        raise ValueError(f"current_bf_pct must be in [0, 100), got {current_bf_pct}")
+    if not 0 <= target_bf_pct < 100:
+        raise ValueError(f"target_bf_pct must be in [0, 100), got {target_bf_pct}")
     lbm = current_weight_kg * (1 - current_bf_pct / 100)
     return lbm / (1 - target_bf_pct / 100)
 

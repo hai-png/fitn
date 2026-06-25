@@ -151,15 +151,25 @@ def _recipe_has_meat_ingredients(recipe: Recipe) -> bool:
         sanitized = sanitized.replace(phrase, " " * len(phrase))
 
     # 1. Strict multi-word phrases — always flag (substring is fine here)
+    # Phase-6 fix: previously this used `combined.find(phrase)` which only
+    # returns the FIRST occurrence. For an ingredient list like
+    # "Beyond beef and pure beef", the first "beef" is preceded by "Beyond"
+    # (a plant qualifier) so the phrase was skipped, and the second "beef"
+    # (preceded by "pure ") was never checked. Now we scan ALL occurrences
+    # via str.find in a loop, mirroring the regex-based approach used for
+    # single-word keywords below.
     for phrase in _STRICT_MEAT_PHRASES:
-        if phrase in combined:
-            # But check for "beyond beef" / "impossible beef" / "no-chicken broth" qualifier
-            pos = combined.find(phrase)
+        start = 0
+        while True:
+            pos = combined.find(phrase, start)
+            if pos == -1:
+                break
             context = combined[max(0, pos - 25):pos]
             # Tier 1.4 fix: use the full _PLANT_QUALIFIERS list (was only 3 entries).
             # This catches "no-chicken broth", "vegan beef", "beyond beef", etc.
             if not any(pq in context for pq in _PLANT_QUALIFIERS):
                 return True
+            start = pos + len(phrase)
 
     # 2. Strict single-word keywords with word boundaries
     for m in _STRICT_WORD_RE.finditer(combined):
@@ -369,9 +379,20 @@ def load_recipes() -> list[Recipe]:
 
 
 def clear_recipes_cache() -> None:
-    """Clear the recipes cache (for tests)."""
+    """Clear the recipes cache (for tests).
+
+    Phase-6 fix: previously this only cleared `_RECIPES_CACHE` (the recipe
+    list cache) but NOT the `_build_indexes` lru_cache or `_load_raw_dbs`
+    lru_cache. After clearing, `get_recipe_by_id('R001')` returned the
+    cached object from BEFORE the clear (cache_info showed hits=1, misses=1).
+    Now also clears the index and raw-DB caches so tests that mutate the
+    JSON files see fresh data.
+    """
     global _RECIPES_CACHE
     _RECIPES_CACHE = None
+    # Phase-6 fix: clear the dependent lru_caches too.
+    _build_indexes.cache_clear()
+    _load_raw_dbs.cache_clear()
 
 
 # === Convenience indexes (built lazily) ===

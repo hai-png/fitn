@@ -3,7 +3,7 @@ Nutrition plan data models.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
@@ -121,8 +121,19 @@ class MacroSplit:
 
     @property
     def carbs_clamped(self) -> bool:
-        """Phase-6: True if carbs were clamped to 0 because protein+fat exceeded target."""
-        return any("carb" in note.lower() and "clamp" in note.lower() for note in self.notes)
+        """Phase-6: True if carbs were clamped to 0 because protein+fat exceeded target.
+
+        Phase-6 fix: previously scanned notes for "carb" AND "clamp", but the
+        actual note emitted by `compute_carbs` said "Carbs set to 0" (not
+        "clamped"). Now we also accept "set to 0" as the clamped signal, AND
+        we defensively check `carb_g == 0` (the most reliable signal).
+        """
+        if self.carb_g == 0:
+            return True
+        return any(
+            "carb" in note.lower() and ("clamp" in note.lower() or "set to 0" in note.lower())
+            for note in self.notes
+        )
 
 
 @dataclass

@@ -109,8 +109,11 @@ def get_muscle_landmarks(muscle: str) -> MuscleVolumeLandmarks:
     muscle_lower = muscle.lower()
     if muscle_lower in DEFAULT_MUSCLE_LANDMARKS:
         return DEFAULT_MUSCLE_LANDMARKS[muscle_lower]
-    # Default: medium-volume landmarks
-    return MuscleVolumeLandmarks(muscle_lower, 4, 8, 16, 25, 5)
+    # Phase-6 fix: MEV fallback raised from 4 → 6 to match the Phase-6 RP
+    # consensus update (which raised known-muscle MEVs to 6-10). Unknown
+    # muscles like tibialis_anterior or neck previously got MEV=4, which
+    # under-estimated MEV and triggered spurious "below MEV" warnings.
+    return MuscleVolumeLandmarks(muscle_lower, 6, 10, 16, 25, 5)
 
 
 # === Strength volume landmarks (per main lift, not per muscle) ===
@@ -150,7 +153,11 @@ def get_recommended_frequency(weekly_sets_per_muscle: int, is_strength: bool = F
       - 21-30 sets/muscle/wk → 3+x frequency
 
     For strength (Rule 3.3): floor = 2x/lift/wk, ceiling = 6x.
+
+    Phase-6 fix: 0 sets → 0 frequency (was returning 2 for "0 sets/muscle/wk").
     """
+    if weekly_sets_per_muscle <= 0:
+        return 0
     if is_strength:
         if weekly_sets_per_muscle <= 3:
             return 2
@@ -210,10 +217,19 @@ def count_sets_toward_muscle(
       exercise: the exercise being counted
       muscle: target muscle (normalized lowercase)
       sets: number of hard sets performed
-      is_strength: if True, use strength counting rules
+      is_strength: if True, use strength counting rules. NOTE: the proper
+        strength "sharing" check requires the main lift's muscles, which
+        this function does not receive. The previous implementation
+        unconditionally returned 0.5 for ANY muscle when is_strength=True,
+        meaning a bicep curl would count 2 sets toward calves — clearly
+        wrong. To avoid silently inflating strength volume, we now treat
+        is_strength the same as hypertrophy (primary=1.0, secondary=0.5,
+        unrelated=0.0). Callers needing the main-lift-sharing rule should
+        use a dedicated helper that takes the main lift's muscles.
 
     Returns: fractional set count (e.g. 4.0 or 2.0)
     """
+    _ = is_strength  # deprecated; kept for backwards-compat
     muscle_lower = muscle.lower()
     primary_muscles = [m.lower() for m in exercise.muscle_groups]
     secondary_muscles = [m.lower() for m in exercise.secondary_muscles]
@@ -221,10 +237,6 @@ def count_sets_toward_muscle(
     if muscle_lower in primary_muscles:
         return float(sets)
     elif muscle_lower in secondary_muscles:
-        return sets * 0.5
-    elif is_strength:
-        # For strength: any lift sharing ANY muscle with the main lift = 0.5
-        # (the main lift's muscles are the union of primary + secondary)
         return sets * 0.5
     return 0.0
 

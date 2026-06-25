@@ -55,10 +55,23 @@ def get_exercise_slug_index() -> dict[str, Exercise]:
 
 
 def _clear_exercise_cache() -> None:
-    """Clear all exercise caches (for tests)."""
+    """Clear all exercise caches (for tests).
+
+    Phase-6 fix: previously this only cleared the three caches in this
+    module (get_exercises, get_exercise_index, get_exercise_slug_index)
+    but NOT the `_load_raw_db` and `_build_indexes` caches in
+    `exercise_loader`. Tests that monkey-patched the JSON path saw
+    stale data from those caches. Now also clears them.
+    """
     get_exercises.cache_clear()
     get_exercise_index.cache_clear()
     get_exercise_slug_index.cache_clear()
+    # Phase-6 fix: clear the loader-level caches too — they hold the raw
+    # parsed JSON and the by-id/by-slug indexes. Without this, a test that
+    # points to a different JSON file still sees the previous data.
+    from . import exercise_loader
+    exercise_loader._load_raw_db.cache_clear()
+    exercise_loader._build_indexes.cache_clear()
 
 
 # === Backward-compat module-level accessors ===

@@ -38,7 +38,14 @@ def linear_progression_next(
     Linear progression: add weight when target reps are achieved in all sets.
 
     Returns (next_weight, explanation).
+
+    Phase-6 fix: explicitly handle the empty-list case. Previously
+    `all([]) == True` meant an empty `last_reps_achieved` returned "Reps in
+    target range but not all ≥ {high}" — a lie that suggested the user had
+    performed reps. Now returns "no data yet" so the message is honest.
     """
+    if not last_reps_achieved:
+        return current_weight_kg, "no data yet — repeat current weight"
     low, high = target_reps
     all_at_target = all(reps >= high for reps in last_reps_achieved)
 

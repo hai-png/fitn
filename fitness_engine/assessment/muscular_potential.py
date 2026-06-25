@@ -85,17 +85,25 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
     NORMALIZED FFMI, not raw FFMI. headroom_kg is computed from the
     height-specific raw_at_ceiling, not from raw 25.
     """
-    ffm_kg = profile.weight_kg * (1 - body_fat_pct / 100)
+    # Defensive: clamp body_fat_pct to physiological range. The orchestrator
+    # passes body_comp.body_fat_pct (already clamped by assess_body_composition),
+    # but a direct caller can pass any value — including >100 which would
+    # produce negative FFM and crash MuscularPotential.__post_init__.
+    bf_pct_clamped = max(0.0, min(100.0, body_fat_pct))
+    ffm_kg = profile.weight_kg * (1 - bf_pct_clamped / 100)
+    if profile.height_m <= 0:
+        raise ValueError(f"profile.height_m must be positive, got {profile.height_m}")
     ffmi = ffm_kg / (profile.height_m ** 2)
     normalized_ffmi = ffmi + NORM_FFMI_COEFF * (NORM_FFMI_REF_HEIGHT_M - profile.height_m)
 
     # Tier 1.9 fix: use NORMALIZED FFMI for ceiling comparison.
-    # Phase-6 fix: clamp to 100% — PED users and genetic outliers can exceed
-    # the natural ceiling, but a >100% "progress to ceiling" reading is
-    # misleading. The over-ceiling signal is preserved via is_above_ceiling.
+    # Phase-6 fix: clamp to [0, 100] — PED users and genetic outliers can
+    # exceed the natural ceiling, but a >100% "progress to ceiling" reading
+    # is misleading. Negative percentages (from BF% > 100) are clamped to 0.
+    # The over-ceiling signal is preserved via is_above_ceiling.
     raw_ffmi_to_ceiling_pct = (normalized_ffmi / FFMI_NATURAL_COMMON) * 100
     is_above_ceiling = normalized_ffmi > FFMI_NATURAL_COMMON
-    ffmi_to_ceiling_pct = min(100.0, raw_ffmi_to_ceiling_pct)
+    ffmi_to_ceiling_pct = max(0.0, min(100.0, raw_ffmi_to_ceiling_pct))
 
     # Tier 1.9 fix: compute the height-specific RAW FFMI at the normalized ceiling.
     # If normalized_ffmi = 25 = raw_ffmi + 6.1*(1.8 - h), then

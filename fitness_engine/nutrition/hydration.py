@@ -72,6 +72,10 @@ def compute_hydration(
     # Tier 3.31 fix: coerce enums to their string values for dict lookup.
     # Phase-6 fix: now that the dicts are keyed by enum members, we keep the
     # enum form for lookup (strings are coerced to enum values for back-compat).
+    # Phase-6 fix: preserve the original user-supplied value for the warning
+    # message — previously the warning printed `None` after the failed coercion.
+    original_intensity = exercise_intensity
+    original_climate = climate
     if isinstance(exercise_intensity, str):
         try:
             exercise_intensity = ExerciseIntensity(exercise_intensity)
@@ -86,14 +90,14 @@ def compute_hydration(
     if exercise_intensity not in SWEAT_RATE_ML_PER_HR:
         # Phase-6 cleanup: ``import warnings`` hoisted to module top.
         warnings.warn(
-            f"Unknown exercise_intensity '{exercise_intensity}' — falling back to 'moderate'. "
+            f"Unknown exercise_intensity '{original_intensity}' — falling back to 'moderate'. "
             f"Valid values: {[e.value for e in ExerciseIntensity]} or ExerciseIntensity enum.",
             stacklevel=2,
         )
         exercise_intensity = ExerciseIntensity.MODERATE
     if climate not in CLIMATE_MULTIPLIER:
         warnings.warn(
-            f"Unknown climate '{climate}' — falling back to 'temperate'. "
+            f"Unknown climate '{original_climate}' — falling back to 'temperate'. "
             f"Valid values: {[c.value for c in Climate]} or Climate enum.",
             stacklevel=2,
         )

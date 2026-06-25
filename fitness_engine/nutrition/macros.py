@@ -223,7 +223,7 @@ def compute_carbs(
         notes = [
             f"⚠ Protein ({protein_g:.0f}g, {protein_kcal:.0f}kcal) + "
             f"fat ({fat_g:.0f}g, {fat_kcal:.0f}kcal) exceeded target "
-            f"({target_calories:.0f}kcal). Carbs set to 0 — "
+            f"({target_calories:.0f}kcal). Carbs clamped to 0 — "
             "reduce protein/fat to make room."
         ]
     else:

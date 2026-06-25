@@ -113,8 +113,17 @@ def compute_scale_factor(recipe_kcal: float, target_kcal: float) -> float:
 
     Returns a value in [MIN_SCALE, MAX_SCALE]. If the unscaled recipe is
     already close (within ±10%), returns 1.0 (no scaling).
+
+    Phase-6 fix: also guard target_kcal <= 0 — previously a 0-kcal target
+    produced raw_factor = 0, which failed the band check and then was
+    clamped to MIN_SCALE (0.7), yielding 70% of the recipe's kcal instead
+    of 0. Now returns 1.0 (no scaling) when target is non-positive, since
+    the allocator's `is_recipe_scalable_to_target` will reject the recipe
+    anyway and fall back to fillers.
     """
     if recipe_kcal <= 0:
+        return 1.0
+    if target_kcal <= 0:
         return 1.0
 
     raw_factor = target_kcal / recipe_kcal
@@ -282,12 +291,24 @@ def select_protein_filler(
     Select a protein filler to close the protein gap.
 
     Picks the highest-protein-density food available for the diet.
+
+    Phase-6 fix: previously `PROTEIN_FILLERS.get(diet_tag, PROTEIN_FILLERS["OMNI"])`
+    silently fell back to the OMNI list (which contains whey, chicken, etc.)
+    for any diet_tag not in the dict — including "VEGAN_ETHIOPIAN" and
+    "VEGAN_VEGETARIAN", which are produced by `profile_requirements.get_recipe_diet_tag`.
+    Vegan users got non-vegan fillers. Now we check the diet_tag prefix:
+    any tag starting with "VEGAN" uses the VEGAN list.
     """
     if gap_protein_g < FILLER_THRESHOLDS["protein_g"]:
         return None
 
     exclude_foods = exclude_foods or set()
-    options = PROTEIN_FILLERS.get(diet_tag, PROTEIN_FILLERS["OMNI"])
+    # Phase-6 fix: match by prefix so VEGAN_ETHIOPIAN / VEGAN_* tags
+    # resolve to the vegan list rather than silently falling back to OMNI.
+    if diet_tag.startswith("VEGAN"):
+        options = PROTEIN_FILLERS["VEGAN"]
+    else:
+        options = PROTEIN_FILLERS["OMNI"]
 
     for food_name, _ in options:
         if food_name in exclude_foods:
@@ -300,7 +321,14 @@ def select_protein_filler(
             # Phase-6 fix: cap multiplier + min fraction sourced from ScalerConfig.
             max_grams = food.serving_size_g * SCALER_CONFIG.protein_serving_cap_multiplier
             grams = min(grams, max_grams)
-            grams = max(grams, food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction)
+            # Phase-6 fix: min-serving floor should NOT over-shoot the gap.
+            # Previously `max(grams, serving * min_fraction)` could double
+            # the protein gap (e.g. 6g gap → 15g whey → 12g protein). Now
+            # we skip the food entirely if the min serving would overshoot.
+            min_grams = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
+            if grams < min_grams:
+                # Min serving would overshoot — try the next food.
+                continue
             return MealFood(food=food, grams=round(grams, 0))
 
     return None
@@ -326,7 +354,11 @@ def select_carb_filler(
         if grams > 0:
             max_grams = food.serving_size_g * SCALER_CONFIG.carb_serving_cap_multiplier
             grams = min(grams, max_grams)
-            grams = max(grams, food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction)
+            # Phase-6 fix: skip the food if the min serving would overshoot
+            # the gap (was previously clamped UP, doubling the gap).
+            min_grams = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
+            if grams < min_grams:
+                continue
             return MealFood(food=food, grams=round(grams, 0))
 
     return None
@@ -352,7 +384,11 @@ def select_fat_filler(
         if grams > 0:
             max_grams = food.serving_size_g * SCALER_CONFIG.fat_serving_cap_multiplier
             grams = min(grams, max_grams)
-            grams = max(grams, food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction)
+            # Phase-6 fix: skip the food if the min serving would overshoot
+            # the gap (was previously clamped UP, doubling the gap).
+            min_grams = food.serving_size_g * SCALER_CONFIG.filler_min_serving_fraction
+            if grams < min_grams:
+                continue
             return MealFood(food=food, grams=round(grams, 0))
 
     return None

@@ -50,14 +50,23 @@ def assess_profile(profile: UserProfile) -> AssessmentResult:
         # underweight user with BMI < 18.5 was classified as NORMAL).
         from ..models.assessment import BodyComposition, BodyFatMethod, BodyFatCategory
         from .body_composition import classify_bmi
+        # Fix: use CUN_BAE to match the actual fallback path in compute_body_fat
+        # (was previously BMI_JACKSON, contradicting the Phase-6 migration).
+        # Use `is not None` instead of truthy check (idiom for Optional[float]).
+        fallback_bf = profile.body_fat_pct if profile.body_fat_pct is not None else 20.0
         body_comp = BodyComposition(
             bmi=profile.bmi,
             bmi_category=classify_bmi(profile.bmi),
-            body_fat_pct=profile.body_fat_pct or 20.0,
-            body_fat_method=BodyFatMethod.USER_PROVIDED if profile.body_fat_pct else BodyFatMethod.BMI_JACKSON,
+            body_fat_pct=fallback_bf,
+            body_fat_method=(
+                BodyFatMethod.USER_PROVIDED
+                if profile.body_fat_pct is not None
+                else BodyFatMethod.CUN_BAE
+            ),
             body_fat_category=BodyFatCategory.ACCEPTABLE,
-            lean_body_mass_kg=profile.weight_kg * 0.8,
-            fat_mass_kg=profile.weight_kg * 0.2,
+            # Derive LBM/fat-mass from the same BF% so they're internally consistent.
+            lean_body_mass_kg=profile.weight_kg * (1 - fallback_bf / 100),
+            fat_mass_kg=profile.weight_kg * (fallback_bf / 100),
             ffmi=20.0,
             normalized_ffmi=20.0,
         )

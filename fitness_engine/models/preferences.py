@@ -16,7 +16,7 @@ those kwargs.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional, Union
 
 # Phase-6 cleanup: hoisted from inside PlanPreferences.from_kwargs.

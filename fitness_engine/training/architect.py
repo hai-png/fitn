@@ -66,6 +66,7 @@ from .volume_landmarks import (
     validate_weekly_volume,
     VolumeTier,
     check_session_volume_cap,
+    compute_session_volume_per_muscle,
     PER_SESSION_SET_CAP,
 )
 
@@ -536,7 +537,11 @@ def _build_mesocycle(
                 focus=base_w.focus,
                 exercises=new_exercises,
                 estimated_duration_min=base_w.estimated_duration_min,
-                notes="Deload: -1 set, -2 RPE" if is_deload else "",
+                # Phase-6 fix: deload recipe now matches the actual
+                # `apply_periodization` behavior (Phase-6: -40% sets, RPE
+                # unchanged). Was previously "-1 set, -2 RPE" which
+                # contradicted the implementation.
+                notes="Deload: -40% sets, RPE unchanged" if is_deload else "",
             )
             apply_periodization(
                 workout=new_w,
@@ -792,21 +797,17 @@ def build_training_plan(
     # Now we scan the first microcycle's workouts and surface warnings.
     # Phase-6 cleanup: ``check_session_volume_cap`` / ``PER_SESSION_SET_CAP``
     # are now imported at module top.
+    # Phase-6 fix: previously this code counted `muscle_groups[1:]` as
+    # secondary muscles at 0.5× — but `muscle_groups` is the PRIMARY list
+    # (first entry is primary, the rest are additional primaries). The actual
+    # secondary muscles live in `exercise.secondary_muscles`. The weekly
+    # volume computation at lines 597-601 was already correct; this per-session
+    # check was the odd one out. Now delegates to `compute_session_volume_per_muscle`
+    # so both code paths agree.
     cap_warnings: list[str] = []
     if mesocycles and mesocycles[0].microcycles:
         for workout in mesocycles[0].microcycles[0].workouts:
-            session_sets: dict[str, float] = {}
-            for we in workout.exercises:
-                if not we.exercise:
-                    continue
-                # Exercise.muscle_groups is a list; first entry is primary.
-                all_muscles = we.exercise.muscle_groups or []
-                if all_muscles:
-                    primary = all_muscles[0]
-                    session_sets[primary] = session_sets.get(primary, 0) + we.sets
-                    # Count secondary muscles at 0.5 (fractional set counting)
-                    for sec in all_muscles[1:]:
-                        session_sets[sec] = session_sets.get(sec, 0) + we.sets * 0.5
+            session_sets = compute_session_volume_per_muscle(workout)
             warnings = check_session_volume_cap(session_sets)
             for w in warnings:
                 cap_warnings.append(f"{workout.name}: {w}")

@@ -13,15 +13,24 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from enum import Enum
+from typing import Any
 
 
-def convert_for_json(obj):
+def convert_for_json(obj: Any) -> Any:
     """Recursively convert dataclasses / Enums / containers to JSON-safe values.
 
     - ``Enum`` → ``.value``
     - ``@dataclass`` instance → dict of its fields (recursively converted)
     - ``list`` / ``tuple`` → list of converted items
-    - ``dict`` → dict with converted keys and values
+    - ``dict`` → dict with converted keys AND values
+      (Phase-6 fix: previously only values were converted — keys were
+      passed through unchanged. This silently leaked Enum objects as
+      dict keys, which happened to JSON-serialize OK because all current
+      enums inherit from `str`, but it broke the contract and would
+      produce wrong output for any non-str-Enum used as a key.)
+    - ``set`` / ``frozenset`` → list of converted items (sorted for stability)
+      (Phase-6 fix: sets aren't JSON-serializable; previously they would
+      pass through and break ``json.dumps``.)
     - everything else returned as-is
     """
     if isinstance(obj, Enum):
@@ -32,6 +41,14 @@ def convert_for_json(obj):
         return [convert_for_json(x) for x in obj]
     if isinstance(obj, tuple):
         return [convert_for_json(x) for x in obj]
+    if isinstance(obj, (set, frozenset)):
+        # Sort for deterministic output. Use str() to handle mixed types.
+        try:
+            return [convert_for_json(x) for x in sorted(obj)]
+        except TypeError:
+            # Unorderable mixed types — fall back to sorted-by-repr.
+            return [convert_for_json(x) for x in sorted(obj, key=lambda v: repr(v))]
     if isinstance(obj, dict):
-        return {k: convert_for_json(v) for k, v in obj.items()}
+        # Phase-6 fix: convert keys too (was only converting values).
+        return {convert_for_json(k): convert_for_json(v) for k, v in obj.items()}
     return obj

@@ -232,8 +232,12 @@ def build_meal_plan(
     target_c = requirements.daily_carb_g
     target_f = requirements.daily_fat_g
 
-    weekly_kcal_match = (1 - abs(weekly_avg_kcal - target_kcal) / target_kcal) * 100 if target_kcal > 0 else 100
-    weekly_protein_match = (1 - abs(weekly_avg_protein - target_p) / target_p) * 100 if target_p > 0 else 100
+    # Phase-6 fix: clamp match-pct to [0, 100] — previously a weekly_avg
+    # more than 2× the target produced a NEGATIVE match (e.g. 4500 vs 2000
+    # → -25%). The allocator's `kcal_match_pct` already clamps with
+    # `max(0.0, ...)`; this code path was the odd one out.
+    weekly_kcal_match = max(0.0, (1 - abs(weekly_avg_kcal - target_kcal) / target_kcal) * 100) if target_kcal > 0 else 100
+    weekly_protein_match = max(0.0, (1 - abs(weekly_avg_protein - target_p) / target_p) * 100) if target_p > 0 else 100
 
     notes = [
         f"Meal frequency: {meal_frequency} meals/day"

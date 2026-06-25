@@ -61,44 +61,48 @@ def detect_plateau(
       - Gradual slowdown: rate of loss decelerating week-over-week (last 3
         deltas all positive AND monotonically decreasing in magnitude).
       - Whoosh: any single week delta > 1.5% of body weight (absolute).
+        Phase-6 fix: restricted to the LAST 3 weeks only — previously scanned
+        the entire log, so a whoosh at week 2 masked all subsequent plateaus.
       - Weight gain: last 3 weekly deltas all negative (weight went up).
       - None: insufficient data (< 3 weeks) or normal progress.
+
+    Note: `expected_weekly_rate_pct` is accepted for backwards-compatibility
+    but no longer used by the detection logic (Phase-6: thresholds are now
+    derived from `body_weight_kg` alone).
     """
+    _ = expected_weekly_rate_pct  # deprecated; kept for backwards-compat
     if len(weekly_weight_log_kg) < 3:
         return PlateauType.NONE
 
-    expected_weekly_loss = body_weight_kg * expected_weekly_rate_pct
     deltas = [
         weekly_weight_log_kg[i] - weekly_weight_log_kg[i + 1]
         for i in range(len(weekly_weight_log_kg) - 1)
     ]
+    last_3 = deltas[-3:]
 
-    # Whoosh: any single week delta > 1.5% body weight (Phase-6: absolute threshold
-    # per docstring, was `expected_weekly_loss * 3` which only matched for 0.5% rate)
-    whoosh_threshold = body_weight_kg * 0.015
-    if any(d > whoosh_threshold for d in deltas):
-        return PlateauType.WHOOSH
-
-    # Phase-6: weight gain during a cut (any delta < 0 means weight went UP).
-    # All 3 recent weeks showing weight gain (negative delta) is a strong signal
-    # that the user is either not adhering or the deficit is too small.
-    if len(deltas) >= 3:
-        last_3 = deltas[-3:]
-        if all(d < 0 for d in last_3):
-            return PlateauType.WEIGHT_GAIN
+    # Phase-6 fix: prioritize RECENT signals (weight gain, sudden stall,
+    # gradual slowdown) BEFORE the historical whoosh check. Previously a
+    # single whoosh at any prior week would mask a current gaining streak
+    # or stall — the user's actionable current state was hidden.
+    # Weight gain during a cut: all 3 recent weeks showing weight gain.
+    if all(d < 0 for d in last_3):
+        return PlateauType.WEIGHT_GAIN
 
     # Sudden stall: last 3 deltas all < 0.3% body weight
-    if len(deltas) >= 3:
-        last_3 = deltas[-3:]
-        threshold = body_weight_kg * 0.003
-        if all(abs(d) < threshold for d in last_3):
-            return PlateauType.SUDDEN_STALL
+    threshold = body_weight_kg * 0.003
+    if all(abs(d) < threshold for d in last_3):
+        return PlateauType.SUDDEN_STALL
 
     # Gradual slowdown: deltas decreasing in magnitude
-    if len(deltas) >= 3:
-        last_3 = deltas[-3:]
-        if all(d > 0 for d in last_3) and last_3[0] > last_3[1] > last_3[2]:
-            return PlateauType.GRADUAL_SLOWDOWN
+    if all(d > 0 for d in last_3) and last_3[0] > last_3[1] > last_3[2]:
+        return PlateauType.GRADUAL_SLOWDOWN
+
+    # Whoosh: any single week delta > 1.5% body weight (absolute).
+    # Phase-6 fix: only check the last 3 weeks so a historical whoosh doesn't
+    # mask a current plateau.
+    whoosh_threshold = body_weight_kg * 0.015
+    if any(d > whoosh_threshold for d in last_3):
+        return PlateauType.WHOOSH
 
     return PlateauType.NONE
 

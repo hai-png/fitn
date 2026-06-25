@@ -327,7 +327,11 @@ def get_recipe_swaps(
 
     Returns list of Recipes sorted by kcal closeness to target.
     """
-    exclude_ids = exclude_ids or set()
+    # Phase-6 fix: copy the caller's set so we don't mutate it.
+    # Previously `exclude_ids or set()` returned the original set when
+    # non-empty, and `exclude_ids.add(recipe.id)` then mutated the caller's
+    # set. Now always work on a fresh copy.
+    exclude_ids = set(exclude_ids) if exclude_ids else set()
     if recipe.id:
         exclude_ids.add(recipe.id)
 

@@ -4,6 +4,7 @@ Models package — exports all data classes used by the engine.
 from .profile import (
     Sex, ActivityLevel, TrainingStatus, PrimaryGoal, EquipmentAccess,
     DietType, CutRateTier, BulkAggressiveness, UserProfile,
+    TrainingTimeOfDay, ExerciseIntensity, Climate,
 )
 from .assessment import (
     BodyFatMethod, BodyFatCategory, BMICategory, HealthRiskLevel, ABSIRiskLevel,
@@ -21,7 +22,7 @@ from .training import (
 )
 from .meal import (
     MealType, FoodCategory, FoodItem, MealFood, Meal, DayPlan,
-    MealPlan, FitnessPlan,
+    MealPlan, FitnessPlan, Recipe, RecipeDietTag,
 )
 from .preferences import PlanPreferences
 
@@ -29,6 +30,7 @@ __all__ = [
     # Profile
     "Sex", "ActivityLevel", "TrainingStatus", "PrimaryGoal", "EquipmentAccess",
     "DietType", "CutRateTier", "BulkAggressiveness", "UserProfile",
+    "TrainingTimeOfDay", "ExerciseIntensity", "Climate",
     # Assessment
     "BodyFatMethod", "BodyFatCategory", "BMICategory", "HealthRiskLevel",
     "ABSIRiskLevel", "RecommendedStrategy", "BodyComposition",
@@ -43,7 +45,7 @@ __all__ = [
     "Workout", "Microcycle", "Mesocycle", "TrainingPlan",
     # Meal
     "MealType", "FoodCategory", "FoodItem", "MealFood", "Meal",
-    "DayPlan", "MealPlan", "FitnessPlan",
+    "DayPlan", "MealPlan", "FitnessPlan", "Recipe", "RecipeDietTag",
     # Preferences (Phase-6 unified config)
     "PlanPreferences",
 ]

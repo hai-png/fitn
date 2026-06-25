@@ -160,23 +160,11 @@ def decide_strategy(
             )
 
     # === Auto-decide when no explicit goal override ===
-    # Obese → Cut (or habit change first if beginner + obese)
-    if body_fat_pct >= b["obese_threshold"]:
-        # Tier 4.47: removed dead `and profile.age >= 18` check — the
-        # UserProfile validator already enforces 18 <= age <= 100, so this
-        # condition was always True.
-        if profile.training_status == TrainingStatus.BEGINNER:
-            return (
-                RecommendedStrategy.HABIT_CHANGE_FIRST,
-                f"BF%={body_fat_pct:.1f}% (obese class) + beginner. "
-                "Start with habit changes (more veg, lean protein, water, steps) "
-                "before calorie counting. Resistance training alone improves "
-                "metabolic health without dieting."
-            )
-        return (
-            RecommendedStrategy.CUT,
-            f"BF%={body_fat_pct:.1f}% (obese class) — prioritise fat loss."
-        )
+    # Phase-6 fix: the obese branch was previously dead code — the safety
+    # override on lines 85-100 already returns HABIT_CHANGE_FIRST (beginner
+    # + non-FAT_LOSS goal) or CUT (otherwise) for ALL obese users. By the
+    # time execution reaches here, body_fat_pct < obese_threshold is
+    # guaranteed. The dead block was removed.
 
     # Overweight (between operational_hi and obese_threshold) → Cut
     if body_fat_pct > b["operational_hi"]:

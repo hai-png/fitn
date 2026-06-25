@@ -30,13 +30,9 @@ from ..models.meal import MealType
 
 
 # === Diet type mapping ===
-
-DIET_TYPE_RECIPE_TAG = {
-    DietType.OMNIVORE: "OMNI",
-    DietType.VEGAN: "VEGAN",
-    DietType.VEGETARIAN: "VEGAN",  # closest available
-    # Phase-5 new types
-}
+# Phase-6 fix: removed dead `DIET_TYPE_RECIPE_TAG` dict — it was defined but
+# never used (get_recipe_diet_tag below uses its own substring logic). Keeping
+# a second source of truth for the same mapping would invite drift.
 
 
 def get_recipe_diet_tag(profile_diet: DietType) -> str:
@@ -470,7 +466,13 @@ def compute_meal_plan_requirements(
         # hasattr shim was unnecessary.
         training_time = profile.training_time_of_day.value
         if training_time == "morning":
-            # PRE right after breakfast, POST as morning snack
+            # Phase-6 fix: corrected the misleading comment. For morning
+            # (fasted) training, PRE is consumed before breakfast and POST
+            # is consumed as/with breakfast — so they go at the START of the
+            # day's slot list: [PRE, POST/breakfast, lunch, dinner]. The
+            # original `insert(0, pre); insert(1, post)` correctly produced
+            # this order; the comment "PRE right after breakfast" was wrong
+            # (it described a different meal pattern).
             training_day_slot_targets.insert(0, pre_target)
             training_day_slot_targets.insert(1, post_target)
         elif training_time == "midday":
@@ -480,9 +482,17 @@ def compute_meal_plan_requirements(
             training_day_slot_targets.insert(insert_pos, pre_target)
             training_day_slot_targets.insert(insert_pos + 2, post_target)
         else:  # evening (default)
-            # PRE before dinner, POST after dinner
-            training_day_slot_targets.append(pre_target)
-            training_day_slot_targets.append(post_target)
+            # Phase-6 fix: PRE before dinner, POST after dinner.
+            # Previously both were appended to the end, putting PRE AFTER
+            # dinner — contradicting the pre-workout semantics. Now find
+            # the dinner slot and insert PRE before it, POST after it.
+            dinner_idx = next(
+                (i for i, s in enumerate(training_day_slot_targets)
+                 if s.meal_type.value == "dinner"),
+                len(training_day_slot_targets),
+            )
+            training_day_slot_targets.insert(dinner_idx, pre_target)
+            training_day_slot_targets.insert(dinner_idx + 2, post_target)
     else:
         training_day_slot_targets = list(slot_targets)
 

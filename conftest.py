@@ -9,7 +9,7 @@ import pytest
 from fitness_engine import UserProfile
 from fitness_engine.models.profile import (
     Sex, ActivityLevel, TrainingStatus, PrimaryGoal, EquipmentAccess,
-    DietType, CutRateTier,
+    DietType,
 )
 
 
@@ -24,7 +24,9 @@ def cut_profile() -> UserProfile:
         height_cm=178,
         weight_kg=82,
         body_fat_pct=18.0,
-        activity_level=ActivityLevel.MODERATE,
+        neck_cm=38.0,
+        waist_cm=85.0,
+        activity_level=ActivityLevel.LIGHTLY_ACTIVE,
         training_status=TrainingStatus.INTERMEDIATE,
         primary_goal=PrimaryGoal.FAT_LOSS,
         training_days_per_week=4,
@@ -42,7 +44,9 @@ def bulk_profile() -> UserProfile:
         height_cm=175,
         weight_kg=70,
         body_fat_pct=12.0,
-        activity_level=ActivityLevel.MODERATE,
+        neck_cm=37.0,
+        waist_cm=78.0,
+        activity_level=ActivityLevel.LIGHTLY_ACTIVE,
         training_status=TrainingStatus.NOVICE,
         primary_goal=PrimaryGoal.MUSCLE_GAIN,
         training_days_per_week=4,
@@ -60,7 +64,9 @@ def recomp_profile() -> UserProfile:
         height_cm=180,
         weight_kg=80,
         body_fat_pct=22.0,
-        activity_level=ActivityLevel.MODERATE,
+        neck_cm=39.0,
+        waist_cm=90.0,
+        activity_level=ActivityLevel.LIGHTLY_ACTIVE,
         training_status=TrainingStatus.INTERMEDIATE,
         primary_goal=PrimaryGoal.RECOMP,
         training_days_per_week=4,
@@ -78,7 +84,10 @@ def maintenance_profile() -> UserProfile:
         height_cm=170,
         weight_kg=65,
         body_fat_pct=24.0,
-        activity_level=ActivityLevel.MODERATE,
+        neck_cm=33.0,
+        waist_cm=72.0,
+        hip_cm=96.0,
+        activity_level=ActivityLevel.LIGHTLY_ACTIVE,
         training_status=TrainingStatus.INTERMEDIATE,
         primary_goal=PrimaryGoal.MAINTENANCE,
         training_days_per_week=3,
@@ -96,7 +105,10 @@ def female_cut_profile() -> UserProfile:
         height_cm=165,
         weight_kg=68,
         body_fat_pct=30.0,
-        activity_level=ActivityLevel.LIGHT,
+        neck_cm=32.0,
+        waist_cm=78.0,
+        hip_cm=104.0,
+        activity_level=ActivityLevel.LIGHTLY_ACTIVE,
         training_status=TrainingStatus.NOVICE,
         primary_goal=PrimaryGoal.FAT_LOSS,
         training_days_per_week=3,
@@ -114,7 +126,9 @@ def vegan_profile() -> UserProfile:
         height_cm=175,
         weight_kg=72,
         body_fat_pct=16.0,
-        activity_level=ActivityLevel.MODERATE,
+        neck_cm=37.0,
+        waist_cm=78.0,
+        activity_level=ActivityLevel.LIGHTLY_ACTIVE,
         training_status=TrainingStatus.INTERMEDIATE,
         primary_goal=PrimaryGoal.MAINTENANCE,
         training_days_per_week=4,
@@ -125,11 +139,4 @@ def vegan_profile() -> UserProfile:
 
 # === Pytest configuration ===
 
-def pytest_configure(config):
-    """Register custom markers."""
-    config.addinivalue_line(
-        "markers", "integration: full end-to-end pipeline tests (slower)"
-    )
-    config.addinivalue_line(
-        "markers", "slow: long-running tests"
-    )
+# Markers are registered in pyproject.toml [tool.pytest.ini_options].

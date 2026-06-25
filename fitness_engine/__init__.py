@@ -28,6 +28,7 @@ Clean information flow:
 from .models.profile import (
     UserProfile, Sex, ActivityLevel, TrainingStatus, PrimaryGoal,
     EquipmentAccess, DietType, CutRateTier, BulkAggressiveness,
+    TrainingTimeOfDay, ExerciseIntensity, Climate,
 )
 from .models.assessment import (
     AssessmentResult, BodyComposition, HealthRiskAssessment,
@@ -43,13 +44,14 @@ from .models.preferences import PlanPreferences
 from .assessment.assessor import assess_profile
 from .engine import propose_plan
 
-__version__ = "3.0.0"
+__version__ = "3.1.0"
 
 __all__ = [
     "__version__",
     # Profile
     "UserProfile", "Sex", "ActivityLevel", "TrainingStatus", "PrimaryGoal",
     "EquipmentAccess", "DietType", "CutRateTier", "BulkAggressiveness",
+    "TrainingTimeOfDay", "ExerciseIntensity", "Climate",
     # Assessment
     "AssessmentResult", "BodyComposition", "HealthRiskAssessment",
     "MuscularPotential", "RecommendedStrategy",

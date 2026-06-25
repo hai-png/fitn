@@ -3,7 +3,7 @@ Assessment result data models — output of the assessment module.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
 
@@ -151,18 +151,23 @@ class MuscularPotential:
                 f"MuscularPotential.current_normalized_ffmi must be non-negative; "
                 f"got {self.current_normalized_ffmi}"
             )
-        if self.expected_monthly_muscle_gain_kg < 0:
+        # Phase-6 fix: enforce all numeric fields are non-negative AND non-NaN
+        # (was inconsistent — only first two fields had NaN checks).
+        for fname, fval in (
+            ("expected_monthly_muscle_gain_kg", self.expected_monthly_muscle_gain_kg),
+            ("headroom_kg", self.headroom_kg),
+            ("ffmi_to_ceiling_pct", self.ffmi_to_ceiling_pct),
+        ):
+            if math.isnan(fval) or fval < 0:
+                raise ValueError(
+                    f"MuscularPotential.{fname} must be non-negative and non-NaN; "
+                    f"got {fval}"
+                )
+        # Phase-6 fix: ffmi_to_ceiling_pct is documented as ≤100; enforce both
+        # bounds (was previously only checking the lower bound).
+        if self.ffmi_to_ceiling_pct > 100:
             raise ValueError(
-                f"MuscularPotential.expected_monthly_muscle_gain_kg must be non-negative; "
-                f"got {self.expected_monthly_muscle_gain_kg}"
-            )
-        if self.headroom_kg < 0:
-            raise ValueError(f"MuscularPotential.headroom_kg must be non-negative; got {self.headroom_kg}")
-        # Phase-6 fix: ffmi_to_ceiling_pct is documented as ≤100; ensure the
-        # producer has clamped it (defensive check).
-        if self.ffmi_to_ceiling_pct < 0:
-            raise ValueError(
-                f"MuscularPotential.ffmi_to_ceiling_pct must be non-negative; "
+                f"MuscularPotential.ffmi_to_ceiling_pct must be ≤100; "
                 f"got {self.ffmi_to_ceiling_pct}"
             )
 

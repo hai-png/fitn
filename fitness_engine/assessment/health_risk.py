@@ -25,6 +25,12 @@ from ._thresholds import MEDICAL_DISCLAIMER
 # === WHR (Waist-to-Hip Ratio) ===
 
 def compute_whr(waist_cm: float, hip_cm: float) -> float:
+    """Compute Waist-to-Hip ratio.
+
+    Raises ValueError if hip_cm <= 0 (ZeroDivision guard).
+    """
+    if hip_cm <= 0:
+        raise ValueError(f"hip_cm must be positive for WHR, got {hip_cm}")
     return waist_cm / hip_cm
 
 
@@ -56,6 +62,12 @@ def classify_whr(whr: float, sex: Sex) -> HealthRiskLevel:
 # === WHtR (Waist-to-Height Ratio) ===
 
 def compute_whtr(waist_cm: float, height_cm: float) -> float:
+    """Compute Waist-to-Height ratio.
+
+    Raises ValueError if height_cm <= 0 (ZeroDivision guard).
+    """
+    if height_cm <= 0:
+        raise ValueError(f"height_cm must be positive for WHtR, got {height_cm}")
     return waist_cm / height_cm
 
 
@@ -99,7 +111,14 @@ def compute_absi(waist_cm: float, weight_kg: float, height_cm: float) -> float:
     """
     ABSI = WC_m × weight_kg^(-2/3) × height_m^(5/6)
     Source: fatcalc.com__absi (Krakauer & Krakauer 2012)
+
+    Raises ValueError if weight_kg <= 0 (would produce `inf` via `0 ** -0.667`)
+    or height_cm <= 0 (would produce `inf` via `0 ** 0.833`).
     """
+    if weight_kg <= 0:
+        raise ValueError(f"weight_kg must be positive for ABSI, got {weight_kg}")
+    if height_cm <= 0:
+        raise ValueError(f"height_cm must be positive for ABSI, got {height_cm}")
     wc_m = waist_cm / 100.0
     h_m = height_cm / 100.0
     return wc_m * (weight_kg ** (-2.0 / 3.0)) * (h_m ** (5.0 / 6.0))
@@ -135,10 +154,10 @@ ABSI_REFERENCE = {
 
 def absi_z_score(absi: float, age: int, sex: Sex) -> float:
     """Compute ABSI z-score vs NHANES age/sex norms (simplified table)."""
-    # Find age band
-    for band_sex, (lo, hi) in ABSI_REFERENCE:
+    # Phase-6 fix: iterate dict.items() directly (was iterating keys then
+    # re-looking-up the value — O(2n) and obscured intent).
+    for (band_sex, (lo, hi)), (mean, sd) in ABSI_REFERENCE.items():
         if band_sex == sex and lo <= age <= hi:
-            mean, sd = ABSI_REFERENCE[(band_sex, (lo, hi))]
             return (absi - mean) / sd
     # Fallback (shouldn't happen given 70+ band)
     return 0.0
@@ -220,8 +239,11 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
                 f"({'>0.90 M' if profile.sex == Sex.MALE else '>0.85 F'}); "
                 "elevated cardiometabolic risk."
             )
-    elif profile.waist_cm is not None and profile.sex == Sex.MALE and profile.hip_cm is None:
-        # Phase-6 fix: surface the missing-hip fallback explicitly.
+    elif profile.waist_cm is not None and profile.hip_cm is None:
+        # Phase-6 fix: surface the missing-hip fallback explicitly for BOTH
+        # sexes. Previously this branch only fired for men — a woman missing
+        # hip_cm (which is required for both her Navy BF% and WHR) got no
+        # note at all, silently dropping the WHR computation.
         risk_factors.append(
             "hip_cm not provided — WHR skipped; relying on WHtR for abdominal "
             "adiposity risk (provide hip circumference for full WHO WHR screening)."
@@ -297,7 +319,21 @@ def assess_health_risk(profile: UserProfile) -> HealthRiskAssessment:
     elif risk_score >= 0.5:
         result.overall_risk = HealthRiskLevel.HIGH
     elif risk_factors:
-        result.overall_risk = HealthRiskLevel.MODERATE
+        # Phase-6 fix: filter out data-quality notes (e.g. "hip_cm not provided")
+        # from the risk-factor check. Previously a healthy male user with no
+        # actual risk factors but missing hip_cm ended up with overall_risk =
+        # MODERATE purely because of the data-availability note — mixing
+        # data-quality messages with clinical risk factors in the same list.
+        # Now we only bump to MODERATE if there are real risk factors (not
+        # just data-quality advisories).
+        clinical_risk_factors = [
+            rf for rf in risk_factors
+            if not rf.startswith("hip_cm not provided")
+        ]
+        if clinical_risk_factors:
+            result.overall_risk = HealthRiskLevel.MODERATE
+        else:
+            result.overall_risk = HealthRiskLevel.LOW
     else:
         result.overall_risk = HealthRiskLevel.LOW
 

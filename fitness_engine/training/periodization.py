@@ -140,13 +140,18 @@ def _modify_rest_for_dup(base_rest: int, day_type: str) -> int:
 
 
 # === Block periodization phase modifiers ===
-# Block periodization has 3 phases: accumulation → intensification → deload/peak
+# Block periodization has 3 phases: accumulation → intensification → peak
+# (deload is a per-microcycle flag, not a mesocycle phase — applied via `is_deload`).
 # The architect decides which mesocycle is in which phase, then applies these.
+# Phase-6 fix: previously the third key was `"deload"` (dead — `get_block_phases_for_program`
+# emits `"peak"`), so the peak mesocycle of an advanced strength program silently
+# received NO modifier. Now the key matches the emitted phase name and contains
+# a real peak recipe (lower reps, fewer sets, higher RPE — classic peaking).
 
 _BLOCK_PHASE_MODIFIERS: dict[str, dict] = {
     "accumulation":  {"reps_mult": 1.2, "sets_delta": +1, "rpe_delta": -0.5},  # more volume, lower intensity
     "intensification": {"reps_mult": 0.6, "sets_delta": -1, "rpe_delta": +1.0},  # less volume, higher intensity
-    "deload":        {"reps_mult": 1.0, "sets_delta": -1, "rpe_delta": -2.0},  # deload week
+    "peak":          {"reps_mult": 0.5, "sets_delta": -2, "rpe_delta": +1.5},  # peaking: low reps, low volume, high intensity
 }
 
 
@@ -240,9 +245,12 @@ def apply_periodization(
                     rpe = rir_based_rpe_hi
                 elif rpe < rir_based_rpe_lo:
                     rpe = rir_based_rpe_lo
-        except (ValueError, TypeError):
-            # If RIR lookup fails (e.g. cardio/mobility reps), keep preset RPE.
+        except (ValueError, TypeError, AttributeError):
+            # If RIR lookup fails (e.g. cardio/mobility reps, or we.exercise is
+            # None and category access raises AttributeError), keep preset RPE.
             # Phase-6: narrowed from bare `Exception` to avoid masking real bugs.
+            # Phase-6 fix: added AttributeError to handle the (defensive) case
+            # where we.exercise is None — previously crashed the whole workout.
             pass
 
         we.reps = reps
