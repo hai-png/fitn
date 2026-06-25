@@ -1,0 +1,121 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fitn"
+version = "3.1.0"
+description = "Deterministic, dependency-free Python fitness engine: assessment + nutrition + training + meal planning."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "hai-png" },
+]
+keywords = ["fitness", "nutrition", "training", "meal-planning", "TDEE", "macros"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[project.urls]
+Homepage = "https://github.com/hai-png/fitn"
+Repository = "https://github.com/hai-png/fitn"
+Issues = "https://github.com/hai-png/fitn/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fitness_engine"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "fitness_engine/",
+    "scripts/",
+    "resources/synthesized/",
+    "reports/",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+]
+exclude = [
+    "content_files/videos/",
+    "download/",
+    "worklog.md",
+]
+
+# === pytest ===
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["fitness_engine/tests"]
+addopts = "--strict-markers --cov=fitness_engine --cov-report=term-missing --cov-fail-under=80"
+markers = [
+    "integration: full end-to-end pipeline tests (slower)",
+    "slow: long-running tests",
+]
+
+# === ruff ===
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["content_files", "resources/synthesized", "download"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # function calls in default arguments (dataclass-friendly)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"fitness_engine/tests/*" = ["B011"]  # allow assert False in tests
+
+# === mypy ===
+[tool.mypy]
+python_version = "3.10"
+strict = false
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_untyped_defs = false  # TODO: enable once all functions are typed
+files = ["fitness_engine"]
+exclude = ["fitness_engine/tests/"]
+
+# === coverage ===
+[tool.coverage.run]
+source = ["fitness_engine"]
+omit = [
+    "fitness_engine/tests/*",
+    "fitness_engine/**/__init__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

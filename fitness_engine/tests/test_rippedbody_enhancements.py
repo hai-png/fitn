@@ -248,12 +248,24 @@ class TestSwapSystem:
 
 class TestVolumeLandmarks:
     def test_chest_landmarks_are_reasonable(self):
-        """Chest MEV should be 4, MAV 10-20, MRV 30."""
+        """Chest landmarks should align with RP consensus.
+
+        Phase-6 fix: values updated from the previous flat MEV=4 heuristic
+        to Renaissance Periodization consensus (Israetel):
+          MEV=8, MAV=10-22, MRV=24, ML=8.
+        """
         lm = get_muscle_landmarks("chest")
-        assert lm.mev == 4
+        assert lm.mev == 8
         assert lm.mav_lo == 10
-        assert lm.mav_hi == 20
-        assert lm.mrv == 30
+        assert lm.mav_hi == 22
+        assert lm.mrv == 24
+
+    def test_back_mev_greater_than_chest_mev(self):
+        """Phase-6: back needs ~2-3x chest MEV per RP consensus."""
+        chest = get_muscle_landmarks("chest")
+        back = get_muscle_landmarks("back")
+        assert back.mev > chest.mev
+        assert back.mev >= chest.mev * 1.2  # at least 20% more
 
     def test_unknown_muscle_returns_default(self):
         """Unknown muscles should get sensible defaults."""

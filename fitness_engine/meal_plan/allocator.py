@@ -239,7 +239,8 @@ def allocate_meal(
     # below the threshold, log a warning and try the next candidate. If no
     # candidate meets the threshold, fall back to the best available (so the
     # meal isn't empty) but add a note so the user knows the fit is poor.
-    from .recipe_scorer import MIN_ACCEPTABLE_SCORE
+    # Phase-6: removed redundant local import (MIN_ACCEPTABLE_SCORE is already
+    # imported at module top).
     low_score_warning: str | None = None
     if best.total_score < MIN_ACCEPTABLE_SCORE:
         # Try to find a better-scoring candidate among the rest
@@ -278,11 +279,15 @@ def allocate_meal(
         exclude_foods=allergen_filler_exclusions,
     )
 
-    # 7. Get swap options
+    # 7. Get swap options (Phase-6: forward allergens/excluded/cuisine so
+    # swap suggestions respect the same constraints as the primary allocation)
     swap_options = get_recipe_swaps_for_plan(
         recipe=best.recipe,
         diet_tag=diet_tag,
         target_kcal=slot.target_kcal,
+        allergens_to_avoid=allergens_to_avoid,
+        excluded_ingredients=excluded_ingredients,
+        cuisine_preference=cuisine_preference,
     )
 
     # 8. Get ingredient swaps

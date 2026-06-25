@@ -153,7 +153,7 @@ INGREDIENT_SWAPS: dict[str, list[IngredientSwap]] = {
 
     # === Fats ===
     "olive oil": [
-        IngredientSwap("olive oil", ["avocado oil", "coconut oil", " grapeseed oil"], 1.0),
+        IngredientSwap("olive oil", ["avocado oil", "coconut oil", "grapeseed oil"], 1.0),
     ],
     "butter": [
         IngredientSwap("butter", ["ghee", "coconut oil (vegan)", "olive oil (for cooking)"], 1.0),
@@ -206,21 +206,26 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     """
     Get swap options for a specific ingredient.
 
-    Case-insensitive, partial match (e.g. "Chicken Breast" or "chicken" both work).
+    Case-insensitive match. Phase-6 fix: matching now uses word boundaries
+    (regex `\\b<key>\\b`) instead of raw substring test, so "eggplant" no
+    longer matches the "egg" swap key, "butter lettuce" no longer matches
+    "butter", etc. Exact match still takes precedence.
     """
+    import re
+
     ing_lower = ingredient.lower().strip()
 
     # Exact match
     if ing_lower in INGREDIENT_SWAPS:
         return INGREDIENT_SWAPS[ing_lower]
 
-    # Partial match (e.g. "boneless chicken breast" → "chicken breast").
-    # Tier 4.42 fix: removed bidirectional `or ing_lower in key` which caused
-    # false positives (e.g. "egg" matching "eggplant", "butter" matching
-    # "butter lettuce"). Now only checks if the swap key is a substring of
-    # the ingredient (forward direction only), which is the intended behavior.
+    # Word-boundary partial match (e.g. "boneless chicken breast" → "chicken
+    # breast"). Phase-6 fix: previously used `if key in ing_lower` which
+    # caused false positives (e.g. "egg" matching "eggplant", "butter"
+    # matching "butter lettuce", "milk" matching "milk thistle").
     for key, swaps in INGREDIENT_SWAPS.items():
-        if key in ing_lower:
+        pat = re.compile(r"\b" + re.escape(key) + r"\b", re.IGNORECASE)
+        if pat.search(ing_lower):
             return swaps
 
     return []
@@ -267,6 +272,9 @@ def get_recipe_swaps(
     kcal_tolerance_pct: float = 0.20,
     exclude_ids: Optional[set[str]] = None,
     limit: int = 5,
+    allergens_to_avoid: Optional[list[str]] = None,
+    excluded_ingredients: Optional[list[str]] = None,
+    cuisine_preference: Optional[str] = None,
 ) -> list[Recipe]:
     """
     Get alternative recipes that can substitute for the given recipe.
@@ -276,6 +284,9 @@ def get_recipe_swaps(
       2. Are diet-compatible (recipe's diet_types match user's diet_tag)
       3. Have kcal within ±kcal_tolerance_pct of the target_kcal
       4. Are not in exclude_ids
+      5. Do not contain any allergens the user wants to avoid (Phase-6 fix)
+      6. Do not contain any explicitly excluded ingredients (Phase-6 fix)
+      7. Match cuisine_preference if specified (Phase-6 fix)
 
     Args:
       recipe: the reference recipe
@@ -284,10 +295,13 @@ def get_recipe_swaps(
       kcal_tolerance_pct: acceptable kcal deviation (default ±20%)
       exclude_ids: recipe IDs to exclude (e.g. already used today)
       limit: max number of swaps to return
+      allergens_to_avoid: list of allergens (e.g. ["dairy", "eggs"]) — Phase-6
+      excluded_ingredients: list of ingredients to exclude — Phase-6
+      cuisine_preference: optional cuisine filter (substring match) — Phase-6
 
     Returns list of Recipes sorted by kcal closeness to target.
     """
-    from .recipe_scorer import score_diet_match
+    from .recipe_scorer import score_diet_match, check_allergens, check_excluded_ingredients
 
     exclude_ids = exclude_ids or set()
     if recipe.id:
@@ -312,6 +326,18 @@ def get_recipe_swaps(
         # Skip recipes with diet warnings
         if "[diet-warning" in (r.notes or ""):
             continue
+        # Phase-6: must not contain allergens
+        if allergens_to_avoid and check_allergens(r, allergens_to_avoid):
+            continue
+        # Phase-6: must not contain excluded ingredients
+        if excluded_ingredients and check_excluded_ingredients(r, excluded_ingredients):
+            continue
+        # Phase-6: must match cuisine preference if specified
+        if cuisine_preference:
+            recipe_cuisine = (r.cuisine or "").lower()
+            pref_lower = cuisine_preference.lower()
+            if pref_lower not in recipe_cuisine:
+                continue
         candidates.append(r)
 
     # Sort by kcal closeness to target
@@ -323,14 +349,26 @@ def get_recipe_swaps_for_plan(
     recipe: Recipe,
     diet_tag: str,
     target_kcal: float,
+    allergens_to_avoid: Optional[list[str]] = None,
+    excluded_ingredients: Optional[list[str]] = None,
+    cuisine_preference: Optional[str] = None,
 ) -> list[dict]:
     """
     Get recipe swaps formatted for plan output (with reason + kcal match).
 
+    Phase-6 fix: now accepts and forwards allergens_to_avoid,
+    excluded_ingredients, and cuisine_preference so that swap suggestions
+    respect the same constraints as the primary allocation.
+
     Returns list of dicts:
       {"recipe_id": str, "name": str, "kcal": float, "kcal_diff": float}
     """
-    swaps = get_recipe_swaps(recipe, diet_tag, target_kcal, limit=5)
+    swaps = get_recipe_swaps(
+        recipe, diet_tag, target_kcal, limit=5,
+        allergens_to_avoid=allergens_to_avoid,
+        excluded_ingredients=excluded_ingredients,
+        cuisine_preference=cuisine_preference,
+    )
     return [
         {
             "recipe_id": s.id,

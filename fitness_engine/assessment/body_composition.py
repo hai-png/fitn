@@ -21,20 +21,22 @@ from ..utils.units import cm_to_in
 
 
 # === Body Fat % Categories (ACE / WHO / ACSM canonical) ===
+# Bands are CONTINUOUS: each category's upper bound is the next category's
+# lower bound, so any float BF% (e.g. 5.5, 13.7) is classified correctly.
 BF_CATEGORIES = {
     Sex.MALE: [
-        (BodyFatCategory.ESSENTIAL,  2,  5),
-        (BodyFatCategory.ATHLETE,    6, 13),
-        (BodyFatCategory.FITNESS,   14, 17),
-        (BodyFatCategory.ACCEPTABLE, 18, 24),
-        (BodyFatCategory.OBESITY,   25, 999),
+        (BodyFatCategory.ESSENTIAL,  0.0,  6.0),
+        (BodyFatCategory.ATHLETE,    6.0, 14.0),
+        (BodyFatCategory.FITNESS,   14.0, 18.0),
+        (BodyFatCategory.ACCEPTABLE, 18.0, 25.0),
+        (BodyFatCategory.OBESITY,   25.0, float("inf")),
     ],
     Sex.FEMALE: [
-        (BodyFatCategory.ESSENTIAL, 10, 13),
-        (BodyFatCategory.ATHLETE,   14, 20),
-        (BodyFatCategory.FITNESS,   21, 24),
-        (BodyFatCategory.ACCEPTABLE, 25, 31),
-        (BodyFatCategory.OBESITY,   32, 999),
+        (BodyFatCategory.ESSENTIAL,  0.0, 14.0),
+        (BodyFatCategory.ATHLETE,   14.0, 21.0),
+        (BodyFatCategory.FITNESS,   21.0, 25.0),
+        (BodyFatCategory.ACCEPTABLE, 25.0, 32.0),
+        (BodyFatCategory.OBESITY,   32.0, float("inf")),
     ],
 }
 
@@ -48,10 +50,17 @@ BMI_CATEGORIES = [
 
 
 def classify_bf(bf_pct: float, sex: Sex) -> BodyFatCategory:
-    """Classify body fat % into ACE/WHO/ACSM category."""
+    """Classify body fat % into ACE/WHO/ACSM category.
+
+    Bands are continuous and cover [0, inf), so the fallthrough is
+    unreachable for finite inputs; it exists as a defensive default.
+    """
+    if bf_pct < 0:
+        raise ValueError(f"bf_pct must be non-negative, got {bf_pct}")
     for cat, lo, hi in BF_CATEGORIES[sex]:
         if lo <= bf_pct < hi:
             return cat
+    # Only reachable for bf_pct == inf; classify as OBESITY.
     return BodyFatCategory.OBESITY
 
 

@@ -180,37 +180,6 @@ def apply_periodization(
         rpe = preset.rpe
         sets = we.sets  # start from slot's default
 
-        # Tier 2.25 fix: consult the RIR table from intensity_model to refine
-        # the RPE for the specific exercise + rep range. Previously the RIR
-        # table was decorative (defined but never read). Now we use it to
-        # clamp the preset RPE to a range consistent with the exercise's
-        # intensity tier. The preset RPE is used as the target, but if the
-        # RIR table says the exercise should be at RIR 2-4 (RPE 6-8) for the
-        # given rep range, we don't let the preset push RPE above 8 for
-        # safety on heavy compounds.
-        try:
-            from .intensity_model import get_rir_range, rir_to_rpe
-            # Parse the rep range (e.g. "5-8" → lo=5, hi=8)
-            if "-" in reps and not reps.endswith("min") and not reps.endswith("sec"):
-                parts = reps.split("-")
-                reps_lo = int(parts[0])
-                reps_hi = int(parts[-1])
-                rir_lo, rir_hi = get_rir_range(we.exercise, reps_lo, reps_hi)
-                # Convert RIR range to RPE range (RPE = 10 - RIR)
-                # rir_lo (closer to failure) → rpe_hi; rir_hi (further) → rpe_lo
-                rir_based_rpe_hi = rir_to_rpe(rir_lo, reps_hi)
-                rir_based_rpe_lo = rir_to_rpe(rir_hi, reps_hi)
-                # Clamp the preset RPE to the RIR-based range. This prevents
-                # the preset from prescribing RPE 8.5 on a heavy compound
-                # when the RIR table says it should be RPE 7-8 (RIR 2-3).
-                if rpe > rir_based_rpe_hi:
-                    rpe = rir_based_rpe_hi
-                elif rpe < rir_based_rpe_lo:
-                    rpe = rir_based_rpe_lo
-        except (ValueError, TypeError, Exception):
-            # If RIR lookup fails (e.g. cardio/mobility reps), keep preset RPE
-            pass
-
         # Layer 2: DUP day-type modifier
         if progression == ProgressionScheme.DUP and day_type:
             reps = _modify_reps_for_dup(reps, day_type)
@@ -234,13 +203,42 @@ def apply_periodization(
                 rpe = max(4.0, min(10.0, rpe + mod["rpe_delta"]))
 
         # Layer 4: Deload week — reduce VOLUME, MAINTAIN INTENSITY.
-        # Tier 2.26 fix: previously this layer also lowered RPE by 2, contradicting
-        # intensity_model.apply_deload (which explicitly maintains intensity).
-        # RippedBody's deload protocol is -40% volume with intensity maintained.
-        # Now we only reduce sets (volume), keeping RPE unchanged.
+        # Phase-6 fix: previously this was a flat `sets - 1` which netted to 0
+        # change inside an accumulation mesocycle (block +1, deload -1 = 0).
+        # Now we apply a multiplicative -40% volume reduction (RippedBody
+        # Rule 8.3 spec, intensity_model.apply_deload recipe) computed from
+        # the post-block-modifier value. RPE is unchanged (intensity maintained).
         if is_deload:
-            sets = max(2, sets - 1)
+            sets = max(2, round(sets * 0.6))
             # rpe unchanged — intensity maintained per RippedBody deload protocol
+
+        # Layer 5 (Phase-6 fix): RIR clamp — moved AFTER DUP/block/deload
+        # modifications so it operates on the FINAL rep range. Previously
+        # the clamp used the preset reps (e.g. "5-8") and then DUP transformed
+        # reps to "3-6" for heavy days, leaving RPE clamped against the wrong
+        # rep range (RPE 6-8 instead of the correct RPE 7-9 for 3-6 reps on
+        # a heavy compound).
+        try:
+            from .intensity_model import get_rir_range, rir_to_rpe
+            # Parse the FINAL rep range (post-DUP, post-block) for the clamp.
+            if "-" in reps and not reps.endswith("min") and not reps.endswith("sec"):
+                parts = reps.split("-")
+                reps_lo = int(parts[0])
+                reps_hi = int(parts[-1])
+                rir_lo, rir_hi = get_rir_range(we.exercise, reps_lo, reps_hi)
+                # Convert RIR range to RPE range (RPE = 10 - RIR)
+                rir_based_rpe_hi = rir_to_rpe(rir_lo, reps_hi)
+                rir_based_rpe_lo = rir_to_rpe(rir_hi, reps_hi)
+                # Clamp the (possibly DUP-/block-modified) RPE to the RIR-based
+                # range so heavy compounds aren't prescribed above RPE 9.
+                if rpe > rir_based_rpe_hi:
+                    rpe = rir_based_rpe_hi
+                elif rpe < rir_based_rpe_lo:
+                    rpe = rir_based_rpe_lo
+        except (ValueError, TypeError):
+            # If RIR lookup fails (e.g. cardio/mobility reps), keep preset RPE.
+            # Phase-6: narrowed from bare `Exception` to avoid masking real bugs.
+            pass
 
         we.reps = reps
         we.rest_sec = rest

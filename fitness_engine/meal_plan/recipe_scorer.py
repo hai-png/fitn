@@ -365,9 +365,37 @@ def check_allergens(recipe: Recipe, allergens_to_avoid: list[str]) -> list[str]:
 
 # === Excluded ingredients check ===
 
+# Plant-named phrases that contain an excluded-ingredient keyword as a
+# substring but are themselves distinct ingredients (e.g. excluding "nut"
+# should not match "nutmeg", "coconut", "hazelnut", "peanut" — those are
+# either a spice or different allergen categories). Mirrors the allergen
+# scanner's _PLANT_NAMED_PHRASES_FOR_ALLERGENS list.
+_PLANT_NAMED_PHRASES_FOR_EXCLUDED = (
+    "nutmeg", "coconut", "hazelnut", "peanut", "brazil nut", "walnut",
+    "pecan", "almond", "cashew", "pistachio", "macadamia",
+    "butter lettuce", "butterleaf", "buttercup squash",
+    "cream of tartar", "creamed corn", "coconut cream",
+    "almond butter", "peanut butter", "cashew butter", "sunflower butter",
+    "milk thistle", "milkweed",
+    "eggplant", "eggsplant",
+    # Plant-based alternatives (if a user excludes "egg" or "milk" they
+    # likely still want to allow flax egg, almond milk, etc. unless they
+    # also exclude the plant qualifier)
+    "just egg", "just eggs", "flax egg", "flax eggs", "chia egg", "chia eggs",
+    "egg replacer", "egg substitute", "vegan egg", "vegan eggs",
+    "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk",
+    "cashew milk", "hemp milk", "macadamia milk", "pea milk",
+)
+
+
 def check_excluded_ingredients(recipe: Recipe, excluded_ingredients: list[str]) -> list[str]:
     """
     Check if recipe contains any explicitly excluded ingredients.
+
+    Phase-6 fix: matching now uses word boundaries (so excluding "nut" no
+    longer matches "nutmeg" or "coconut") and respects plant-named phrases
+    (so excluding "egg" doesn't match "eggplant", excluding "cream" doesn't
+    match "cream of tartar"). Mirrors the allergen scanner's Tier 1.4 fix.
 
     Returns list of found excluded ingredients.
     """
@@ -377,8 +405,18 @@ def check_excluded_ingredients(recipe: Recipe, excluded_ingredients: list[str]) 
     found = []
     combined = " ".join(recipe.ingredients).lower()
 
+    # Build a sanitized string with plant-named phrases blanked out.
+    sanitized = combined
+    for phrase in _PLANT_NAMED_PHRASES_FOR_EXCLUDED:
+        sanitized = sanitized.replace(phrase, " " * len(phrase))
+
     for ing in excluded_ingredients:
-        if ing.lower().strip() in combined:
+        ing_lower = ing.lower().strip()
+        if not ing_lower:
+            continue
+        # Word-boundary regex match on the sanitized string.
+        pat = re.compile(r"\b" + re.escape(ing_lower) + r"\b", re.IGNORECASE)
+        if pat.search(sanitized):
             found.append(ing)
 
     return found

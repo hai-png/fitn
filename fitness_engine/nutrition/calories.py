@@ -22,8 +22,8 @@ from ..models.nutrition import CalorieTargets, CalorieStrategy
 KCAL_PER_LB_FAT = 3500
 KCAL_PER_KG_FAT = 7700
 KCAL_PER_LB_MUSCLE = 2500
-SURPLUS_KCAL_PER_LB_PER_MONTH = 150    # bulk w/ +50% NEAT buffer
-SURPLUS_KCAL_PER_KG_PER_MONTH = 330
+SURPLUS_KCAL_PER_LB_PER_MONTH = 150    # daily kcal/lb of monthly gain (bulk w/ +50% NEAT buffer)
+SURPLUS_KCAL_PER_KG_PER_MONTH = 330    # daily kcal/kg of monthly gain
 DEFICIT_KCAL_PER_LB_PER_WEEK = 500
 DEFICIT_KCAL_PER_KG_PER_WEEK = 1100
 
@@ -31,18 +31,20 @@ DEFICIT_KCAL_PER_KG_PER_WEEK = 1100
 MIN_CALORIES = {Sex.FEMALE: 1200, Sex.MALE: 1500}
 
 # === Hard caps ===
-# Tier 4.44 fix: removed MAX_WEEKLY_LOSS_LB and MAX_WEEKLY_LOSS_KG — both were
-# dead code (never referenced; cut_target_calories enforces the cap via
-# MAX_WEEKLY_LOSS_PCT) and inconsistent (2.0 lb = 0.907 kg, not 1.0 kg).
-MAX_WEEKLY_LOSS_PCT = 0.015   # 1.5 % BW/week
+# RED-S protection: 1.0 % BW/week is the documented ceiling for women in
+# active deficit (amenorrhea / bone loss risk above this). 1.5 % is unsafe
+# and has been removed.
+MAX_WEEKLY_LOSS_PCT = 0.010   # 1.0 % BW/week
 
 # === Cut rate tiers (MacroFactor) ===
+# VERY_AGGRESSIVE is clipped to MAX_WEEKLY_LOSS_PCT (1.0 %) at runtime;
+# the tier is retained for API compatibility but its effective rate is capped.
 CUT_RATE_TIERS = {
     CutRateTier.VERY_CONSERVATIVE: 0.0010,   # 0.10 % BW/week
     CutRateTier.CONSERVATIVE:      0.0025,   # 0.25 %
-    CutRateTier.MODERATE:          0.0075,   # 0.50-0.75 %, use upper bound
-    CutRateTier.AGGRESSIVE:        0.0100,   # 1.00 %
-    CutRateTier.VERY_AGGRESSIVE:   0.0150,   # 1.50 %
+    CutRateTier.MODERATE:          0.0075,   # 0.75 %
+    CutRateTier.AGGRESSIVE:        0.0100,   # 1.00 % (= safety cap)
+    CutRateTier.VERY_AGGRESSIVE:   0.0100,   # clipped to 1.00 %
 }
 DEFAULT_CUT_RATE_PCT = 0.0075   # 0.75 % BW/week
 SWEET_SPOT_CUT_RATE_PCT = 0.005  # 0.50 %
@@ -136,8 +138,8 @@ def cut_target_calories(
                     else:
                         rate_pct = 0.005
 
-    # Enforce hard cap
-    capped = rate_pct > MAX_WEEKLY_LOSS_PCT
+    # Enforce hard cap (>= so the VERY_AGGRESSIVE tier is also clipped)
+    capped = rate_pct >= MAX_WEEKLY_LOSS_PCT
     if capped:
         # Tier 2.14 fix: warn the user when their requested rate is clipped
         original_rate = rate_pct

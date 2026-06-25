@@ -70,25 +70,37 @@ class MuscleVolumeLandmarks:
     ml: int                # Maintenance Level
 
 
-# Default landmarks per muscle (RippedBody Table 7.3 + community consensus)
+# Default landmarks per muscle.
+# Phase-6 fix: values now align with Renaissance Periodization (Dr. Mike
+# Israetel) consensus rather than the previous flat MEV=4 heuristic. Source:
+#   - RP "Volume Landmarks" series (Israetel & Hoffmann)
+#   - chest:   MEV=8,  MAV=10-22, MRV=22-24
+#   - back:    MEV=10, MAV=14-22, MRV=25-27  (back needs ~2-3x chest MEV)
+#   - quads:   MEV=8,  MAV=12-20, MRV=20-25
+#   - hamstrings: MEV=6, MAV=10-16, MRV=20
+#   - glutes:  MEV=4,  MAV=8-16,  MRV=20
+#   - shoulders (front delts get a lot from pressing): MEV=6, MAV=8-16, MRV=20
+#   - biceps/triceps: MEV=6, MAV=8-14, MRV=18-20
+#   - calves:  MEV=8,  MAV=10-16, MRV=20-25
+#   - abs:     MEV=6,  MAV=10-20, MRV=20-25
 # Values are sets per week (fractional counting applied).
 DEFAULT_MUSCLE_LANDMARKS: dict[str, MuscleVolumeLandmarks] = {
-    "chest":          MuscleVolumeLandmarks("chest",          4, 10, 20, 30, 6),
-    "back":           MuscleVolumeLandmarks("back",           4, 10, 20, 30, 6),
-    "upper_back":     MuscleVolumeLandmarks("upper_back",     4, 10, 20, 30, 6),
-    "lats":           MuscleVolumeLandmarks("lats",           4, 10, 20, 30, 6),
-    "quads":          MuscleVolumeLandmarks("quads",          4,  8, 16, 25, 5),
-    "hamstrings":     MuscleVolumeLandmarks("hamstrings",     4,  8, 16, 25, 5),
-    "glutes":         MuscleVolumeLandmarks("glutes",         4,  8, 16, 25, 5),
-    "shoulders":      MuscleVolumeLandmarks("shoulders",      4,  8, 16, 25, 5),
-    "triceps":        MuscleVolumeLandmarks("triceps",        3,  6, 12, 20, 4),
-    "biceps":         MuscleVolumeLandmarks("biceps",         3,  6, 12, 20, 4),
-    "calves":         MuscleVolumeLandmarks("calves",         4,  8, 16, 25, 5),
-    "abs":            MuscleVolumeLandmarks("abs",            3,  6, 12, 20, 4),
-    "obliques":       MuscleVolumeLandmarks("obliques",       3,  6, 12, 20, 4),
-    "forearms":       MuscleVolumeLandmarks("forearms",       3,  4,  8, 15, 3),
-    "traps":          MuscleVolumeLandmarks("traps",          3,  6, 12, 20, 4),
-    "lower_back":     MuscleVolumeLandmarks("lower_back",     3,  4,  8, 15, 3),
+    "chest":          MuscleVolumeLandmarks("chest",          8, 10, 22, 24, 8),
+    "back":           MuscleVolumeLandmarks("back",          10, 14, 22, 27, 10),
+    "upper_back":     MuscleVolumeLandmarks("upper_back",    10, 14, 22, 27, 10),
+    "lats":           MuscleVolumeLandmarks("lats",          10, 14, 22, 27, 10),
+    "quads":          MuscleVolumeLandmarks("quads",          8, 12, 20, 25, 8),
+    "hamstrings":     MuscleVolumeLandmarks("hamstrings",     6, 10, 16, 20, 6),
+    "glutes":         MuscleVolumeLandmarks("glutes",         4,  8, 16, 20, 4),
+    "shoulders":      MuscleVolumeLandmarks("shoulders",      6,  8, 16, 20, 6),
+    "triceps":        MuscleVolumeLandmarks("triceps",        6,  8, 14, 18, 6),
+    "biceps":         MuscleVolumeLandmarks("biceps",         6,  8, 14, 20, 6),
+    "calves":         MuscleVolumeLandmarks("calves",         8, 10, 16, 25, 8),
+    "abs":            MuscleVolumeLandmarks("abs",            6, 10, 20, 25, 6),
+    "obliques":       MuscleVolumeLandmarks("obliques",      4,  6, 12, 18, 4),
+    "forearms":       MuscleVolumeLandmarks("forearms",      3,  4,  8, 15, 3),
+    "traps":          MuscleVolumeLandmarks("traps",         4,  6, 12, 18, 4),
+    "lower_back":     MuscleVolumeLandmarks("lower_back",    3,  4,  8, 15, 3),
 }
 
 
