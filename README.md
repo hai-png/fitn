@@ -85,8 +85,6 @@ pytest --cov=fitness_engine  # with coverage report (90%+)
 
 ## Documentation
 
-- [`docs/MOBILE_APP_PLAN.md`](docs/MOBILE_APP_PLAN.md) — comprehensive plan for the all-in-one mobile app
-- [`reports/meal_planning/DESIGN.md`](reports/meal_planning/DESIGN.md) — meal planner design
 - [`reports/meal_planning/coverage_analysis.md`](reports/meal_planning/coverage_analysis.md) — recipe coverage
 - [`reports/rippedbody_insights.md`](reports/rippedbody_insights.md) — domain sources
 

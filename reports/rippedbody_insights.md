@@ -1,6 +1,6 @@
 # RippedBody Insights — Codified Rules for the Fitness Engine
 
-**Source articles** (extracted plain text in `resources/synthesized/`):
+**Source articles**:
 1. `rippedbody.com__how-to-build-training-programs.txt` — "Guide To Program Building For Bodybuilding and Powerlifting" (Helms / Morgan / Valdez, 3rd ed., updated 2025-12-28). Cited below as **[PB]**.
 2. `rippedbody.com__progression.txt` — "How to Make Progress With Your Training" (Andy Morgan, updated 2025-12-28). Cited below as **[PROG]**.
 

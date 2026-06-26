@@ -51,7 +51,6 @@ packages = ["fitness_engine"]
 include = [
     "fitness_engine/",
     "scripts/",
-    "resources/synthesized/",
     "reports/",
     "content_files/all_exercises.json",
     "content_files/videos/",
@@ -79,7 +78,7 @@ markers = [
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-extend-exclude = ["content_files", "resources/synthesized", "download"]
+extend-exclude = ["content_files", "download"]
 
 [tool.ruff.lint]
 select = [
