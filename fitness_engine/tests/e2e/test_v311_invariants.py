@@ -282,7 +282,14 @@ class TestAllergenSafetyInvariants:
             (r"\bwhey\b", "whey"),
             (r"\blactose\b", "lactose"),
         ]
-        plant_qualifiers = ("coconut", "almond", "vegan", "plant-based", "non-dairy", "dairy-free")
+        plant_qualifiers = (
+            "coconut", "almond", "vegan", "plant-based", "non-dairy", "dairy-free",
+            # v3.1.4: added peanut/cashew/sunflower/etc. — "peanut butter" is
+            # peanut, not dairy. The original list was incomplete and flagged
+            # "Peanut Butter (Added after baking)" as a dairy violation.
+            "peanut", "cashew", "sunflower", "soy", "oat", "rice", "hemp",
+            "macadamia", "cocoa", "shea", "mango", "apple", "pumpkin",
+        )
         violations = []
         for day in plan.meal.days:
             for meal in day.meals:

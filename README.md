@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/tests-557%20passing-green.svg)](#testing)
+[![Tests](https://img.shields.io/badge/tests-659%20passing-green.svg)](#testing)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-green.svg)](#testing)
 
 `fitn` produces a unified `FitnessPlan` (nutrition + training + meal plan) from a
@@ -18,7 +18,7 @@ from fitness_engine import UserProfile, assess_profile, propose_plan, PlanPrefer
 
 profile = UserProfile(
     age=30, sex="male", height_cm=178, weight_kg=82,
-    activity_level="moderate",
+    activity_level="lightly_active",
     training_status="intermediate",
     primary_goal="fat_loss",
     training_days_per_week=4,
@@ -78,7 +78,7 @@ propose_plan(profile, assessment, preferences?)  →  FitnessPlan
 ## Testing
 
 ```bash
-pytest                       # full suite (557 tests, ~100s)
+pytest                       # full suite (659 tests, ~100s)
 pytest -m "not integration"  # same — no test carries the integration marker yet
 pytest --cov=fitness_engine  # with coverage report (90%+)
 ```
@@ -93,6 +93,15 @@ pytest --cov=fitness_engine  # with coverage report (90%+)
 - [`reports/rippedbody_insights.md`](reports/rippedbody_insights.md) — domain sources
 - [`reports/CLEANUP_PLAN.md`](reports/CLEANUP_PLAN.md) — historical cleanup log
 
+## Scripts (`scripts/`)
+
+| Script | Purpose |
+|---|---|
+| `curate_recipe_db.py` | Build the curated recipe database from the raw uploaded JSON (v3.1.4). Replaces the legacy `curate_recipes.py`. |
+| `backfill_overviews.py` | Backfill missing `overview` fields in `all_exercises.json` with metadata-derived placeholders (v3.1.2). Idempotent. |
+| `recipe_curator.py` | One-time analysis script: produces `reports/meal_planning/coverage_analysis.{json,md}` showing recipe DB coverage gaps. |
+| `sample_runner.py` | Demo runner — generates 6 sample plans (cut/bulk/recomp × 3 equipment tiers) into `download/`. |
+
 ## Known limitations
 
 - **ABSI z-score** uses 10-year age bands (acknowledged simplification of the
@@ -105,11 +114,6 @@ pytest --cov=fitness_engine  # with coverage report (90%+)
   10.689) because the originally-published coefficient produces
   physiologically impossible values (>200% BF for BMI=25). See
   `assessment/body_composition.py` docstring for verification data points.
-- **Adaptive TDEE** functions are public but not wired into the pipeline
-  (`UserProfile.weight_log_kg` is stubbed out). Use `update_tdee_with_logs`
-  directly if you have intake/weight logs.
-- **Reverse diet** function is public but not wired into `propose_plan` —
-  call `reverse_diet_plan` directly for transition phases.
 
 ## License
 
