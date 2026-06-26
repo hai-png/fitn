@@ -85,20 +85,10 @@ pytest --cov=fitness_engine  # with coverage report (90%+)
 
 ## Documentation
 
-### Audit reports (`docs/audit_reports/`)
-- [`ANALYSIS_v3.1.4.md`](docs/audit_reports/ANALYSIS_v3.1.4.md) — latest critical analysis report + systematic fixes (v3.1.4)
-- [`REAUDIT_v3.1.3.md`](docs/audit_reports/REAUDIT_v3.1.3.md) — re-audit report (v3.1.3)
-- [`ANALYSIS_v3.1.1.md`](docs/audit_reports/ANALYSIS_v3.1.1.md) — original critical analysis report + systematic fixes (v3.1.1)
-- [`CURATE_CRITIQUE.md`](docs/audit_reports/CURATE_CRITIQUE.md) — recipe curation script critique (v3.1.4)
-
-### Design & analysis (`reports/`)
+- [`docs/MOBILE_APP_PLAN.md`](docs/MOBILE_APP_PLAN.md) — comprehensive plan for the all-in-one mobile app
 - [`reports/meal_planning/DESIGN.md`](reports/meal_planning/DESIGN.md) — meal planner design
 - [`reports/meal_planning/coverage_analysis.md`](reports/meal_planning/coverage_analysis.md) — recipe coverage
 - [`reports/rippedbody_insights.md`](reports/rippedbody_insights.md) — domain sources
-- [`reports/CLEANUP_PLAN.md`](reports/CLEANUP_PLAN.md) — historical cleanup log
-
-### Mobile app plan (`docs/`)
-- [`docs/MOBILE_APP_PLAN.md`](docs/MOBILE_APP_PLAN.md) — comprehensive plan for building a mobile app (v3.1.5)
 
 ## Scripts (`scripts/`)
 
