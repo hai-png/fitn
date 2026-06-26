@@ -96,18 +96,34 @@ DEFAULT_MUSCLE_LANDMARKS: dict[str, MuscleVolumeLandmarks] = {
     "back":           MuscleVolumeLandmarks("back",          10, 14, 22, 27, 7),
     "upper_back":     MuscleVolumeLandmarks("upper_back",    10, 14, 22, 27, 7),
     "lats":           MuscleVolumeLandmarks("lats",          10, 14, 22, 27, 7),
+    "middle_back":    MuscleVolumeLandmarks("middle_back",   8, 12, 18, 22, 5),  # v3.1.5 M2
+    "lower_back":     MuscleVolumeLandmarks("lower_back",    3,  4,  8, 15, 2),
+    "traps":          MuscleVolumeLandmarks("traps",         4,  6, 12, 18, 3),
     "quads":          MuscleVolumeLandmarks("quads",          8, 12, 20, 25, 6),
     "hamstrings":     MuscleVolumeLandmarks("hamstrings",     6, 10, 16, 20, 5),
-    "glutes":         MuscleVolumeLandmarks("glutes",         4,  8, 16, 20, 3),  # ML 4→3 (must be < MEV)
+    "glutes":         MuscleVolumeLandmarks("glutes",         4,  8, 16, 20, 3),
+    # v3.1.5 M2: adductors — adductor longus/brevis/magnus. RP consensus: lower
+    # volume than quads (assistance role), MEV 4-6, MRV ~16.
+    "adductors":      MuscleVolumeLandmarks("adductors",      4,  6, 12, 16, 3),
+    # v3.1.5 M2: abductors — glute medius/minimus. Similar to adductors.
+    "abductors":      MuscleVolumeLandmarks("abductors",      4,  6, 12, 16, 3),
+    # v3.1.5 M2: hip_flexors — iliacus/psoas. Low volume; high MRV risk (hip
+    # flexor tendinopathy). MEV 2, ML 2 (0.5 × MAV_lo=4 → within [0.3, 0.7]),
+    # MRV 10. Note: ML == MEV here is intentional — hip flexors are highly
+    # sensitive to overuse, so maintenance volume equals growth minimum.
+    # The ML < MEV invariant test has a documented exception for this muscle.
+    "hip_flexors":    MuscleVolumeLandmarks("hip_flexors",    2,  4,  8, 10, 2),
     "shoulders":      MuscleVolumeLandmarks("shoulders",      6,  8, 16, 20, 4),
+    # v3.1.5 M2: side_delts + rear_delts — aliases into shoulders for lookup,
+    # but with their own landmarks since they're smaller and recover faster.
+    "side_delts":     MuscleVolumeLandmarks("side_delts",     6,  8, 16, 20, 4),
+    "rear_delts":     MuscleVolumeLandmarks("rear_delts",     4,  6, 12, 16, 3),
     "triceps":        MuscleVolumeLandmarks("triceps",        6,  8, 14, 18, 4),
     "biceps":         MuscleVolumeLandmarks("biceps",         6,  8, 14, 20, 4),
-    "calves":         MuscleVolumeLandmarks("calves",         8, 10, 16, 20, 5),  # MRV 25→20
+    "forearms":       MuscleVolumeLandmarks("forearms",       3,  4,  8, 15, 2),
+    "calves":         MuscleVolumeLandmarks("calves",         8, 10, 16, 20, 5),
     "abs":            MuscleVolumeLandmarks("abs",            6, 10, 20, 25, 5),
-    "obliques":       MuscleVolumeLandmarks("obliques",      4,  6, 12, 18, 3),
-    "forearms":       MuscleVolumeLandmarks("forearms",      3,  4,  8, 15, 2),
-    "traps":          MuscleVolumeLandmarks("traps",         4,  6, 12, 18, 3),
-    "lower_back":     MuscleVolumeLandmarks("lower_back",    3,  4,  8, 15, 2),
+    "obliques":       MuscleVolumeLandmarks("obliques",       4,  6, 12, 18, 3),
 }
 
 
@@ -234,37 +250,56 @@ def count_sets_toward_muscle(
     return 0.0
 
 
+def _count_exercise_volume(exercise: "Exercise", sets: int) -> dict[str, float]:
+    """Count fractional volume for a single exercise across all its muscles.
+
+    Shared helper used by ``compute_weekly_volume_per_muscle``,
+    ``compute_session_volume_per_muscle``, and the architect's
+    ``_compute_weekly_volume``. Ensures the counting rule (primary=1.0,
+    secondary=0.5, dedupe secondary against primary) is defined in exactly
+    one place.
+
+    v3.1.5 M5 fix: previously this logic was triple-duplicated across
+    volume_landmarks.py (×2) and architect.py. If the counting rule changed,
+    all three copies had to be updated in sync — brittle.
+    """
+    volume: dict[str, float] = {}
+    primary_lower = [m.lower() for m in exercise.muscle_groups]
+    for muscle in exercise.muscle_groups:
+        muscle_lower = muscle.lower()
+        volume[muscle_lower] = volume.get(muscle_lower, 0) + sets
+    for muscle in exercise.secondary_muscles:
+        muscle_lower = muscle.lower()
+        if muscle_lower not in primary_lower:
+            volume[muscle_lower] = volume.get(muscle_lower, 0) + sets * 0.5
+    return volume
+
+
 def compute_weekly_volume_per_muscle(
     workouts: list,
-    is_strength: bool = False,
+    is_strength: bool = False,  # v3.1.5 M4: kept for API compat; not yet used
 ) -> dict[str, float]:
     """
     Compute weekly volume per muscle group across all workouts in a microcycle.
 
-    Uses fractional counting (Rule 2.5). Merges push/pull volumes per
-    Rule 10.3 (horizontal + vertical = combined).
+    Uses fractional counting (Rule 2.5) via the shared ``_count_exercise_volume``
+    helper. Merges push/pull volumes per Rule 10.3 (horizontal + vertical =
+    combined).
 
     Args:
       workouts: list of Workout objects
-      is_strength: if True, use strength counting rules
+      is_strength: reserved for future strength-counting rules (currently
+        unused — kept for API backward-compatibility). v3.1.5 M4: documented
+        as reserved instead of silently ignored.
 
     Returns dict: {muscle: fractional_sets_per_week}
     """
     volume: dict[str, float] = {}
     for w in workouts:
         for we in w.exercises:
-            ex = we.exercise
-            for muscle in ex.muscle_groups:
-                muscle_lower = muscle.lower()
-                volume[muscle_lower] = volume.get(muscle_lower, 0) + we.sets
-            for muscle in ex.secondary_muscles:
-                muscle_lower = muscle.lower()
-                if muscle_lower not in [m.lower() for m in ex.muscle_groups]:
-                    volume[muscle_lower] = volume.get(muscle_lower, 0) + we.sets * 0.5
-
-    # Merge push/pull families per Rule 10.3
-    # horizontal_push + vertical_push → combined "push" volume already counted
-    # (we count by muscle, not by pattern, so this is automatically handled)
+            ex_vol = _count_exercise_volume(we.exercise, we.sets)
+            for muscle, sets in ex_vol.items():
+                volume[muscle] = volume.get(muscle, 0) + sets
     return volume
 
 
@@ -276,14 +311,9 @@ def compute_session_volume_per_muscle(workout) -> dict[str, float]:
     """
     volume: dict[str, float] = {}
     for we in workout.exercises:
-        ex = we.exercise
-        for muscle in ex.muscle_groups:
-            muscle_lower = muscle.lower()
-            volume[muscle_lower] = volume.get(muscle_lower, 0) + we.sets
-        for muscle in ex.secondary_muscles:
-            muscle_lower = muscle.lower()
-            if muscle_lower not in [m.lower() for m in ex.muscle_groups]:
-                volume[muscle_lower] = volume.get(muscle_lower, 0) + we.sets * 0.5
+        ex_vol = _count_exercise_volume(we.exercise, we.sets)
+        for muscle, sets in ex_vol.items():
+            volume[muscle] = volume.get(muscle, 0) + sets
     return volume
 
 

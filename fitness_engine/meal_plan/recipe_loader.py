@@ -293,6 +293,9 @@ def _parse_recipe(raw: dict, is_curated: bool) -> Recipe:
         fasting_yetsom=bool(raw.get("fasting_yetsom")),
         injera_accompaniment=bool(raw.get("injera_accompaniment")),
         image_url=raw.get("image_url"),
+        # v3.1.5 Task 3: selection reason + top alternatives
+        selection_reason=str(raw.get("selection_reason") or ""),
+        top_alternatives=list(raw.get("top_alternatives") or []),
         notes=notes,
     )
     return _sanitize_recipe(recipe)
@@ -369,8 +372,10 @@ def load_recipes() -> tuple[Recipe, ...]:
             existing = next((x for x in out if x.id == r.id), None)
             if existing is not None and existing.name != r.name:
                 # Namespace collision — rename uncurated to URxxx and keep.
+                # v3.1.5 LOW-11 fix: mutate r.id directly instead of re-parsing
+                # the raw dict (the second _parse_recipe call produced an
+                # identical object — pure waste).
                 original_id = r.id
-                r = _parse_recipe(raw, is_curated=False)
                 r.id = f"U{original_id}"
                 collision_log.append(
                     f"ID collision: curated '{existing.name}' (id={original_id}) "

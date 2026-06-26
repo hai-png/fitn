@@ -191,6 +191,14 @@ class Recipe:
     # === Media ===
     image_url: str | None = None
 
+    # v3.1.5 Task 3: selection reason + top alternatives (computed by the
+    # curate script and attached to each recipe). These surface in the meal
+    # plan output so users understand WHY a recipe was chosen and what else
+    # they could swap to.
+    selection_reason: str = ""              # e.g. "High-protein breakfast for muscle_gain"
+    top_alternatives: list[dict] = field(default_factory=list)
+    # Each alternative dict: {"id": "R042", "name": "...", "kcal": 320, "protein_g": 28, "cuisine": "ethiopian", "similarity": 0.85}
+
     # === Misc ===
     notes: str = ""
     @property
@@ -294,6 +302,10 @@ class Meal:
     target_protein_g: float = 0.0
     target_carb_g: float = 0.0
     target_fat_g: float = 0.0
+    # v3.1.5 LOW-14: target_fiber_g was missing — fiber targets were dropped
+    # during slot→meal conversion. Now preserved end-to-end so the JSON output
+    # and weekly summary can report fiber match percentages.
+    target_fiber_g: float = 0.0
     notes: str = ""
 
     @property

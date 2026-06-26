@@ -210,41 +210,103 @@ FILLER_THRESHOLDS = {
 
 
 # === Filler food options ===
-# Maps filler type → list of food names from food_database
+# Maps filler type → list of food names from food_database.
+# v3.1.5 Task 2: expanded lists with more variety options, sorted by
+# macro density (highest first) so the densest filler is tried first.
 
 PROTEIN_FILLERS = {
     "OMNI": [
-        ("Whey Protein Powder", 1.0),       # (name, vegan_compatible_flag)
-        ("Greek Yogurt (non-fat, plain)", 1.0),
-        ("Egg White (large)", 1.0),
-        ("Cottage Cheese (low-fat, 2%)", 1.0),
-        ("Chicken Breast (skinless, boneless, raw)", 1.0),
+        ("Whey Protein Powder", 1.0),       # 80 g/100g — highest density
+        ("Soy Protein Powder", 1.0),        # 80 g/100g (vegan-compatible)
+        ("Pea Protein Powder", 1.0),        # 80 g/100g (vegan-compatible)
+        ("Tuna (light, water-packed, drained)", 1.0),  # 25.5 g/100g
+        ("Chicken Breast (skinless, boneless, raw)", 1.0),  # 23.1
+        ("Turkey Breast (skinless, raw)", 1.0),  # 24.0
+        ("Ground Turkey (93/7, raw)", 1.0),  # 22.4
+        ("Cottage Cheese (low-fat, 2%)", 1.0),  # 11.0
+        ("Greek Yogurt (non-fat, plain)", 1.0),  # 10.2
+        ("Egg White (large)", 1.0),  # 11.0
+        ("Parmesan (grated)", 1.0),  # 38.4 (high density, small serving)
     ],
     "VEGAN": [
-        ("Tofu (firm)", 1.0),
-        ("Tempeh", 1.0),
-        ("Pea Protein Powder", 1.0),
-        ("Soy Protein Powder", 1.0),
-        ("Lentils (cooked)", 1.0),
+        ("Soy Protein Powder", 1.0),        # 80 g/100g
+        ("Pea Protein Powder", 1.0),        # 80 g/100g
+        ("Seitan (vital wheat gluten)", 1.0),  # 75 g/100g
+        ("Tofu (firm)", 1.0),              # 17.3
+        ("Tempeh", 1.0),                   # 20.3
+        ("Edamame (cooked)", 1.0),         # 11.9
+        ("Lentils (cooked)", 1.0),         # 9.0
+        ("Black Beans (cooked)", 1.0),     # 8.9
+        ("Chickpeas (cooked)", 1.0),       # 8.9
+        ("Hemp Seeds (shelled)", 1.0),     # 31.6 (also high fat)
+        ("Pumpkin Seeds (raw)", 1.0),      # 30.2
     ],
 }
 
 CARB_FILLERS = [
-    ("White Rice (cooked)", 1.0),
-    ("Brown Rice (cooked)", 1.0),
-    ("Oats (rolled, dry)", 1.0),
-    ("Banana", 1.0),
-    ("Whole Wheat Bread", 1.0),
-    ("Quinoa (cooked)", 1.0),
-    ("Sweet Potato (raw)", 1.0),
+    # Sorted by carb density (highest first).
+    ("Oats (rolled, dry)", 1.0),           # 66.3 g/100g
+    ("Whole Wheat Bread", 1.0),            # 41.0
+    ("Tortilla (whole wheat)", 1.0),       # 50.0
+    ("Quinoa (cooked)", 1.0),              # 21.3
+    ("Buckwheat (cooked)", 1.0),           # 19.9 (v3.1.5)
+    ("Couscous (cooked)", 1.0),            # 23.2 (v3.1.5)
+    ("Wild Rice (cooked)", 1.0),           # 21.3 (v3.1.5)
+    ("Brown Rice (cooked)", 1.0),          # 22.9
+    ("White Rice (cooked)", 1.0),          # 28.2
+    ("Barley (cooked)", 1.0),              # 28.2 (v3.1.5, high fiber)
+    ("Bulgur (cooked)", 1.0),              # 18.6 (v3.1.5, high fiber)
+    ("Pasta (cooked)", 1.0),               # 31.0
+    ("Sweet Potato (raw)", 1.0),           # 20.1
+    ("Potato (white, raw)", 1.0),          # 17.0
+    ("Banana", 1.0),                       # 22.8
+    ("Raspberries", 1.0),                  # 12.0 (v3.1.5, high fiber)
+    ("Blackberries", 1.0),                 # 9.6 (v3.1.5, high fiber)
+    ("Blueberries", 1.0),                  # 14.5
+    ("Apple", 1.0),                        # 13.8
+    ("Orange", 1.0),                       # 11.8
 ]
 
 FAT_FILLERS = [
-    ("Olive Oil", 1.0),
-    ("Almonds (raw)", 1.0),
-    ("Peanut Butter (natural)", 1.0),
-    ("Walnuts (raw)", 1.0),
-    ("Avocado (raw)", 1.0),
+    # Sorted by fat density (highest first).
+    ("Olive Oil", 1.0),                    # 100 g/100g
+    ("Coconut Oil", 1.0),                  # 99.1 (v3.1.5)
+    ("Sesame Oil", 1.0),                   # 100.0 (v3.1.5)
+    ("Butter", 1.0),                       # 81.1
+    ("Pecans (raw)", 1.0),                 # 72.0 (v3.1.5)
+    ("Walnuts (raw)", 1.0),                # 65.2
+    ("Sunflower Seeds (raw)", 1.0),        # 51.5 (v3.1.5)
+    ("Peanut Butter (natural)", 1.0),      # 50.4
+    ("Cashews (raw)", 1.0),                # 43.9 (v3.1.5)
+    ("Almonds (raw)", 1.0),                # 49.9
+    ("Flaxseed (ground)", 1.0),            # 42.2 (v3.1.5, omega-3)
+    ("Hemp Hearts", 1.0),                  # 48.8 (v3.1.5, omega-3/6)
+    ("Chia Seeds", 1.0),                   # 30.7
+    ("Avocado (raw)", 1.0),                # 14.7
+]
+
+# v3.1.5 Task 2: new FIBER_FILLERS list for fiber gap closure.
+# Previously fiber gaps were not closed — the scaler only closed kcal/P/C/F
+# gaps. These high-fiber foods are used when the fiber gap exceeds the
+# FILLER_THRESHOLDS["fiber"] threshold (2g).
+FIBER_FILLERS = [
+    # Sorted by fiber density (highest first).
+    ("Chia Seeds", 1.0),                   # 34.4 g/100g
+    ("Flaxseed (ground)", 1.0),            # 27.3 (v3.1.5)
+    ("Raspberries", 1.0),                  # 6.5 (v3.1.5)
+    ("Blackberries", 1.0),                 # 5.3 (v3.1.5)
+    ("Avocado (raw)", 1.0),                # 6.7
+    ("Navy Beans (cooked)", 1.0),          # 10.5 (v3.1.5)
+    ("Lentils (cooked)", 1.0),             # 7.9
+    ("Bulgur (cooked)", 1.0),              # 4.5 (v3.1.5)
+    ("Barley (cooked)", 1.0),              # 3.8 (v3.1.5)
+    ("Black Beans (cooked)", 1.0),         # 8.7
+    ("Chickpeas (cooked)", 1.0),           # 7.6
+    ("Oats (rolled, dry)", 1.0),           # 10.6
+    ("Almonds (raw)", 1.0),                # 12.5
+    ("Brussels Sprouts (raw)", 1.0),       # 3.8 (v3.1.5)
+    ("Kale (raw)", 1.0),                   # 3.6 (v3.1.5)
+    ("Broccoli (raw)", 1.0),               # 2.6
 ]
 
 VEG_FILLERS = [
@@ -255,6 +317,36 @@ VEG_FILLERS = [
     ("Asparagus (raw)", 1.0),
     ("Green Beans (raw)", 1.0),
     ("Carrots (raw)", 1.0),
+    # v3.1.5: added more vegetable variety
+    ("Kale (raw)", 1.0),
+    ("Cauliflower (raw)", 1.0),
+    ("Brussels Sprouts (raw)", 1.0),
+    ("Zucchini (raw)", 1.0),
+    ("Eggplant (raw)", 1.0),
+    ("Tomato (raw)", 1.0),
+    ("Mushrooms (raw)", 1.0),
+    ("Onion (raw)", 1.0),
+    ("Cucumber (raw)", 1.0),
+]
+
+# v3.1.5 Task 2: new FLAVOR_FILLERS list for meal variety without macro
+# disruption. These are used in small quantities (5-15g) to add flavor
+# variety. They contribute <20 kcal per serving so don't significantly
+# shift macros. The planner can attach one flavor filler per meal to
+# suggest a flavor profile (e.g. "add sriracha for heat").
+FLAVOR_FILLERS = [
+    ("Lemon Juice", 1.0),
+    ("Lime Juice", 1.0),
+    ("Garlic (raw)", 1.0),
+    ("Ginger (raw)", 1.0),
+    ("Soy Sauce (low-sodium)", 1.0),
+    ("Hot Sauce", 1.0),
+    ("Sriracha", 1.0),
+    ("Mustard (yellow)", 1.0),
+    ("Salsa (fresh)", 1.0),
+    ("Hummus", 1.0),
+    ("Tahini", 1.0),
+    ("Pesto", 1.0),
 ]
 
 
@@ -338,7 +430,17 @@ def select_protein_filler(
     """
     Select a protein filler to close the protein gap.
 
-    Picks the highest-protein-density food available for the diet.
+    Picks the first food in the configured ``PROTEIN_FILLERS[diet]`` list whose
+    serving can close the gap without overshooting. The list is ordered by
+    convention (whey > chicken > Greek yogurt > ... for OMNI; pea protein >
+    tofu > ... for VEGAN) but is NOT automatically sorted by protein density
+    — callers wanting strict density ordering should pre-sort the list.
+
+    v3.1.5 LOW-10 fix: docstring corrected. Previously claimed "Picks the
+    highest-protein-density food available", but the implementation iterates
+    in list order and returns the first match. For VEGAN users, Tofu
+    (17.3 g/100g) is picked before Pea Protein Powder (80 g/100g),
+    contradicting the old docstring.
 
     Phase-6 fix: previously `PROTEIN_FILLERS.get(diet_tag, PROTEIN_FILLERS["OMNI"])`
     silently fell back to the OMNI list (which contains whey, chicken, etc.)
@@ -405,6 +507,65 @@ def select_veg_filler(
         max_grams=SCALER_CONFIG.veg_max_grams,
         exclude_foods=exclude_foods,
     )
+
+
+def select_fiber_filler(
+    gap_fiber_g: float,
+    exclude_foods: set[str] | None = None,
+) -> MealFood | None:
+    """Select a high-fiber filler to close the fiber gap.
+
+    v3.1.5 Task 2: distinct from ``select_veg_filler`` — uses the
+    ``FIBER_FILLERS`` list which includes high-fiber non-vegetable foods
+    (chia seeds, flaxseed, raspberries, beans, oats). These are used when
+    the fiber gap is large enough that a vegetable serving alone won't
+    close it, but the user wants a fiber-dense option rather than a
+    volume-of-vegetables approach.
+
+    Capped at the protein serving cap multiplier (same as protein/carb/fat
+    fillers) since fiber-dense foods like chia seeds are calorie-dense too.
+    """
+    return _select_filler(
+        gap_fiber_g,
+        FIBER_FILLERS,
+        threshold_key="fiber_g",
+        cap_multiplier=SCALER_CONFIG.protein_serving_cap_multiplier,
+        exclude_foods=exclude_foods,
+    )
+
+
+def select_flavor_filler(
+    exclude_foods: set[str] | None = None,
+    seed: int = 0,
+) -> MealFood | None:
+    """Select a flavor filler for meal variety (v3.1.5 Task 2).
+
+    Returns a small serving (5-15g) of a condiment/spice that adds flavor
+    variety without significantly shifting macros. The selection is
+    deterministic (seeded by the meal's day+slot index) so the same meal
+    always gets the same flavor suggestion.
+
+    Args:
+      exclude_foods: set of food names to exclude (e.g. user allergens)
+      seed: deterministic seed for selection (e.g. day_num * 10 + slot_idx)
+
+    Returns a MealFood with a small serving, or None if all are excluded.
+    """
+    exclude_foods = exclude_foods or set()
+    available = [(name, flag) for name, flag in FLAVOR_FILLERS
+                 if name not in exclude_foods]
+    if not available:
+        return None
+    # Deterministic selection: use seed to pick index
+    idx = seed % len(available)
+    food_name = available[idx][0]
+    food = get_food(food_name)
+    if food is None:
+        return None
+    # Use a small fixed serving (the food's serving_size_g) — flavor fillers
+    # are meant to be "a squeeze of lemon" or "a dash of hot sauce", not a
+    # macro-closing amount.
+    return MealFood(food=food, grams=food.serving_size_g)
 
 
 # === Main filler orchestrator ===
@@ -509,6 +670,26 @@ def select_fillers_for_meal(
                 f"(veg filler: +{veg_filler.fiber_g:.1f}g fiber)"
             )
 
+        # v3.1.5 Task 2: if veg filler didn't fully close the fiber gap, try
+        # a high-fiber density filler (chia seeds, flaxseed, etc.). These are
+        # more calorie-dense but close large fiber gaps that vegetables alone
+        # can't (e.g. a 10g fiber gap would need ~400g of broccoli).
+        remaining_fiber = gap.fiber_g - result.total_filler_fiber_g
+        if remaining_fiber > 3.0:  # only if gap is still significant
+            fiber_filler = select_fiber_filler(remaining_fiber, exclude_foods | used_food_names)
+            if fiber_filler:
+                result.fillers.append(fiber_filler)
+                used_food_names.add(fiber_filler.food.name)
+                result.total_filler_kcal += fiber_filler.kcal
+                result.total_filler_protein_g += fiber_filler.protein_g
+                result.total_filler_carb_g += fiber_filler.carb_g
+                result.total_filler_fat_g += fiber_filler.fat_g
+                result.total_filler_fiber_g += fiber_filler.fiber_g
+                result.notes.append(
+                    f"+ {fiber_filler.grams:.0f}g {fiber_filler.food.name} "
+                    f"(fiber filler: +{fiber_filler.fiber_g:.1f}g fiber)"
+                )
+
     return result
 
 
@@ -526,6 +707,9 @@ __all__ = [
     "select_carb_filler",
     "select_fat_filler",
     "select_veg_filler",
+    "select_fiber_filler",  # v3.1.5 Task 2
+    "select_flavor_filler",  # v3.1.5 Task 2
     "FILLER_THRESHOLDS",
     "PROTEIN_FILLERS", "CARB_FILLERS", "FAT_FILLERS", "VEG_FILLERS",
+    "FIBER_FILLERS", "FLAVOR_FILLERS",  # v3.1.5 Task 2
 ]

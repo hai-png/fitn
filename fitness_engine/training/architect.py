@@ -609,15 +609,18 @@ def _compute_weekly_volume(workouts: list[Workout]) -> dict[str, int]:
 
     Primary muscles get full credit; secondary muscles get 0.5x credit
     (so a bench press doesn't credit full sets to triceps).
+
+    v3.1.5 M5 fix: delegates to the shared ``_count_exercise_volume`` helper
+    in volume_landmarks.py so the counting rule is defined in exactly one
+    place. Previously this was the third copy of the same logic.
     """
+    from .volume_landmarks import _count_exercise_volume
     volume: dict[str, float] = {}
     for w in workouts:
         for we in w.exercises:
-            for mg in we.exercise.muscle_groups:
-                volume[mg] = volume.get(mg, 0) + we.sets
-            for mg in we.exercise.secondary_muscles:
-                if mg not in we.exercise.muscle_groups:
-                    volume[mg] = volume.get(mg, 0) + we.sets * 0.5
+            ex_vol = _count_exercise_volume(we.exercise, we.sets)
+            for muscle, sets in ex_vol.items():
+                volume[muscle] = volume.get(muscle, 0) + sets
     return {k: round(v) for k, v in volume.items()}
 
 

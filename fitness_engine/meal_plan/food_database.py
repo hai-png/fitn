@@ -157,6 +157,127 @@ FOODS = [
              1, 0.1, 0, 0, 0, 240, "1 cup (~240mL)", is_vegan=True),
     FoodItem("Green Tea", FoodCategory.BEVERAGE,
              1, 0, 0, 0, 0, 240, "1 cup (~240mL)", is_vegan=True),
+
+    # v3.1.5 Task 2: Expanded filler selection for macro adjustment + variety.
+    # These additions close coverage gaps in the original 50-food set:
+    #   - More plant proteins (vegan variety)
+    #   - High-fiber carb options (fiber gap closure)
+    #   - Healthy fat diversity (omega-3, MCT)
+    #   - Flavor/condiment foods (variety without macro disruption)
+
+    # === Additional plant proteins (vegan variety) ===
+    FoodItem("Hemp Seeds (shelled)", FoodCategory.PROTEIN_PLANT,
+             553, 31.6, 8.7, 48.8, 4.0, 30, "1 oz (~30g)", is_vegan=True),
+    FoodItem("Pumpkin Seeds (raw)", FoodCategory.PROTEIN_PLANT,
+             574, 30.2, 14.7, 49.0, 6.0, 30, "1 oz (~30g)", is_vegan=True),
+    FoodItem("Black Beans (canned, drained)", FoodCategory.PROTEIN_PLANT,
+             91, 6.0, 16.6, 0.3, 6.4, 130, "1/2 cup (~130g)", is_vegan=True),
+    FoodItem("Kidney Beans (cooked)", FoodCategory.PROTEIN_PLANT,
+             127, 8.7, 22.8, 0.5, 6.4, 200, "1 cup (~200g)", is_vegan=True),
+    FoodItem("Navy Beans (cooked)", FoodCategory.PROTEIN_PLANT,
+             140, 8.0, 26.0, 0.6, 10.5, 200, "1 cup (~200g)", is_vegan=True),
+
+    # === High-fiber carb options (fiber gap closure) ===
+    FoodItem("Barley (cooked)", FoodCategory.CARB_GRAIN,
+             123, 2.3, 28.2, 0.4, 3.8, 200, "1 cup (~200g)", is_vegan=True),
+    FoodItem("Buckwheat (cooked)", FoodCategory.CARB_GRAIN,
+             92, 3.4, 19.9, 0.6, 2.7, 200, "1 cup (~200g)", is_vegan=True),
+    FoodItem("Bulgur (cooked)", FoodCategory.CARB_GRAIN,
+             83, 3.1, 18.6, 0.2, 4.5, 200, "1 cup (~200g)", is_vegan=True),
+    FoodItem("Couscous (cooked)", FoodCategory.CARB_GRAIN,
+             112, 3.8, 23.2, 0.2, 1.4, 200, "1 cup (~200g)", is_vegan=True),
+    FoodItem("Wild Rice (cooked)", FoodCategory.CARB_GRAIN,
+             101, 4.0, 21.3, 0.3, 1.8, 200, "1 cup (~200g)", is_vegan=True),
+    FoodItem("Raspberries", FoodCategory.CARB_FRUIT,
+             52, 1.2, 12.0, 0.7, 6.5, 100, "1 cup (~100g)", is_vegan=True),
+    FoodItem("Blackberries", FoodCategory.CARB_FRUIT,
+             43, 1.4, 9.6, 0.5, 5.3, 100, "1 cup (~100g)", is_vegan=True),
+    FoodItem("Avocado (Hass, raw)", FoodCategory.FAT_OIL,
+             160, 2.0, 8.5, 14.7, 6.7, 150, "1 medium (~150g)", is_vegan=True),
+
+    # === Healthy fat diversity (omega-3, MCT, etc.) ===
+    FoodItem("Flaxseed (ground)", FoodCategory.FAT_NUT_SEED,
+             534, 18.3, 28.9, 42.2, 27.3, 10, "1 tbsp (~10g)", is_vegan=True),
+    FoodItem("Hemp Hearts", FoodCategory.FAT_NUT_SEED,
+             553, 31.6, 8.7, 48.8, 4.0, 30, "1 oz (~30g)", is_vegan=True),
+    FoodItem("Cashews (raw)", FoodCategory.FAT_NUT_SEED,
+             553, 18.2, 30.2, 43.9, 3.3, 30, "1 oz (~30g)", is_vegan=True),
+    FoodItem("Pecans (raw)", FoodCategory.FAT_NUT_SEED,
+             691, 9.2, 13.9, 72.0, 9.6, 30, "1 oz (~30g)", is_vegan=True),
+    FoodItem("Sunflower Seeds (raw)", FoodCategory.FAT_NUT_SEED,
+             584, 20.8, 20.0, 51.5, 8.6, 30, "1 oz (~30g)", is_vegan=True),
+    FoodItem("Coconut Oil", FoodCategory.FAT_OIL,
+             892, 0, 0, 99.1, 0, 14, "1 tbsp (~14g)", is_vegan=True),
+    FoodItem("Sesame Oil", FoodCategory.FAT_OIL,
+             884, 0, 0, 100.0, 0, 14, "1 tbsp (~14g)", is_vegan=True),
+
+    # === Additional vegetables (variety + micronutrients) ===
+    FoodItem("Kale (raw)", FoodCategory.VEGETABLE,
+             49, 4.3, 9.0, 0.9, 3.6, 67, "1 cup (~67g)", is_vegan=True),
+    FoodItem("Cauliflower (raw)", FoodCategory.VEGETABLE,
+             25, 1.9, 5.0, 0.3, 2.0, 100, "1 cup (~100g)", is_vegan=True),
+    FoodItem("Brussels Sprouts (raw)", FoodCategory.VEGETABLE,
+             43, 3.4, 9.0, 0.3, 3.8, 88, "1 cup (~88g)", is_vegan=True),
+    FoodItem("Zucchini (raw)", FoodCategory.VEGETABLE,
+             17, 1.2, 3.1, 0.3, 1.0, 100, "1 cup (~100g)", is_vegan=True),
+    FoodItem("Eggplant (raw)", FoodCategory.VEGETABLE,
+             25, 1.0, 6.0, 0.2, 2.5, 100, "1 cup (~100g)", is_vegan=True),
+    FoodItem("Tomato (raw)", FoodCategory.VEGETABLE,
+             18, 0.9, 3.9, 0.2, 1.2, 100, "1 medium (~100g)", is_vegan=True),
+    FoodItem("Sweet Potato (orange, raw)", FoodCategory.CARB_STARCHY_VEG,
+             86, 1.6, 20.1, 0.1, 3.0, 150, "1 medium (~150g)", is_vegan=True),
+
+    # === Flavor/condiment foods (variety without macro disruption) ===
+    # These are used in small quantities (5-15g) to add flavor variety.
+    # They contribute <20 kcal per serving so don't significantly shift macros.
+    FoodItem("Lemon Juice", FoodCategory.CONDIMENT,
+             22, 0.4, 6.9, 0.2, 2.8, 15, "1 tbsp (~15mL)", is_vegan=True),
+    FoodItem("Lime Juice", FoodCategory.CONDIMENT,
+             25, 0.7, 8.0, 0.2, 2.8, 15, "1 tbsp (~15mL)", is_vegan=True),
+    FoodItem("Garlic (raw)", FoodCategory.CONDIMENT,
+             149, 6.4, 33.1, 0.5, 2.1, 10, "1 clove (~10g)", is_vegan=True),
+    FoodItem("Ginger (raw)", FoodCategory.CONDIMENT,
+             80, 1.8, 17.8, 0.8, 2.0, 10, "1 tbsp (~10g)", is_vegan=True),
+    FoodItem("Soy Sauce (low-sodium)", FoodCategory.CONDIMENT,
+             53, 8.1, 4.9, 0.6, 0.8, 15, "1 tbsp (~15mL)", is_vegan=True),
+    FoodItem("Hot Sauce", FoodCategory.CONDIMENT,
+             11, 0.4, 2.3, 0.7, 0.4, 5, "1 tsp (~5mL)", is_vegan=True),
+    FoodItem("Sriracha", FoodCategory.CONDIMENT,
+             99, 1.9, 19.7, 1.4, 1.6, 15, "1 tbsp (~15g)", is_vegan=True),
+    FoodItem("Mustard (yellow)", FoodCategory.CONDIMENT,
+             66, 4.4, 5.3, 4.0, 2.0, 10, "1 tbsp (~10g)", is_vegan=True),
+    FoodItem("Salsa (fresh)", FoodCategory.CONDIMENT,
+             36, 1.7, 7.1, 0.3, 1.9, 30, "2 tbsp (~30g)", is_vegan=True),
+    FoodItem("Hummus", FoodCategory.CONDIMENT,
+             166, 7.9, 14.3, 9.6, 6.0, 30, "2 tbsp (~30g)", is_vegan=True),
+    FoodItem("Tahini", FoodCategory.CONDIMENT,
+             595, 17.0, 21.0, 54.0, 9.3, 15, "1 tbsp (~15g)", is_vegan=True),
+    FoodItem("Pesto", FoodCategory.CONDIMENT,
+             291, 5.3, 5.9, 28.5, 2.6, 15, "1 tbsp (~15g)", is_vegan=True),
+
+    # === Additional dairy / eggs (OMNI variety) ===
+    FoodItem("Feta Cheese", FoodCategory.DAIRY,
+             264, 14.2, 4.1, 21.3, 0, 30, "1 oz (~30g)"),
+    FoodItem("Mozzarella (part-skim)", FoodCategory.DAIRY,
+             254, 24.3, 2.8, 17.0, 0, 30, "1 oz (~30g)"),
+    FoodItem("Parmesan (grated)", FoodCategory.DAIRY,
+             431, 38.4, 4.1, 28.7, 0, 10, "1 tbsp (~10g)"),
+    FoodItem("Ricotta (part-skim)", FoodCategory.DAIRY,
+             174, 11.3, 5.0, 12.0, 0, 120, "1/2 cup (~120g)"),
+
+    # === Additional animal proteins (OMNI variety) ===
+    FoodItem("Ground Turkey (93/7, raw)", FoodCategory.PROTEIN_ANIMAL,
+             149, 22.4, 0, 7.0, 0, 150, "1 serving (~150g)"),
+    FoodItem("Pork Tenderloin (raw)", FoodCategory.PROTEIN_ANIMAL,
+             143, 26.0, 0, 3.5, 0, 150, "1 serving (~150g)"),
+    FoodItem("Lamb (leg, raw)", FoodCategory.PROTEIN_ANIMAL,
+             217, 26.0, 0, 12.5, 0, 150, "1 serving (~150g)"),
+    FoodItem("Sardines (canned, oil-packed)", FoodCategory.PROTEIN_ANIMAL,
+             208, 24.6, 0, 11.5, 0, 90, "1 can (~90g)"),
+    FoodItem("Mackerel (canned)", FoodCategory.PROTEIN_ANIMAL,
+             205, 23.0, 0, 12.0, 0, 90, "1 can (~90g)"),
+    FoodItem("Trout (raw)", FoodCategory.PROTEIN_ANIMAL,
+             168, 20.0, 0, 9.0, 0, 150, "1 fillet (~150g)"),
 ]
 
 

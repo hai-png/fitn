@@ -210,9 +210,11 @@ class UserProfile:
         # gets a clear, immediate error pointing at the bad entry.
         import math as _math
         for i, v in enumerate(self.weight_log_kg):
-            if not isinstance(v, (int, float)):
+            # v3.1.5 LOW-10: reject bool (bool subclasses int, so
+            # isinstance(True, int) is True — True would silently become 1.0 kg).
+            if isinstance(v, bool) or not isinstance(v, (int, float)):
                 raise ValueError(
-                    f"weight_log_kg[{i}] must be a number, got {type(v).__name__}: {v!r}"
+                    f"weight_log_kg[{i}] must be a number (not bool), got {type(v).__name__}: {v!r}"
                 )
             if _math.isnan(v) or _math.isinf(v):
                 raise ValueError(
@@ -223,9 +225,10 @@ class UserProfile:
                     f"weight_log_kg[{i}] must be in [30, 300] kg, got {v}"
                 )
         for i, v in enumerate(self.intake_log_kcal):
-            if not isinstance(v, (int, float)):
+            # v3.1.5 LOW-10: reject bool (same as weight_log_kg).
+            if isinstance(v, bool) or not isinstance(v, (int, float)):
                 raise ValueError(
-                    f"intake_log_kcal[{i}] must be a number, got {type(v).__name__}: {v!r}"
+                    f"intake_log_kcal[{i}] must be a number (not bool), got {type(v).__name__}: {v!r}"
                 )
             if _math.isnan(v) or _math.isinf(v):
                 raise ValueError(

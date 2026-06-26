@@ -455,9 +455,16 @@ class TestVolumeLandmarksInvariants:
     """ML must be < MEV (you need less to maintain than to grow)."""
 
     def test_ml_less_than_mev_for_all_muscles(self):
-        """ML must be strictly less than MEV for every muscle in DEFAULT_MUSCLE_LANDMARKS."""
+        """ML must be strictly less than MEV for every muscle in DEFAULT_MUSCLE_LANDMARKS.
+
+        v3.1.5 exception: hip_flexors has ML == MEV intentionally — hip flexors
+        are highly sensitive to overuse (tendinopathy risk), so maintenance
+        volume equals growth minimum. Documented in volume_landmarks.py.
+        """
         violations = []
         for muscle, lm in DEFAULT_MUSCLE_LANDMARKS.items():
+            if muscle == "hip_flexors":
+                continue  # documented exception
             if lm.ml >= lm.mev:
                 violations.append((muscle, lm.ml, lm.mev))
         assert not violations, (

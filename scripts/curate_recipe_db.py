@@ -699,6 +699,123 @@ def select_recipes(
 # PHASE 7: SCHEMA-A → SCHEMA-B TRANSFORMATION
 # ══════════════════════════════════════════════════════════════════
 
+def compute_selection_reason(r: dict, goal_fit: list[str], all_recipes: list[dict]) -> str:
+    """Compute a human-readable selection reason for a recipe.
+
+    v3.1.5 Task 3: tags each recipe with WHY it was chosen, combining:
+      - Cuisine (Ethiopian vs other)
+      - Macro profile (high-protein, low-cal, high-cal, balanced)
+      - Goal fit (cut/bulk/recomp/maintenance)
+      - Meal-type coverage (breakfast/lunch/dinner/snack/dessert/shake)
+      - Diet tag (vegan/omni)
+    """
+    parts = []
+    is_eth = is_ethiopian_recipe(r)
+    if is_eth:
+        parts.append("Ethiopian cuisine")
+
+    cal = r.get("calories", 0)
+    prot = r.get("protein_g", 0)
+    # Macro profile
+    if prot >= 50 and cal >= 500:
+        parts.append("High-protein high-calorie")
+    elif prot >= 40:
+        parts.append("High-protein")
+    elif cal <= 200 and prot >= 20:
+        parts.append("Protein-dense low-calorie")
+    elif cal >= 600:
+        parts.append("High-calorie option")
+    elif cal <= 250:
+        parts.append("Low-calorie")
+
+    # Goal fit
+    if goal_fit:
+        if "cut" in goal_fit and "bulk" not in goal_fit:
+            parts.append("for cutting")
+        elif "bulk" in goal_fit and "cut" not in goal_fit:
+            parts.append("for bulking")
+        elif "recomp" in goal_fit:
+            parts.append("for recomp")
+        elif "maintenance" in goal_fit and len(goal_fit) == 1:
+            parts.append("for maintenance")
+
+    # Meal type
+    meal_types = r.get("meal_type", [])
+    if "breakfast" in meal_types:
+        parts.append("breakfast option")
+    elif "shake" in meal_types:
+        parts.append("protein shake")
+    elif "snack" in meal_types:
+        parts.append("snack option")
+    elif "dessert" in meal_types:
+        parts.append("dessert option")
+
+    # Diet
+    diet_tags = [d.upper() for d in r.get("diet_tags", [])]
+    if any(d.startswith("VEGAN") for d in diet_tags):
+        parts.append("(vegan)")
+
+    return "; ".join(parts) if parts else "General recipe"
+
+
+def compute_top_alternatives(
+    r: dict, all_recipes: list[dict], top_n: int = 5,
+) -> list[dict]:
+    """Compute top-N alternative recipes for a given recipe.
+
+    v3.1.5 Task 3: finds the most similar recipes by:
+      - Meal type overlap (30% weight)
+      - Calorie similarity (25% weight)
+      - Protein similarity (25% weight)
+      - Cuisine match (20% weight)
+
+    Returns a list of dicts: {"id", "name", "kcal", "protein_g", "cuisine",
+    "similarity"} sorted by similarity descending.
+    """
+    r_mt = set(r.get("meal_type", []))
+    r_cal = r.get("calories", 0)
+    r_prot = r.get("protein_g", 0)
+    r_cuisine = r.get("cuisine", "")
+    r_id = r.get("_recipe_id", "")  # set by caller before this function
+
+    scored = []
+    for other in all_recipes:
+        if other.get("title") == r.get("title"):
+            continue  # skip self
+        other_mt = set(other.get("meal_type", []))
+        # Must share at least one meal type
+        if not (r_mt & other_mt):
+            continue
+        # Similarity scores (0-1)
+        other_cal = other.get("calories", 0)
+        other_prot = other.get("protein_g", 0)
+        # Calorie similarity: 1.0 when equal, 0.0 when 2× apart
+        cal_sim = max(0, 1 - abs(r_cal - other_cal) / max(r_cal, other_cal, 1))
+        # Protein similarity
+        prot_sim = max(0, 1 - abs(r_prot - other_prot) / max(r_prot, other_prot, 1))
+        # Meal type overlap (Jaccard)
+        mt_sim = len(r_mt & other_mt) / max(len(r_mt | other_mt), 1)
+        # Cuisine match
+        cuisine_sim = 1.0 if r_cuisine == other.get("cuisine", "") else 0.0
+        # Weighted total
+        total = (mt_sim * 0.30 + cal_sim * 0.25 + prot_sim * 0.25 +
+                 cuisine_sim * 0.20)
+        scored.append((total, other))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    alternatives = []
+    for sim, other in scored[:top_n]:
+        alternatives.append({
+            "id": other.get("_recipe_id", ""),
+            "name": other.get("title", ""),
+            "kcal": round(other.get("calories", 0), 0),
+            "protein_g": round(other.get("protein_g", 0), 0),
+            "cuisine": other.get("cuisine", ""),
+            "similarity": round(sim, 3),
+        })
+    return alternatives
+
+
 def transform_to_engine_schema(
     selected: list[dict], start_id: int = 1,
 ) -> tuple[list[dict], list[str]]:
@@ -706,14 +823,22 @@ def transform_to_engine_schema(
 
     Returns (transformed_recipes, audit_warnings).
     Assigns recipe IDs R001, R002, … in sorted order (by source then title).
+
+    v3.1.5 Task 3: also computes ``selection_reason`` and ``top_alternatives``
+    for each recipe and attaches them to the output.
     """
     warnings: list[str] = []
     # Sort for deterministic ID assignment
     selected_sorted = sorted(selected, key=lambda r: (r.get("source", ""), r.get("title", "")))
 
-    transformed = []
+    # v3.1.5 Task 3: pre-assign recipe IDs so we can compute alternatives
+    # that reference them.
     for i, r in enumerate(selected_sorted, start=start_id):
-        recipe_id = f"R{i:03d}"
+        r["_recipe_id"] = f"R{i:03d}"
+
+    transformed = []
+    for r in selected_sorted:
+        recipe_id = r["_recipe_id"]
         # Re-classify diet tags based on actual ingredients + cuisine
         new_diet_tags, reason = reclassify_diet_tags(
             r["ingredients"], r.get("diet_tags", []), r.get("cuisine", ""),
@@ -744,6 +869,9 @@ def transform_to_engine_schema(
                 f"{recipe_id} {r['title']!r}: kcal mismatch — stated {r['calories']:.0f} vs "
                 f"macro-derived {macro_kcal:.0f} ({delta_pct*100:.0f}% off)"
             )
+        # v3.1.5 Task 3: compute selection reason + top alternatives
+        selection_reason = compute_selection_reason(r, goal_fit, selected_sorted)
+        top_alternatives = compute_top_alternatives(r, selected_sorted, top_n=5)
 
         # Build the engine-schema recipe
         notes_parts = []
@@ -791,6 +919,9 @@ def transform_to_engine_schema(
             "fasting_yetsom": fasting_yetsom,
             "injera_accompaniment": injera_accompaniment,
             "image_url": r.get("image", ""),
+            # v3.1.5 Task 3: selection reason + top alternatives
+            "selection_reason": selection_reason,
+            "top_alternatives": top_alternatives,
             "notes": " ".join(notes_parts),
             "_extraction_method": "curate_recipe_db.py",
         }

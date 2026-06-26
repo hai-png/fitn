@@ -199,6 +199,7 @@ def build_meal_plan(
                     target_protein_g=round(slot.target_protein_g, 0),
                     target_carb_g=round(slot.target_carb_g, 0),
                     target_fat_g=round(slot.target_fat_g, 0),
+                    target_fiber_g=round(slot.target_fiber_g, 0),
                     notes=meal_notes,
                 )
                 meals.append(meal)
@@ -231,6 +232,7 @@ def build_meal_plan(
                     target_protein_g=round(slot.target_protein_g, 0),
                     target_carb_g=round(slot.target_carb_g, 0),
                     target_fat_g=round(slot.target_fat_g, 0),
+                    target_fiber_g=round(slot.target_fiber_g, 0),
                     notes=meal_notes,
                 )
                 meals.append(meal)
@@ -251,6 +253,7 @@ def build_meal_plan(
                     target_protein_g=round(slot.target_protein_g, 0),
                     target_carb_g=round(slot.target_carb_g, 0),
                     target_fat_g=round(slot.target_fat_g, 0),
+                    target_fiber_g=round(slot.target_fiber_g, 0),
                     notes="No recipe found — needs manual selection",
                 ))
 

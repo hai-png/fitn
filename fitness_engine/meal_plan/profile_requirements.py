@@ -271,7 +271,19 @@ def get_meal_allocation(
 
     # Training day with pre/post workout
     # Pre=10%, Post=15%, remaining 75% distributed
-    if meal_frequency == 3:
+    if meal_frequency == 2:
+        # v3.1.5 MEDIUM-5 fix: explicit branch for 2-meal IF (intermittent
+        # fasting). Previously fell through to the 5-meal else branch which
+        # returned entries (BREAKFAST, SNACK) that don't exist in the 2-meal
+        # template — the downstream filter+normalize masked it but the
+        # function's contract was violated.
+        return {
+            MealType.PRE_WORKOUT: 0.10,
+            MealType.POST_WORKOUT: 0.15,
+            MealType.LUNCH: 0.375,    # 0.75 * 0.50
+            MealType.DINNER: 0.375,   # 0.75 * 0.50
+        }
+    elif meal_frequency == 3:
         return {
             MealType.PRE_WORKOUT: 0.10,
             MealType.POST_WORKOUT: 0.15,

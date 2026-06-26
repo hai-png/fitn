@@ -646,13 +646,22 @@ def get_pre_post_workout_recipes() -> list[Recipe]:
 
 
 def get_pre_workout_recipes() -> list[Recipe]:
-    """Get only Pre-Workout recipes (8 total)."""
-    return [r for r in get_pre_post_workout_recipes() if "pre_workout" in r.meal_types]
+    """Get only Pre-Workout recipes (8 total).
+
+    v3.1.5 LOW-14 fix: case-insensitive meal_type check (was case-sensitive,
+    inconsistent with recipes_by_meal_type which lowercases both sides).
+    """
+    return [r for r in get_pre_post_workout_recipes()
+            if "pre_workout" in [m.lower() for m in r.meal_types]]
 
 
 def get_post_workout_recipes() -> list[Recipe]:
-    """Get only Post-Workout recipes (8 total)."""
-    return [r for r in get_pre_post_workout_recipes() if "post_workout" in r.meal_types]
+    """Get only Post-Workout recipes (8 total).
+
+    v3.1.5 LOW-14 fix: case-insensitive meal_type check.
+    """
+    return [r for r in get_pre_post_workout_recipes()
+            if "post_workout" in [m.lower() for m in r.meal_types]]
 
 
 __all__ = [

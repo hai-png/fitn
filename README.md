@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/tests-659%20passing-green.svg)](#testing)
+[![Tests](https://img.shields.io/badge/tests-1272%20passing-green.svg)](#testing)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-green.svg)](#testing)
 
 `fitn` produces a unified `FitnessPlan` (nutrition + training + meal plan) from a
@@ -78,20 +78,27 @@ propose_plan(profile, assessment, preferences?)  →  FitnessPlan
 ## Testing
 
 ```bash
-pytest                       # full suite (659 tests, ~100s)
+pytest                       # full suite (1272 tests, ~25s)
 pytest -m "not integration"  # same — no test carries the integration marker yet
 pytest --cov=fitness_engine  # with coverage report (90%+)
 ```
 
 ## Documentation
 
-- [`ANALYSIS_v3.1.4.md`](ANALYSIS_v3.1.4.md) — latest critical analysis report + systematic fixes (v3.1.4)
-- [`ANALYSIS.md`](ANALYSIS.md) — critical analysis report + systematic fixes (v3.1.1)
-- [`REAUDIT.md`](REAUDIT.md) — re-audit report (v3.1.3)
+### Audit reports (`docs/audit_reports/`)
+- [`ANALYSIS_v3.1.4.md`](docs/audit_reports/ANALYSIS_v3.1.4.md) — latest critical analysis report + systematic fixes (v3.1.4)
+- [`REAUDIT_v3.1.3.md`](docs/audit_reports/REAUDIT_v3.1.3.md) — re-audit report (v3.1.3)
+- [`ANALYSIS_v3.1.1.md`](docs/audit_reports/ANALYSIS_v3.1.1.md) — original critical analysis report + systematic fixes (v3.1.1)
+- [`CURATE_CRITIQUE.md`](docs/audit_reports/CURATE_CRITIQUE.md) — recipe curation script critique (v3.1.4)
+
+### Design & analysis (`reports/`)
 - [`reports/meal_planning/DESIGN.md`](reports/meal_planning/DESIGN.md) — meal planner design
 - [`reports/meal_planning/coverage_analysis.md`](reports/meal_planning/coverage_analysis.md) — recipe coverage
 - [`reports/rippedbody_insights.md`](reports/rippedbody_insights.md) — domain sources
 - [`reports/CLEANUP_PLAN.md`](reports/CLEANUP_PLAN.md) — historical cleanup log
+
+### Mobile app plan (`docs/`)
+- [`docs/MOBILE_APP_PLAN.md`](docs/MOBILE_APP_PLAN.md) — comprehensive plan for building a mobile app (v3.1.5)
 
 ## Scripts (`scripts/`)
 

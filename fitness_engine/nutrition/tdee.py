@@ -159,6 +159,24 @@ def update_tdee_with_logs(
     import dataclasses
     if n_days < 1:
         return tdee
+    # v3.1.5 MEDIUM-5: validate the RAW observed TDEE before blending.
+    # Previously only the BLENDED value was checked — an implausible observed
+    # (e.g. 10000 kcal) could leak through when blended with a sensible prior
+    # (final value still in [800, 7000]) but the observed was garbage.
+    raw_observed = observed_tdee_first_principles(
+        avg_intake_kcal=avg_intake_kcal,
+        weight_start_kg=weight_start_kg,
+        weight_end_kg=weight_end_kg,
+        n_days=n_days,
+    )
+    if not (800.0 <= raw_observed <= 7000.0):
+        return dataclasses.replace(
+            tdee,
+            notes=tdee.notes + [
+                f"Adaptive TDEE skipped: raw observed value {raw_observed:.0f} kcal "
+                f"is outside plausible range [800, 7000] — likely bad log data."
+            ],
+        )
     adaptive = adaptive_tdee(
         prior_tdee=tdee.tdee_kcal,
         avg_intake_kcal=avg_intake_kcal,
@@ -166,13 +184,13 @@ def update_tdee_with_logs(
         weight_end_kg=weight_end_kg,
         n_days=n_days,
     )
-    # v3.1.3: validate observed TDEE plausibility — if NaN/inf or outside
-    # a sane physiological range (800-7000 kcal), fall back to prior.
+    # v3.1.3: validate blended TDEE plausibility (defensive — should always
+    # pass if raw_observed passed, but kept for safety).
     if not (800.0 <= adaptive <= 7000.0):
         return dataclasses.replace(
             tdee,
             notes=tdee.notes + [
-                f"Adaptive TDEE skipped: observed value {adaptive:.0f} kcal "
+                f"Adaptive TDEE skipped: blended value {adaptive:.0f} kcal "
                 f"is outside plausible range [800, 7000] — likely bad log data."
             ],
         )

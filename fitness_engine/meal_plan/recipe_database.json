@@ -72,6 +72,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2022/12/Alicha-Doro-Wot-Ethiopian-Yellow-Chicken-Stew-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.981
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.968
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.962
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.954
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.952
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -139,6 +182,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2022/12/Alicha-Siga-Wot-Ethiopian-Yellow-Beef-Stew-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.973
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.968
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.967
+        },
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.95
+        },
+        {
+          "id": "R017",
+          "name": "Key Wot Recipe",
+          "kcal": 650.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.943
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -200,6 +286,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2023/04/Asa-Kitfo-Fish-Steak-Tartar-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.971
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.967
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.962
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.942
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.94
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -264,6 +393,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Asa-Tibs-Ethiopian-Stir-Fried-Fish-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.981
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.971
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.969
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.95
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.938
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -329,6 +501,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Asa-Wot-Ethiopian-Spicy-Fish-Stew-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.969
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.952
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.94
+        },
+        {
+          "id": "R016",
+          "name": "Gubet Tibs Recipe: How to Make Ethiopian Fried Liver",
+          "kcal": 400.0,
+          "protein_g": 50.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.928
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.923
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -389,6 +604,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Awaze-Tibs-Extra-Spicy-Stir-Fried-Beef-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R015",
+          "name": "Gored Gored Recipe",
+          "kcal": 650.0,
+          "protein_g": 45.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.973
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.95
+        },
+        {
+          "id": "R017",
+          "name": "Key Wot Recipe",
+          "kcal": 650.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.936
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.935
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.916
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -444,6 +702,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2022/12/Ayib-Ethiopian-Cottage-Cheese-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; Low-calorie; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.921
+        },
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.885
+        },
+        {
+          "id": "R020",
+          "name": "Quanta: How to Make Ethiopian Spiced Beef Jerky",
+          "kcal": 320.0,
+          "protein_g": 30.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.837
+        },
+        {
+          "id": "R021",
+          "name": "Suf Fitfit Recipe",
+          "kcal": 360.0,
+          "protein_g": 11.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.835
+        },
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.791
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 250 kcal vs macro-derived 307 kcal (23% off)] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -499,6 +800,49 @@
       "fasting_yetsom": true,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Azifa-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; Low-calorie; for maintenance; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.671
+        },
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.663
+        },
+        {
+          "id": "R021",
+          "name": "Suf Fitfit Recipe",
+          "kcal": 360.0,
+          "protein_g": 11.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.655
+        },
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.613
+        },
+        {
+          "id": "R014",
+          "name": "Ethiopian Spris Juice Recipe",
+          "kcal": 440.0,
+          "protein_g": 4.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.612
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -554,6 +898,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Bozena-Shiro-Wot-Ethiopian-Spiced-Chickpea-and-Beef-Stew-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for bulking; snack option",
+      "top_alternatives": [
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.826
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.821
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.815
+        },
+        {
+          "id": "R017",
+          "name": "Key Wot Recipe",
+          "kcal": 650.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.809
+        },
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.808
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -602,6 +989,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Dulet-Ethiopian-Fried-Tripe-and-Liver-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.921
+        },
+        {
+          "id": "R020",
+          "name": "Quanta: How to Make Ethiopian Spiced Beef Jerky",
+          "kcal": 320.0,
+          "protein_g": 30.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.901
+        },
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.9
+        },
+        {
+          "id": "R021",
+          "name": "Suf Fitfit Recipe",
+          "kcal": 360.0,
+          "protein_g": 11.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.846
+        },
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.845
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 300 kcal vs macro-derived 223 kcal (26% off)] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -660,6 +1090,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Enkulal-Tibs-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; Low-calorie; for maintenance; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R059",
+          "name": "Snickerdoodle Pecan Protein French Toast Sticks",
+          "kcal": 348.0,
+          "protein_g": 40.0,
+          "cuisine": "american",
+          "similarity": 0.56
+        },
+        {
+          "id": "R056",
+          "name": "Scrambled Eggs With Cheese Recipe",
+          "kcal": 370.0,
+          "protein_g": 45.0,
+          "cuisine": "american",
+          "similarity": 0.54
+        },
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.526
+        },
+        {
+          "id": "R068",
+          "name": "Keto Breakfast Casserole Recipe",
+          "kcal": 240.0,
+          "protein_g": 20.0,
+          "cuisine": "italian",
+          "similarity": 0.525
+        },
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.512
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -721,6 +1194,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2023/04/Fruits-Vegetables-and-Telba-Flaxseeds-Smoothie-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; Low-calorie; for maintenance; protein shake",
+      "top_alternatives": [
+        {
+          "id": "R014",
+          "name": "Ethiopian Spris Juice Recipe",
+          "kcal": 440.0,
+          "protein_g": 4.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.484
+        },
+        {
+          "id": "R019",
+          "name": "Kolo: The Ultimate Crunchy Ethiopian Snack",
+          "kcal": 150.0,
+          "protein_g": 4.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.47
+        },
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.442
+        },
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.44
+        },
+        {
+          "id": "R021",
+          "name": "Suf Fitfit Recipe",
+          "kcal": 360.0,
+          "protein_g": 11.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.433
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -788,6 +1304,49 @@
       "fasting_yetsom": true,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2023/04/Lentil-Vegetable-Soup-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for maintenance; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R021",
+          "name": "Suf Fitfit Recipe",
+          "kcal": 360.0,
+          "protein_g": 11.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.938
+        },
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.9
+        },
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.885
+        },
+        {
+          "id": "R020",
+          "name": "Quanta: How to Make Ethiopian Spiced Beef Jerky",
+          "kcal": 320.0,
+          "protein_g": 30.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.834
+        },
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.774
+        }
+      ],
       "notes": "[curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -849,6 +1408,49 @@
       "fasting_yetsom": true,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Spris-Ethiopian-Layered-Juice-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for maintenance; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R021",
+          "name": "Suf Fitfit Recipe",
+          "kcal": 360.0,
+          "protein_g": 11.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.795
+        },
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.78
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.765
+        },
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.755
+        },
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.754
+        }
+      ],
       "notes": "[curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -903,6 +1505,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Gored-Gored-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R006",
+          "name": "Awaze Tibs Recipe",
+          "kcal": 620.0,
+          "protein_g": 48.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.973
+        },
+        {
+          "id": "R017",
+          "name": "Key Wot Recipe",
+          "kcal": 650.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.961
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.953
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.939
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.922
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 650 kcal vs macro-derived 458 kcal (30% off)] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -959,6 +1604,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2024/02/Gubet-Tibs-Ethiopian-Fried-Liver-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.928
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.914
+        },
+        {
+          "id": "R006",
+          "name": "Awaze Tibs Recipe",
+          "kcal": 620.0,
+          "protein_g": 48.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.901
+        },
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.898
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.887
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 400 kcal vs macro-derived 322 kcal (20% off)] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1017,6 +1705,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Key-Wot-2-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-calorie option; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.968
+        },
+        {
+          "id": "R015",
+          "name": "Gored Gored Recipe",
+          "kcal": 650.0,
+          "protein_g": 45.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.961
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.95
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.943
+        },
+        {
+          "id": "R006",
+          "name": "Awaze Tibs Recipe",
+          "kcal": 620.0,
+          "protein_g": 48.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.936
+        }
+      ],
       "notes": "[curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1072,6 +1803,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Kitfo-2-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein high-calorie; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R006",
+          "name": "Awaze Tibs Recipe",
+          "kcal": 620.0,
+          "protein_g": 48.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.813
+        },
+        {
+          "id": "R015",
+          "name": "Gored Gored Recipe",
+          "kcal": 650.0,
+          "protein_g": 45.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.813
+        },
+        {
+          "id": "R017",
+          "name": "Key Wot Recipe",
+          "kcal": 650.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.792
+        },
+        {
+          "id": "R022",
+          "name": "YeBeg Alicha Wot Recipe: How to Make Ethiopian Mild Lamb Stew",
+          "kcal": 600.0,
+          "protein_g": 40.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.784
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.773
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 900 kcal vs macro-derived 529 kcal (41% off)] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1127,6 +1901,49 @@
       "fasting_yetsom": true,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Kolo-1-2-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; Low-calorie; for maintenance; snack option; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R071",
+          "name": "Keto Egg Muffin Recipe",
+          "kcal": 110.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.594
+        },
+        {
+          "id": "R049",
+          "name": "Low Calorie Chocolate Protein Cupcakes Recipe",
+          "kcal": 121.0,
+          "protein_g": 14.0,
+          "cuisine": "american",
+          "similarity": 0.573
+        },
+        {
+          "id": "R069",
+          "name": "Keto Chocolate Pudding",
+          "kcal": 190.0,
+          "protein_g": 4.0,
+          "cuisine": "thai",
+          "similarity": 0.547
+        },
+        {
+          "id": "R030",
+          "name": "FitMiss Vanilla Chai Protein Muffins Recipe",
+          "kcal": 77.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.543
+        },
+        {
+          "id": "R061",
+          "name": "Strawberry Protein Cheesecake Recipe",
+          "kcal": 206.0,
+          "protein_g": 25.0,
+          "cuisine": "american",
+          "similarity": 0.522
+        }
+      ],
       "notes": "[curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1185,6 +2002,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/2023/04/Quanta-Ethiopian-Spiced-Beef-Jerky-Recipe-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.911
+        },
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.901
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.888
+        },
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.864
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.851
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1250,6 +2110,49 @@
       "fasting_yetsom": true,
       "injera_accompaniment": false,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Yesuf-Fitfit-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for maintenance; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.938
+        },
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.846
+        },
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.835
+        },
+        {
+          "id": "R020",
+          "name": "Quanta: How to Make Ethiopian Spiced Beef Jerky",
+          "kcal": 320.0,
+          "protein_g": 30.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.814
+        },
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.798
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1314,6 +2217,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Alicha-Wot-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; High-protein; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.973
+        },
+        {
+          "id": "R017",
+          "name": "Key Wot Recipe",
+          "kcal": 650.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.968
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.954
+        },
+        {
+          "id": "R015",
+          "name": "Gored Gored Recipe",
+          "kcal": 650.0,
+          "protein_g": 45.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.953
+        },
+        {
+          "id": "R006",
+          "name": "Awaze Tibs Recipe",
+          "kcal": 620.0,
+          "protein_g": 48.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.95
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1380,6 +2326,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": true,
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Zilzil-Tibs-1-1-225x225.jpg",
+      "selection_reason": "Ethiopian cuisine; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.919
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.918
+        },
+        {
+          "id": "R020",
+          "name": "Quanta: How to Make Ethiopian Spiced Beef Jerky",
+          "kcal": 320.0,
+          "protein_g": 30.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.911
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.901
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.896
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1452,6 +2441,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/antoine_vaillant_anabolic_protein_shake.jpg",
+      "selection_reason": "High-protein high-calorie; for bulking; protein shake; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.681
+        },
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.672
+        },
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.672
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.663
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.663
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1512,6 +2544,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/quche-450.jpg",
+      "selection_reason": "Low-calorie; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R029",
+          "name": "Cheesey Baked Zucchini Eggs Recipe",
+          "kcal": 150.0,
+          "protein_g": 20.0,
+          "cuisine": "american",
+          "similarity": 0.965
+        },
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.913
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.911
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.871
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.831
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1574,6 +2649,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/chop-suey-450.jpg",
+      "selection_reason": "for recomp",
+      "top_alternatives": [
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.795
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.786
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.776
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.764
+        },
+        {
+          "id": "R002",
+          "name": "Alicha Siga Wot Recipe",
+          "kcal": 550.0,
+          "protein_g": 41.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.754
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1634,6 +2752,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/smokehouse_bacon_double_white_cheddar_burger.jpg",
+      "selection_reason": "High-protein; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.975
+        },
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.964
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.95
+        },
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.912
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1693,6 +2854,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/braised-beef-450.jpg",
+      "selection_reason": "Low-calorie; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.95
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R064",
+          "name": "Buffalo Chicken Meal Prep",
+          "kcal": 220.0,
+          "protein_g": 35.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.904
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.871
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1755,6 +2959,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/eggs-450.jpg",
+      "selection_reason": "Low-calorie; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.965
+        },
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.888
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.85
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.812
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1815,6 +3062,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/vanilla-chai-muffins-450.jpg",
+      "selection_reason": "Low-calorie; for maintenance; snack option",
+      "top_alternatives": [
+        {
+          "id": "R071",
+          "name": "Keto Egg Muffin Recipe",
+          "kcal": 110.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.917
+        },
+        {
+          "id": "R049",
+          "name": "Low Calorie Chocolate Protein Cupcakes Recipe",
+          "kcal": 121.0,
+          "protein_g": 14.0,
+          "cuisine": "american",
+          "similarity": 0.814
+        },
+        {
+          "id": "R061",
+          "name": "Strawberry Protein Cheesecake Recipe",
+          "kcal": 206.0,
+          "protein_g": 25.0,
+          "cuisine": "american",
+          "similarity": 0.68
+        },
+        {
+          "id": "R055",
+          "name": "Scivation Whey Cupcakes Recipe by Debi",
+          "kcal": 104.0,
+          "protein_g": 22.0,
+          "cuisine": "american",
+          "similarity": 0.634
+        },
+        {
+          "id": "R019",
+          "name": "Kolo: The Ultimate Crunchy Ethiopian Snack",
+          "kcal": 150.0,
+          "protein_g": 4.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.543
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1876,6 +3166,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/spicy-sriracha-burger-featured.jpg",
+      "selection_reason": "High-protein; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.968
+        },
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.964
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.942
+        },
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.905
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -1938,6 +3271,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/teryaki-vurger-feature-1.jpg",
+      "selection_reason": "High-protein high-calorie; for bulking",
+      "top_alternatives": [
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.748
+        },
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.742
+        },
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.719
+        },
+        {
+          "id": "R003",
+          "name": "Asa Kitfo Recipe",
+          "kcal": 490.0,
+          "protein_g": 42.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.705
+        },
+        {
+          "id": "R001",
+          "name": "Alicha Doro Wot Recipe",
+          "kcal": 520.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.697
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2007,6 +3383,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/healthy_chicken_parm_meatloaf.jpg",
+      "selection_reason": "for cutting; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R068",
+          "name": "Keto Breakfast Casserole Recipe",
+          "kcal": 240.0,
+          "protein_g": 20.0,
+          "cuisine": "italian",
+          "similarity": 0.858
+        },
+        {
+          "id": "R034",
+          "name": "Healthy Low Cal Lasagna Recipe",
+          "kcal": 205.0,
+          "protein_g": 26.0,
+          "cuisine": "italian",
+          "similarity": 0.762
+        },
+        {
+          "id": "R067",
+          "name": "Keto BBQ Chicken Pizza with Cauliflower Crust",
+          "kcal": 250.0,
+          "protein_g": 25.0,
+          "cuisine": "italian",
+          "similarity": 0.72
+        },
+        {
+          "id": "R062",
+          "name": "Thai Spiced Chicken Recipe",
+          "kcal": 266.0,
+          "protein_g": 43.0,
+          "cuisine": "indian",
+          "similarity": 0.67
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.663
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2071,6 +3490,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/healthy-lasagna.jpg",
+      "selection_reason": "Low-calorie; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R068",
+          "name": "Keto Breakfast Casserole Recipe",
+          "kcal": 240.0,
+          "protein_g": 20.0,
+          "cuisine": "italian",
+          "similarity": 0.809
+        },
+        {
+          "id": "R067",
+          "name": "Keto BBQ Chicken Pizza with Cauliflower Crust",
+          "kcal": 250.0,
+          "protein_g": 25.0,
+          "cuisine": "italian",
+          "similarity": 0.799
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.781
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.769
+        },
+        {
+          "id": "R033",
+          "name": "Healthy High Protein Chicken Parmesan Meatloaf Recipe",
+          "kcal": 265.0,
+          "protein_g": 38.0,
+          "cuisine": "italian",
+          "similarity": 0.762
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2134,6 +3596,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/strawberry-450.jpg",
+      "selection_reason": "Low-calorie; for maintenance; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R029",
+          "name": "Cheesey Baked Zucchini Eggs Recipe",
+          "kcal": 150.0,
+          "protein_g": 20.0,
+          "cuisine": "american",
+          "similarity": 0.809
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.79
+        },
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.788
+        },
+        {
+          "id": "R055",
+          "name": "Scivation Whey Cupcakes Recipe by Debi",
+          "kcal": 104.0,
+          "protein_g": 22.0,
+          "cuisine": "american",
+          "similarity": 0.741
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.717
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 114 kcal vs macro-derived 149 kcal (30% off)] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2194,6 +3699,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/pumpkin_spice_protein_waffles.jpg",
+      "selection_reason": "High-protein; for cutting; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R056",
+          "name": "Scrambled Eggs With Cheese Recipe",
+          "kcal": 370.0,
+          "protein_g": 45.0,
+          "cuisine": "american",
+          "similarity": 0.976
+        },
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.969
+        },
+        {
+          "id": "R059",
+          "name": "Snickerdoodle Pecan Protein French Toast Sticks",
+          "kcal": 348.0,
+          "protein_g": 40.0,
+          "cuisine": "american",
+          "similarity": 0.935
+        },
+        {
+          "id": "R040",
+          "name": "High Protein Chicken Meatballs Recipe",
+          "kcal": 519.0,
+          "protein_g": 57.0,
+          "cuisine": "american",
+          "similarity": 0.894
+        },
+        {
+          "id": "R039",
+          "name": "High Protein Cheeseburger Omelette Recipe",
+          "kcal": 409.0,
+          "protein_g": 50.0,
+          "cuisine": "american",
+          "similarity": 0.774
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2262,6 +3810,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/untitled_design.jpg",
+      "selection_reason": "High-protein high-calorie; for bulking; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R054",
+          "name": "Red Velvet Protein Pancakes Recipe",
+          "kcal": 609.0,
+          "protein_g": 74.0,
+          "cuisine": "american",
+          "similarity": 0.908
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.73
+        },
+        {
+          "id": "R040",
+          "name": "High Protein Chicken Meatballs Recipe",
+          "kcal": 519.0,
+          "protein_g": 57.0,
+          "cuisine": "american",
+          "similarity": 0.63
+        },
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.578
+        },
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.561
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2332,6 +3923,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/banana-split-feature.jpg",
+      "selection_reason": "High-protein; for recomp; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.969
+        },
+        {
+          "id": "R056",
+          "name": "Scrambled Eggs With Cheese Recipe",
+          "kcal": 370.0,
+          "protein_g": 45.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R040",
+          "name": "High Protein Chicken Meatballs Recipe",
+          "kcal": 519.0,
+          "protein_g": 57.0,
+          "cuisine": "american",
+          "similarity": 0.921
+        },
+        {
+          "id": "R059",
+          "name": "Snickerdoodle Pecan Protein French Toast Sticks",
+          "kcal": 348.0,
+          "protein_g": 40.0,
+          "cuisine": "american",
+          "similarity": 0.908
+        },
+        {
+          "id": "R039",
+          "name": "High Protein Cheeseburger Omelette Recipe",
+          "kcal": 409.0,
+          "protein_g": 50.0,
+          "cuisine": "american",
+          "similarity": 0.784
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2405,6 +4039,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/cb-omellete-feature.jpg",
+      "selection_reason": "High-protein; for recomp; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.894
+        },
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.875
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.869
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.856
+        },
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.851
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2460,6 +4137,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/chicken-meatball-recipe-feature.jpg",
+      "selection_reason": "High-protein high-calorie; for bulking; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.921
+        },
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.894
+        },
+        {
+          "id": "R056",
+          "name": "Scrambled Eggs With Cheese Recipe",
+          "kcal": 370.0,
+          "protein_g": 45.0,
+          "cuisine": "american",
+          "similarity": 0.876
+        },
+        {
+          "id": "R059",
+          "name": "Snickerdoodle Pecan Protein French Toast Sticks",
+          "kcal": 348.0,
+          "protein_g": 40.0,
+          "cuisine": "american",
+          "similarity": 0.843
+        },
+        {
+          "id": "R039",
+          "name": "High Protein Cheeseburger Omelette Recipe",
+          "kcal": 409.0,
+          "protein_g": 50.0,
+          "cuisine": "american",
+          "similarity": 0.716
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2522,6 +4242,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/chipotle-cheddar-veggie-quesadilla-featured.jpg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R076",
+          "name": "Paleo Thai Turkey Larb Recipe",
+          "kcal": 270.0,
+          "protein_g": 33.0,
+          "cuisine": "thai",
+          "similarity": 0.782
+        },
+        {
+          "id": "R050",
+          "name": "Mexican Style Stuffed Peppers Recipe",
+          "kcal": 328.0,
+          "protein_g": 43.0,
+          "cuisine": "mexican",
+          "similarity": 0.758
+        },
+        {
+          "id": "R060",
+          "name": "Soft Serve Protein Ice Cream Recipe",
+          "kcal": 170.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.647
+        },
+        {
+          "id": "R046",
+          "name": "High-Protein Grilled Chicken Gyros Recipe",
+          "kcal": 359.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.641
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.631
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 287 kcal vs macro-derived 345 kcal (20% off)] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2595,6 +4358,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/pb-pancakes-feature.jpg",
+      "selection_reason": "High-protein; for cutting; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R077",
+          "name": "Sriracha Honey Sesame Chicken",
+          "kcal": 360.0,
+          "protein_g": 41.0,
+          "cuisine": "american",
+          "similarity": 0.8
+        },
+        {
+          "id": "R059",
+          "name": "Snickerdoodle Pecan Protein French Toast Sticks",
+          "kcal": 348.0,
+          "protein_g": 40.0,
+          "cuisine": "american",
+          "similarity": 0.782
+        },
+        {
+          "id": "R054",
+          "name": "Red Velvet Protein Pancakes Recipe",
+          "kcal": 609.0,
+          "protein_g": 74.0,
+          "cuisine": "american",
+          "similarity": 0.781
+        },
+        {
+          "id": "R056",
+          "name": "Scrambled Eggs With Cheese Recipe",
+          "kcal": 370.0,
+          "protein_g": 45.0,
+          "cuisine": "american",
+          "similarity": 0.763
+        },
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.741
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2655,6 +4461,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/fruit-squares-feature.jpg",
+      "selection_reason": "Low-calorie; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R029",
+          "name": "Cheesey Baked Zucchini Eggs Recipe",
+          "kcal": 150.0,
+          "protein_g": 20.0,
+          "cuisine": "american",
+          "similarity": 0.708
+        },
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.699
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.697
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.661
+        },
+        {
+          "id": "R035",
+          "name": "Healthy, High Protein Strawberry Toaster Strudel Recipe",
+          "kcal": 114.0,
+          "protein_g": 17.0,
+          "cuisine": "american",
+          "similarity": 0.656
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2715,6 +4564,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/high-protein-turkey-reuben.jpg",
+      "selection_reason": "High-protein; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.971
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.963
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.96
+        },
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2773,6 +4665,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/ranch_turkey_burger.jpg",
+      "selection_reason": "High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.96
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.958
+        },
+        {
+          "id": "R066",
+          "name": "Fast Chicken Shawarma & Sweet Potato",
+          "kcal": 340.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.945
+        },
+        {
+          "id": "R058",
+          "name": "Simple Low Carb Orange Chicken Recipe",
+          "kcal": 290.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.94
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2841,6 +4776,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/high-protein-grilled-chicken-gyros-recipe.jpg",
+      "selection_reason": "High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.815
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.803
+        },
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.8
+        },
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.789
+        },
+        {
+          "id": "R058",
+          "name": "Simple Low Carb Orange Chicken Recipe",
+          "kcal": 290.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.782
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2899,6 +4877,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/white_chocolate_raspberry_pancakes_feature.jpg",
+      "selection_reason": "for maintenance; breakfast option; (vegan)",
+      "top_alternatives": [
+        {
+          "id": "R077",
+          "name": "Sriracha Honey Sesame Chicken",
+          "kcal": 360.0,
+          "protein_g": 41.0,
+          "cuisine": "american",
+          "similarity": 0.727
+        },
+        {
+          "id": "R035",
+          "name": "Healthy, High Protein Strawberry Toaster Strudel Recipe",
+          "kcal": 114.0,
+          "protein_g": 17.0,
+          "cuisine": "american",
+          "similarity": 0.709
+        },
+        {
+          "id": "R055",
+          "name": "Scivation Whey Cupcakes Recipe by Debi",
+          "kcal": 104.0,
+          "protein_g": 22.0,
+          "cuisine": "american",
+          "similarity": 0.709
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.686
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.681
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -2963,6 +4984,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/leftover_roast_turkey_blt_recipe.jpg",
+      "selection_reason": "High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.973
+        },
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.963
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.958
+        },
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.95
+        },
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.942
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3033,6 +5097,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/chocolate_protein_cupcakes.jpg",
+      "selection_reason": "Low-calorie; for maintenance; snack option",
+      "top_alternatives": [
+        {
+          "id": "R071",
+          "name": "Keto Egg Muffin Recipe",
+          "kcal": 110.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.888
+        },
+        {
+          "id": "R030",
+          "name": "FitMiss Vanilla Chai Protein Muffins Recipe",
+          "kcal": 77.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.814
+        },
+        {
+          "id": "R061",
+          "name": "Strawberry Protein Cheesecake Recipe",
+          "kcal": 206.0,
+          "protein_g": 25.0,
+          "cuisine": "american",
+          "similarity": 0.787
+        },
+        {
+          "id": "R055",
+          "name": "Scivation Whey Cupcakes Recipe by Debi",
+          "kcal": 104.0,
+          "protein_g": 22.0,
+          "cuisine": "american",
+          "similarity": 0.724
+        },
+        {
+          "id": "R047",
+          "name": "High-Protein White Chocolate Raspberry Pancakes Recipe",
+          "kcal": 278.0,
+          "protein_g": 15.0,
+          "cuisine": "american",
+          "similarity": 0.656
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3097,6 +5204,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/stuffed-bell-peppers-feature.jpg",
+      "selection_reason": "High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.775
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.77
+        },
+        {
+          "id": "R066",
+          "name": "Fast Chicken Shawarma & Sweet Potato",
+          "kcal": 340.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.768
+        },
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.762
+        },
+        {
+          "id": "R041",
+          "name": "High Protein Chipotle Cheddar Vegetarian Quesadilla Recipe",
+          "kcal": 287.0,
+          "protein_g": 33.0,
+          "cuisine": "mexican",
+          "similarity": 0.758
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 328 kcal vs macro-derived 391 kcal (19% off)] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3153,6 +5303,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/turkey-chili-450.jpg",
+      "selection_reason": "Low-calorie; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R064",
+          "name": "Buffalo Chicken Meal Prep",
+          "kcal": 220.0,
+          "protein_g": 35.0,
+          "cuisine": "american",
+          "similarity": 0.977
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.954
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.902
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.891
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3218,6 +5411,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/shepherds_pie.jpg",
+      "selection_reason": "High-protein; for recomp",
+      "top_alternatives": [
+        {
+          "id": "R027",
+          "name": "Bodybuilder's Double Beef & Bacon Cheeseburger Recipe",
+          "kcal": 475.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.975
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.973
+        },
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.971
+        },
+        {
+          "id": "R031",
+          "name": "Grill Healthy: Spicy Sriracha Lean Beef Burger Recipe",
+          "kcal": 446.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.968
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.933
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3284,6 +5520,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/bbq-chicken-potato-skin-recipe.jpg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.991
+        },
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.99
+        },
+        {
+          "id": "R066",
+          "name": "Fast Chicken Shawarma & Sweet Potato",
+          "kcal": 340.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.984
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.931
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.931
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3358,6 +5637,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/red-velvet-feature.jpg",
+      "selection_reason": "High-protein high-calorie; for bulking; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R037",
+          "name": "High Protein Blueberry Almond Pancakes Recipe",
+          "kcal": 779.0,
+          "protein_g": 87.0,
+          "cuisine": "american",
+          "similarity": 0.908
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.781
+        },
+        {
+          "id": "R040",
+          "name": "High Protein Chicken Meatballs Recipe",
+          "kcal": 519.0,
+          "protein_g": 57.0,
+          "cuisine": "american",
+          "similarity": 0.706
+        },
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.641
+        },
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.62
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3413,6 +5735,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/scivation-whey-cupcake-450.jpg",
+      "selection_reason": "Protein-dense low-calorie; for maintenance; snack option",
+      "top_alternatives": [
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.775
+        },
+        {
+          "id": "R029",
+          "name": "Cheesey Baked Zucchini Eggs Recipe",
+          "kcal": 150.0,
+          "protein_g": 20.0,
+          "cuisine": "american",
+          "similarity": 0.746
+        },
+        {
+          "id": "R035",
+          "name": "Healthy, High Protein Strawberry Toaster Strudel Recipe",
+          "kcal": 114.0,
+          "protein_g": 17.0,
+          "cuisine": "american",
+          "similarity": 0.741
+        },
+        {
+          "id": "R049",
+          "name": "Low Calorie Chocolate Protein Cupcakes Recipe",
+          "kcal": 121.0,
+          "protein_g": 14.0,
+          "cuisine": "american",
+          "similarity": 0.724
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.72
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3474,6 +5839,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/scrambled-eggs-cheese-450.jpg",
+      "selection_reason": "High-protein; for cutting; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.976
+        },
+        {
+          "id": "R059",
+          "name": "Snickerdoodle Pecan Protein French Toast Sticks",
+          "kcal": 348.0,
+          "protein_g": 40.0,
+          "cuisine": "american",
+          "similarity": 0.957
+        },
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R040",
+          "name": "High Protein Chicken Meatballs Recipe",
+          "kcal": 519.0,
+          "protein_g": 57.0,
+          "cuisine": "american",
+          "similarity": 0.876
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.763
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 370 kcal vs macro-derived 431 kcal (16% off)] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3535,6 +5943,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/ss_feature.jpg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.954
+        },
+        {
+          "id": "R064",
+          "name": "Buffalo Chicken Meal Prep",
+          "kcal": 220.0,
+          "protein_g": 35.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.931
+        },
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.923
+        },
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.923
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3600,6 +6051,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/orange_chicken.jpg",
+      "selection_reason": "High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R048",
+          "name": "Leftover Roast Turkey BLT Recipe",
+          "kcal": 381.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.94
+        },
+        {
+          "id": "R052",
+          "name": "Protein Packed Sweet Potato Shepherds Pie",
+          "kcal": 428.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.919
+        },
+        {
+          "id": "R044",
+          "name": "High Protein Lean Turkey Reuben Recipe",
+          "kcal": 410.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.908
+        },
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.904
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3665,6 +6159,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/french-toast-feature.jpg",
+      "selection_reason": "High-protein; for cutting; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R056",
+          "name": "Scrambled Eggs With Cheese Recipe",
+          "kcal": 370.0,
+          "protein_g": 45.0,
+          "cuisine": "american",
+          "similarity": 0.957
+        },
+        {
+          "id": "R036",
+          "name": "Hearty Pumpkin Spice Protein Waffles Recipe",
+          "kcal": 400.0,
+          "protein_g": 46.0,
+          "cuisine": "american",
+          "similarity": 0.935
+        },
+        {
+          "id": "R038",
+          "name": "High Protein Breakfast Banana Split Recipe",
+          "kcal": 427.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.908
+        },
+        {
+          "id": "R040",
+          "name": "High Protein Chicken Meatballs Recipe",
+          "kcal": 519.0,
+          "protein_g": 57.0,
+          "cuisine": "american",
+          "similarity": 0.843
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.782
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3720,6 +6257,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/ice-cream-450.jpg",
+      "selection_reason": "Protein-dense low-calorie; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.819
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.784
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.78
+        },
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.777
+        },
+        {
+          "id": "R029",
+          "name": "Cheesey Baked Zucchini Eggs Recipe",
+          "kcal": 150.0,
+          "protein_g": 20.0,
+          "cuisine": "american",
+          "similarity": 0.757
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3790,6 +6370,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/feature-image/recipe/strawberry_cheesecake.jpg",
+      "selection_reason": "Low-calorie; for cutting; snack option",
+      "top_alternatives": [
+        {
+          "id": "R049",
+          "name": "Low Calorie Chocolate Protein Cupcakes Recipe",
+          "kcal": 121.0,
+          "protein_g": 14.0,
+          "cuisine": "american",
+          "similarity": 0.787
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.731
+        },
+        {
+          "id": "R071",
+          "name": "Keto Egg Muffin Recipe",
+          "kcal": 110.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.723
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.7
+        },
+        {
+          "id": "R055",
+          "name": "Scivation Whey Cupcakes Recipe by Debi",
+          "kcal": 104.0,
+          "protein_g": 22.0,
+          "cuisine": "american",
+          "similarity": 0.696
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 206 kcal vs macro-derived 246 kcal (19% off)] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3847,6 +6470,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/thai-chicken-450.jpg",
+      "selection_reason": "High-protein; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R050",
+          "name": "Mexican Style Stuffed Peppers Recipe",
+          "kcal": 328.0,
+          "protein_g": 43.0,
+          "cuisine": "mexican",
+          "similarity": 0.753
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.738
+        },
+        {
+          "id": "R058",
+          "name": "Simple Low Carb Orange Chicken Recipe",
+          "kcal": 290.0,
+          "protein_g": 53.0,
+          "cuisine": "american",
+          "similarity": 0.732
+        },
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.728
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.724
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 266 kcal vs macro-derived 231 kcal (13% off)] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3900,6 +6566,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://cdn.muscleandstrength.com/sites/default/files/field/image/recipe/sausage-450.jpg",
+      "selection_reason": "Protein-dense low-calorie; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.95
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.911
+        },
+        {
+          "id": "R079",
+          "name": "Vegetable Egg White Frittata Recipe",
+          "kcal": 140.0,
+          "protein_g": 23.0,
+          "cuisine": "american",
+          "similarity": 0.91
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.902
+        },
+        {
+          "id": "R064",
+          "name": "Buffalo Chicken Meal Prep",
+          "kcal": 220.0,
+          "protein_g": 35.0,
+          "cuisine": "american",
+          "similarity": 0.898
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -3959,6 +6668,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Buffalo-Chicken-Meal-Prep-1.jpeg",
+      "selection_reason": "Low-calorie; for cutting",
+      "top_alternatives": [
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.977
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.941
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.898
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.898
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4021,6 +6773,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Winter%20Chicken%20Soup-1.jpg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R066",
+          "name": "Fast Chicken Shawarma & Sweet Potato",
+          "kcal": 340.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.993
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.991
+        },
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.986
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.938
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.923
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4087,6 +6882,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Fast-Chicken-Shawarma-with-Sweet-Potato-1.jpeg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.994
+        },
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.993
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.984
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.945
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.917
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4157,6 +6995,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/bbq-chicken-pizza-low-carb-cauliflower-crust-2.jpeg",
+      "selection_reason": "Low-calorie; for cutting; snack option",
+      "top_alternatives": [
+        {
+          "id": "R034",
+          "name": "Healthy Low Cal Lasagna Recipe",
+          "kcal": 205.0,
+          "protein_g": 26.0,
+          "cuisine": "italian",
+          "similarity": 0.799
+        },
+        {
+          "id": "R068",
+          "name": "Keto Breakfast Casserole Recipe",
+          "kcal": 240.0,
+          "protein_g": 20.0,
+          "cuisine": "italian",
+          "similarity": 0.76
+        },
+        {
+          "id": "R033",
+          "name": "Healthy High Protein Chicken Parmesan Meatloaf Recipe",
+          "kcal": 265.0,
+          "protein_g": 38.0,
+          "cuisine": "italian",
+          "similarity": 0.72
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.626
+        },
+        {
+          "id": "R077",
+          "name": "Sriracha Honey Sesame Chicken",
+          "kcal": 360.0,
+          "protein_g": 41.0,
+          "cuisine": "american",
+          "similarity": 0.626
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4217,6 +7098,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/keto-egg-and-cheese-breakfast-casserole.jpg",
+      "selection_reason": "Low-calorie; for maintenance; breakfast option",
+      "top_alternatives": [
+        {
+          "id": "R033",
+          "name": "Healthy High Protein Chicken Parmesan Meatloaf Recipe",
+          "kcal": 265.0,
+          "protein_g": 38.0,
+          "cuisine": "italian",
+          "similarity": 0.858
+        },
+        {
+          "id": "R034",
+          "name": "Healthy Low Cal Lasagna Recipe",
+          "kcal": 205.0,
+          "protein_g": 26.0,
+          "cuisine": "italian",
+          "similarity": 0.809
+        },
+        {
+          "id": "R067",
+          "name": "Keto BBQ Chicken Pizza with Cauliflower Crust",
+          "kcal": 250.0,
+          "protein_g": 25.0,
+          "cuisine": "italian",
+          "similarity": 0.76
+        },
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.652
+        },
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.65
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4275,6 +7199,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Vegan%20Chocolate%20Pudding-792438-edited.jpg",
+      "selection_reason": "Low-calorie; for maintenance; protein shake",
+      "top_alternatives": [
+        {
+          "id": "R072",
+          "name": "Keto Green Smoothie Recipe",
+          "kcal": 320.0,
+          "protein_g": 38.0,
+          "cuisine": "thai",
+          "similarity": 0.675
+        },
+        {
+          "id": "R073",
+          "name": "Keto Strawberry Lavender Smoothie Recipe",
+          "kcal": 380.0,
+          "protein_g": 35.0,
+          "cuisine": "thai",
+          "similarity": 0.654
+        },
+        {
+          "id": "R019",
+          "name": "Kolo: The Ultimate Crunchy Ethiopian Snack",
+          "kcal": 150.0,
+          "protein_g": 4.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.547
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.408
+        },
+        {
+          "id": "R061",
+          "name": "Strawberry Protein Cheesecake Recipe",
+          "kcal": 206.0,
+          "protein_g": 25.0,
+          "cuisine": "american",
+          "similarity": 0.371
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 190 kcal vs macro-derived 216 kcal (14% off)] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4333,6 +7300,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Keto%20Recipe%20Photos/keto-deviled-egg-bites-for-keto-breakfast.jpg",
+      "selection_reason": "Low-calorie; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R007",
+          "name": "Ayib Recipe: How to Make the Iconic Ethiopian Cottage Cheese",
+          "kcal": 250.0,
+          "protein_g": 17.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.765
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.694
+        },
+        {
+          "id": "R010",
+          "name": "Dulet Recipe: How to Make Ethiopian Stir-Fried Tripe and Liver",
+          "kcal": 300.0,
+          "protein_g": 20.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.692
+        },
+        {
+          "id": "R013",
+          "name": "Ethiopian Lentil Vegetable Soup Recipe",
+          "kcal": 300.0,
+          "protein_g": 12.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.679
+        },
+        {
+          "id": "R034",
+          "name": "Healthy Low Cal Lasagna Recipe",
+          "kcal": 205.0,
+          "protein_g": 26.0,
+          "cuisine": "italian",
+          "similarity": 0.679
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4391,6 +7401,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/keto-egg-muffin-bites-for-keto-meal-prep.jpg",
+      "selection_reason": "Low-calorie; for maintenance; snack option",
+      "top_alternatives": [
+        {
+          "id": "R030",
+          "name": "FitMiss Vanilla Chai Protein Muffins Recipe",
+          "kcal": 77.0,
+          "protein_g": 9.0,
+          "cuisine": "american",
+          "similarity": 0.917
+        },
+        {
+          "id": "R049",
+          "name": "Low Calorie Chocolate Protein Cupcakes Recipe",
+          "kcal": 121.0,
+          "protein_g": 14.0,
+          "cuisine": "american",
+          "similarity": 0.888
+        },
+        {
+          "id": "R061",
+          "name": "Strawberry Protein Cheesecake Recipe",
+          "kcal": 206.0,
+          "protein_g": 25.0,
+          "cuisine": "american",
+          "similarity": 0.723
+        },
+        {
+          "id": "R055",
+          "name": "Scivation Whey Cupcakes Recipe by Debi",
+          "kcal": 104.0,
+          "protein_g": 22.0,
+          "cuisine": "american",
+          "similarity": 0.689
+        },
+        {
+          "id": "R019",
+          "name": "Kolo: The Ultimate Crunchy Ethiopian Snack",
+          "kcal": 150.0,
+          "protein_g": 4.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.594
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4452,6 +7505,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Keto%20Recipe%20Photos/keto-green-smoothie-recipe-for-meal-prep.jpg",
+      "selection_reason": "for cutting; protein shake",
+      "top_alternatives": [
+        {
+          "id": "R073",
+          "name": "Keto Strawberry Lavender Smoothie Recipe",
+          "kcal": 380.0,
+          "protein_g": 35.0,
+          "cuisine": "thai",
+          "similarity": 0.941
+        },
+        {
+          "id": "R069",
+          "name": "Keto Chocolate Pudding",
+          "kcal": 190.0,
+          "protein_g": 4.0,
+          "cuisine": "thai",
+          "similarity": 0.675
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.536
+        },
+        {
+          "id": "R077",
+          "name": "Sriracha Honey Sesame Chicken",
+          "kcal": 360.0,
+          "protein_g": 41.0,
+          "cuisine": "american",
+          "similarity": 0.514
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.496
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 320 kcal vs macro-derived 396 kcal (24% off)] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4512,6 +7608,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Keto%20Recipe%20Photos/keto-strawberry-lavendar-smoothie-recipe-in-glass.jpg",
+      "selection_reason": "for cutting; protein shake",
+      "top_alternatives": [
+        {
+          "id": "R072",
+          "name": "Keto Green Smoothie Recipe",
+          "kcal": 320.0,
+          "protein_g": 38.0,
+          "cuisine": "thai",
+          "similarity": 0.941
+        },
+        {
+          "id": "R069",
+          "name": "Keto Chocolate Pudding",
+          "kcal": 190.0,
+          "protein_g": 4.0,
+          "cuisine": "thai",
+          "similarity": 0.654
+        },
+        {
+          "id": "R077",
+          "name": "Sriracha Honey Sesame Chicken",
+          "kcal": 360.0,
+          "protein_g": 41.0,
+          "cuisine": "american",
+          "similarity": 0.51
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.507
+        },
+        {
+          "id": "R078",
+          "name": "Strawberry Watermelon Protein Shake Recipe",
+          "kcal": 215.0,
+          "protein_g": 27.0,
+          "cuisine": "american",
+          "similarity": 0.484
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [kcal-warning: stated 380 kcal vs macro-derived 451 kcal (19% off)] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4581,6 +7720,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/easy-korean-beef-bowl-with-kimchi-recipe-meal-prep.jpeg",
+      "selection_reason": "for recomp",
+      "top_alternatives": [
+        {
+          "id": "R023",
+          "name": "Zilzil Tibs Recipe",
+          "kcal": 450.0,
+          "protein_g": 28.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.798
+        },
+        {
+          "id": "R004",
+          "name": "Asa Tibs Recipe: How to Make Ethiopian Stir-Fried Fish",
+          "kcal": 480.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.72
+        },
+        {
+          "id": "R005",
+          "name": "Asa Wot Recipe: How to Make Ethiopian Spicy Fish Stew",
+          "kcal": 420.0,
+          "protein_g": 38.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.716
+        },
+        {
+          "id": "R026",
+          "name": "Beef Chop Suey Recipe",
+          "kcal": 490.0,
+          "protein_g": 38.0,
+          "cuisine": "chinese",
+          "similarity": 0.715
+        },
+        {
+          "id": "R020",
+          "name": "Quanta: How to Make Ethiopian Spiced Beef Jerky",
+          "kcal": 320.0,
+          "protein_g": 30.0,
+          "cuisine": "ethiopian",
+          "similarity": 0.71
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4647,6 +7829,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Paleo-Cashew-Chicken-Recipe-Main4.jpg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R066",
+          "name": "Fast Chicken Shawarma & Sweet Potato",
+          "kcal": 340.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.994
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.99
+        },
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.986
+        },
+        {
+          "id": "R045",
+          "name": "High Protein Ranch Turkey Burger Recipe",
+          "kcal": 345.0,
+          "protein_g": 49.0,
+          "cuisine": "american",
+          "similarity": 0.94
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.923
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4707,6 +7932,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Paleo-Thai-Turkey-Larb-Recipe-Main2-1.jpg",
+      "selection_reason": "for cutting",
+      "top_alternatives": [
+        {
+          "id": "R041",
+          "name": "High Protein Chipotle Cheddar Vegetarian Quesadilla Recipe",
+          "kcal": 287.0,
+          "protein_g": 33.0,
+          "cuisine": "mexican",
+          "similarity": 0.782
+        },
+        {
+          "id": "R060",
+          "name": "Soft Serve Protein Ice Cream Recipe",
+          "kcal": 170.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.654
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.642
+        },
+        {
+          "id": "R046",
+          "name": "High-Protein Grilled Chicken Gyros Recipe",
+          "kcal": 359.0,
+          "protein_g": 58.0,
+          "cuisine": "american",
+          "similarity": 0.631
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.611
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4772,6 +8040,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Sriracha-Honey-Sesame-Chicken.jpeg",
+      "selection_reason": "High-protein; for cutting; snack option",
+      "top_alternatives": [
+        {
+          "id": "R066",
+          "name": "Fast Chicken Shawarma & Sweet Potato",
+          "kcal": 340.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.824
+        },
+        {
+          "id": "R075",
+          "name": "Paleo Cashew Chicken Recipe",
+          "kcal": 340.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.818
+        },
+        {
+          "id": "R065",
+          "name": "Fall Chicken and Rice Soup",
+          "kcal": 330.0,
+          "protein_g": 39.0,
+          "cuisine": "american",
+          "similarity": 0.817
+        },
+        {
+          "id": "R053",
+          "name": "Pulled BBQ Chicken Potato Skins Recipe",
+          "kcal": 327.0,
+          "protein_g": 38.0,
+          "cuisine": "american",
+          "similarity": 0.809
+        },
+        {
+          "id": "R042",
+          "name": "High Protein Chocolate Peanut Butter Pancakes Recipe",
+          "kcal": 340.0,
+          "protein_g": 42.0,
+          "cuisine": "american",
+          "similarity": 0.8
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains meat/fish] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4826,6 +8137,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/Watermelon-Oatmeal-Smoothie-5-4-1.jpg",
+      "selection_reason": "Low-calorie; for cutting; protein shake",
+      "top_alternatives": [
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.822
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.807
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.79
+        },
+        {
+          "id": "R064",
+          "name": "Buffalo Chicken Meal Prep",
+          "kcal": 220.0,
+          "protein_g": 35.0,
+          "cuisine": "american",
+          "similarity": 0.787
+        },
+        {
+          "id": "R057",
+          "name": "Sesame CranButter Sirloin Steak Tip Skewers Recipe",
+          "kcal": 274.0,
+          "protein_g": 34.0,
+          "cuisine": "american",
+          "similarity": 0.747
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     },
@@ -4893,6 +8247,49 @@
       "fasting_yetsom": false,
       "injera_accompaniment": false,
       "image_url": "https://www.trifectanutrition.com/hubfs/vegetable-egg-white-frittata-recipe-slice.jpg",
+      "selection_reason": "Protein-dense low-calorie; for maintenance",
+      "top_alternatives": [
+        {
+          "id": "R029",
+          "name": "Cheesey Baked Zucchini Eggs Recipe",
+          "kcal": 150.0,
+          "protein_g": 20.0,
+          "cuisine": "american",
+          "similarity": 0.946
+        },
+        {
+          "id": "R025",
+          "name": "Baked Spinach, Mushroom & Gouda Quiche Recipe",
+          "kcal": 170.0,
+          "protein_g": 19.0,
+          "cuisine": "american",
+          "similarity": 0.913
+        },
+        {
+          "id": "R063",
+          "name": "Turkey Sausage Frittata With Egg Whites Recipe",
+          "kcal": 190.0,
+          "protein_g": 26.0,
+          "cuisine": "american",
+          "similarity": 0.91
+        },
+        {
+          "id": "R028",
+          "name": "Braised Beef Blumenberg With Mushrooms And Cauliflower Recipe",
+          "kcal": 206.0,
+          "protein_g": 29.0,
+          "cuisine": "american",
+          "similarity": 0.868
+        },
+        {
+          "id": "R051",
+          "name": "Nutritious Hot Body Turkey Chili Recipe",
+          "kcal": 228.0,
+          "protein_g": 33.0,
+          "cuisine": "american",
+          "similarity": 0.828
+        }
+      ],
       "notes": "[curation-note: fiber_g unknown — backfilled to 0] [curation-note: diet re-tagged — contains eggs/dairy] [curated]",
       "_extraction_method": "curate_recipe_db.py"
     }
