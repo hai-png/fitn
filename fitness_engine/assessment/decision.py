@@ -104,6 +104,32 @@ def decide_strategy(
                 " ⚠ BF% above operational ceiling — consider a small "
                 "cut to bring into healthy range."
             )
+        # v3.1.2: if the user has a sustained intake log showing they've
+        # been dieting at sub-maintenance calories for ≥30 days AND they're
+        # now at a healthy operational BF%, recommend REVERSE_DIET to
+        # gradually restore intake to TDEE without fat regain. This
+        # prevents the metabolic adaptation + rebound-binge cycle that
+        # often follows a sustained cut.
+        if (
+            profile.intake_log_kcal
+            and len(profile.intake_log_kcal) >= 30
+            and b["operational_lo"] <= body_fat_pct <= b["operational_hi"]
+        ):
+            avg_intake = sum(profile.intake_log_kcal) / len(profile.intake_log_kcal)
+            # Heuristic: if avg intake is < 90% of typical TDEE for this
+            # profile, the user has been in a sustained deficit.
+            # TDEE estimate = weight_kg × 35 (rough maintenance kcal/kg).
+            estimated_tdee = profile.weight_kg * 35
+            if avg_intake < estimated_tdee * 0.90:
+                return (
+                    RecommendedStrategy.REVERSE_DIET,
+                    f"Sustained deficit detected ({len(profile.intake_log_kcal)}d, "
+                    f"avg intake {avg_intake:.0f} kcal ≈ "
+                    f"{avg_intake/estimated_tdee*100:.0f}% of estimated TDEE). "
+                    f"BF%={body_fat_pct:.1f}% is in the healthy operational range — "
+                    "reverse-diet to gradually restore intake to maintenance and "
+                    "minimize metabolic adaptation + rebound risk."
+                )
         return RecommendedStrategy.MAINTENANCE, rationale
 
     # STRENGTH goal — treat like maintenance (calorie-neutral) so

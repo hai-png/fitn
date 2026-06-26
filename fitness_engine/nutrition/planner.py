@@ -13,7 +13,7 @@ from .hydration import compute_hydration
 from .macros import compute_macros
 from .micronutrients import compute_micronutrients
 from .rmr import compute_rmr
-from .tdee import compute_tdee
+from .tdee import compute_tdee, update_tdee_with_logs
 
 
 def build_nutrition_plan(
@@ -28,16 +28,13 @@ def build_nutrition_plan(
     Build the complete nutrition plan from profile + assessment.
 
     Pipeline:
-      RMR → TDEE → Calorie targets → Macros → Hydration + Micros → Timeline
+      RMR → TDEE → (adaptive TDEE if logs available) → Calorie targets → Macros → Hydration + Micros → Timeline
 
-    Phase-6 note: adaptive TDEE (`update_tdee_with_logs` in tdee.py) is
-    available but NOT wired into this pipeline — there is no intake/weight
-    log persisted on the UserProfile yet (the `intake_log_kcal` /
-    `weight_log_kg` fields are stubbed out as comments in profile.py).
-    Once those fields are populated, the call site would be:
-        if profile.weight_log_kg:
-            tdee = update_tdee_with_logs(tdee, ...)
-    between steps 2 and 3.
+    v3.1.2: adaptive TDEE is now wired in. When ``profile.weight_log_kg``
+    and ``profile.intake_log_kcal`` are both provided (same length, ≥8
+    entries), the TDEE is blended with the observed TDEE from the user's
+    actual intake + weight trajectory. Below 8 entries, the prior
+    (Mifflin-St Jeor × activity factor) is used unchanged.
     """
     # derive `active_deficit` from strategy (single source of
     # truth). CUT and RECOMP both place the user in an energy deficit.
@@ -54,8 +51,35 @@ def build_nutrition_plan(
         weight_reduced_pct=weight_reduced_pct,
     )
 
-    # 2. TDEE
+    # 2. TDEE (prior: Mifflin-St Jeor × activity factor)
     tdee = compute_tdee(rmr, profile)
+
+    # 2a. Adaptive TDEE — blend with observed TDEE if logs are available.
+    # v3.1.2: previously update_tdee_with_logs was public but never called.
+    # Now engaged when both logs are non-empty and equal-length.
+    adaptive_note = None
+    if (
+        profile.weight_log_kg
+        and profile.intake_log_kcal
+        and len(profile.weight_log_kg) == len(profile.intake_log_kcal)
+        and len(profile.weight_log_kg) >= 8
+    ):
+        n_days = len(profile.weight_log_kg)
+        avg_intake = sum(profile.intake_log_kcal) / n_days
+        weight_start = profile.weight_log_kg[0]
+        weight_end = profile.weight_log_kg[-1]
+        tdee = update_tdee_with_logs(
+            tdee=tdee,
+            avg_intake_kcal=avg_intake,
+            weight_start_kg=weight_start,
+            weight_end_kg=weight_end,
+            n_days=n_days,
+        )
+        adaptive_note = (
+            f"Adaptive TDEE engaged: {n_days} days of logs (avg intake "
+            f"{avg_intake:.0f} kcal, Δweight {weight_end - weight_start:+.1f} kg) "
+            f"→ final TDEE {tdee.final_tdee_kcal:.0f} kcal"
+        )
 
     # 3. Calorie targets
     calories = compute_calorie_targets(
@@ -97,6 +121,8 @@ def build_nutrition_plan(
         f"Strategy: {assessment.recommended_strategy.value}",
         f"Estimated timeline to goal: {timeline_weeks} weeks",
     ]
+    if adaptive_note:
+        notes.append(adaptive_note)
 
     return NutritionPlan(
         rmr=rmr,

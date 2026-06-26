@@ -287,6 +287,10 @@ def _strategy_to_calorie_strategy(strategy: RecommendedStrategy) -> CalorieStrat
         RecommendedStrategy.RECOMP: CalorieStrategy.RECOMP,
         RecommendedStrategy.MAINTENANCE: CalorieStrategy.MAINTENANCE,
         RecommendedStrategy.HABIT_CHANGE_FIRST: CalorieStrategy.MAINTENANCE,
+        # v3.1.2: REVERSE_DIET uses MAINTENANCE macro ratios (calories are
+        # escalated gradually via the reverse_diet_plan, but macro ratios
+        # stay at maintenance levels).
+        RecommendedStrategy.REVERSE_DIET: CalorieStrategy.MAINTENANCE,
     }[strategy]
 
 

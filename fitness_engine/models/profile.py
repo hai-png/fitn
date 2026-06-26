@@ -10,7 +10,7 @@ All measurements use METRIC units (kg, cm, L) internally.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 from ..utils.serialize import convert_for_json
@@ -148,8 +148,16 @@ class UserProfile:
     # stress_level: Optional[str] = None  # low/medium/high
 
     # === Historical data for adaptive TDEE (optional) ===
-    # intake_log_kcal: list[float] = field(default_factory=list)   # daily
-    # weight_log_kg: list[float] = field(default_factory=list)     # daily
+    # v3.1.2: wired into build_nutrition_plan via update_tdee_with_logs.
+    # When provided, the TDEE will be blended with the observed TDEE
+    # computed from the user's actual intake + weight trajectory.
+    # Format: list of daily weights (kg) in chronological order (oldest first).
+    # Must be at least 8 entries for the adaptive blend to engage (per
+    # adaptive_weight_data: n_days <= 7 → pure prior; >= 60 → pure observed).
+    weight_log_kg: list[float] = field(default_factory=list)
+    # Format: list of daily calorie intakes (kcal) in chronological order
+    # (oldest first). Must be the same length as weight_log_kg.
+    intake_log_kcal: list[float] = field(default_factory=list)
 
     def __post_init__(self):
         """Validate inputs and coerce enums from strings if needed."""

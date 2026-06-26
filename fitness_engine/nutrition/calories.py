@@ -424,7 +424,14 @@ def compute_calorie_targets(
     strategy: RecommendedStrategy,
     body_fat_pct: float,
 ) -> CalorieTargets:
-    """Compute calorie targets based on the recommended strategy."""
+    """Compute calorie targets based on the recommended strategy.
+
+    v3.1.2: REVERSE_DIET strategy is now wired in. It produces a progressive
+    weekly calorie-escalation plan from the user's current (sub-maintenance)
+    intake up to TDEE. The user's current intake is read from
+    ``profile.intake_log_kcal`` (most recent entry) if available; otherwise
+    a sensible default of 80% TDEE is used (typical post-cut intake).
+    """
     if strategy == RecommendedStrategy.CUT:
         return cut_target_calories(profile, tdee_kcal)
     elif strategy == RecommendedStrategy.BULK:
@@ -436,6 +443,26 @@ def compute_calorie_targets(
     elif strategy == RecommendedStrategy.HABIT_CHANGE_FIRST:
         # For habit-change-first: target = maintenance (no aggressive deficit)
         return maintenance_target_calories(tdee_kcal)
+    elif strategy == RecommendedStrategy.REVERSE_DIET:
+        # v3.1.2: reverse diet transitions the user from a sustained deficit
+        # back to maintenance. Current intake is read from the user's log
+        # if available; otherwise default to 80% TDEE (typical post-cut).
+        if profile.intake_log_kcal:
+            current_calories = float(profile.intake_log_kcal[-1])
+        else:
+            current_calories = tdee_kcal * 0.80
+        # Aggressiveness from profile.bulk_aggressiveness if set, else moderate.
+        aggressiveness = (
+            profile.bulk_aggressiveness.value
+            if profile.bulk_aggressiveness is not None
+            else "moderate"
+        )
+        _weekly_targets, calorie_targets = reverse_diet_plan(
+            current_calories=current_calories,
+            target_calories=tdee_kcal,
+            aggressiveness=aggressiveness,
+        )
+        return calorie_targets
     else:
         return maintenance_target_calories(tdee_kcal)
 

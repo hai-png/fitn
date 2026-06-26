@@ -53,6 +53,7 @@ class RecommendedStrategy(str, Enum):
     RECOMP = "recomp"
     MAINTENANCE = "maintenance"
     HABIT_CHANGE_FIRST = "habit_change_first"
+    REVERSE_DIET = "reverse_diet"   # v3.1.2: transition from sustained deficit to maintenance
 
 
 @dataclass

@@ -233,19 +233,60 @@ def apply_periodization(
 
         # Layer 3: Block phase modifier
         if progression == ProgressionScheme.BLOCK and block_phase:
-            mod = _BLOCK_PHASE_MODIFIERS.get(block_phase)
-            if mod:
-                # Apply reps multiplier
-                if "-" in reps:
-                    try:
-                        lo, hi = (int(x) for x in reps.split("-"))
-                        lo = max(1, round(lo * mod["reps_mult"]))
-                        hi = max(lo + 1, round(hi * mod["reps_mult"]))
-                        reps = f"{lo}-{hi}"
-                    except ValueError:
-                        pass
-                sets = max(2, sets + mod["sets_delta"])
-                rpe = max(4.0, min(10.0, rpe + mod["rpe_delta"]))
+            # v3.1.2: for STRENGTH goal, consult STRENGTH_PHASE_SPECS for the
+            # RPE/RIR targets per phase (per RippedBody Tables 7.11-7.13).
+            # Previously these specs were dead code — _BLOCK_PHASE_MODIFIERS
+            # used arbitrary multipliers not derived from the source. Now
+            # STRENGTH uses the spec's RPE range midpoint for compound_primary
+            # exercises (the main lifts), while other categories still use
+            # the generic _BLOCK_PHASE_MODIFIERS.
+            spec_applied = False
+            if goal == TrainingGoal.STRENGTH and category == ExerciseCategory.COMPOUND_PRIMARY:
+                try:
+                    from .intensity_model import STRENGTH_PHASE_SPECS, StrengthPhase
+                    # Map block_phase string → StrengthPhase enum.
+                    phase_map = {
+                        "accumulation": StrengthPhase.VOLUME,
+                        "intensification": StrengthPhase.LOAD,
+                        "peak": StrengthPhase.PEAK,
+                    }
+                    sp = phase_map.get(block_phase)
+                    if sp is not None:
+                        spec = STRENGTH_PHASE_SPECS[sp]
+                        # Use the midpoint of the spec's RPE range.
+                        rpe_lo, rpe_hi = spec.main_lift_rpe_range
+                        rpe = (rpe_lo + rpe_hi) / 2.0
+                        # Use the spec's reps range — backoff_reps for LOAD/PEAK,
+                        # secondary_reps for VOLUME (which has no backoff).
+                        if sp == StrengthPhase.VOLUME:
+                            rep_lo, rep_hi = spec.secondary_reps
+                        else:
+                            rep_lo, rep_hi = spec.backoff_reps
+                        # Strength-rep ranges are typically 3-6; clamp to ≥1.
+                        rep_lo = max(1, rep_lo)
+                        rep_hi = max(rep_lo + 1, rep_hi)
+                        reps = f"{rep_lo}-{rep_hi}"
+                        # Adjust sets: spec's main_lift_singles_per_week range midpoint.
+                        singles_lo, singles_hi = spec.main_lift_singles_per_week
+                        sets = max(1, (singles_lo + singles_hi) // 2)
+                        spec_applied = True
+                except (ImportError, KeyError, AttributeError):
+                    pass  # Fall through to generic _BLOCK_PHASE_MODIFIERS.
+
+            if not spec_applied:
+                mod = _BLOCK_PHASE_MODIFIERS.get(block_phase)
+                if mod:
+                    # Apply reps multiplier
+                    if "-" in reps:
+                        try:
+                            lo, hi = (int(x) for x in reps.split("-"))
+                            lo = max(1, round(lo * mod["reps_mult"]))
+                            hi = max(lo + 1, round(hi * mod["reps_mult"]))
+                            reps = f"{lo}-{hi}"
+                        except ValueError:
+                            pass
+                    sets = max(2, sets + mod["sets_delta"])
+                    rpe = max(4.0, min(10.0, rpe + mod["rpe_delta"]))
 
         # Layer 4: Deload week — reduce VOLUME AND INTENSITY.
         # CRITICAL FIX: previously only volume was reduced (-40% sets) with

@@ -50,12 +50,6 @@ worklog.md
 reports/meal_planning/coverage_analysis.json
 content_files/all_exercise_urls.json
 
-# Exercise demonstration videos (1,202 .mp4 files, ~4.8 MB).
-# These are referenced only as Exercise.video_url metadata (web URLs); they
-# are NOT loaded by the engine at runtime. Excluded from git to keep the
-# repo lean — see reports/CLEANUP_PLAN.md for rationale.
-content_files/videos/
-
 # Build artifacts
 build/
 dist/
