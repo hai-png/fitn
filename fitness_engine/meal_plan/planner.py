@@ -111,6 +111,7 @@ def build_meal_plan(
     weekly_protein_total = 0.0
     weekly_carb_total = 0.0
     weekly_fat_total = 0.0
+    weekly_fiber_total = 0.0  # v3.1.4 MEDIUM-6: track weekly fiber for summary
 
     for day_idx in range(7):
         day_num = day_idx + 1
@@ -207,6 +208,7 @@ def build_meal_plan(
                 weekly_protein_total += selected.total_protein_g
                 weekly_carb_total += selected.total_carb_g
                 weekly_fat_total += selected.total_fat_g
+                weekly_fiber_total += selected.total_fiber_g
             elif selected.fillers:
                 # fillers-only meal — the allocator couldn't scale any
                 # recipe to the slot target (e.g. a 700-kcal recipe can't
@@ -237,6 +239,7 @@ def build_meal_plan(
                 weekly_protein_total += selected.total_protein_g
                 weekly_carb_total += selected.total_carb_g
                 weekly_fat_total += selected.total_fat_g
+                weekly_fiber_total += selected.total_fiber_g
             else:
                 # Fallback — no recipe found AND no fillers (last resort)
                 fallback_count += 1
@@ -277,6 +280,7 @@ def build_meal_plan(
     weekly_avg_protein = weekly_protein_total / 7
     weekly_avg_carb = weekly_carb_total / 7
     weekly_avg_fat = weekly_fat_total / 7
+    weekly_avg_fiber = weekly_fiber_total / 7  # v3.1.4 MEDIUM-6
 
     # Match percentages
     target_kcal = requirements.daily_kcal
@@ -299,7 +303,8 @@ def build_meal_plan(
         f"Weekly average: {weekly_avg_kcal:.0f} kcal "
         f"({weekly_kcal_match:.1f}% match), "
         f"P{weekly_avg_protein:.0f}g ({weekly_protein_match:.1f}% match), "
-        f"C{weekly_avg_carb:.0f}g, F{weekly_avg_fat:.0f}g",
+        f"C{weekly_avg_carb:.0f}g, F{weekly_avg_fat:.0f}g, "
+        f"Fiber {weekly_avg_fiber:.0f}g",
         f"Diet: {requirements.diet_tag}"
         + (f", Cuisine: {cuisine_preference}" if cuisine_preference else ""),
         f"Recipe database: {db_stats['total_recipes']} recipes loaded",
@@ -328,6 +333,7 @@ def build_meal_plan(
             "weekly_avg_protein_g": round(weekly_avg_protein, 1),
             "weekly_avg_carb_g": round(weekly_avg_carb, 1),
             "weekly_avg_fat_g": round(weekly_avg_fat, 1),
+            "weekly_avg_fiber_g": round(weekly_avg_fiber, 1),  # v3.1.4 MEDIUM-6
             "weekly_kcal_match_pct": round(weekly_kcal_match, 1),
             "weekly_protein_match_pct": round(weekly_protein_match, 1),
             "training_days": sorted(training_days),

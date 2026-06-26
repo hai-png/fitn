@@ -152,6 +152,15 @@ def compute_hydration(
     # Concrete impact for 100 kg male, 2h intense exercise, hot climate:
     #   was: (3.0 + 0.3 + 1.6) × 1.3 = 6.37 L
     #   now: 3.0 + 0.3 + (1.6 × 1.3) = 5.38 L  (saves ~1 L/day overestimation)
+    #
+    # v3.1.4 HIGH-1 fix: previously this block added BOTH a `components[
+    # "climate (×mult on sweat)"]` entry (the delta) AND a `components[
+    # "exercise (climate-adj)"]` entry (the full climate-adjusted amount).
+    # The delta is already encoded in the climate-adj amount, so
+    # `sum(components) != water_liters_per_day` for any non-TEMPERATE climate.
+    # Now: only the climate-adj exercise entry is recorded (the delta is
+    # implicit in the difference from the un-adjusted amount, which we no
+    # longer record).
     mult = CLIMATE_MULTIPLIER.get(cl, 1.0)
     if mult != 1.0 and exercise_add > 0:
         # Undo the un-multiplied exercise_add we already added, then add back
@@ -159,16 +168,13 @@ def compute_hydration(
         water -= exercise_add
         climate_adjusted_exercise = exercise_add * mult
         water += climate_adjusted_exercise
-        components[f"climate ({cl.value}, ×{mult} on sweat)"] = round(
-            climate_adjusted_exercise - exercise_add, 2
-        )
-        # Update the displayed exercise component to reflect the actual sweat
-        # volume (was the pre-climate amount; now includes climate adjustment).
-        components[f"exercise ({ei.value}, {exercise_hours_per_day}h, climate-adj)"] = round(
-            climate_adjusted_exercise, 2
-        )
+        # Record ONLY the climate-adjusted exercise amount (not the delta)
+        # so `sum(components) == water_liters_per_day` remains true.
         # Remove the un-adjusted exercise key we added in Step 3.
         components.pop(f"exercise ({ei.value}, {exercise_hours_per_day}h)", None)
+        components[f"exercise ({ei.value}, {exercise_hours_per_day}h, ×{mult} climate)"] = round(
+            climate_adjusted_exercise, 2
+        )
 
     # Step 5
     # MEDIUM-severity fix: validate biological plausibility. A male user with
@@ -199,11 +205,14 @@ def compute_hydration(
         clamped = True
         original = water
         water = HYDRATION_SOFT_CEILING_L
-        # MEDIUM-severity fix: previously added a NEGATIVE entry to components
-        # (water - original is negative after clamping), making the sum of
-        # components no longer equal water_liters_per_day. Now we keep the
-        # clamp info in `notes` only — components stay as a true additive
-        # decomposition of the final water_liters_per_day.
+        # v3.1.4 HIGH-2 fix: scale all components proportionally so
+        # `sum(components) == water_liters_per_day` remains true after the
+        # clamp. Previously the clamp updated `water` but left `components`
+        # reflecting the pre-clamp decomposition — so the additive invariant
+        # broke (e.g. water=5.0L but sum(components)=6.5L). Now we apply a
+        # uniform scale factor (water / original) to every component value.
+        scale = water / original if original > 0 else 1.0
+        components = {k: round(v * scale, 2) for k, v in components.items()}
 
     notes = [
         f"EFSA AI ({profile.sex.value}): {EFSA_AI[profile.sex]} L/day",

@@ -25,7 +25,13 @@ def parse_view_count(ex: Exercise) -> int:
     # stated "Returns 0 if the field is missing or unparseable" contract.
     if ex is None or not hasattr(ex, "views") or ex.views is None:
         return 0
-    v = ex.views.upper().replace(" ", "")
+    # v3.1.4 LOW-6 fix: coerce non-string views (int, float, bool) to str
+    # before calling .upper(). Previously a numeric ``views`` field raised
+    # AttributeError, violating the documented contract.
+    if not isinstance(ex.views, str):
+        v = str(ex.views).upper().replace(" ", "")
+    else:
+        v = ex.views.upper().replace(" ", "")
     try:
         if "K" in v:
             return int(float(v.replace("K", "")) * 1_000)

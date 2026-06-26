@@ -85,7 +85,9 @@ pytest --cov=fitness_engine  # with coverage report (90%+)
 
 ## Documentation
 
+- [`ANALYSIS_v3.1.4.md`](ANALYSIS_v3.1.4.md) — latest critical analysis report + systematic fixes (v3.1.4)
 - [`ANALYSIS.md`](ANALYSIS.md) — critical analysis report + systematic fixes (v3.1.1)
+- [`REAUDIT.md`](REAUDIT.md) — re-audit report (v3.1.3)
 - [`reports/meal_planning/DESIGN.md`](reports/meal_planning/DESIGN.md) — meal planner design
 - [`reports/meal_planning/coverage_analysis.md`](reports/meal_planning/coverage_analysis.md) — recipe coverage
 - [`reports/rippedbody_insights.md`](reports/rippedbody_insights.md) — domain sources

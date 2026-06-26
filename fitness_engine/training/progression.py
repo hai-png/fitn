@@ -75,25 +75,62 @@ def linear_progression_next(
 def dup_next(
     current_weights: dict[str, float],   # day_type → weight, e.g. {"heavy": 100, "moderate": 90, "light": 80}
     last_reps: dict[str, list[int]],     # day_type → reps achieved
+    goal: "TrainingGoal | None" = None,  # v3.1.4: optional, for goal-aware targets
 ) -> dict[str, tuple[float, str]]:
     """
     Daily Undulating Periodization: rotate heavy/moderate/light days.
 
     Each day type progresses independently with linear progression rules.
 
-    Task 5-vegan-override #4: the per-day rep targets now match the relative
-    DUP modifiers in ``periodization._DUP_DAY_MODIFIERS`` (applied to the
-    base hypertrophy rep range "5-8"):
-      - heavy   = 50-70% of 5-8 → 3-6 reps  (was 3-5 — fixed-target, inconsistent)
-      - moderate = 100% of 5-8 → 5-8 reps   (was 8-10)
-      - light    = 150-180% of 5-8 → 8-14 reps (was 12-15)
-    The previous fixed-target dict defined "heavy" as 3-5 reps, which is fine
-    in isolation but inconsistent with ``apply_periodization`` which scales
-    the base rep range by the heavy multiplier (0.5-0.7) — i.e. heavy = 3-6.
+    v3.1.4 fixes:
+      - **H1**: targets now match ``apply_periodization``'s actual output
+        (was hardcoded ``{"heavy": (3,6), "moderate": (5,8), "light": (8,14)}``
+        which only matched the old pre-v3.1.0 fixed hypertrophy multipliers).
+        When ``goal`` is provided, targets are derived from the goal's base
+        preset (COMPOUND_PRIMARY) using the same ``_dup_modifiers_for_goal``
+        table that ``apply_periodization`` uses, so progression triggers at
+        the same rep count the periodization layer targets.
+      - **H4**: unknown ``day_type`` keys no longer raise ``KeyError`` —
+        they're skipped with a "no target for day_type" note. Previously a
+        custom split with a non-standard day_type (e.g. ``"peak"``) crashed.
+
+    Args:
+      current_weights: ``{day_type: weight_kg}``
+      last_reps: ``{day_type: [reps_per_set]}``
+      goal: optional ``TrainingGoal`` for goal-aware targets. If ``None``,
+        falls back to the legacy fixed targets (HYPERTROPHY-equivalent).
     """
+    # v3.1.4 H1: derive targets from the same modifier table that
+    # apply_periodization uses, so progression triggers match the actual
+    # rep ranges produced for the user's goal.
+    if goal is not None:
+        from ..models.training import ExerciseCategory, TrainingGoal
+        from .periodization import _dup_modifiers_for_goal, _GOAL_PRESETS
+        presets = _GOAL_PRESETS.get(goal, _GOAL_PRESETS[TrainingGoal.HYPERTROPHY])
+        preset = presets[ExerciseCategory.COMPOUND_PRIMARY]
+        try:
+            base_lo, base_hi = (int(x) for x in preset.reps.split("-"))
+        except (ValueError, AttributeError):
+            base_lo, base_hi = 5, 8  # defensive fallback
+        modifiers = _dup_modifiers_for_goal(goal)
+        from .periodization import _round_half_up
+        targets: dict[str, tuple[int, int]] = {}
+        for day_type, mod in modifiers.items():
+            new_lo = max(1, _round_half_up(base_lo * mod["reps_lo_mult"]))
+            new_hi = max(new_lo + 1, _round_half_up(base_hi * mod["reps_hi_mult"]))
+            targets[day_type] = (new_lo, new_hi)
+    else:
+        # Legacy default — matches the old hardcoded HYPERTROPHY targets.
+        targets = {"heavy": (3, 6), "moderate": (5, 8), "light": (8, 14)}
+
     next_state = {}
-    targets = {"heavy": (3, 6), "moderate": (5, 8), "light": (8, 14)}
     for day_type, weight in current_weights.items():
+        # v3.1.4 H4: skip unknown day_types with a clear note instead of
+        # raising KeyError. Callers with custom day_types (e.g. "peak") get
+        # a graceful degradation rather than a crash.
+        if day_type not in targets:
+            next_state[day_type] = (weight, f"no target for day_type {day_type!r} — repeat weight")
+            continue
         reps = last_reps.get(day_type, [])
         if reps:
             next_w, expl = linear_progression_next(

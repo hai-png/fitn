@@ -81,6 +81,7 @@ def compute_pre_workout_target(
     daily_protein_g: float,
     daily_carb_g: float,
     daily_fat_g: float,
+    daily_fiber_g: float = 0.0,
 ) -> MealSlotTarget:
     """
     Pre-workout meal target — preserves daily macro totals (Phase-6 fix).
@@ -97,6 +98,11 @@ def compute_pre_workout_target(
     any reference to the user's daily macros, breaking keto users (e.g. a
     keto user with daily C=50g would get C=32g in PRE alone — a 64% daily
     carb surplus from a single slot).
+
+    v3.1.4 MEDIUM-4 fix: ``target_fiber_g`` is now derived proportionally from
+    ``daily_fiber_g`` (capped at 2g) instead of being hardcoded to 2.0.
+    Previously a user with daily_fiber=4g would get PRE+POST fiber = 6g
+    (50% overshoot) while std slots got 0g via `max(0, residual)` clamping.
     """
     slot_kcal = daily_kcal * 0.10
     # Start with 10% of daily macros (preserves daily total when combined
@@ -108,13 +114,17 @@ def compute_pre_workout_target(
     target_p, target_c, target_f = _rebalance_slot_macros(
         slot_kcal, base_p, base_c, base_f, *PRE_WORKOUT_MACRO_RATIO,
     )
+    # v3.1.4 MEDIUM-4: proportional fiber, capped at 2g. PRE takes 10% of
+    # daily fiber (matching its 10% kcal share) but never exceeds 2g (PRE is
+    # eaten 60-90 min pre-workout where high fiber causes GI distress).
+    pre_fiber = min(2.0, daily_fiber_g * 0.10) if daily_fiber_g > 0 else 2.0
     return MealSlotTarget(
         meal_type=MealType.PRE_WORKOUT,
         target_kcal=slot_kcal,
         target_protein_g=target_p,
         target_carb_g=target_c,
         target_fat_g=target_f,
-        target_fiber_g=2.0,   # low fiber for fast digestion
+        target_fiber_g=pre_fiber,
         is_training_day_slot=True,
         timing_note="60-90 min before workout",
     )
@@ -175,6 +185,7 @@ def compute_post_workout_target(
     daily_protein_g: float,
     daily_carb_g: float,
     daily_fat_g: float,
+    daily_fiber_g: float = 0.0,
 ) -> MealSlotTarget:
     """
     Post-workout meal target — preserves daily macro totals (Phase-6 fix).
@@ -192,13 +203,18 @@ def compute_post_workout_target(
     target_p, target_c, target_f = _rebalance_slot_macros(
         slot_kcal, base_p, base_c, base_f, *POST_WORKOUT_MACRO_RATIO,
     )
+    # v3.1.4 MEDIUM-4: proportional fiber, capped at 4g. POST takes 15% of
+    # daily fiber (matching its 15% kcal share) but never exceeds 4g (POST is
+    # eaten 30-60 min post-workout; fiber slows protein absorption which is
+    # undesirable in the immediate recovery window).
+    post_fiber = min(4.0, daily_fiber_g * 0.15) if daily_fiber_g > 0 else 4.0
     return MealSlotTarget(
         meal_type=MealType.POST_WORKOUT,
         target_kcal=slot_kcal,
         target_protein_g=target_p,
         target_carb_g=target_c,
         target_fat_g=target_f,
-        target_fiber_g=4.0,
+        target_fiber_g=post_fiber,
         is_training_day_slot=True,
         timing_note="30-60 min after workout",
     )
@@ -382,8 +398,8 @@ def compute_meal_plan_requirements(
             meal_frequency, daily_kcal, daily_p, daily_c, daily_f, daily_fiber,
             training_day=True,
         )
-        pre_target = compute_pre_workout_target(daily_kcal, daily_p, daily_c, daily_f)
-        post_target = compute_post_workout_target(daily_kcal, daily_p, daily_c, daily_f)
+        pre_target = compute_pre_workout_target(daily_kcal, daily_p, daily_c, daily_f, daily_fiber)
+        post_target = compute_post_workout_target(daily_kcal, daily_p, daily_c, daily_f, daily_fiber)
         training_day_slot_targets = _insert_pre_post_slots(
             training_day_slot_targets, pre_target, post_target,
             profile.training_time_of_day.value,
@@ -611,8 +627,8 @@ def _build_slot_list(
     # Training day: compute PRE/POST to derive residual macros, then build
     # residual slots. PRE/POST themselves are returned separately by the
     # caller via ``_insert_pre_post_slots``.
-    pre_target = compute_pre_workout_target(daily_kcal, daily_p, daily_c, daily_f)
-    post_target = compute_post_workout_target(daily_kcal, daily_p, daily_c, daily_f)
+    pre_target = compute_pre_workout_target(daily_kcal, daily_p, daily_c, daily_f, daily_fiber)
+    post_target = compute_post_workout_target(daily_kcal, daily_p, daily_c, daily_f, daily_fiber)
     std_p_total = daily_p - pre_target.target_protein_g - post_target.target_protein_g
     std_c_total = daily_c - pre_target.target_carb_g - post_target.target_carb_g
     std_f_total = daily_f - pre_target.target_fat_g - post_target.target_fat_g

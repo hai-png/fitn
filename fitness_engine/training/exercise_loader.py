@@ -201,7 +201,7 @@ _COMPOUND_PRIMARY_SLUGS = {
     "seated-arnold-press", "standing-arnold-press",   # was "arnold-press" (no bare slug in DB)
     "smith-machine-shoulder-press",
     # Horizontal pull
-    "bent-over-row",                      # actual DB slug (was "bent-over-barbell-row")
+    "bent-over-barbell-row",              # verified DB slug for "Bent Over Row" (barbell)
     "pendlay-row",
     "machine-t-bar-row", "banded-machine-t-bar-row",  # was "t-bar-row" (only machine variants in DB)
     "chest-supported-dumbbell-row-with-isohold",
@@ -247,7 +247,13 @@ def derive_category(
     """
     if exercise_type:
         et = exercise_type.lower()
-        if "cardio" in et or "conditioning" in et:
+        # v3.1.4: added "plyometric" — previously Plyometrics exercises (33
+        # in the DB) fell through to mechanics-based classification and
+        # ended up as COMPOUND_SECONDARY, getting prescribed as strength work
+        # (e.g. Bodyweight Squat Jump at RPE 6 for 8-12 reps) when they're
+        # actually high-velocity metabolic work that doesn't belong in a
+        # hypertrophy slot.
+        if "cardio" in et or "conditioning" in et or "plyometric" in et:
             return ExerciseCategory.CARDIO
         if any(k in et for k in (
             "mobility", "stretch", "foam roll", "warm",

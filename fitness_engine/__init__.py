@@ -59,7 +59,7 @@ from .models.training import (
     TrainingPlan,
 )
 
-__version__ = "3.1.3"
+__version__ = "3.1.4"
 
 __all__ = [
     "__version__",

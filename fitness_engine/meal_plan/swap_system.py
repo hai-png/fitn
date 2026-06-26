@@ -243,7 +243,13 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     # breast"). Also skip matching if the ingredient contains a plant-named
     # phrase that subsumes the key (e.g. "butter lettuce" contains "butter"
     # but "butter lettuce" is a plant).
-    for key, swaps in INGREDIENT_SWAPS.items():
+    #
+    # v3.1.4 MEDIUM-3 fix: iterate keys sorted by length DESCENDING so the
+    # most-specific key wins. Previously "beef" (4 chars) matched before
+    # "ground beef" (11 chars), so "ground beef sirloin" returned the generic
+    # "beef" swaps and lost the "ground turkey" option specific to ground beef.
+    for key in sorted(INGREDIENT_SWAPS.keys(), key=len, reverse=True):
+        swaps = INGREDIENT_SWAPS[key]
         # If any plant-named phrase containing this key is present in the
         # ingredient, skip this key (the dairy/egg keyword is part of a
         # plant name, not the actual ingredient).
@@ -289,7 +295,15 @@ def get_swaps_for_recipe_ingredients(
                 bad_patterns.append((pat, f"allergen:{ag_lower}"))
     if excluded_ingredients:
         for ing in excluded_ingredients:
-            bad_patterns.append((re.compile(re.escape(ing.lower()), re.IGNORECASE), f"excluded:{ing}"))
+            # v3.1.4 HIGH-2 fix: add word boundaries so excluding "nut"
+            # doesn't match the "nut" inside "nutritional yeast". Previously
+            # the bare `re.escape(ing.lower())` (no \b) was inconsistent with
+            # check_excluded_ingredients in recipe_scorer.py which uses \b...\b.
+            ing_lower = ing.lower().strip()
+            bad_patterns.append((
+                re.compile(r"\b" + re.escape(ing_lower) + r"\b", re.IGNORECASE),
+                f"excluded:{ing}",
+            ))
 
     def _is_safe(alt_name: str) -> bool:
         """Return True if the alternative name contains no allergen/excluded ingredient."""

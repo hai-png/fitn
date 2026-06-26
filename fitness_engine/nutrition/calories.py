@@ -63,8 +63,14 @@ SWEET_SPOT_CUT_RATE_PCT = 0.005  # 0.50 %
 # SWEET_SPOT_CUT_RATE_PCT) — the final fallback (leaner than all thresholds)
 # is also the sweet spot.
 CUT_RATE_BF_THRESHOLDS: dict[Sex, list[float]] = {
+    # v3.1.4 MEDIUM fix: FEMALE[0] changed from 35 → 32 to align with
+    # OBESE_THRESHOLD[FEMALE]=32 (from assessment._thresholds). Previously
+    # obese women in the 32-34% BF range got MODERATE cut rate (0.75%)
+    # while obese men (≥25%) got MAX rate (1.0%) — a sex-based
+    # inconsistency. Now both sexes use their obese threshold as the
+    # trigger for the max-safe cut rate.
     Sex.MALE:   [25, 20, 15],
-    Sex.FEMALE: [35, 28, 22],
+    Sex.FEMALE: [32, 28, 22],
 }
 # Cut rates corresponding to each threshold tier (and the below-all-thresholds
 # fallback). Indexed by position relative to CUT_RATE_BF_THRESHOLDS[sex].
@@ -136,7 +142,21 @@ def cut_target_calories(
     Compute cut calorie target.
 
     TDCI_cut = TDEE − (weight_kg × weekly_rate × 1100)
+
+    v3.1.4 HIGH-3 fix: validates that ``rate_pct`` (if provided) is positive.
+    Previously a negative rate silently produced a SURPLUS target labeled
+    ``CalorieStrategy.DEFICIT`` (e.g. ``rate_pct=-0.05``, TDEE=2500 →
+    target=7010 kcal, delta=+4510) — internally inconsistent and misleading.
     """
+    # v3.1.4 HIGH-3: validate explicit rate_pct is positive. The auto-derived
+    # paths (cut_rate_tier or _select_cut_rate_by_bf) always return positive
+    # values from the constant tables, so this guard only fires for callers
+    # passing an explicit rate_pct — but it catches the foot-gun.
+    if rate_pct is not None and rate_pct <= 0:
+        raise ValueError(
+            f"rate_pct must be positive for a cut (got {rate_pct}). "
+            f"Use bulk_target_calories for surpluses."
+        )
     # Select rate
     if rate_pct is None:
         if profile.cut_rate_tier is not None:
@@ -238,7 +258,17 @@ def bulk_target_calories(
     set, we use `BULK_WEEKLY_RATE_TIERS[aggressiveness][status_idx]` and
     convert the weekly rate to a monthly rate (×4.345). When not set, we
     fall back to the legacy `BULK_RATE_BY_STATUS` table.
+
+    v3.1.4 HIGH-3 fix: validates that ``rate_pct_monthly`` (if provided)
+    is non-negative. Previously a negative rate silently produced a DEFICIT
+    target labeled ``CalorieStrategy.SURPLUS``.
     """
+    # v3.1.4 HIGH-3: validate explicit rate is non-negative.
+    if rate_pct_monthly is not None and rate_pct_monthly < 0:
+        raise ValueError(
+            f"rate_pct_monthly must be non-negative for a bulk (got {rate_pct_monthly}). "
+            f"Use cut_target_calories for deficits."
+        )
     if rate_pct_monthly is None:
         # honor bulk_aggressiveness if the user set it.
         if profile.bulk_aggressiveness is not None:

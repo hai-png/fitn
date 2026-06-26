@@ -555,8 +555,43 @@ def recipes_by_filters(
                 for d in r.diet_types
             )]
         else:
-            # Exact match for other diet types
-            out = [r for r in out if dt in [d.upper() for d in r.diet_types]]
+            # v3.1.4 HIGH-1 fix: previously this was a bare exact-match,
+            # which excluded VEGAN_* recipes from OMNI_* users (and
+            # VEGAN_ETHIOPIAN from OMNI_ETHIOPIAN users). That dropped ~40
+            # recipes from the main pool that the scorer (score_diet_match)
+            # explicitly allowed (VEGAN_* matches OMNI_* at score 90).
+            # Now: an OMNI_<X> user gets OMNI_<X>, OMNI, VEGAN_<X>, VEGAN
+            # (all omni-compatible). A VEGAN_<X> user gets VEGAN_<X>, VEGAN
+            # only (matches the existing VEGAN branch above, but kept here
+            # for completeness). For other diet types (e.g. VEGETARIAN_<X>),
+            # we include their own family + VEGETARIAN/VEGAN base.
+            # Implementation: match if any recipe diet_type's UPPER form
+            # equals dt, equals the base prefix (before _), or is VEGAN
+            # (vegan food is omni- and vegetarian-compatible).
+            base_prefix = dt.split("_")[0]
+            if base_prefix == "OMNI":
+                # OMNI users can eat anything tagged OMNI_* or VEGAN_* or OMNI/VEGAN
+                out = [r for r in out if any(
+                    d.upper() == dt
+                    or d.upper() == "OMNI"
+                    or d.upper().startswith("OMNI_")
+                    or d.upper() == "VEGAN"
+                    or d.upper().startswith("VEGAN_")
+                    for d in r.diet_types
+                )]
+            elif base_prefix == "VEGETARIAN":
+                # VEGETARIAN users get VEGETARIAN_*, VEGETARIAN, VEGAN_*, VEGAN
+                out = [r for r in out if any(
+                    d.upper() == dt
+                    or d.upper() == "VEGETARIAN"
+                    or d.upper().startswith("VEGETARIAN_")
+                    or d.upper() == "VEGAN"
+                    or d.upper().startswith("VEGAN_")
+                    for d in r.diet_types
+                )]
+            else:
+                # Defensive exact match for unexpected diet tags
+                out = [r for r in out if dt in [d.upper() for d in r.diet_types]]
         # filter diet-warnings universally. A "VEGAN" recipe whose
         # ingredient scan flagged meat/dairy/eggs is a curation error and
         # should not be served to OMNI users either — otherwise the same

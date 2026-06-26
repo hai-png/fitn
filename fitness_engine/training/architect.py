@@ -549,9 +549,10 @@ def _build_mesocycle(
                 focus=base_w.focus,
                 exercises=new_exercises,
                 estimated_duration_min=base_w.estimated_duration_min,
-                # deload recipe matches `apply_periodization` behavior:
-                # -40% sets, RPE unchanged.
-                notes="Deload: -40% sets, RPE unchanged" if is_deload else "",
+                # v3.1.4 H2: deload recipe matches `apply_periodization`
+                # behavior (periodization.py:302-304): -50% sets, RPE -1.5
+                # (midpoint of RippedBody Rule 8.3's -1 to -2 RIR range).
+                notes="Deload: -50% sets, RPE -1.5" if is_deload else "",
             )
             apply_periodization(
                 workout=new_w,
@@ -697,9 +698,28 @@ def _compute_volume_notes(
             target_vol[muscle] = total
     # Carry over any muscles present in weekly_vol but not covered by the
     # target list (e.g. calves, abs) so they're still validated.
+    #
+    # v3.1.4 MEDIUM-1 fix: when a focus muscle is an alias group (e.g.
+    # ``"back"`` which aggregates upper_back + lats + lower_back +
+    # middle_back + traps), DON'T carry over its constituent sub-muscles
+    # individually — they're already counted in the aggregate. Previously
+    # ``back`` focus triggered a false MRV warning: aggregate ``back=31``
+    # sets + carryover of ``lower_back=6`` etc. caused the validator to
+    # compare 31 against the single-muscle MRV=27 and warn about recovery.
+    # Now: skip carryover for any sub-muscle of an aliased focus muscle.
+    aliased_submuscles: set[str] = set()
+    for fm in focus_muscles:
+        aliases = _MUSCLE_ALIASES.get(fm)
+        if aliases and len(aliases) > 1:
+            # This focus muscle is an aggregate; its sub-muscles are already
+            # counted in target_vol[fm], so exclude them from carryover.
+            aliased_submuscles.update(aliases)
     for muscle, sets in expanded_vol.items():
-        if muscle not in target_vol:
-            target_vol[muscle] = sets
+        if muscle in target_vol:
+            continue
+        if muscle in aliased_submuscles:
+            continue  # already counted in the aggregate
+        target_vol[muscle] = sets
 
     vol_notes: list[str] = list(validate_weekly_volume(
         target_vol,
@@ -908,12 +928,13 @@ def build_training_plan(
 # === Helper: find day_type for a workout ===
 
 def _find_day_type_for_workout(workout: Workout) -> str | None:
-    """Look up the day_type tag from the original template."""
-    for split in ALL_SPLITS:
-        for tmpl in split.templates:
-            if tmpl.name == workout.name:
-                return tmpl.day_type
-    return None
+    """Look up the day_type tag from the original template.
+
+    v3.1.4 MEDIUM-3 fix: delegate to the precomputed ``_TEMPLATE_NAME_INDEX``
+    (built at module load from ALL_SPLITS × templates) instead of walking
+    ALL_SPLITS × templates on every call. Same result, O(1) instead of O(N×M).
+    """
+    return _TEMPLATE_NAME_INDEX.get(workout.name)
 
 
 __all__ = ["build_training_plan"]

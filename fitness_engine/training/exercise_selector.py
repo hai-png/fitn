@@ -169,6 +169,33 @@ def _user_max_experience_rank(status: TrainingStatus) -> int:
     }.get(status, 1)
 
 
+def _user_level_rank(status: TrainingStatus) -> int:
+    """The user's *own* experience rank — used for sort-distance, NOT for the
+    experience cap.
+
+    Distinct from ``_user_max_experience_rank`` (which is the highest exercise
+    rank the user is *allowed* to do). For sorting we want to prefer exercises
+    whose rank is closest to the user's *own* level:
+
+      - BEGINNER → 0 (prefer Beginner exercises)
+      - NOVICE   → 0 (still closer to Beginner)
+      - INTERMEDIATE → 1 (prefer Intermediate)
+      - ADVANCED  → 2 (prefer Advanced)
+
+    v3.1.4 fix: previously the sort used ``_user_max_experience_rank`` as the
+    distance anchor, which made INTERMEDIATE users (cap=2) prefer Advanced
+    exercises (distance 0) over Intermediate ones (distance 1) — the opposite
+    of the intent. Novices (cap=1) preferred Intermediate (distance 0) over
+    Beginner (distance 1), also wrong.
+    """
+    return {
+        TrainingStatus.BEGINNER: 0,
+        TrainingStatus.NOVICE: 0,
+        TrainingStatus.INTERMEDIATE: 1,
+        TrainingStatus.ADVANCED: 2,
+    }.get(status, 1)
+
+
 # === View-count parsing for popularity sort ===
 # _view_count now imports from the shared _utils module
 # (was duplicated in exercise_categorization.py).
@@ -295,6 +322,7 @@ def select_exercise_for_slot(
       d. Alphabetical name (stable tiebreaker)
     """
     max_rank = _user_max_experience_rank(user_experience)
+    user_level_rank = _user_level_rank(user_experience)
     # CRITICAL FIX: removed dead `expected_force` variable (was computed but
     # never used — pattern matching is delegated to _matches_pattern which
     # has its own force_type fallback).
@@ -341,17 +369,17 @@ def select_exercise_for_slot(
             pool = [ex for ex in pool if _experience_rank(ex) <= max_rank]
         if not pool:
             return None
-        # CRITICAL FIX: previously the sort key was `_experience_rank(ex)`
-        # ascending, which ALWAYS preferred Beginner exercises (rank 0) over
-        # Intermediate/Advanced — regardless of the user's level. So an
-        # INTERMEDIATE user got "Decline Bench Press" (Beginner) instead of
-        # "Barbell Bench Press" (Intermediate). Now we sort by ABSOLUTE
-        # DISTANCE from the user's max rank, so an INTERMEDIATE user gets
-        # Intermediate-ranked exercises first, a BEGINNER gets Beginner
-        # first, an ADVANCED gets Advanced first.
+        # CRITICAL FIX (v3.1.4): previously the sort key used
+        # `abs(_experience_rank(ex) - max_rank)` where `max_rank` is the
+        # CAP (highest allowed rank), not the user's own level. This made
+        # INTERMEDIATE users (cap=2) prefer Advanced exercises (distance 0)
+        # over Intermediate ones (distance 1) — the opposite of the intent.
+        # Now we anchor on `_user_level_rank` (the user's *own* level) so
+        # INTERMEDIATE users prefer Intermediate exercises, ADVANCED users
+        # prefer Advanced, and BEGINNER/NOVICE users prefer Beginner.
         pool.sort(key=lambda ex: (
             _equipment_preference_rank(ex, slot.pattern, equipment_allowed),
-            abs(_experience_rank(ex) - max_rank),
+            abs(_experience_rank(ex) - user_level_rank),
             -_view_count(ex),
             ex.name.lower(),
         ))

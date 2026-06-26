@@ -112,7 +112,15 @@ MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
             "home_gym": ["barbell", "trap_bar", "dumbbell", "kettlebell", "bodyweight"],
             "bodyweight_only": ["bodyweight", "bands"],
         },
-        detection_keywords=["deadlift", "rdl", "romanian", "stiff-leg", "good-morning", "hip-hinge"],
+        detection_keywords=["deadlift", "rdl", "romanian", "stiff-leg", "good-morning", "hip-hinge",
+                            # v3.1.4 H5 fix: add single-leg deadlift / RDL
+                            # keywords so they score 119 / 113 respectively,
+                            # beating the generic "single-leg" keyword (110)
+                            # in the single_leg pattern. Without this,
+                            # "Single Leg Deadlift" was mis-bucketed as
+                            # single_leg instead of hinge.
+                            "single-leg-deadlift", "single-leg-rdl",
+                            "single-leg-romanian"],
     ),
     "romanian_deadlift": MovementPatternSpec(
         name="romanian_deadlift",
@@ -185,7 +193,14 @@ MOVEMENT_PATTERNS: dict[str, MovementPatternSpec] = {
             "home_gym": ["dumbbell", "bodyweight", "bands"],
             "bodyweight_only": ["bodyweight", "bands"],
         },
-        detection_keywords=["leg-curl", "hamstring-curl", "nordic"],
+        detection_keywords=["leg-curl", "hamstring-curl", "nordic",
+                            # v3.1.4 H5 fix: add "single-leg-curl" so
+                            # single-leg hamstring curls score 115 (100+15)
+                            # beating the generic "single-leg" keyword (110)
+                            # in the single_leg pattern. Without this,
+                            # "Single Leg Curl" was mis-bucketed as
+                            # single_leg instead of knee_flexion.
+                            "single-leg-curl"],
     ),
     "knee_extension": MovementPatternSpec(
         name="knee_extension",
@@ -573,7 +588,12 @@ def _detect_pattern(exercise: Exercise) -> str:
     """
     Detect the canonical movement pattern for an exercise.
 
-    Strategy:
+    Strategy (v3.1.4 — exercise_type FIRST):
+      0. Match by ``exercise_type`` for non-strength categories
+         (cardio / conditioning / plyometrics / warmup / activation / SMR /
+         stretching). These must be checked BEFORE keyword matching so a
+         "Concept 2 Rowing Machine" (Conditioning) doesn't get mis-bucketed
+         as ``horizontal_pull`` just because the slug contains "row".
       1. Match by slug against detection_keywords (most reliable)
       2. Match by name against detection_keywords (fallback)
       3. Match by force_type + primary_muscle (last resort)
@@ -581,6 +601,27 @@ def _detect_pattern(exercise: Exercise) -> str:
       5. Default: "core_flexion" for abs-targeted bodyweight
       6. Default: "horizontal_push" / "horizontal_pull" based on force
     """
+    # 0. Non-strength exercise_type → short-circuit before keyword matching.
+    # v3.1.4 CRITICAL FIX: previously this check ran AFTER keyword matching
+    # (step 4-5 below), so 31/39 Conditioning, 33/33 Plyometrics, 18/50
+    # Warmup, and 3/7 Activation exercises whose slugs contained strength
+    # keywords (e.g. "row", "press", "squat") were mis-bucketed as strength
+    # patterns. Moving the check to the top ensures every exercise with a
+    # non-strength exercise_type gets the right pattern regardless of slug.
+    if exercise.exercise_type:
+        et = exercise.exercise_type.lower()
+        # Cardio / conditioning / plyometrics → "cardio" pattern (the
+        # selector already filters CARDIO-category exercises out of strength
+        # slots, so the pattern is used only for volume tracking + reporting).
+        if "cardio" in et or "conditioning" in et or "plyometric" in et:
+            return "cardio"
+        # Mobility / warmup / activation / SMR / stretching → "mobility".
+        if any(k in et for k in (
+            "mobility", "stretch", "warm", "smr", "activation", "self-massage",
+            "foam roll",
+        )):
+            return "mobility"
+
     slug = (exercise.slug or "").lower()
     name = exercise.name.lower()
     combined = f"{slug} {name}"
@@ -627,19 +668,14 @@ def _detect_pattern(exercise: Exercise) -> str:
         elif ft == "hinge":
             return "hinge"
 
-    # 4. Mobility
+    # 4. Mobility (defensive — already handled in step 0 for typed exercises,
+    # but kept for exercises whose exercise_type is None yet category is set).
     if exercise.exercise_type and "mobility" in exercise.exercise_type.lower():
         return "mobility"
     if exercise.exercise_type and "stretch" in exercise.exercise_type.lower():
         return "mobility"
 
-    # 5. Cardio
-    # a cardio exercise with exercise_type == "Cardio" was
-    # previously bucketed as "mobility" (the fallback comment said "group with
-    # mobility for now"). That loses the cardio categorization entirely and
-    # makes the volume-by-pattern summary misleading. Now we return a
-    # dedicated "cardio" pattern so callers can route cardio volume
-    # separately from strength-training patterns.
+    # 5. Cardio (defensive — already handled in step 0).
     if exercise.exercise_type and "cardio" in exercise.exercise_type.lower():
         return "cardio"
 

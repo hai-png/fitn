@@ -115,7 +115,9 @@ _DUP_DAY_MODIFIERS_HYPERTROPHY: dict[str, dict[str, float]] = {
 }
 
 _DUP_DAY_MODIFIERS_STRENGTH: dict[str, dict[str, float]] = {
-    # Strength DUP: heavy day drops to 1-3 reps (true peaking), moderate 4-6, light 8-10.
+    # Strength DUP: heavy day drops to 2-4 reps (true peaking),
+    # moderate 3-6, light 5-10. (v3.1.4: docstring corrected from
+    # "1-3 / 4-6 / 8-10" to match actual rounded output.)
     "heavy":    {"reps_lo_mult": 0.5, "reps_hi_mult": 0.7, "rpe_delta": +0.5, "rest_mult": 1.5},
     "moderate": {"reps_lo_mult": 1.0, "reps_hi_mult": 1.0, "rpe_delta": 0.0, "rest_mult": 1.0},
     "light":    {"reps_lo_mult": 1.5, "reps_hi_mult": 1.8, "rpe_delta": -1.0, "rest_mult": 0.6},
@@ -144,6 +146,22 @@ def _dup_modifiers_for_goal(goal: TrainingGoal) -> dict[str, dict[str, float]]:
     return _DUP_DAY_MODIFIERS_DEFAULT
 
 
+def _round_half_up(x: float) -> int:
+    """Round half-up (away from zero on tie), avoiding banker's rounding.
+
+    Python's built-in ``round`` uses banker's rounding (round half to even),
+    so ``round(4.5) == 4`` and ``round(5.5) == 6``. For rep-range math this
+    produces surprising results: STRENGTH light day with multiplier 1.5 on
+    base 3 gives ``round(4.5) == 4`` → "4-11" instead of the documented
+    "5-10". This helper rounds 4.5 → 5 (away from zero on tie), matching
+    what users expect from "round up at the half".
+
+    v3.1.4 H3 fix.
+    """
+    import math
+    return math.floor(x + 0.5) if x >= 0 else math.ceil(x - 0.5)
+
+
 def _modify_reps_for_dup(base_reps: str, day_type: str, goal: TrainingGoal) -> str:
     """Apply DUP day-type modifier to a rep range like '5-8'."""
     modifiers = _dup_modifiers_for_goal(goal)
@@ -154,8 +172,11 @@ def _modify_reps_for_dup(base_reps: str, day_type: str, goal: TrainingGoal) -> s
     except ValueError:
         return base_reps
     mod = modifiers[day_type]
-    new_lo = max(1, round(lo * mod["reps_lo_mult"]))
-    new_hi = max(new_lo + 1, round(hi * mod["reps_hi_mult"]))
+    # v3.1.4 H3: use half-up rounding (not banker's) so e.g. 3×1.5 → 5
+    # (not 4) for STRENGTH light day. Previously Python's round(4.5) returned
+    # 4, producing "4-11" instead of the documented "5-10".
+    new_lo = max(1, _round_half_up(lo * mod["reps_lo_mult"]))
+    new_hi = max(new_lo + 1, _round_half_up(hi * mod["reps_hi_mult"]))
     return f"{new_lo}-{new_hi}"
 
 
