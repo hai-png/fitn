@@ -191,6 +191,17 @@ def _estimate_timeline(
         # habit-building phase.
         return 8    # 8 weeks of habit change before calorie counting
 
+    if strategy == RecommendedStrategy.REVERSE_DIET:
+        # v3.1.3: extract the reverse-diet duration from the calorie_targets
+        # notes (reverse_diet_plan writes "Duration: ~N weeks to reach X kcal"
+        # into the notes list). Falls back to 8 weeks if parsing fails.
+        import re
+        for note in calorie_targets.notes:
+            match = re.search(r"Duration: ~(\d+) weeks", note)
+            if match:
+                return int(match.group(1))
+        return 8  # fallback if duration note not found
+
     return 12
 
 

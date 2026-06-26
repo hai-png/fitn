@@ -70,36 +70,59 @@ def compute_hydration(
     # message.
     original_intensity = exercise_intensity
     original_climate = climate
-    # MEDIUM-severity fix: case-insensitive coercion. Previously
-    # `ExerciseIntensity("Moderate")` (capitalized) would raise ValueError,
-    # silently falling back to MODERATE — but only after warning the user
-    # about an "unknown" value they had clearly specified. Now we lowercase
-    # first so "Moderate" / "MODERATE" / "moderate" all work.
-    if isinstance(exercise_intensity, str):
+    # v3.1.3 mypy fix: use explicit type annotations so mypy can verify
+    # that exercise_intensity and climate are always ExerciseIntensity /
+    # Climate enums (never str or None) by the time they're used as dict
+    # keys or .value is accessed. Previously the `except: exercise_intensity
+    # = None` branch produced type `str | ExerciseIntensity | None`, which
+    # mypy correctly flagged as incompatible with `dict[ExerciseIntensity, int]`.
+    ei: ExerciseIntensity
+    if isinstance(exercise_intensity, ExerciseIntensity):
+        ei = exercise_intensity
+    elif isinstance(exercise_intensity, str):
         try:
-            exercise_intensity = ExerciseIntensity(exercise_intensity.lower())
+            ei = ExerciseIntensity(exercise_intensity.lower())
         except ValueError:
-            exercise_intensity = None
-    if isinstance(climate, str):
+            ei = ExerciseIntensity.MODERATE
+            warnings.warn(
+                f"Unknown exercise_intensity {exercise_intensity!r} — falling back to 'moderate'. "
+                f"Valid values: {[e.value for e in ExerciseIntensity]} or ExerciseIntensity enum.",
+                stacklevel=2,
+            )
+    else:
+        ei = ExerciseIntensity.MODERATE
+
+    cl: Climate
+    if isinstance(climate, Climate):
+        cl = climate
+    elif isinstance(climate, str):
         try:
-            climate = Climate(climate.lower())
+            cl = Climate(climate.lower())
         except ValueError:
-            climate = None
+            cl = Climate.TEMPERATE
+            warnings.warn(
+                f"Unknown climate {climate!r} — falling back to 'temperate'. "
+                f"Valid values: {[c.value for c in Climate]} or Climate enum.",
+                stacklevel=2,
+            )
+    else:
+        cl = Climate.TEMPERATE
+
     # Validate against known values; fall back to defaults on unknown inputs.
-    if exercise_intensity not in SWEAT_RATE_ML_PER_HR:
+    if ei not in SWEAT_RATE_ML_PER_HR:
         warnings.warn(
-            f"Unknown exercise_intensity '{original_intensity}' — falling back to 'moderate'. "
+            f"Unknown exercise_intensity {original_intensity!r} — falling back to 'moderate'. "
             f"Valid values: {[e.value for e in ExerciseIntensity]} or ExerciseIntensity enum.",
             stacklevel=2,
         )
-        exercise_intensity = ExerciseIntensity.MODERATE
-    if climate not in CLIMATE_MULTIPLIER:
+        ei = ExerciseIntensity.MODERATE
+    if cl not in CLIMATE_MULTIPLIER:
         warnings.warn(
-            f"Unknown climate '{original_climate}' — falling back to 'temperate'. "
+            f"Unknown climate {original_climate!r} — falling back to 'temperate'. "
             f"Valid values: {[c.value for c in Climate]} or Climate enum.",
             stacklevel=2,
         )
-        climate = Climate.TEMPERATE
+        cl = Climate.TEMPERATE
 
     # Step 1
     water = profile.weight_kg * (BASE_ML_PER_KG / 1000)   # liters
@@ -112,10 +135,10 @@ def compute_hydration(
         components["sex (+male)"] = round(sex_add, 2)
 
     # Step 3
-    sweat = SWEAT_RATE_ML_PER_HR.get(exercise_intensity, 500) / 1000
+    sweat = SWEAT_RATE_ML_PER_HR.get(ei, 500) / 1000
     exercise_add = exercise_hours_per_day * sweat
     water += exercise_add
-    components[f"exercise ({exercise_intensity.value}, {exercise_hours_per_day}h)"] = round(exercise_add, 2)
+    components[f"exercise ({ei.value}, {exercise_hours_per_day}h)"] = round(exercise_add, 2)
 
     # Step 4
     # HIGH-severity fix: previously the climate multiplier was applied to the
@@ -129,23 +152,23 @@ def compute_hydration(
     # Concrete impact for 100 kg male, 2h intense exercise, hot climate:
     #   was: (3.0 + 0.3 + 1.6) × 1.3 = 6.37 L
     #   now: 3.0 + 0.3 + (1.6 × 1.3) = 5.38 L  (saves ~1 L/day overestimation)
-    mult = CLIMATE_MULTIPLIER.get(climate, 1.0)
+    mult = CLIMATE_MULTIPLIER.get(cl, 1.0)
     if mult != 1.0 and exercise_add > 0:
         # Undo the un-multiplied exercise_add we already added, then add back
         # the climate-scaled version.
         water -= exercise_add
         climate_adjusted_exercise = exercise_add * mult
         water += climate_adjusted_exercise
-        components[f"climate ({climate.value}, ×{mult} on sweat)"] = round(
+        components[f"climate ({cl.value}, ×{mult} on sweat)"] = round(
             climate_adjusted_exercise - exercise_add, 2
         )
         # Update the displayed exercise component to reflect the actual sweat
         # volume (was the pre-climate amount; now includes climate adjustment).
-        components[f"exercise ({exercise_intensity.value}, {exercise_hours_per_day}h, climate-adj)"] = round(
+        components[f"exercise ({ei.value}, {exercise_hours_per_day}h, climate-adj)"] = round(
             climate_adjusted_exercise, 2
         )
         # Remove the un-adjusted exercise key we added in Step 3.
-        components.pop(f"exercise ({exercise_intensity.value}, {exercise_hours_per_day}h)", None)
+        components.pop(f"exercise ({ei.value}, {exercise_hours_per_day}h)", None)
 
     # Step 5
     # MEDIUM-severity fix: validate biological plausibility. A male user with

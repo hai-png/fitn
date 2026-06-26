@@ -290,14 +290,14 @@ class TestAllergenSafetyInvariants:
                     for ing in meal.recipe.ingredients:
                         ing_lower = ing.lower()
                         is_plant = any(pq in ing_lower for pq in plant_qualifiers)
-                        for pattern, kw in dairy_patterns:
+                        for pattern, _kw in dairy_patterns:
                             if re.search(pattern, ing_lower) and not is_plant:
                                 violations.append((day.day_number, meal.name, "recipe", ing))
                                 break
                 for mf in meal.foods:
                     fn = mf.food.name.lower()
                     is_plant = any(pq in fn for pq in plant_qualifiers)
-                    for pattern, kw in dairy_patterns:
+                    for pattern, _kw in dairy_patterns:
                         if re.search(pattern, fn) and not is_plant:
                             violations.append((day.day_number, meal.name, "filler", mf.food.name))
                             break

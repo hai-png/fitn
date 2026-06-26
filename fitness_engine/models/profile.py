@@ -202,6 +202,51 @@ class UserProfile:
                 f"body_fat_pct must be 2-60 if provided, got {self.body_fat_pct}"
             )
 
+        # v3.1.3: validate weight_log_kg + intake_log_kcal entries.
+        # NaN/inf/negative/implausible values would propagate through the
+        # adaptive TDEE formula and produce garbage TDEE estimates that
+        # surface as confusing errors downstream (e.g. CalorieTargets
+        # validation failure). Validate at construction time so the caller
+        # gets a clear, immediate error pointing at the bad entry.
+        import math as _math
+        for i, v in enumerate(self.weight_log_kg):
+            if not isinstance(v, (int, float)):
+                raise ValueError(
+                    f"weight_log_kg[{i}] must be a number, got {type(v).__name__}: {v!r}"
+                )
+            if _math.isnan(v) or _math.isinf(v):
+                raise ValueError(
+                    f"weight_log_kg[{i}] must be finite, got {v}"
+                )
+            if not 30 <= v <= 300:
+                raise ValueError(
+                    f"weight_log_kg[{i}] must be in [30, 300] kg, got {v}"
+                )
+        for i, v in enumerate(self.intake_log_kcal):
+            if not isinstance(v, (int, float)):
+                raise ValueError(
+                    f"intake_log_kcal[{i}] must be a number, got {type(v).__name__}: {v!r}"
+                )
+            if _math.isnan(v) or _math.isinf(v):
+                raise ValueError(
+                    f"intake_log_kcal[{i}] must be finite, got {v}"
+                )
+            if not 0 <= v <= 10000:
+                raise ValueError(
+                    f"intake_log_kcal[{i}] must be in [0, 10000] kcal, got {v}"
+                )
+        # Logs must be equal length if both provided (adaptive TDEE requires it).
+        if (
+            self.weight_log_kg
+            and self.intake_log_kcal
+            and len(self.weight_log_kg) != len(self.intake_log_kcal)
+        ):
+            raise ValueError(
+                f"weight_log_kg (len={len(self.weight_log_kg)}) and "
+                f"intake_log_kcal (len={len(self.intake_log_kcal)}) must be "
+                f"equal length when both are provided"
+            )
+
         # Diet type — supports OMNIVORE, VEGAN, VEGETARIAN
         # (KETO/PALEO still pending nutrition-side support)
         if self.diet_type not in (DietType.OMNIVORE, DietType.VEGAN, DietType.VEGETARIAN):

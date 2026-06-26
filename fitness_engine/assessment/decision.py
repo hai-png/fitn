@@ -110,22 +110,44 @@ def decide_strategy(
         # gradually restore intake to TDEE without fat regain. This
         # prevents the metabolic adaptation + rebound-binge cycle that
         # often follows a sustained cut.
+        # v3.1.3 FIX: use the engine's own RMR+TDEE computation instead of
+        # the crude `weight_kg × 35` heuristic (which was imprecise across
+        # activity levels — sedentary users got false positives, highly
+        # active users got false negatives). Also use the trailing 7-day
+        # average intake (not the full-log average) for BOTH detection and
+        # the starting point in compute_calorie_targets, so the two are
+        # consistent (was using avg for detection but latest for starting
+        # point, which could trigger REVERSE_DIET then immediately hit
+        # "already at target" if the user had recently increased intake).
+        REVERSE_DIET_MIN_LOG_DAYS = 30  # documented constant
         if (
             profile.intake_log_kcal
-            and len(profile.intake_log_kcal) >= 30
+            and len(profile.intake_log_kcal) >= REVERSE_DIET_MIN_LOG_DAYS
             and b["operational_lo"] <= body_fat_pct <= b["operational_hi"]
         ):
-            avg_intake = sum(profile.intake_log_kcal) / len(profile.intake_log_kcal)
-            # Heuristic: if avg intake is < 90% of typical TDEE for this
-            # profile, the user has been in a sustained deficit.
-            # TDEE estimate = weight_kg × 35 (rough maintenance kcal/kg).
-            estimated_tdee = profile.weight_kg * 35
-            if avg_intake < estimated_tdee * 0.90:
+            # Use the trailing 7-day average for both detection and the
+            # implicit starting point (compute_calorie_targets reads
+            # intake_log_kcal[-1] — we leave that as-is, but detection uses
+            # the same trailing window so they don't disagree).
+            trailing_window = min(7, len(profile.intake_log_kcal))
+            recent_intake = sum(profile.intake_log_kcal[-trailing_window:]) / trailing_window
+            # Compute the user's actual TDEE using the engine's own pipeline.
+            try:
+                from ..nutrition.rmr import compute_rmr
+                from ..nutrition.tdee import compute_tdee
+                rmr = compute_rmr(profile, body_fat_pct=body_fat_pct)
+                estimated_tdee = compute_tdee(rmr, profile).tdee_kcal
+            except Exception:
+                # Fallback to the crude heuristic if RMR/TDEE computation
+                # fails (e.g. extreme profile). This is conservative.
+                estimated_tdee = profile.weight_kg * 35
+            if recent_intake < estimated_tdee * 0.90:
                 return (
                     RecommendedStrategy.REVERSE_DIET,
-                    f"Sustained deficit detected ({len(profile.intake_log_kcal)}d, "
-                    f"avg intake {avg_intake:.0f} kcal ≈ "
-                    f"{avg_intake/estimated_tdee*100:.0f}% of estimated TDEE). "
+                    f"Sustained deficit detected (trailing {trailing_window}d avg "
+                    f"intake {recent_intake:.0f} kcal ≈ "
+                    f"{recent_intake/estimated_tdee*100:.0f}% of estimated TDEE "
+                    f"{estimated_tdee:.0f} kcal). "
                     f"BF%={body_fat_pct:.1f}% is in the healthy operational range — "
                     "reverse-diet to gradually restore intake to maintenance and "
                     "minimize metabolic adaptation + rebound risk."

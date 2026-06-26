@@ -15,17 +15,20 @@ from __future__ import annotations
 
 import pytest
 
+import fitness_engine.training.exercise_loader as _el
 from fitness_engine import (
-    UserProfile, Sex, ActivityLevel, TrainingStatus, PrimaryGoal,
-    EquipmentAccess, PlanPreferences, assess_profile, propose_plan,
+    ActivityLevel,
+    EquipmentAccess,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+    UserProfile,
+    assess_profile,
 )
 from fitness_engine.models.assessment import RecommendedStrategy
-from fitness_engine.models.training import TrainingGoal, ProgressionScheme, PlanType
-from fitness_engine.nutrition.calories import compute_calorie_targets, CalorieStrategy
+from fitness_engine.models.training import ProgressionScheme, TrainingGoal
+from fitness_engine.nutrition.calories import CalorieStrategy, compute_calorie_targets
 from fitness_engine.training.exercise_library import get_exercises
-from fitness_engine.training.exercise_loader import _load_raw_db
-import fitness_engine.training.exercise_loader as _el
-
 
 # === Helpers ===
 
@@ -101,19 +104,20 @@ class TestAdaptiveTDEEWiring:
             "Adaptive TDEE engaged below 8 days (should be pure prior)"
         )
 
-    def test_adaptive_tdee_unequal_log_lengths_skipped(self):
-        """Mismatched weight_log + intake_log lengths should NOT crash."""
-        profile = _profile(
-            weight_log_kg=[82.0] * 30,
-            intake_log_kcal=[2000.0] * 20,  # different length
-        )
-        assessment = assess_profile(profile)
-        from fitness_engine.nutrition.planner import build_nutrition_plan
-        # Should not raise.
-        nutrition = build_nutrition_plan(profile, assessment)
-        assert nutrition.tdee.adaptive_tdee_kcal is None, (
-            "Adaptive TDEE engaged despite mismatched log lengths"
-        )
+    def test_adaptive_tdee_unequal_log_lengths_rejected_at_construction(self):
+        """Mismatched weight_log + intake_log lengths should raise ValueError at construction.
+
+        v3.1.3: previously the planner silently skipped adaptive TDEE when
+        lengths differed. Now UserProfile.__post_init__ validates equal
+        lengths at construction time, giving the caller a clear error
+        pointing at the mismatch rather than silently producing a plan
+        without adaptive TDEE (which could hide a data-entry bug).
+        """
+        with pytest.raises(ValueError, match="must be equal length"):
+            _profile(
+                weight_log_kg=[82.0] * 30,
+                intake_log_kcal=[2000.0] * 20,  # different length
+            )
 
 
 # === 2. Reverse diet wiring ===
@@ -180,10 +184,13 @@ class TestStrengthPhaseSpecsWiring:
         behavior — the spec is consulted, then the RIR safety clamp
         ensures the final RPE is physiologically appropriate.
         """
-        from fitness_engine.training.periodization import apply_periodization
         from fitness_engine.models.training import (
-            Workout, WorkoutExercise, Exercise, ExerciseCategory,
+            Exercise,
+            ExerciseCategory,
+            Workout,
+            WorkoutExercise,
         )
+        from fitness_engine.training.periodization import apply_periodization
 
         ex = Exercise(
             name="Barbell Back Squat",
@@ -232,10 +239,13 @@ class TestStrengthPhaseSpecsWiring:
 
     def test_strength_block_volume_phase_uses_secondary_reps(self):
         """STRENGTH VOLUME phase should use secondary_reps (6-20) for reps."""
-        from fitness_engine.training.periodization import apply_periodization
         from fitness_engine.models.training import (
-            Workout, WorkoutExercise, Exercise, ExerciseCategory,
+            Exercise,
+            ExerciseCategory,
+            Workout,
+            WorkoutExercise,
         )
+        from fitness_engine.training.periodization import apply_periodization
 
         ex = Exercise(
             name="Deadlift",

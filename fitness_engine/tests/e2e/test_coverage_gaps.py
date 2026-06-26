@@ -324,23 +324,48 @@ class TestTDEEAdaptive:
         assert adaptive_weight_data(90) == 1.0  # saturated
 
     def test_update_tdee_with_logs_returns_new_object(self):
-        """update_tdee_with_logs should NOT mutate the input TDEEResult."""
+        """update_tdee_with_logs should NOT mutate the input TDEEResult.
+
+        v3.1.3: rewrote this test to use the CORRECT function signature
+        (avg_intake_kcal, weight_start_kg, weight_end_kg, n_days — NOT
+        intake_log_kcal / weight_log_kg which don't exist). The previous
+        version called the function with wrong kwargs, caught the
+        TypeError in a bare `except: pass`, and silently passed — a
+        false-positive that gave confidence the non-mutation invariant
+        was checked when it wasn't.
+        """
         original = TDEEResult(
             rmr_kcal=1800, activity_factor=1.4,
             tdee_kcal=2520, final_tdee_kcal=2520,
         )
-        # Call update (may or may not mutate; verify behavior)
-        try:
-            result = update_tdee_with_logs(
-                tdee=original,
-                intake_log_kcal=[2500, 2500, 2500],
-                weight_log_kg=[80, 79.9, 79.8],
-            )
-            # Verify it returns something
-            assert result is not None
-        except Exception:
-            # Some signatures may differ — the key is the function exists
-            pass
+        original_final = original.final_tdee_kcal
+        original_adaptive = original.adaptive_tdee_kcal
+        original_notes_len = len(original.notes)
+
+        # Call with the CORRECT signature.
+        result = update_tdee_with_logs(
+            tdee=original,
+            avg_intake_kcal=2500.0,
+            weight_start_kg=80.0,
+            weight_end_kg=79.8,
+            n_days=30,
+        )
+        # Result should be a new object (or at least, the original should be
+        # unchanged if the implementation chose to mutate-and-return).
+        # v3.1.3: the implementation now uses dataclasses.replace, so the
+        # original is guaranteed unchanged.
+        assert original.final_tdee_kcal == original_final, (
+            "update_tdee_with_logs mutated the input's final_tdee_kcal"
+        )
+        assert original.adaptive_tdee_kcal == original_adaptive, (
+            "update_tdee_with_logs mutated the input's adaptive_tdee_kcal"
+        )
+        assert len(original.notes) == original_notes_len, (
+            "update_tdee_with_logs mutated the input's notes list"
+        )
+        # Result should have the adaptive fields set.
+        assert result is not None
+        assert result.adaptive_tdee_kcal is not None
 
 
 # ============================================================

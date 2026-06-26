@@ -369,13 +369,39 @@ def reverse_diet_plan(
     current_calories: float,
     target_calories: float,
     aggressiveness: str = "moderate",
+    sex: Sex | None = None,
 ) -> tuple[list[float], CalorieTargets]:
     """
     Reverse-diet weekly plan.
 
     Returns (list of weekly calorie targets, CalorieTargets for first week).
+
+    v3.1.3 fixes:
+      - Validates ``aggressiveness`` and raises ``ValueError`` (not bare
+        ``KeyError``) for unknown values.
+      - Applies calorie floors (``MIN_CALORIES[sex]``) when ``sex`` is
+        provided, so a user transitioning out of a severe deficit (e.g.
+        800 kcal/day) is escalated to at least the floor immediately.
+      - ``calorie_delta_kcal`` now equals ``target - base`` (preserving
+        the v3.1.1 invariant ``base + delta == target``) instead of the
+        per-day increment ``increment / 7`` which violated the invariant.
     """
+    # v3.1.3: validate aggressiveness with a clean error.
+    if aggressiveness not in REVERSE_DIET_WEEKLY_INCREMENT:
+        raise ValueError(
+            f"Unknown aggressiveness {aggressiveness!r}. "
+            f"Valid values: {sorted(REVERSE_DIET_WEEKLY_INCREMENT)}"
+        )
     increment = REVERSE_DIET_WEEKLY_INCREMENT[aggressiveness]
+
+    # v3.1.3: apply calorie floor to the starting intake so we don't
+    # escalate from a dangerous sub-floor value (e.g. 800 kcal → 900 kcal
+    # week 1). If sex is provided, raise current_calories to the floor.
+    if sex is not None:
+        floor = MIN_CALORIES[sex]
+        if current_calories < floor:
+            current_calories = float(floor)
+
     delta = target_calories - current_calories
     if delta <= 0:
         # Already at or above target — just return target
@@ -390,7 +416,6 @@ def reverse_diet_plan(
         )
 
     # math.ceil is the documented intent (round up to cover any remainder).
-    # Float modulo can produce surprising results due to FP error.
     weeks_needed = max(1, math.ceil(delta / increment))
     weekly_targets = []
     for w in range(weeks_needed):
@@ -404,16 +429,22 @@ def reverse_diet_plan(
         "⚠ Red flag: weekly weight gain > 0.5% BW → slow down.",
     ]
 
+    first_week_target = weekly_targets[0]
+    # v3.1.3 FIX: calorie_delta_kcal must equal target - base to preserve
+    # the v3.1.1 invariant `base_tdee_kcal + calorie_delta_kcal ==
+    # target_calories_kcal`. Previously this was `increment / 7.0` (a
+    # per-day delta), which broke the invariant and contradicted the
+    # CalorieTargets field docstring ("negative for cut, positive for bulk"
+    # — i.e. the kcal difference between target and base).
+    actual_delta = first_week_target - current_calories
     return weekly_targets, CalorieTargets(
         strategy=CalorieStrategy.REVERSE_DIET,
-        base_tdee_kcal=current_calories,
+        base_tdee_kcal=round(current_calories, 1),
         # rate_pct = weekly increment as a fraction of current intake.
-        # calorie_delta_kcal = DAILY delta (increment/7), matching the
-        # documented "daily delta" field semantics.
         rate_pct=increment / current_calories if current_calories > 0 else 0.0,
         rate_label=f"+{increment} kcal/week ({aggressiveness})",
-        calorie_delta_kcal=round(increment / 7.0, 1),  # daily delta
-        target_calories_kcal=weekly_targets[0],
+        calorie_delta_kcal=round(actual_delta, 1),
+        target_calories_kcal=first_week_target,
         notes=notes,
     )
 
@@ -451,16 +482,28 @@ def compute_calorie_targets(
             current_calories = float(profile.intake_log_kcal[-1])
         else:
             current_calories = tdee_kcal * 0.80
-        # Aggressiveness from profile.bulk_aggressiveness if set, else moderate.
-        aggressiveness = (
-            profile.bulk_aggressiveness.value
-            if profile.bulk_aggressiveness is not None
-            else "moderate"
-        )
+        # v3.1.3 FIX: BulkAggressiveness has 4 values (CONSERVATIVE,
+        # HAPPY_MEDIUM, AGGRESSIVE, VERY_AGGRESSIVE) but REVERSE_DIET_WEEKLY_INCREMENT
+        # only has 3 keys (conservative, moderate, aggressive). Previously
+        # passing profile.bulk_aggressiveness.value directly caused KeyError
+        # for HAPPY_MEDIUM ("happy_medium") and VERY_AGGRESSIVE
+        # ("very_aggressive"). Now we use an explicit mapping.
+        from ..models.profile import BulkAggressiveness
+        _BULK_TO_REVERSE_DIET = {
+            BulkAggressiveness.CONSERVATIVE: "conservative",
+            BulkAggressiveness.HAPPY_MEDIUM: "moderate",
+            BulkAggressiveness.AGGRESSIVE: "aggressive",
+            BulkAggressiveness.VERY_AGGRESSIVE: "aggressive",
+        }
+        if profile.bulk_aggressiveness is not None:
+            aggressiveness = _BULK_TO_REVERSE_DIET[profile.bulk_aggressiveness]
+        else:
+            aggressiveness = "moderate"
         _weekly_targets, calorie_targets = reverse_diet_plan(
             current_calories=current_calories,
             target_calories=tdee_kcal,
             aggressiveness=aggressiveness,
+            sex=profile.sex,  # v3.1.3: pass sex so calorie floor is applied
         )
         return calorie_targets
     else:

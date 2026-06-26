@@ -148,7 +148,15 @@ def update_tdee_with_logs(
     weight_end_kg: float,
     n_days: int,
 ) -> TDEEResult:
-    """Update a TDEEResult with adaptive TDEE from logged intake + weight."""
+    """Update a TDEEResult with adaptive TDEE from logged intake + weight.
+
+    v3.1.3: returns a NEW TDEEResult (does NOT mutate the input). Previously
+    this function mutated the caller's TDEEResult in-place, which was a
+    footgun — callers holding a reference to the prior object would see it
+    change unexpectedly. Now uses ``dataclasses.replace`` to produce a new
+    instance with the adaptive fields set.
+    """
+    import dataclasses
     if n_days < 1:
         return tdee
     adaptive = adaptive_tdee(
@@ -158,13 +166,25 @@ def update_tdee_with_logs(
         weight_end_kg=weight_end_kg,
         n_days=n_days,
     )
-    tdee.adaptive_tdee_kcal = round(adaptive, 1)
-    tdee.final_tdee_kcal = round(adaptive, 1)
-    tdee.notes.append(
-        f"Adaptive TDEE ({n_days}d, w_data={adaptive_weight_data(n_days):.2f}): "
-        f"{adaptive:.0f} kcal"
+    # v3.1.3: validate observed TDEE plausibility — if NaN/inf or outside
+    # a sane physiological range (800-7000 kcal), fall back to prior.
+    if not (800.0 <= adaptive <= 7000.0):
+        return dataclasses.replace(
+            tdee,
+            notes=tdee.notes + [
+                f"Adaptive TDEE skipped: observed value {adaptive:.0f} kcal "
+                f"is outside plausible range [800, 7000] — likely bad log data."
+            ],
+        )
+    return dataclasses.replace(
+        tdee,
+        adaptive_tdee_kcal=round(adaptive, 1),
+        final_tdee_kcal=round(adaptive, 1),
+        notes=tdee.notes + [
+            f"Adaptive TDEE ({n_days}d, w_data={adaptive_weight_data(n_days):.2f}): "
+            f"{adaptive:.0f} kcal"
+        ],
     )
-    return tdee
 
 
 __all__ = [
