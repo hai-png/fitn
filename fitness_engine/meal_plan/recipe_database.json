@@ -266,7 +266,7 @@
         "breakfast"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 10,
@@ -306,7 +306,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'salmon' is animal-derived)]",
       "image_url": "https://www.daringgourmet.com/wp-content/uploads/2025/03/Gravlax-Recipe-11.jpg",
       "_extraction_method": "jsonld",
       "id": "R005",
@@ -626,7 +626,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 2,
       "prep_time_min": 5,
@@ -674,7 +674,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'egg' is animal-derived)]",
       "image_url": "https://img.sndimg.com/food/image/upload/q_92,fl_progressive,w_1200,c_scale/v1/img/recipes/90/54/QgpKo1rxQpSiZmN5F5jj_untitled-4303.jpg",
       "_extraction_method": "jsonld",
       "id": "R011",
@@ -702,7 +702,7 @@
         "breakfast"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 1,
       "prep_time_min": null,
@@ -747,7 +747,7 @@
       "calorie_density": "medium",
       "alternative_recipe_ids": [],
       "serving_size_g": 200.0,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Yesuf-Fitfit-1-1-150x150.jpg",
       "id": "R012",
       "legacy_id": "ETH012"
@@ -817,7 +817,7 @@
         "breakfast"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 15,
@@ -863,7 +863,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'eggs' is animal-derived)]",
       "image_url": "https://img.sndimg.com/food/image/upload/q_92,fl_progressive,w_1200,c_scale/v1/img/recipes/63/07/1/Oey61BTvKAEV0tVQz4gU_untitled-1868.jpg",
       "_extraction_method": "jsonld",
       "id": "R014",
@@ -882,7 +882,7 @@
         "breakfast"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 5,
       "prep_time_min": 10,
@@ -907,7 +907,7 @@
         "protein_g": 22.0,
         "carb_g": 28.0,
         "fat_g": 18.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 5.0
       },
       "nutrition_source": "published",
@@ -926,7 +926,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'beef' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/TBVeganMedSkillethd0001.jpg",
       "_extraction_method": "jsonld",
       "id": "R015",
@@ -1022,7 +1022,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 5,
@@ -1066,7 +1066,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2018/06/afghan-kidney-bean-curry-lubya-3-480x480.jpg",
       "_extraction_method": "jsonld",
       "id": "R017",
@@ -1095,7 +1095,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": null,
@@ -1149,7 +1149,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/African-Yam-Stew-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R018",
@@ -1179,7 +1179,7 @@
         "snack"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 10,
@@ -1230,7 +1230,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'sirloin' is animal-derived)]",
       "image_url": "https://www.daringgourmet.com/wp-content/uploads/2014/02/Beef-Barley-Soup-6-square.jpg",
       "_extraction_method": "jsonld",
       "id": "R019",
@@ -1259,7 +1259,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 10,
@@ -1306,7 +1306,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'beef' is animal-derived)]",
       "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/01/Beef-Butternut-Squash-Stew-Recipe-2.jpg",
       "_extraction_method": "jsonld",
       "id": "R020",
@@ -1502,7 +1502,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 5,
@@ -1553,7 +1553,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'chicken' is animal-derived)]",
       "image_url": "https://globalkitchentravels.com/wp-content/uploads/2020/08/Chicken-Chili-IG.jpg",
       "_extraction_method": "jsonld",
       "id": "R023",
@@ -1583,7 +1583,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": null,
@@ -1632,7 +1632,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/2024/11/Chipotle-Potato-Wild-Rice-Soup-Wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R024",
@@ -1744,7 +1744,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": null,
@@ -1790,7 +1790,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/Clean-Your-Pantry-Lentil-Vegetable-Stew-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R026",
@@ -1892,7 +1892,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 3,
       "prep_time_min": null,
@@ -1935,7 +1935,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/Tomato-Lentil-Soup-2-300kb.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R028",
@@ -2117,7 +2117,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 15,
@@ -2162,7 +2162,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'beef' is animal-derived)]",
       "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2021/01/Easy-Baked-Corned-Beef-and-Cabbage-in-the-Oven-15.jpg",
       "_extraction_method": "jsonld",
       "id": "R031",
@@ -2617,7 +2617,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 6,
       "prep_time_min": 10,
@@ -2664,7 +2664,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": true,
       "injera_accompaniment": true,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'butter' is animal-derived)]",
       "image_url": "https://lowcarbafrica.com/wp-content/uploads/2024/01/Gomen-Wat-Ethiopian-Collard-Greens-IG-1.jpg",
       "_extraction_method": "jsonld",
       "id": "R038",
@@ -2694,7 +2694,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 20,
@@ -2740,7 +2740,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'pork' is animal-derived)]",
       "image_url": "https://globalkitchentravels.com/wp-content/uploads/2020/04/Habichulea-LR-Hero-2.jpg",
       "_extraction_method": "jsonld",
       "id": "R039",
@@ -2770,7 +2770,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": null,
@@ -2811,7 +2811,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/cabbage-soup-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R040",
@@ -2865,7 +2865,7 @@
         "protein_g": 22.0,
         "carb_g": 33.0,
         "fat_g": 11.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 4.0
       },
       "nutrition_source": "published",
@@ -2884,7 +2884,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/vegannotunasaladsq0005.jpg",
       "_extraction_method": "jsonld",
       "id": "R041",
@@ -2989,7 +2989,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 5,
@@ -3035,7 +3035,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2020/06/mung-daal-17.jpg",
       "_extraction_method": "jsonld",
       "id": "R043",
@@ -3128,7 +3128,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 6,
       "prep_time_min": 10,
@@ -3168,7 +3168,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": true,
       "injera_accompaniment": true,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'beef' is animal-derived)]",
       "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2021/03/Kitfo-Ethiopian-Steak-Tartare-Recipe-9.jpg",
       "_extraction_method": "jsonld",
       "id": "R045",
@@ -3216,7 +3216,7 @@
         "protein_g": 24.0,
         "carb_g": 4.0,
         "fat_g": 4.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 6.0
       },
       "nutrition_source": "published",
@@ -3238,7 +3238,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2019/06/korean-chicken-skewers-recipe-12.jpg",
       "_extraction_method": "jsonld",
       "id": "R046",
@@ -3266,7 +3266,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 10,
@@ -3312,7 +3312,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2019/04/masoor-tadka-dal-3-480x480.jpg",
       "_extraction_method": "jsonld",
       "id": "R047",
@@ -3341,7 +3341,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 6,
       "prep_time_min": 10,
@@ -3380,7 +3380,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": true,
       "injera_accompaniment": true,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.daringgourmet.com/wp-content/uploads/2018/04/Misir-Wat-5-square.jpg",
       "_extraction_method": "jsonld",
       "id": "R048",
@@ -3685,7 +3685,7 @@
         "protein_g": 32.0,
         "carb_g": 35.0,
         "fat_g": 23.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "published",
@@ -3707,7 +3707,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/nachos-125kb-1.jpg",
       "_extraction_method": "jsonld",
       "id": "R052",
@@ -4015,7 +4015,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 5,
       "prep_time_min": 15,
@@ -4039,7 +4039,7 @@
         "protein_g": 22.0,
         "carb_g": 28.0,
         "fat_g": 14.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 5.0
       },
       "nutrition_source": "published",
@@ -4061,7 +4061,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hs-fs/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/VeganPortobelloPotRoastRecipesq0002.jpg?width=719&quality=high",
       "_extraction_method": "jsonld",
       "id": "R057",
@@ -4168,7 +4168,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 6,
       "prep_time_min": null,
@@ -4189,7 +4189,7 @@
         "protein_g": 6.824999999999999,
         "carb_g": 27.375,
         "fat_g": 31.650000000000002,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "estimated",
@@ -4212,7 +4212,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": true,
       "injera_accompaniment": true,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.forksoverknives.com/uploads/Chickpea-Flour-Stew-Shio-Wat-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R059",
@@ -4319,7 +4319,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 4,
       "prep_time_min": 10,
@@ -4344,7 +4344,7 @@
         "protein_g": 27.0,
         "carb_g": 52.0,
         "fat_g": 14.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "published",
@@ -4369,7 +4369,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'pork' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/sloppyjoe-125kb.jpg",
       "_extraction_method": "jsonld",
       "id": "R061",
@@ -4398,7 +4398,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 10,
@@ -4449,7 +4449,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'butter' is animal-derived)]",
       "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2019/11/slow-cooker-brunswick-stew-recipe-14.jpg",
       "_extraction_method": "jsonld",
       "id": "R062",
@@ -4649,7 +4649,7 @@
         "protein_g": 25.0,
         "carb_g": 41.0,
         "fat_g": 14.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 7.0
       },
       "nutrition_source": "published",
@@ -4674,7 +4674,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/Vegan-BBQ-Tofu-Stir-Fry-Recipe-1-1-1.png",
       "_extraction_method": "jsonld",
       "id": "R065",
@@ -4702,7 +4702,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 8,
@@ -4731,7 +4731,7 @@
         "protein_g": 30.0,
         "carb_g": 38.0,
         "fat_g": 24.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 2.0
       },
       "nutrition_source": "published",
@@ -4752,7 +4752,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'meat' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/vegan-taco-recipe-002.jpg",
       "_extraction_method": "jsonld",
       "id": "R066",
@@ -4780,7 +4780,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 3,
       "prep_time_min": 30,
@@ -4831,7 +4831,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2017/12/vegan-buffalo-pizza-11-480x480.jpg",
       "_extraction_method": "jsonld",
       "id": "R067",
@@ -4859,7 +4859,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 4,
       "prep_time_min": 10,
@@ -4888,7 +4888,7 @@
         "protein_g": 30.0,
         "carb_g": 42.0,
         "fat_g": 28.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 6.0
       },
       "nutrition_source": "published",
@@ -4911,7 +4911,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'meat' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/Trifecta%20Blog%20Recipe%20Photos/TB%20Vegan%20Recipe%20Photos/VeganCaliforniaBurgerRecipesquare0004.jpg",
       "_extraction_method": "jsonld",
       "id": "R068",
@@ -4939,7 +4939,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 40,
@@ -4994,7 +4994,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2018/10/dal-makhani-1-480x480.jpg",
       "_extraction_method": "jsonld",
       "id": "R069",
@@ -5022,7 +5022,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 15,
@@ -5071,7 +5071,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2018/08/vegan-garlic-naan-3-720x720.jpg",
       "_extraction_method": "jsonld",
       "id": "R070",
@@ -5172,7 +5172,7 @@
         "dinner"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": null,
@@ -5225,7 +5225,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2021/02/vegan-sheekh-kebabs-9-720x720.jpg",
       "_extraction_method": "jsonld",
       "id": "R072",
@@ -5277,7 +5277,7 @@
         "protein_g": 15.1125,
         "carb_g": 22.5,
         "fat_g": 39.375,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "estimated",
@@ -5306,7 +5306,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": true,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "",
       "_extraction_method": "wprm",
       "id": "R073",
@@ -5471,7 +5471,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 6,
       "prep_time_min": 10,
@@ -5519,7 +5519,7 @@
       "calorie_density": "low",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'beef' is animal-derived)]",
       "image_url": "https://www.daringgourmet.com/wp-content/uploads/2025/02/Beef-and-Cabbage-Soup-Recipe-4.jpg",
       "_extraction_method": "jsonld",
       "id": "R076",
@@ -5547,7 +5547,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 10,
@@ -5601,7 +5601,7 @@
       "calorie_density": "low",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'chicken' is animal-derived)]",
       "image_url": "https://boondockingrecipes.com/wp-content/uploads/2026/05/Belizean-Escabeche-Soup-Recipe-3.png",
       "_extraction_method": "jsonld",
       "id": "R077",
@@ -5629,7 +5629,7 @@
         "lunch"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 15,
@@ -5675,7 +5675,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'beef' is animal-derived)]",
       "image_url": "https://www.aspicyperspective.com/wp-content/uploads/2020/01/Crock-Pot-Brisket-Sandwiches-Texas-BBQ-Beef-20.jpg",
       "_extraction_method": "jsonld",
       "id": "R078",
@@ -5729,7 +5729,7 @@
         "protein_g": 19.349999999999998,
         "carb_g": 31.8,
         "fat_g": 32.6625,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "estimated",
@@ -5753,7 +5753,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.daringgourmet.com/wp-content/uploads/2013/09/Chicken-Tortilla-Soup-2.jpg",
       "_extraction_method": "jsonld",
       "id": "R079",
@@ -5782,7 +5782,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 2,
       "prep_time_min": null,
@@ -5820,7 +5820,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": true,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/Easy-Sauteed-Collards-and-Chard-3x2-1.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R080",
@@ -5870,7 +5870,7 @@
         "protein_g": 1.7625000000000002,
         "carb_g": 13.8375,
         "fat_g": 38.0625,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "estimated",
@@ -5887,7 +5887,7 @@
       "calorie_density": "low",
       "fasting_yetsom": true,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://thespiceadventuress.com/wp-content/uploads/2015/01/53.jpg",
       "_extraction_method": "jsonld",
       "id": "R081",
@@ -5936,7 +5936,7 @@
         "protein_g": 3.675,
         "carb_g": 13.875,
         "fat_g": 1.05,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "estimated",
@@ -5958,7 +5958,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://themadscientistskitchen.com/wp-content/uploads/2019/01/Fresh-Hara-Chana-ChaatGreen-Chickpea-Salad-FB.jpg",
       "_extraction_method": "jsonld",
       "id": "R082",
@@ -5987,7 +5987,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 50,
@@ -6039,7 +6039,7 @@
       "calorie_density": "low",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'chicken' is animal-derived)]",
       "image_url": "https://globalkitchentravels.com/wp-content/uploads/2020/03/Chix-Salad-Lr-FB.jpg",
       "_extraction_method": "jsonld",
       "id": "R083",
@@ -6068,7 +6068,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 15,
@@ -6115,7 +6115,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'chicken' is animal-derived)]",
       "image_url": "https://globalkitchentravels.com/wp-content/uploads/2015/11/Chix-Salad-LR-HERO.jpg",
       "_extraction_method": "jsonld",
       "id": "R084",
@@ -6164,7 +6164,7 @@
         "protein_g": 29.0,
         "carb_g": 55.0,
         "fat_g": 17.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 4.0
       },
       "nutrition_source": "published",
@@ -6188,7 +6188,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/high-protein-vegan-recipes-meal-prep-grilled-tofu-and-quinoa%20(3).jpg",
       "_extraction_method": "jsonld",
       "id": "R085",
@@ -6217,7 +6217,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 6,
       "prep_time_min": null,
@@ -6255,7 +6255,7 @@
       "calorie_density": "low",
       "fasting_yetsom": true,
       "injera_accompaniment": true,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/Tikil-Gomen-Ethiopian-Style-Cabbage-Potatoes-and-Carrots-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R086",
@@ -6284,7 +6284,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 5,
       "prep_time_min": 15,
@@ -6336,7 +6336,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2021/12/vegan-white-bean-wild-rice-soup-7-720x720.jpg",
       "_extraction_method": "jsonld",
       "id": "R087",
@@ -6365,7 +6365,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 3,
       "prep_time_min": null,
@@ -6389,7 +6389,7 @@
         "protein_g": 8.025,
         "carb_g": 17.625,
         "fat_g": 4.425,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "estimated",
@@ -6410,7 +6410,7 @@
       "calorie_density": "medium",
       "fasting_yetsom": true,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://www.forksoverknives.com/uploads/Warm-Spiced-Eggplant-Salad-wordpress.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R088",
@@ -6438,7 +6438,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 4,
       "prep_time_min": 5,
@@ -6456,7 +6456,7 @@
         "protein_g": 20.0,
         "carb_g": null,
         "fat_g": 3.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 0.01
       },
       "nutrition_source": "published",
@@ -6478,7 +6478,7 @@
       "calorie_density": "low",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'chicken' is animal-derived); backfilled missing fiber_g=0.0]",
       "image_url": "https://lowcarbafrica.com/wp-content/uploads/2022/07/Air-Fryer-Chicken-Gizzards-IG-1.jpg",
       "_extraction_method": "jsonld",
       "id": "R089",
@@ -6622,7 +6622,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 4,
       "prep_time_min": 5,
@@ -6662,7 +6662,7 @@
       "calorie_density": "low",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'butter' is animal-derived)]",
       "image_url": "https://globalkitchentravels.com/wp-content/uploads/2014/01/Fish-LR-5.jpg",
       "_extraction_method": "jsonld",
       "id": "R092",
@@ -6767,7 +6767,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 4,
       "prep_time_min": null,
@@ -6805,7 +6805,7 @@
       "calorie_density": "low",
       "fasting_yetsom": true,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.forksoverknives.com/uploads/Ethiopian-Wild-Rice-Pilaf-WP.jpg?format=webp&optimize=high&precrop=16%3A9%2Csmart",
       "_extraction_method": "jsonld",
       "id": "R094",
@@ -6833,7 +6833,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 4,
       "prep_time_min": null,
@@ -6872,7 +6872,7 @@
       "calorie_density": "low",
       "alternative_recipe_ids": [],
       "serving_size_g": 312.0,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Fossolia-1-1-150x150.jpg",
       "id": "R095",
       "legacy_id": "ETH007"
@@ -6887,7 +6887,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 15,
@@ -6930,7 +6930,7 @@
       "calorie_density": "low",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'chicken' is animal-derived)]",
       "image_url": "https://globalkitchentravels.com/wp-content/uploads/2014/03/Joloff-Rice-edit1.jpg",
       "_extraction_method": "jsonld",
       "id": "R096",
@@ -7040,7 +7040,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 2,
       "prep_time_min": null,
@@ -7079,7 +7079,7 @@
       "calorie_density": "low",
       "alternative_recipe_ids": [],
       "serving_size_g": 175.0,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Tikil-Gomen-1-1-1-150x150.jpg",
       "id": "R098",
       "legacy_id": "ETH014"
@@ -7094,7 +7094,7 @@
         "side"
       ],
       "diet_types": [
-        "VEGAN_ETHIOPIAN"
+        "OMNI_ETHIOPIAN"
       ],
       "servings": 1,
       "prep_time_min": null,
@@ -7129,7 +7129,7 @@
       "calorie_density": "low",
       "alternative_recipe_ids": [],
       "serving_size_g": 262.0,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN_ETHIOPIAN'] → ['OMNI_ETHIOPIAN'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://ethiopian-food.org/wp-content/uploads/Timatim-Salad-1-1-150x150.jpg",
       "id": "R099",
       "legacy_id": "ETH015"
@@ -7257,7 +7257,7 @@
         "protein_g": 21.0,
         "carb_g": 10.0,
         "fat_g": 11.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": 2.0
       },
       "nutrition_source": "published",
@@ -7276,7 +7276,7 @@
       "calorie_density": "high",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/keto-chia-pudding-recipe.jpg",
       "_extraction_method": "jsonld",
       "id": "R101",
@@ -7447,7 +7447,7 @@
         "protein_g": 6.0,
         "carb_g": 2.0,
         "fat_g": 5.0,
-        "fiber_g": null,
+        "fiber_g": 0.0,
         "sugar_g": null
       },
       "nutrition_source": "published",
@@ -7470,7 +7470,7 @@
       "calorie_density": "high",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: backfilled missing fiber_g=0.0]",
       "image_url": "https://www.trifectanutrition.com/hubfs/porkbites-125kb.jpg",
       "_extraction_method": "jsonld",
       "id": "R104",
@@ -7612,7 +7612,7 @@
         "snack"
       ],
       "diet_types": [
-        "VEGAN"
+        "OMNI"
       ],
       "servings": 8,
       "prep_time_min": 10,
@@ -7667,7 +7667,7 @@
       "calorie_density": "high",
       "fasting_yetsom": false,
       "injera_accompaniment": false,
-      "notes": "",
+      "notes": "[curation-v3.1.1: re-tagged ['VEGAN'] → ['OMNI'] (ingredient 'minced' is animal-derived)]",
       "image_url": "https://www.thecuriouschickpea.com/wp-content/uploads/2021/03/vegan-barbacoa-tacos-9-720x720.jpg",
       "_extraction_method": "jsonld",
       "id": "R107",

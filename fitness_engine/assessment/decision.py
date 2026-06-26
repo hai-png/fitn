@@ -8,10 +8,9 @@ Sources:
 """
 from __future__ import annotations
 
-from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal
 from ..models.assessment import RecommendedStrategy
-from ._thresholds import OPERATIONAL_BF_RANGE, HORMONAL_FLOOR, OBESE_THRESHOLD
-
+from ..models.profile import PrimaryGoal, Sex, TrainingStatus, UserProfile
+from ._thresholds import HORMONAL_FLOOR, OBESE_THRESHOLD, OPERATIONAL_BF_RANGE
 
 # === Cut/Bulk BF boundaries (men; women add +8 %) ===
 # operational_lo/hi and obese_threshold are sourced from _thresholds.py

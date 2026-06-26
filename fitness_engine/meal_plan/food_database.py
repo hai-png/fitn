@@ -13,8 +13,7 @@ food composition data (same sources used by MacroFactor and FatCalc).
 """
 from __future__ import annotations
 
-from ..models.meal import FoodItem, FoodCategory
-
+from ..models.meal import FoodCategory, FoodItem
 
 FOODS = [
     # === Animal proteins ===

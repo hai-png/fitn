@@ -10,7 +10,6 @@ from __future__ import annotations
 
 from ..models.nutrition import MicronutrientTargets
 
-
 FIBER_G_PER_1000_KCAL = 14
 
 FRUIT_VEG_TIERS = [

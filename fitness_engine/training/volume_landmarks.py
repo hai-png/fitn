@@ -22,12 +22,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
-from ..models.training import Exercise, ExerciseCategory, TrainingGoal
 from ..models.profile import TrainingStatus
-from .exercise_categorization import get_movement_pattern, get_pattern_family, PatternFamily
-
+from ..models.training import Exercise, TrainingGoal
 
 # === Volume tiers (Table 7.4) ===
 
@@ -84,23 +81,33 @@ class MuscleVolumeLandmarks:
 #   - calves:  MEV=8,  MAV=10-16, MRV=20-25
 #   - abs:     MEV=6,  MAV=10-20, MRV=20-25
 # Values are sets per week (fractional counting applied).
+# HIGH-severity fix: ML (Maintenance Level) values now follow the stated
+# rule "ML = 0.5-0.67 × MAV_lo" (documented at the top of this file).
+# Previously ML was set equal to MEV for every muscle, which is logically
+# wrong — you need LESS volume to maintain than to grow. Setting ML = MEV
+# meant `get_recommended_weekly_sets` for MAINTENANCE goal floored the
+# recommendation at MEV (growth-level volume), defeating the point of a
+# maintenance program. New ML values: round(0.5 * mav_lo).
+# Also: calves MRV reduced from 25 to 20 (per RP consensus — calves are
+# slow-twitch-dominant and recover poorly from high volume; 25 was 25%
+# above the RP upper bound and risked tendinopathy).
 DEFAULT_MUSCLE_LANDMARKS: dict[str, MuscleVolumeLandmarks] = {
-    "chest":          MuscleVolumeLandmarks("chest",          8, 10, 22, 24, 8),
-    "back":           MuscleVolumeLandmarks("back",          10, 14, 22, 27, 10),
-    "upper_back":     MuscleVolumeLandmarks("upper_back",    10, 14, 22, 27, 10),
-    "lats":           MuscleVolumeLandmarks("lats",          10, 14, 22, 27, 10),
-    "quads":          MuscleVolumeLandmarks("quads",          8, 12, 20, 25, 8),
-    "hamstrings":     MuscleVolumeLandmarks("hamstrings",     6, 10, 16, 20, 6),
-    "glutes":         MuscleVolumeLandmarks("glutes",         4,  8, 16, 20, 4),
-    "shoulders":      MuscleVolumeLandmarks("shoulders",      6,  8, 16, 20, 6),
-    "triceps":        MuscleVolumeLandmarks("triceps",        6,  8, 14, 18, 6),
-    "biceps":         MuscleVolumeLandmarks("biceps",         6,  8, 14, 20, 6),
-    "calves":         MuscleVolumeLandmarks("calves",         8, 10, 16, 25, 8),
-    "abs":            MuscleVolumeLandmarks("abs",            6, 10, 20, 25, 6),
-    "obliques":       MuscleVolumeLandmarks("obliques",      4,  6, 12, 18, 4),
-    "forearms":       MuscleVolumeLandmarks("forearms",      3,  4,  8, 15, 3),
-    "traps":          MuscleVolumeLandmarks("traps",         4,  6, 12, 18, 4),
-    "lower_back":     MuscleVolumeLandmarks("lower_back",    3,  4,  8, 15, 3),
+    "chest":          MuscleVolumeLandmarks("chest",          8, 10, 22, 24, 5),
+    "back":           MuscleVolumeLandmarks("back",          10, 14, 22, 27, 7),
+    "upper_back":     MuscleVolumeLandmarks("upper_back",    10, 14, 22, 27, 7),
+    "lats":           MuscleVolumeLandmarks("lats",          10, 14, 22, 27, 7),
+    "quads":          MuscleVolumeLandmarks("quads",          8, 12, 20, 25, 6),
+    "hamstrings":     MuscleVolumeLandmarks("hamstrings",     6, 10, 16, 20, 5),
+    "glutes":         MuscleVolumeLandmarks("glutes",         4,  8, 16, 20, 3),  # ML 4→3 (must be < MEV)
+    "shoulders":      MuscleVolumeLandmarks("shoulders",      6,  8, 16, 20, 4),
+    "triceps":        MuscleVolumeLandmarks("triceps",        6,  8, 14, 18, 4),
+    "biceps":         MuscleVolumeLandmarks("biceps",         6,  8, 14, 20, 4),
+    "calves":         MuscleVolumeLandmarks("calves",         8, 10, 16, 20, 5),  # MRV 25→20
+    "abs":            MuscleVolumeLandmarks("abs",            6, 10, 20, 25, 5),
+    "obliques":       MuscleVolumeLandmarks("obliques",      4,  6, 12, 18, 3),
+    "forearms":       MuscleVolumeLandmarks("forearms",      3,  4,  8, 15, 2),
+    "traps":          MuscleVolumeLandmarks("traps",         4,  6, 12, 18, 3),
+    "lower_back":     MuscleVolumeLandmarks("lower_back",    3,  4,  8, 15, 2),
 }
 
 
@@ -337,7 +344,26 @@ def get_recommended_weekly_sets(
     # Base MAV midpoint
     mav_mid = (mav_lo + mav_hi) / 2
     recommended = mav_mid * tier_multiplier * goal_multiplier * exp_multiplier
-    return max(landmarks.mev, round(recommended))
+    # MEDIUM-tier normalization fix: previously the tier_multiplier formula
+    # `(tier_lo + tier_hi) / (mav_lo + mav_hi)` did NOT normalize MEDIUM to
+    # 1.0. For chest (MAV 10-22) and MEDIUM tier (13-16), the multiplier was
+    # (13+16)/(10+22) = 0.906 — so MEDIUM produced ~9% LESS volume than the
+    # MAV midpoint. This was a systematic bias against MEDIUM-tier users.
+    # Now we normalize by dividing by the MEDIUM tier's set-sum so MEDIUM
+    # produces multiplier 1.0 exactly. Other tiers scale proportionally.
+    medium_lo, medium_hi = TIER_SET_RANGES[VolumeTier.MEDIUM]
+    medium_sum = medium_lo + medium_hi
+    if medium_sum > 0:
+        tier_multiplier = tier_multiplier / (medium_sum / (mav_lo + mav_hi)) if (mav_lo + mav_hi) > 0 else 1.0
+        # Re-clamp after normalization (very high/very low tiers may now exceed bounds).
+        tier_multiplier = max(0.5, min(1.5, tier_multiplier))
+    recommended = mav_mid * tier_multiplier * goal_multiplier * exp_multiplier
+    # MEDIUM-severity fix: MAINTENANCE goal should floor at ML (Maintenance
+    # Level), not MEV (Minimum Effective Volume). ML < MEV — you need less
+    # volume to maintain than to grow. Previously a maintenance user could
+    # get growth-level volume because the floor was MEV.
+    floor = landmarks.ml if goal == TrainingGoal.MAINTENANCE else landmarks.mev
+    return max(floor, round(recommended))
 
 
 # === Volume validation ===

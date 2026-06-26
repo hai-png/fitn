@@ -16,16 +16,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from ..models.profile import TrainingStatus
 from ..models.training import (
     ExerciseCategory,
     ProgressionScheme,
     TrainingGoal,
     Workout,
-    WorkoutExercise,
 )
 from .intensity_model import get_rir_range, rir_to_rpe
-from ..models.profile import TrainingStatus
-
 
 # === Goal-based presets (rep / rest / RPE per category) ===
 
@@ -93,40 +91,87 @@ _GOAL_PRESETS: dict[TrainingGoal, dict[ExerciseCategory, Preset]] = {
 # === DUP day-type modifiers ===
 # Daily Undulating Periodization rotates heavy/moderate/light days.
 # Modifiers are applied on top of the goal-based preset.
+#
+# CRITICAL FIX: the previous multipliers (`heavy: 0.5/0.7`) were applied
+# uniformly across all goals. For HYPERTROPHY (base preset "5-8"), heavy day
+# produced reps `round(5*0.5)=2` to `round(8*0.7)=6` → "2-6" — that is a
+# STRENGTH rep range, not hypertrophy, contradicting the TrainingGoal enum
+# docstring ("HYPERTROPHY: 6-12 reps"). The fix introduces goal-aware
+# multipliers so heavy/moderate/light days for HYPERTROPHY stay within (or
+# very close to) the 6-12 hypertrophy band, while STRENGTH heavy days still
+# drop to true strength reps (3-6 / 1-3).
+#
+# Reference: Schoenfeld et al. 2017 — hypertrophy can occur across a wide
+# rep range (6-15+) but the per-set intensity must remain in the hypertrophy
+# zone (RIR 1-3). DUP for hypertrophy should rotate load within the
+# hypertrophy band, NOT cross into strength territory.
 
-_DUP_DAY_MODIFIERS: dict[str, dict[str, float]] = {
-    # day_type → {reps multiplier (lower bound, upper bound), rpe_delta, rest_multiplier}
+_DUP_DAY_MODIFIERS_HYPERTROPHY: dict[str, dict[str, float]] = {
+    # Stay within 6-12 rep band. Heavy = lower end (6-8), Moderate = mid (8-10),
+    # Light = upper end (10-15). Rest still scales as classic DUP.
+    "heavy":    {"reps_lo_mult": 1.0, "reps_hi_mult": 1.0, "rpe_delta": +0.5, "rest_mult": 1.5},
+    "moderate": {"reps_lo_mult": 1.2, "reps_hi_mult": 1.25, "rpe_delta": 0.0, "rest_mult": 1.0},
+    "light":    {"reps_lo_mult": 1.5, "reps_hi_mult": 1.6, "rpe_delta": -1.0, "rest_mult": 0.6},
+}
+
+_DUP_DAY_MODIFIERS_STRENGTH: dict[str, dict[str, float]] = {
+    # Strength DUP: heavy day drops to 1-3 reps (true peaking), moderate 4-6, light 8-10.
     "heavy":    {"reps_lo_mult": 0.5, "reps_hi_mult": 0.7, "rpe_delta": +0.5, "rest_mult": 1.5},
-    "moderate": {"reps_lo_mult": 1.0, "reps_hi_mult": 1.0, "rpe_delta":  0.0, "rest_mult": 1.0},
+    "moderate": {"reps_lo_mult": 1.0, "reps_hi_mult": 1.0, "rpe_delta": 0.0, "rest_mult": 1.0},
     "light":    {"reps_lo_mult": 1.5, "reps_hi_mult": 1.8, "rpe_delta": -1.0, "rest_mult": 0.6},
 }
 
+# Default (used for GENERAL_FITNESS / FAT_LOSS / RECOMP / MAINTENANCE):
+# moderate rotation within the goal's preset band.
+_DUP_DAY_MODIFIERS_DEFAULT: dict[str, dict[str, float]] = {
+    "heavy":    {"reps_lo_mult": 0.8, "reps_hi_mult": 0.85, "rpe_delta": +0.5, "rest_mult": 1.25},
+    "moderate": {"reps_lo_mult": 1.0, "reps_hi_mult": 1.0, "rpe_delta": 0.0, "rest_mult": 1.0},
+    "light":    {"reps_lo_mult": 1.25, "reps_hi_mult": 1.4, "rpe_delta": -1.0, "rest_mult": 0.7},
+}
 
-def _modify_reps_for_dup(base_reps: str, day_type: str) -> str:
+
+def _dup_modifiers_for_goal(goal: TrainingGoal) -> dict[str, dict[str, float]]:
+    """Pick the right DUP modifier table for the goal."""
+    hypertrophy_goals = {
+        TrainingGoal.HYPERTROPHY,
+        TrainingGoal.MUSCLE_GAIN,
+        TrainingGoal.RECOMP,
+    }
+    if goal in hypertrophy_goals:
+        return _DUP_DAY_MODIFIERS_HYPERTROPHY
+    if goal == TrainingGoal.STRENGTH:
+        return _DUP_DAY_MODIFIERS_STRENGTH
+    return _DUP_DAY_MODIFIERS_DEFAULT
+
+
+def _modify_reps_for_dup(base_reps: str, day_type: str, goal: TrainingGoal) -> str:
     """Apply DUP day-type modifier to a rep range like '5-8'."""
-    if day_type not in _DUP_DAY_MODIFIERS or "-" not in base_reps:
+    modifiers = _dup_modifiers_for_goal(goal)
+    if day_type not in modifiers or "-" not in base_reps:
         return base_reps
     try:
         lo, hi = (int(x) for x in base_reps.split("-"))
     except ValueError:
         return base_reps
-    mod = _DUP_DAY_MODIFIERS[day_type]
+    mod = modifiers[day_type]
     new_lo = max(1, round(lo * mod["reps_lo_mult"]))
     new_hi = max(new_lo + 1, round(hi * mod["reps_hi_mult"]))
     return f"{new_lo}-{new_hi}"
 
 
-def _modify_rpe_for_dup(base_rpe: float, day_type: str) -> float:
-    if day_type not in _DUP_DAY_MODIFIERS:
+def _modify_rpe_for_dup(base_rpe: float, day_type: str, goal: TrainingGoal) -> float:
+    modifiers = _dup_modifiers_for_goal(goal)
+    if day_type not in modifiers:
         return base_rpe
-    delta = _DUP_DAY_MODIFIERS[day_type]["rpe_delta"]
+    delta = modifiers[day_type]["rpe_delta"]
     return max(4.0, min(10.0, base_rpe + delta))
 
 
-def _modify_rest_for_dup(base_rest: int, day_type: str) -> int:
-    if day_type not in _DUP_DAY_MODIFIERS:
+def _modify_rest_for_dup(base_rest: int, day_type: str, goal: TrainingGoal) -> int:
+    modifiers = _dup_modifiers_for_goal(goal)
+    if day_type not in modifiers:
         return base_rest
-    mult = _DUP_DAY_MODIFIERS[day_type]["rest_mult"]
+    mult = modifiers[day_type]["rest_mult"]
     return max(30, round(base_rest * mult))
 
 
@@ -180,11 +225,11 @@ def apply_periodization(
         rpe = preset.rpe
         sets = we.sets  # start from slot's default
 
-        # Layer 2: DUP day-type modifier
+        # Layer 2: DUP day-type modifier (now goal-aware)
         if progression == ProgressionScheme.DUP and day_type:
-            reps = _modify_reps_for_dup(reps, day_type)
-            rpe = _modify_rpe_for_dup(rpe, day_type)
-            rest = _modify_rest_for_dup(rest, day_type)
+            reps = _modify_reps_for_dup(reps, day_type, goal)
+            rpe = _modify_rpe_for_dup(rpe, day_type, goal)
+            rest = _modify_rest_for_dup(rest, day_type, goal)
 
         # Layer 3: Block phase modifier
         if progression == ProgressionScheme.BLOCK and block_phase:
@@ -202,13 +247,20 @@ def apply_periodization(
                 sets = max(2, sets + mod["sets_delta"])
                 rpe = max(4.0, min(10.0, rpe + mod["rpe_delta"]))
 
-        # Layer 4: Deload week — reduce VOLUME, MAINTAIN INTENSITY.
-        # Apply a multiplicative -40% volume reduction (RippedBody Rule 8.3
-        # spec, intensity_model.apply_deload recipe) computed from the
-        # post-block-modifier value. RPE is unchanged (intensity maintained).
+        # Layer 4: Deload week — reduce VOLUME AND INTENSITY.
+        # CRITICAL FIX: previously only volume was reduced (-40% sets) with
+        # RPE unchanged, citing "RippedBody deload protocol". The actual
+        # RippedBody Rule 8.3 spec reduces BOTH volume (-30 to -50% sets) AND
+        # intensity (RIR +1 to +2, equivalent to RPE -1 to -2). Keeping RPE
+        # at 8.5 during a deload leaves the user still fatigued — defeating
+        # the purpose of the deload. Now: -50% sets (mid-range of source)
+        # AND RPE -1.5 (midpoint of -1..-2). The `max(1, ...)` floor on sets
+        # (was `max(2, ...)`) ensures 2-set accessories actually deload to 1
+        # set instead of staying at 2 (the previous floor defeated the deload
+        # for low-set accessories).
         if is_deload:
-            sets = max(2, round(sets * 0.6))
-            # rpe unchanged — intensity maintained per RippedBody deload protocol
+            sets = max(1, round(sets * 0.5))
+            rpe = max(4.0, rpe - 1.5)
 
         # Layer 5: RIR clamp — applied AFTER DUP/block/deload modifications
         # so it operates on the FINAL rep range. (Clamping before DUP would

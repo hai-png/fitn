@@ -9,16 +9,14 @@ Sources:
 """
 from __future__ import annotations
 
-import math
-from typing import Optional
-
-from ..models.profile import UserProfile, Sex
 from ..models.assessment import (
-    HealthRiskAssessment, HealthRiskLevel, ABSIRiskLevel,
+    ABSIRiskLevel,
+    HealthRiskAssessment,
+    HealthRiskLevel,
 )
-from ..utils.units import cm_to_in, cm_to_m
+from ..models.profile import Sex, UserProfile
+from ..utils.units import cm_to_in
 from ._thresholds import MEDICAL_DISCLAIMER
-
 
 # === WHR (Waist-to-Hip Ratio) ===
 

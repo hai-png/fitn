@@ -33,14 +33,12 @@ import re
 from collections import Counter
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
 
 from ..models.meal import (
-    Recipe,
     NutritionPerServing,
+    Recipe,
 )
 from .pre_post_workout import get_pre_post_workout_recipes
-
 
 # === Path resolution ===
 _MEAL_PLAN_DIR = Path(__file__).resolve().parent
@@ -100,8 +98,8 @@ _CONDITIONAL_KEYWORDS = ("milk", "butter", "cream", "cheese", "yogurt", "whey", 
 # PLANT_QUALIFIERS / PLANT_NAMED_PHRASES sourced from ``_allergen_constants``
 # (single source of truth). Imported here under the original local name for
 # minimal diff.
-from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS
 from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES
+from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS
 
 # Compile strict-word regex (word-boundary match)
 _STRICT_WORD_RE = re.compile(
@@ -342,6 +340,7 @@ def load_recipes() -> tuple[Recipe, ...]:
 
     seen_ids: set[str] = set()
     out: list[Recipe] = []
+    collision_log: list[str] = []
 
     # Curated first
     for raw in curated_db.get("recipes", []):
@@ -352,11 +351,34 @@ def load_recipes() -> tuple[Recipe, ...]:
             seen_ids.add(r.id)
         out.append(r)
 
-    # Uncurated second (skip IDs already in curated)
+    # Uncurated second.
+    # CRITICAL FIX: previously this used the same `R001-R107` ID namespace as
+    # the curated DB, so 107 uncurated recipes with DIFFERENT names were
+    # silently dropped (curated wins on collision). The recipes were
+    # completely unrelated — e.g. curated R001 = "10-Minute Tofu Scramble"
+    # but uncurated R001 = "Mini Stuffed Peppers Recipe". Dropping 29% of the
+    # uncurated pool silently reduced recipe coverage.
+    # Now: when an ID collision is detected AND the recipe names differ,
+    # prefix the uncurated recipe's ID with "U" (so uncurated R001 → "UR001")
+    # and keep it in the pool. When the names match (genuine duplicate), skip.
     for raw in uncurated_db.get("recipes", []):
         r = _parse_recipe(raw, is_curated=False)
         if r.id and r.id in seen_ids:
-            continue
+            # Check whether this is a genuine duplicate (same name) or a
+            # namespace collision (different recipe, same ID).
+            existing = next((x for x in out if x.id == r.id), None)
+            if existing is not None and existing.name != r.name:
+                # Namespace collision — rename uncurated to URxxx and keep.
+                original_id = r.id
+                r = _parse_recipe(raw, is_curated=False)
+                r.id = f"U{original_id}"
+                collision_log.append(
+                    f"ID collision: curated '{existing.name}' (id={original_id}) "
+                    f"vs uncurated '{r.name}' — uncurated renamed to {r.id}"
+                )
+            else:
+                # Genuine duplicate (same name) — skip.
+                continue
         if r.id:
             seen_ids.add(r.id)
         out.append(r)
@@ -368,6 +390,15 @@ def load_recipes() -> tuple[Recipe, ...]:
         if r.id:
             seen_ids.add(r.id)
         out.append(r)
+
+    # Surface collisions via module-level log so they're visible without
+    # polluting the recipe list. (Logged at WARNING level so test runs see it.)
+    if collision_log:
+        import logging
+        logging.getLogger(__name__).warning(
+            "Recipe DB ID collisions resolved (%d): %s",
+            len(collision_log), "; ".join(collision_log[:3]) + ("..." if len(collision_log) > 3 else ""),
+        )
 
     return tuple(out)
 
@@ -412,13 +443,13 @@ def _build_indexes() -> tuple[dict, dict, dict]:
     return by_id, by_name, swap_groups
 
 
-def get_recipe_by_id(recipe_id: str) -> Optional[Recipe]:
+def get_recipe_by_id(recipe_id: str) -> Recipe | None:
     """Look up a recipe by its ID (e.g. 'R001')."""
     by_id, _, _ = _build_indexes()
     return by_id.get(recipe_id)
 
 
-def get_recipe_by_name(name: str) -> Optional[Recipe]:
+def get_recipe_by_name(name: str) -> Recipe | None:
     """Look up a recipe by its display name."""
     _, by_name, _ = _build_indexes()
     return by_name.get(name)
@@ -465,27 +496,26 @@ def recipes_by_goal_fit(goal: str) -> list[Recipe]:
 def recipes_by_kcal_range(lo: float, hi: float) -> list[Recipe]:
     """Return all recipes whose per-serving kcal is in [lo, hi].
 
-    Task 3-quickfixes #12: also include ``nutrition_source == "calculated"``
-    so PRE_POST_WORKOUT_RECIPES (which are engine-generated with
-    ``nutrition_source: "calculated"``) are visible to kcal-range queries,
-    not just the published/estimated human-authored recipes.
+    Includes PRE_POST_WORKOUT_RECIPES (engine-generated, nutrition_source
+    "calculated") alongside published/estimated human-authored recipes.
+
+    Cleanup: the previous `nutrition_source in (...)` filter was a no-op
+    because every recipe in the DB has one of those three sources (the
+    default is "published"). Removed the filter — it added complexity
+    without excluding anything.
     """
-    return [
-        r for r in load_recipes()
-        if lo <= r.kcal <= hi
-        and r.nutrition_source in ("published", "estimated", "calculated")
-    ]
+    return [r for r in load_recipes() if lo <= r.kcal <= hi]
 
 
 def recipes_by_filters(
-    meal_type: Optional[str] = None,
-    diet_type: Optional[str] = None,
-    cuisine: Optional[str] = None,
-    goal_fit: Optional[str] = None,
-    kcal_lo: Optional[float] = None,
-    kcal_hi: Optional[float] = None,
+    meal_type: str | None = None,
+    diet_type: str | None = None,
+    cuisine: str | None = None,
+    goal_fit: str | None = None,
+    kcal_lo: float | None = None,
+    kcal_hi: float | None = None,
     is_curated_only: bool = False,
-    exclude_ids: Optional[set[str]] = None,
+    exclude_ids: set[str] | None = None,
     exclude_diet_warnings: bool = False,
 ) -> list[Recipe]:
     """
@@ -535,6 +565,14 @@ def recipes_by_filters(
         out = [r for r in out if "[diet-warning" not in (r.notes or "")]
     if exclude_diet_warnings:
         out = [r for r in out if "[diet-warning" not in (r.notes or "")]
+    # HIGH-severity fix: exclude recipes flagged with [kcal-warning] universally.
+    # These are recipes where the stated kcal is >10% off from P*4 + C*4 + F*9
+    # (e.g. R336 "Fresh Turmeric Mango Salsa": stated 14 kcal, derived 37 kcal
+    # — 164% off). Previously these were flagged with a note but remained
+    # selectable, so the scorer used the WRONG kcal value to compute
+    # match_pct, leading to systematic slot-target drift when such a recipe
+    # was selected for a low-kcal slot.
+    out = [r for r in out if "[kcal-warning" not in (r.notes or "")]
     if cuisine:
         c = cuisine.lower()
         out = [r for r in out if c in r.cuisine.lower()]

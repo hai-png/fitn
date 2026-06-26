@@ -33,41 +33,51 @@ Outputs:
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
-from ..models.profile import (
-    UserProfile, TrainingStatus, PrimaryGoal, EquipmentAccess,
-)
 from ..models.assessment import AssessmentResult, RecommendedStrategy
+from ..models.profile import (
+    PrimaryGoal,
+    TrainingStatus,
+    UserProfile,
+)
 from ..models.training import (
-    TrainingPlan, Mesocycle, Microcycle, Workout, WorkoutExercise,
-    Exercise, ExerciseCategory,
-    SplitType, PlanType, TrainingGoal, ProgressionScheme,
+    Mesocycle,
+    Microcycle,
+    PlanType,
+    ProgressionScheme,
+    SplitType,
+    TrainingGoal,
+    TrainingPlan,
+    Workout,
+    WorkoutExercise,
 )
+from .exercise_library import EXERCISES
 from .exercise_selector import (
-    select_exercise_for_slot,
     get_equipment_allowed_set,
-)
-from .split_designs import (
-    SplitDesign, WorkoutTemplate, MovementPatternSlot,
-    ALL_SPLITS, get_splits_for_days,
-    _compound_primary, _compound_secondary, _accessory,
+    select_exercise_for_slot,
 )
 from .periodization import (
     apply_periodization,
+    get_block_phases_for_program,
     get_mesocycle_length,
     get_program_duration_weeks,
-    get_block_phases_for_program,
 )
-from .exercise_library import EXERCISES
+from .split_designs import (
+    ALL_SPLITS,
+    MovementPatternSlot,
+    SplitDesign,
+    WorkoutTemplate,
+    _accessory,
+    _compound_secondary,
+    get_splits_for_days,
+)
 from .volume_landmarks import (
-    validate_weekly_volume,
+    PER_SESSION_SET_CAP,
     VolumeTier,
     check_session_volume_cap,
     compute_session_volume_per_muscle,
-    PER_SESSION_SET_CAP,
+    validate_weekly_volume,
 )
-
 
 _log = logging.getLogger(__name__)
 
@@ -240,7 +250,7 @@ def _pick_split(
 
 def _pick_progression(
     experience: TrainingStatus,
-    goal: Optional[TrainingGoal] = None,
+    goal: TrainingGoal | None = None,
 ) -> ProgressionScheme:
     """Map experience (and optionally goal) to progression scheme.
 
@@ -268,7 +278,7 @@ def _pick_progression(
 def _decide_plan_type(
     profile: UserProfile,
     goal: TrainingGoal,
-    user_choice: Optional[PlanType] = None,
+    user_choice: PlanType | None = None,
 ) -> PlanType:
     """
     Decide whether to produce a STANDARD rotation or a PROGRAM.
@@ -652,7 +662,20 @@ def _compute_volume_notes(
           (already prefixed with ``"<workout_name>: "``); the orchestrator
           wraps these with a header line + indented bullets.
     """
-    weekly_vol = _compute_weekly_volume(base_workouts)
+    # CRITICAL FIX: previously this called `_compute_weekly_volume(base_workouts)`
+    # which uses the UN-periodized slot definitions. For PROGRAM plans with
+    # BLOCK accumulation (+1 set per exercise) or intensification (-1 set),
+    # this meant weekly_volume_summary reported the base volume — not what the
+    # user will actually perform. MRV warnings fired against the wrong number
+    # (e.g. "shoulders = 22 sets/wk" warning when the periodized workouts
+    # actually had 29.5 sets). Now: prefer the first microcycle's periodized
+    # workouts when mesocycles exist; fall back to base_workouts for STANDARD
+    # plans (where mesocycles may be empty during construction).
+    if mesocycles and mesocycles[0].microcycles:
+        periodized_workouts = mesocycles[0].microcycles[0].workouts
+        weekly_vol = _compute_weekly_volume(periodized_workouts)
+    else:
+        weekly_vol = _compute_weekly_volume(base_workouts)
 
     # Build the target-muscle list: the canonical 6 compound drivers plus
     # any user-requested focus muscles (so they get validated too).
@@ -705,9 +728,9 @@ def _compute_volume_notes(
 def build_training_plan(
     profile: UserProfile,
     assessment: AssessmentResult,
-    plan_type: Optional[PlanType] = None,
-    muscle_focus: Optional[list[str]] = None,
-    program_duration_weeks: Optional[int] = None,
+    plan_type: PlanType | None = None,
+    muscle_focus: list[str] | None = None,
+    program_duration_weeks: int | None = None,
 ) -> TrainingPlan:
     """
     Build a complete training plan based on profile + assessment.
@@ -884,7 +907,7 @@ def build_training_plan(
 
 # === Helper: find day_type for a workout ===
 
-def _find_day_type_for_workout(workout: Workout) -> Optional[str]:
+def _find_day_type_for_workout(workout: Workout) -> str | None:
     """Look up the day_type tag from the original template."""
     for split in ALL_SPLITS:
         for tmpl in split.templates:

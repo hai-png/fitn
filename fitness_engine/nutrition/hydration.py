@@ -7,9 +7,8 @@ from __future__ import annotations
 
 import warnings
 
-from ..models.profile import UserProfile, Sex, ExerciseIntensity, Climate
 from ..models.nutrition import HydrationTarget
-
+from ..models.profile import Climate, ExerciseIntensity, Sex, UserProfile
 
 # === Constants ===
 BASE_ML_PER_KG = 30                    # 30 mL/kg
@@ -45,8 +44,8 @@ NAM_AI = {Sex.FEMALE: 2.7, Sex.MALE: 3.7}     # L/day
 def compute_hydration(
     profile: UserProfile,
     exercise_hours_per_day: float = 1.0,
-    exercise_intensity: str | "ExerciseIntensity" = "moderate",
-    climate: str | "Climate" = "temperate",
+    exercise_intensity: str | ExerciseIntensity = "moderate",
+    climate: str | Climate = "temperate",
     pregnant: bool = False,
     breastfeeding: bool = False,
 ) -> HydrationTarget:
@@ -71,14 +70,19 @@ def compute_hydration(
     # message.
     original_intensity = exercise_intensity
     original_climate = climate
+    # MEDIUM-severity fix: case-insensitive coercion. Previously
+    # `ExerciseIntensity("Moderate")` (capitalized) would raise ValueError,
+    # silently falling back to MODERATE — but only after warning the user
+    # about an "unknown" value they had clearly specified. Now we lowercase
+    # first so "Moderate" / "MODERATE" / "moderate" all work.
     if isinstance(exercise_intensity, str):
         try:
-            exercise_intensity = ExerciseIntensity(exercise_intensity)
+            exercise_intensity = ExerciseIntensity(exercise_intensity.lower())
         except ValueError:
             exercise_intensity = None
     if isinstance(climate, str):
         try:
-            climate = Climate(climate)
+            climate = Climate(climate.lower())
         except ValueError:
             climate = None
     # Validate against known values; fall back to defaults on unknown inputs.
@@ -114,13 +118,46 @@ def compute_hydration(
     components[f"exercise ({exercise_intensity.value}, {exercise_hours_per_day}h)"] = round(exercise_add, 2)
 
     # Step 4
+    # HIGH-severity fix: previously the climate multiplier was applied to the
+    # TOTAL water (base + sex + exercise), but the cited source
+    # (fatcalc.com__hydration-calculator.txt) describes the multipliers as
+    # affecting sweat losses specifically — "Reduced sweat losses in cool
+    # environments", "Significantly increased sweat losses", "Maximum sweat
+    # production as humidity impairs evaporative cooling". Baseline metabolic
+    # water needs don't increase 30% just because it's hot. Now: apply the
+    # multiplier only to the exercise/sweat component, then add back to base.
+    # Concrete impact for 100 kg male, 2h intense exercise, hot climate:
+    #   was: (3.0 + 0.3 + 1.6) × 1.3 = 6.37 L
+    #   now: 3.0 + 0.3 + (1.6 × 1.3) = 5.38 L  (saves ~1 L/day overestimation)
     mult = CLIMATE_MULTIPLIER.get(climate, 1.0)
-    pre_climate = water
-    water *= mult
-    if mult != 1.0:
-        components[f"climate ({climate.value}, ×{mult})"] = round(water - pre_climate, 2)
+    if mult != 1.0 and exercise_add > 0:
+        # Undo the un-multiplied exercise_add we already added, then add back
+        # the climate-scaled version.
+        water -= exercise_add
+        climate_adjusted_exercise = exercise_add * mult
+        water += climate_adjusted_exercise
+        components[f"climate ({climate.value}, ×{mult} on sweat)"] = round(
+            climate_adjusted_exercise - exercise_add, 2
+        )
+        # Update the displayed exercise component to reflect the actual sweat
+        # volume (was the pre-climate amount; now includes climate adjustment).
+        components[f"exercise ({exercise_intensity.value}, {exercise_hours_per_day}h, climate-adj)"] = round(
+            climate_adjusted_exercise, 2
+        )
+        # Remove the un-adjusted exercise key we added in Step 3.
+        components.pop(f"exercise ({exercise_intensity.value}, {exercise_hours_per_day}h)", None)
 
     # Step 5
+    # MEDIUM-severity fix: validate biological plausibility. A male user with
+    # pregnant=True would silently get +0.3 L added — a domain-correctness gap.
+    if pregnant and profile.sex == Sex.MALE:
+        raise ValueError(
+            "pregnant=True is biologically impossible for Sex.MALE — check the input."
+        )
+    if breastfeeding and profile.sex == Sex.MALE:
+        raise ValueError(
+            "breastfeeding=True is biologically impossible for Sex.MALE — check the input."
+        )
     if pregnant:
         water += PREGNANCY_ADD_ML / 1000
         components["pregnancy"] = round(PREGNANCY_ADD_ML / 1000, 2)
@@ -139,7 +176,11 @@ def compute_hydration(
         clamped = True
         original = water
         water = HYDRATION_SOFT_CEILING_L
-        components[f"hyponatremia cap (was {original:.2f} L)"] = round(water - original, 2)
+        # MEDIUM-severity fix: previously added a NEGATIVE entry to components
+        # (water - original is negative after clamping), making the sum of
+        # components no longer equal water_liters_per_day. Now we keep the
+        # clamp info in `notes` only — components stay as a true additive
+        # decomposition of the final water_liters_per_day.
 
     notes = [
         f"EFSA AI ({profile.sex.value}): {EFSA_AI[profile.sex]} L/day",

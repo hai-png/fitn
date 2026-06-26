@@ -11,9 +11,9 @@ when None, the meal falls back to the Phase-1 raw-foods approach.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING
 
 # shared JSON-serializer for consistent Enum conversion.
 from ..utils.serialize import convert_for_json
@@ -153,9 +153,9 @@ class Recipe:
     """
     # === Identity ===
     name: str
-    id: Optional[str] = None               # e.g. "R001"
-    source: Optional[str] = None            # URL
-    source_file: Optional[str] = None
+    id: str | None = None               # e.g. "R001"
+    source: str | None = None            # URL
+    source_file: str | None = None
     # === Classification ===
     cuisine: str = "american"
     category: str = ""                      # free-text: "dinner, main, main course"
@@ -166,8 +166,8 @@ class Recipe:
 
     # === Servings & timing ===
     servings: int = 1
-    prep_time_min: Optional[int] = None
-    cook_time_min: Optional[int] = None
+    prep_time_min: int | None = None
+    cook_time_min: int | None = None
 
     # === Content ===
     ingredients: list[str] = field(default_factory=list)
@@ -176,11 +176,11 @@ class Recipe:
     # === Nutrition (per serving) ===
     nutrition_per_serving: NutritionPerServing = field(default_factory=NutritionPerServing)
     nutrition_source: str = "published"    # "published" or "estimated"
-    serving_size_g: Optional[float] = None
+    serving_size_g: float | None = None
 
     # === Quality / density tags ===
-    protein_density: Optional[str] = None  # "low" / "medium" / "high"
-    calorie_density: Optional[str] = None  # "low" / "medium" / "high"
+    protein_density: str | None = None  # "low" / "medium" / "high"
+    calorie_density: str | None = None  # "low" / "medium" / "high"
     allergens: list[str] = field(default_factory=list)
     alternative_recipe_ids: list[str] = field(default_factory=list)
 
@@ -189,12 +189,12 @@ class Recipe:
     injera_accompaniment: bool = False      # served with injera
 
     # === Media ===
-    image_url: Optional[str] = None
+    image_url: str | None = None
 
     # === Misc ===
     notes: str = ""
     @property
-    def total_time_min(self) -> Optional[int]:
+    def total_time_min(self) -> int | None:
         """Total prep + cook time, or None if either is missing."""
         if self.prep_time_min is None or self.cook_time_min is None:
             return None
@@ -276,7 +276,7 @@ class Meal:
     meal_type: MealType
     name: str
     foods: list[MealFood] = field(default_factory=list)
-    recipe: Optional[Recipe] = None
+    recipe: Recipe | None = None
     # Scaled recipe nutrition. When `recipe` is set, these hold the
     # scaled per-serving values; `total_*` properties add filler contributions
     # on top. When `recipe` is None, they're 0 and `total_*` falls back to
@@ -445,8 +445,8 @@ class MealPlan:
 @dataclass
 class FitnessPlan:
     """Top-level engine output combining all sub-plans."""
-    nutrition: "NutritionPlan"
-    training: "TrainingPlan"
+    nutrition: NutritionPlan
+    training: TrainingPlan
     meal: MealPlan
     summary: str = ""
 

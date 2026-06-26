@@ -7,19 +7,25 @@ macro kcal sums match target, weekly meal plan averages ~target).
 """
 from __future__ import annotations
 
-import math
-
 import pytest
 
 from fitness_engine import (
-    UserProfile, assess_profile, propose_plan, PlanPreferences,
-)
-from fitness_engine.models.profile import (
-    Sex, ActivityLevel, TrainingStatus, PrimaryGoal, EquipmentAccess, DietType,
+    PlanPreferences,
+    UserProfile,
+    assess_profile,
+    propose_plan,
 )
 from fitness_engine.models.assessment import RecommendedStrategy
+from fitness_engine.models.profile import (
+    ActivityLevel,
+    DietType,
+    EquipmentAccess,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+)
 from fitness_engine.nutrition.calories import (
-    MAX_WEEKLY_LOSS_PCT, DEFAULT_CUT_RATE_PCT, SWEET_SPOT_CUT_RATE_PCT,
+    MAX_WEEKLY_LOSS_PCT,
     CalorieStrategy,
 )
 
@@ -490,7 +496,7 @@ class TestSerializationInvariants:
             if isinstance(obj, Enum):
                 return False
             if isinstance(obj, dict):
-                return all(walk(v) for v in obj.values()) and all(walk(k) for k in obj.keys())
+                return all(walk(v) for v in obj.values()) and all(walk(k) for k in obj)
             if isinstance(obj, (list, tuple)):
                 return all(walk(v) for v in obj)
             return True

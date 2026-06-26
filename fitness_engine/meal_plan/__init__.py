@@ -21,66 +21,112 @@ Modules:
   - food_database: raw foods (used for fillers)
   - meal_templates: meal frequency templates + macro allocations
 """
-from .food_database import (
-    FOODS, FOOD_INDEX,
-    get_food, foods_by_category, high_protein_foods, protein_per_100kcal,
-)
-from .recipe_loader import (
-    load_recipes, get_recipe_by_id, get_recipe_by_name,
-    swap_groups, recipes_in_swap_group,
-    recipes_by_meal_type, recipes_by_diet_type, recipes_by_cuisine,
-    recipes_by_goal_fit, recipes_by_kcal_range, recipes_by_filters,
-    database_stats,
-)
-from .meal_templates import (
-    MEAL_ORDER, MEAL_NAMES,
-    get_meal_plan_template, get_meal_name,
-)
 # Allocator + planner (clean implementation)
 from .allocator import (
-    SelectedMeal, allocate_meal, selected_meal_to_dict,
+    SelectedMeal,
+    allocate_meal,
+    selected_meal_to_dict,
+)
+from .food_database import (
+    FOOD_INDEX,
+    FOODS,
+    foods_by_category,
+    get_food,
+    high_protein_foods,
+    protein_per_100kcal,
+)
+from .meal_templates import (
+    MEAL_NAMES,
+    MEAL_ORDER,
+    get_meal_name,
+    get_meal_plan_template,
 )
 from .planner import build_meal_plan
-# Profile requirements
-from .profile_requirements import (
-    MealSlotTarget, MealPlanRequirements,
-    compute_meal_plan_requirements,
-    compute_pre_workout_target, compute_post_workout_target,
-    get_recipe_diet_tag,
-    STANDARD_ALLOCATIONS,
-)
-# Recipe scorer
-from .recipe_scorer import (
-    RecipeScore, score_recipe_for_slot, score_candidates,
-    WEIGHTS, MIN_ACCEPTABLE_SCORE,
-    score_kcal_match, score_protein_match, score_carb_match,
-    score_fat_match, score_fiber_match, score_diet_match,
-    score_goal_fit, score_variety, score_cuisine,
-    check_allergens, check_excluded_ingredients,
-    ALLERGEN_KEYWORDS,
-)
-# Recipe scaler + fillers
-from .recipe_scaler import (
-    ScaledRecipe, FillerGap, FillerResult,
-    compute_scale_factor, scale_recipe,
-    compute_filler_gap, select_fillers_for_meal,
-    select_protein_filler, select_carb_filler,
-    select_fat_filler, select_veg_filler,
-    MIN_SCALE, MAX_SCALE, FILLER_THRESHOLDS,
-    PROTEIN_FILLERS, CARB_FILLERS, FAT_FILLERS, VEG_FILLERS,
-)
-# Swap system
-from .swap_system import (
-    IngredientSwap, INGREDIENT_SWAPS,
-    get_ingredient_swaps, get_swaps_for_recipe_ingredients,
-    get_recipe_swaps, get_recipe_swaps_for_plan,
-)
+
 # Pre/Post workout recipes
 from .pre_post_workout import (
     PRE_POST_WORKOUT_RECIPES,
+    get_post_workout_recipes,
     get_pre_post_workout_recipes,
     get_pre_workout_recipes,
-    get_post_workout_recipes,
+)
+
+# Profile requirements
+from .profile_requirements import (
+    STANDARD_ALLOCATIONS,
+    MealPlanRequirements,
+    MealSlotTarget,
+    compute_meal_plan_requirements,
+    compute_post_workout_target,
+    compute_pre_workout_target,
+    get_recipe_diet_tag,
+)
+from .recipe_loader import (
+    database_stats,
+    get_recipe_by_id,
+    get_recipe_by_name,
+    load_recipes,
+    recipes_by_cuisine,
+    recipes_by_diet_type,
+    recipes_by_filters,
+    recipes_by_goal_fit,
+    recipes_by_kcal_range,
+    recipes_by_meal_type,
+    recipes_in_swap_group,
+    swap_groups,
+)
+
+# Recipe scaler + fillers
+from .recipe_scaler import (
+    CARB_FILLERS,
+    FAT_FILLERS,
+    FILLER_THRESHOLDS,
+    MAX_SCALE,
+    MIN_SCALE,
+    PROTEIN_FILLERS,
+    VEG_FILLERS,
+    FillerGap,
+    FillerResult,
+    ScaledRecipe,
+    compute_filler_gap,
+    compute_scale_factor,
+    scale_recipe,
+    select_carb_filler,
+    select_fat_filler,
+    select_fillers_for_meal,
+    select_protein_filler,
+    select_veg_filler,
+)
+
+# Recipe scorer
+from .recipe_scorer import (
+    ALLERGEN_KEYWORDS,
+    MIN_ACCEPTABLE_SCORE,
+    WEIGHTS,
+    RecipeScore,
+    check_allergens,
+    check_excluded_ingredients,
+    score_candidates,
+    score_carb_match,
+    score_cuisine,
+    score_diet_match,
+    score_fat_match,
+    score_fiber_match,
+    score_goal_fit,
+    score_kcal_match,
+    score_protein_match,
+    score_recipe_for_slot,
+    score_variety,
+)
+
+# Swap system
+from .swap_system import (
+    INGREDIENT_SWAPS,
+    IngredientSwap,
+    get_ingredient_swaps,
+    get_recipe_swaps,
+    get_recipe_swaps_for_plan,
+    get_swaps_for_recipe_ingredients,
 )
 
 __all__ = [

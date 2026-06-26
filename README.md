@@ -4,11 +4,12 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/tests-444%20passing-green.svg)](#testing)
+[![Tests](https://img.shields.io/badge/tests-557%20passing-green.svg)](#testing)
+[![Coverage](https://img.shields.io/badge/coverage-90%25-green.svg)](#testing)
 
 `fitn` produces a unified `FitnessPlan` (nutrition + training + meal plan) from a
 `UserProfile`. It is **fully deterministic** (no `random`, no `datetime.now`,
-zero third-party runtime dependencies) and runs in <1 second per plan.
+zero third-party runtime dependencies) and runs in ~1 second per plan.
 
 ## Quickstart
 
@@ -77,17 +78,36 @@ propose_plan(profile, assessment, preferences?)  →  FitnessPlan
 ## Testing
 
 ```bash
-pytest                       # full suite (444 tests, ~4s)
-pytest -m "not integration"  # fast subset
-pytest --cov=fitness_engine  # with coverage report
+pytest                       # full suite (557 tests, ~100s)
+pytest -m "not integration"  # same — no test carries the integration marker yet
+pytest --cov=fitness_engine  # with coverage report (90%+)
 ```
 
 ## Documentation
 
+- [`ANALYSIS.md`](ANALYSIS.md) — critical analysis report + systematic fixes (v3.1.1)
 - [`reports/meal_planning/DESIGN.md`](reports/meal_planning/DESIGN.md) — meal planner design
 - [`reports/meal_planning/coverage_analysis.md`](reports/meal_planning/coverage_analysis.md) — recipe coverage
 - [`reports/rippedbody_insights.md`](reports/rippedbody_insights.md) — domain sources
 - [`reports/CLEANUP_PLAN.md`](reports/CLEANUP_PLAN.md) — historical cleanup log
+
+## Known limitations
+
+- **ABSI z-score** uses 10-year age bands (acknowledged simplification of the
+  NHANES 5-year bands; up to ~0.3 SD of error at age-band boundaries). Not for
+  clinical decisions.
+- **Health-risk aggregator** weights (ABSI=0.5, WHR=0.3, WHtR=0.2) are
+  heuristic, reflecting relative predictive strength from source papers but
+  not formally validated as a composite score.
+- **CUN-BAE** BF% formula uses a modified coefficient (1.0689 instead of
+  10.689) because the originally-published coefficient produces
+  physiologically impossible values (>200% BF for BMI=25). See
+  `assessment/body_composition.py` docstring for verification data points.
+- **Adaptive TDEE** functions are public but not wired into the pipeline
+  (`UserProfile.weight_log_kg` is stubbed out). Use `update_tdee_with_logs`
+  directly if you have intake/weight logs.
+- **Reverse diet** function is public but not wired into `propose_plan` —
+  call `reverse_diet_plan` directly for transition phases.
 
 ## License
 

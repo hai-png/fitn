@@ -18,16 +18,14 @@ Output: MealPlanRequirements dataclass (defined here)
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
-from ..models.profile import (
-    UserProfile, Sex, ActivityLevel, TrainingStatus,
-    PrimaryGoal, EquipmentAccess, DietType,
-)
 from ..models.assessment import AssessmentResult, RecommendedStrategy
-from ..models.nutrition import NutritionPlan, MacroSplit
 from ..models.meal import MealType
-
+from ..models.nutrition import NutritionPlan
+from ..models.profile import (
+    DietType,
+    UserProfile,
+)
 
 # === Diet type mapping ===
 # removed dead `DIET_TYPE_RECIPE_TAG` dict — it was defined but
@@ -310,7 +308,7 @@ class MealPlanRequirements:
     training_days_per_week: int = 3
     # Diet + filtering
     diet_tag: str = "OMNI"
-    cuisine_preference: Optional[str] = None
+    cuisine_preference: str | None = None
     allergens_to_avoid: list[str] = field(default_factory=list)
     excluded_ingredients: list[str] = field(default_factory=list)
 
@@ -337,9 +335,9 @@ def compute_meal_plan_requirements(
     nutrition: NutritionPlan,
     meal_frequency: int = 3,
     include_pre_post_workout: bool = False,
-    cuisine_preference: Optional[str] = None,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
+    cuisine_preference: str | None = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
 ) -> MealPlanRequirements:
     """
     Compute the complete set of nutritional requirements for a meal plan.
@@ -537,20 +535,27 @@ def _build_slots_from_alloc(
                         (residual macros) without duplicating the snack-loop.
     """
     slots: list[MealSlotTarget] = []
-    if meal_frequency == 5:
-        snack_pct = alloc[MealType.SNACK] / 2
-        template = [MealType.BREAKFAST, MealType.SNACK, MealType.LUNCH,
-                    MealType.SNACK, MealType.DINNER]
-        snack_count = 0
-        for mt in template:
-            if mt == MealType.SNACK:
-                snack_count += 1
-                slots.append(make_slot(mt, snack_pct, f"snack {snack_count}"))
-            else:
-                slots.append(make_slot(mt, alloc[mt], ""))
-    else:
-        for mt, pct in alloc.items():
-            slots.append(make_slot(mt, pct, ""))
+    # Wire-up fix: use meal_templates.get_meal_plan_template as the single
+    # source of truth for the per-frequency meal-type ordering (was an inline
+    # duplicate of the same template here, which had drifted from
+    # meal_templates.MEAL_ORDER). For meal_frequency == 5, the template has
+    # two SNACK entries; we split the SNACK allocation evenly between them.
+    from .meal_templates import get_meal_plan_template
+    template = get_meal_plan_template(meal_frequency)
+    # Count snacks in the template so we can split the alloc evenly.
+    snack_count_in_template = sum(1 for mt in template if mt == MealType.SNACK)
+    snack_pct_each = (
+        alloc[MealType.SNACK] / snack_count_in_template
+        if snack_count_in_template > 0 and MealType.SNACK in alloc
+        else 0.0
+    )
+    snack_seen = 0
+    for mt in template:
+        if mt == MealType.SNACK:
+            snack_seen += 1
+            slots.append(make_slot(mt, snack_pct_each, f"snack {snack_seen}"))
+        else:
+            slots.append(make_slot(mt, alloc.get(mt, 0.0), ""))
     return slots
 
 
@@ -625,11 +630,48 @@ def _build_slot_list(
         mt: pct for mt, pct in training_alloc_full.items()
         if mt not in (MealType.PRE_WORKOUT, MealType.POST_WORKOUT)
     }
+    # CRITICAL FIX: normalize the standard-slot percentages so they sum to 1.0
+    # (as fractions of the residual std budget, NOT of daily kcal).
+    # `get_meal_allocation(..., is_training_day=True)` returns pcts that are
+    # fractions of DAILY kcal (so the full dict including PRE/POST sums to 1.0).
+    # After excluding PRE/POST, the remaining pcts sum to ~0.75 (e.g. for
+    # meal_freq=3: B=0.20 + L=0.275 + D=0.275 = 0.75). The previous code passed
+    # these un-normalized pcts to `_make_residual_slot`, which multiplied them
+    # by `std_kcal_total` (already = 0.75 × daily_kcal). The result was that
+    # standard slots received 0.75 × 0.75 = 0.5625 of daily_kcal, plus PRE/POST
+    # 0.25, totalling 0.8125 of daily_kcal — an 18.75% deficit on every
+    # training day. Normalizing here makes std slots sum to exactly
+    # `std_kcal_total` (= daily_kcal - pre - post), so the day's slots sum to
+    # exactly `daily_kcal`.
+    #
+    # ADDITIONAL FIX (meal_freq=2): the alloc dict may contain meal types that
+    # aren't in the user's template (e.g. BREAKFAST and SNACK for an
+    # intermittent-fasting user with only LUNCH+DINNER). The template-based
+    # `_build_slots_from_alloc` iterates only the template meal types, so any
+    # pct for non-template meals would be silently dropped — leaving the
+    # remaining slots under-allocated. Filter the alloc to only template meals
+    # BEFORE normalizing, so the kept pcts always sum to 1.0 after normalization.
+    from .meal_templates import get_meal_plan_template
+    template_meals = set(get_meal_plan_template(meal_frequency))
+    training_alloc = {
+        mt: pct for mt, pct in training_alloc.items() if mt in template_meals
+    }
+    std_pct_sum = sum(training_alloc.values())
+    if std_pct_sum > 0:
+        training_alloc = {
+            mt: pct / std_pct_sum for mt, pct in training_alloc.items()
+        }
+    # Also account for PRE/POST fiber: subtract their (hardcoded) fiber from
+    # the daily fiber budget so std slots get the residual fiber, matching the
+    # kcal/protein/carb/fat residual treatment.
+    pre_fiber = pre_target.target_fiber_g
+    post_fiber = post_target.target_fiber_g
+    std_fiber_total = max(0.0, daily_fiber - pre_fiber - post_fiber)
     return _build_slots_from_alloc(
         training_alloc, meal_frequency,
         lambda mt, pct, timing: _make_residual_slot(
             mt, pct, std_kcal_total, std_p_total, std_c_total, std_f_total,
-            daily_fiber, std_kcal_total, timing_note=timing,
+            std_fiber_total, std_kcal_total, timing_note=timing,
         ),
     )
 

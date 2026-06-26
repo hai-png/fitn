@@ -3,17 +3,17 @@ Nutrition plan orchestrator — combines RMR, TDEE, calories, macros, hydration,
 """
 from __future__ import annotations
 
-from ..models.profile import UserProfile, Sex
+from ..assessment.decision import CUT_BULK_BOUNDARIES
 from ..models.assessment import AssessmentResult, RecommendedStrategy
 from ..models.nutrition import NutritionPlan
-from ..assessment.decision import CUT_BULK_BOUNDARIES
+from ..models.profile import UserProfile
+from ..utils.units import WEEKS_PER_MONTH
+from .calories import compute_calorie_targets
+from .hydration import compute_hydration
+from .macros import compute_macros
+from .micronutrients import compute_micronutrients
 from .rmr import compute_rmr
 from .tdee import compute_tdee
-from .calories import compute_calorie_targets, BULK_RATE_BY_STATUS
-from .macros import compute_macros
-from .hydration import compute_hydration
-from .micronutrients import compute_micronutrients
-from ..utils.units import WEEKS_PER_MONTH
 
 
 def build_nutrition_plan(
@@ -131,7 +131,6 @@ def _estimate_timeline(
     DEFAULT_CUT_TIMELINE_FALLBACK_WEEKS = 12
     DEFAULT_BULK_TIMELINE_FALLBACK_WEEKS = 16
 
-    bf_pct = assessment.body_composition.body_fat_pct
     weight_kg = profile.weight_kg
 
     if strategy == RecommendedStrategy.CUT:

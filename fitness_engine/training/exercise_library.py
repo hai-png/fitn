@@ -20,16 +20,14 @@ from __future__ import annotations
 
 import dataclasses
 from functools import lru_cache
-from typing import Optional
 
 from ..models.training import Exercise, ExerciseCategory
 from .exercise_loader import (
-    load_exercises,
-    get_exercise_by_name,
+    get_exercise_by_name,  # noqa: F401 — re-exported for test_modules.py
     get_exercise_by_slug,
+    load_exercises,
     normalize_equipment,
 )
-
 
 # === Lazy accessors ===
 # The JSON is ~3 MB and parsing takes ~50 ms. The first call to
@@ -145,7 +143,7 @@ EXERCISE_INDEX = _LazyExerciseIndex()
 EXERCISE_SLUG_INDEX = _LazyExerciseSlugIndex()
 
 
-def get_exercise(name: str) -> Optional[Exercise]:
+def get_exercise(name: str) -> Exercise | None:
     """
     Look up an exercise by name.
 
@@ -286,7 +284,7 @@ PHASE1_TO_PHASE2_SLUG_MAP = {
 }
 
 
-def get_exercise_by_phase1_name(name: str) -> Optional[Exercise]:
+def get_exercise_by_phase1_name(name: str) -> Exercise | None:
     """
     Look up an exercise using the Phase-1 hardcoded name.
 

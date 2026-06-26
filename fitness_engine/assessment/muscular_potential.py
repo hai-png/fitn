@@ -22,11 +22,8 @@ copy lives in nutrition.calories. This file no longer exports it.
 """
 from __future__ import annotations
 
-from typing import Optional
-
-from ..models.profile import UserProfile, Sex, TrainingStatus
 from ..models.assessment import MuscularPotential
-
+from ..models.profile import Sex, TrainingStatus, UserProfile
 
 # === Ceilings (Kouri 1995, Mr. America data, RippedBody editorial) ===
 # All ceilings apply to NORMALIZED FFMI (Kouri 1995 height-normalized formula).
@@ -109,7 +106,7 @@ def assess_muscular_potential(profile: UserProfile, body_fat_pct: float) -> Musc
     headroom_kg = max(0.0, ffm_at_ceiling - ffm_kg)
 
     # Berkhan model is men-only.
-    berkhan_max: Optional[float] = None
+    berkhan_max: float | None = None
     if profile.sex == Sex.MALE:
         berkhan_max = berkhan_stage_max_weight_kg(profile.height_cm)
 

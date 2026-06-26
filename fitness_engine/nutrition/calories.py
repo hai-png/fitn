@@ -13,15 +13,18 @@ from __future__ import annotations
 
 import math
 
-from ..models.profile import (
-    UserProfile, Sex, TrainingStatus, PrimaryGoal, CutRateTier, BulkAggressiveness,
-)
-from ..models.assessment import RecommendedStrategy
-from ..models.nutrition import CalorieTargets, CalorieStrategy
-from ..utils.units import kg_to_lb, lb_to_kg, WEEKS_PER_MONTH
 # top-level import: ``assessment.decision`` only imports constants, so this is safe.
 from ..assessment.decision import CUT_BULK_BOUNDARIES
-
+from ..models.assessment import RecommendedStrategy
+from ..models.nutrition import CalorieStrategy, CalorieTargets
+from ..models.profile import (
+    BulkAggressiveness,
+    CutRateTier,
+    Sex,
+    TrainingStatus,
+    UserProfile,
+)
+from ..utils.units import WEEKS_PER_MONTH
 
 # === Energy constants ===
 KCAL_PER_LB_FAT = 3500
@@ -140,9 +143,10 @@ def cut_target_calories(
             rate_pct = CUT_RATE_TIERS[profile.cut_rate_tier]
         else:
             # Default: scale down for leaner users.
-            # use `is not None` instead of falsy check (truthy check
-            # would treat body_fat_pct=0 as unknown).
-            bf_pct = profile.body_fat_pct if profile.body_fat_pct is not None else None
+            # MEDIUM-severity cleanup: previously this used a tautological
+            # expression `bf_pct = profile.body_fat_pct if ... is not None else None`
+            # which is equivalent to just `profile.body_fat_pct`. Simplified.
+            bf_pct = profile.body_fat_pct
             if bf_pct is None:
                 # Unknown BF% — use the MODERATE default (0.75% for men, 0.5% for women
                 # would be asymmetric; DEFAULT_CUT_RATE_PCT = 0.0075 is the documented
@@ -170,27 +174,39 @@ def cut_target_calories(
         cap_warning = None
 
     weekly_loss_kg = profile.weight_kg * rate_pct
-    weekly_loss_lb = kg_to_lb(weekly_loss_kg)
     daily_deficit_kcal = weekly_loss_kg * DEFICIT_KCAL_PER_KG_PER_WEEK
-    target = tdee_kcal - daily_deficit_kcal
+    pre_floor_target = tdee_kcal - daily_deficit_kcal
 
     # Apply floor
-    target, floor_applied, floor = _apply_calorie_floor(target, profile.sex)
+    target, floor_applied, floor = _apply_calorie_floor(pre_floor_target, profile.sex)
+
+    # CRITICAL FIX: recompute the deficit AFTER clamping so that
+    # `base_tdee_kcal + calorie_delta_kcal == target_calories_kcal`. Previously
+    # `calorie_delta_kcal` was the pre-clamp deficit, leading to field
+    # inconsistency (e.g. TDEE 1500 + delta -660 = 840 ≠ target 1200 when the
+    # 1200-kcal floor engaged). Now delta is derived from the FINAL target.
+    actual_delta_kcal = target - tdee_kcal
 
     rate_label = f"{rate_pct*100:.2f}% BW/week ≈ {weekly_loss_kg:.2f} kg/wk"
 
     notes = [
         f"Cut rate: {rate_label}",
         f"Daily deficit: {daily_deficit_kcal:.0f} kcal",
+        # CRITICAL FIX: show the pre-clamp arithmetic, then a separate line if
+        # the floor engaged. Previously the note computed `target` AFTER
+        # clamping, producing arithmetically-wrong strings like
+        # "1500 − 660 = 1200" (should be 840, then clamped to 1200).
         f"Target = TDEE ({tdee_kcal:.0f}) − deficit ({daily_deficit_kcal:.0f}) "
-        f"= {target:.0f} kcal",
+        f"= {pre_floor_target:.0f} kcal",
     ]
     if cap_warning:
         notes.append(cap_warning)
     if floor_applied:
         notes.append(
-            f"⚠ Calorie floor applied: {floor} kcal ({profile.sex.value} minimum). "
-            "Increase activity instead of cutting further."
+            f"⚠ Calorie floor applied: pre-floor target {pre_floor_target:.0f} kcal "
+            f"raised to {floor} kcal ({profile.sex.value} minimum). "
+            "Increase activity instead of cutting further. "
+            f"Effective daily deficit: {-actual_delta_kcal:.0f} kcal."
         )
 
     return CalorieTargets(
@@ -198,7 +214,7 @@ def cut_target_calories(
         base_tdee_kcal=round(tdee_kcal, 1),
         rate_pct=rate_pct,
         rate_label=rate_label,
-        calorie_delta_kcal=round(-daily_deficit_kcal, 1),
+        calorie_delta_kcal=round(actual_delta_kcal, 1),
         target_calories_kcal=round(target, 1),
         calorie_floor_applied=floor_applied,
         floor_kcal=floor,
@@ -317,21 +333,31 @@ def recomp_target_calories(
         label = "limited (use bulk/cut instead)"
 
     deficit_kcal = tdee_kcal * deficit_pct
-    target = tdee_kcal - deficit_kcal
-    target, floor_applied, floor = _apply_calorie_floor(target, profile.sex)
+    pre_floor_target = tdee_kcal - deficit_kcal
+    target, floor_applied, floor = _apply_calorie_floor(pre_floor_target, profile.sex)
+
+    # CRITICAL FIX: derive delta from FINAL target so
+    # `base_tdee_kcal + calorie_delta_kcal == target_calories_kcal`.
+    actual_delta_kcal = target - tdee_kcal
 
     notes = [
         f"Recomp potential: {label}",
         f"BF%={body_fat_pct:.1f}",
-        f"Target = TDEE × (1 − {deficit_pct:.0%}) = {target:.0f} kcal",
+        f"Target = TDEE × (1 − {deficit_pct:.0%}) = {pre_floor_target:.0f} kcal",
     ]
+    if floor_applied:
+        notes.append(
+            f"⚠ Calorie floor applied: pre-floor target {pre_floor_target:.0f} kcal "
+            f"raised to {floor} kcal ({profile.sex.value} minimum). "
+            f"Effective daily deficit: {-actual_delta_kcal:.0f} kcal."
+        )
 
     return CalorieTargets(
         strategy=CalorieStrategy.RECOMP,
         base_tdee_kcal=round(tdee_kcal, 1),
         rate_pct=deficit_pct,
         rate_label=label,
-        calorie_delta_kcal=round(-deficit_kcal, 1),
+        calorie_delta_kcal=round(actual_delta_kcal, 1),
         target_calories_kcal=round(target, 1),
         calorie_floor_applied=floor_applied,
         floor_kcal=floor,
@@ -375,7 +401,7 @@ def reverse_diet_plan(
         f"Reverse diet ({aggressiveness}): +{increment} kcal/week",
         f"Duration: ~{weeks_needed} weeks to reach {target_calories:.0f} kcal",
         f"Weekly targets: {weekly_targets[:4]}{'...' if len(weekly_targets) > 4 else ''}",
-        f"⚠ Red flag: weekly weight gain > 0.5% BW → slow down.",
+        "⚠ Red flag: weekly weight gain > 0.5% BW → slow down.",
     ]
 
     return weekly_targets, CalorieTargets(

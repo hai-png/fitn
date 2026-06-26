@@ -25,24 +25,39 @@ Clean information flow:
     assessment_dict = assessment.to_dict()
     plan_dict = plan.to_dict()
 """
-from .models.profile import (
-    UserProfile, Sex, ActivityLevel, TrainingStatus, PrimaryGoal,
-    EquipmentAccess, DietType, CutRateTier, BulkAggressiveness,
-    TrainingTimeOfDay, ExerciseIntensity, Climate,
-)
-from .models.assessment import (
-    AssessmentResult, BodyComposition, HealthRiskAssessment,
-    MuscularPotential, RecommendedStrategy,
-)
-from .models.nutrition import NutritionPlan
-from .models.training import (
-    TrainingPlan, PlanType, TrainingGoal, SplitType, ProgressionScheme,
-)
-from .models.meal import MealPlan, FitnessPlan
-from .models.preferences import PlanPreferences
-
 from .assessment.assessor import assess_profile
 from .engine import propose_plan
+from .models.assessment import (
+    AssessmentResult,
+    BodyComposition,
+    HealthRiskAssessment,
+    MuscularPotential,
+    RecommendedStrategy,
+)
+from .models.meal import FitnessPlan, MealPlan
+from .models.nutrition import NutritionPlan
+from .models.preferences import PlanPreferences
+from .models.profile import (
+    ActivityLevel,
+    BulkAggressiveness,
+    Climate,
+    CutRateTier,
+    DietType,
+    EquipmentAccess,
+    ExerciseIntensity,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+    TrainingTimeOfDay,
+    UserProfile,
+)
+from .models.training import (
+    PlanType,
+    ProgressionScheme,
+    SplitType,
+    TrainingGoal,
+    TrainingPlan,
+)
 
 __version__ = "3.1.0"
 

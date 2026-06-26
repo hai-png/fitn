@@ -13,7 +13,9 @@ The selector is the bridge between declarative split templates (which say
 
 Selection priority (when multiple matches):
   - Environment-preferred equipment first (Phase-4 enhancement)
-  - Beginner-friendly first (Beginner > Intermediate > Advanced)
+  - Experience closest to user's level (NOT a hardcoded beginner bias —
+    an INTERMEDIATE user should get Intermediate exercises, not Beginner
+    ones). Distance from user's max rank, ascending.
   - Then by popularity (views count, descending)
   - Then alphabetically for stable ordering
 
@@ -25,21 +27,19 @@ If no exact match is found, the selector falls back to broader queries:
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
-from ..models.profile import TrainingStatus, EquipmentAccess
+from ..models.profile import EquipmentAccess, TrainingStatus
 from ..models.training import (
     Exercise,
     ExerciseCategory,
     ExperienceLevel,
 )
-from .exercise_library import EXERCISES
 from .exercise_categorization import (
-    get_movement_pattern,
-    get_environment_preferred_equipment,
     _infer_environment,
+    get_environment_preferred_equipment,
+    get_movement_pattern,
 )
-
+from .exercise_library import EXERCISES
 
 _log = logging.getLogger(__name__)
 
@@ -94,12 +94,30 @@ _PATTERN_TO_FORCE_TYPE = {
 
 # === Equipment vocabularies (mirrors splits.py Phase-2 logic) ===
 
+# HIGH-severity fix: previously 9 equipment types present in the DB
+# (tiger_tail, bench, rings, valslide, hip_thruster, fat_bar, safety_bar,
+# tire, plate) were not in any allowed set, so the 34 exercises using them
+# could NEVER be selected. Added to _FULL_GYM_EQUIPMENT so they're at least
+# eligible (the equipment_preference_rank will still deprioritize them when
+# a better option exists).
 _FULL_GYM_EQUIPMENT = {
     "barbell", "dumbbell", "bodyweight", "cable", "machine",
     "kettlebell", "bands", "exercise_ball", "other",
     "medicine_ball", "rope", "sled", "foam_roll", "ez_bar",
     "landmine", "box", "lacrosse_ball", "trap_bar", "jump_rope",
     "chains",
+    # equipment types present in DB but previously missing from any set:
+    "tiger_tail",       # 8 exercises (foam-roller alternative)
+    "bench",            # 7 exercises (e.g. bench-jack-knife, swiss-ball work)
+    "rings",            # 7 exercises (ring push-up, ring dip, ring fly)
+    "valslide",         # 6 exercises (valslide push-up, leg curl)
+    "hip_thruster",     # 3 exercises
+    "fat_bar",          # 1 exercise
+    "safety_bar",       # 1 exercise
+    "tire",             # 1 exercise
+    "weight_plate",     # many plate-loaded exercises use this string
+    "plate",            # variant form
+    "bar",              # bare bar reference
 }
 
 _HOME_GYM_EQUIPMENT = {
@@ -125,7 +143,13 @@ def get_equipment_allowed_set(equipment_access) -> set[str]:
 # === Experience mapping ===
 
 def _experience_rank(ex: Exercise) -> int:
-    """Beginner=0, Intermediate=1, Advanced=2, unknown=1."""
+    """Beginner=0, Intermediate=1, Advanced=2, unknown=1.
+
+    An exercise with no experience_level metadata is treated as Intermediate
+    (rank 1) — safer than assuming Advanced (would be too hard for beginners)
+    and more useful than assuming Beginner (would bias selection away from
+    legitimate intermediate exercises that just lack the metadata).
+    """
     if ex.experience_level is None:
         return 1
     return {
@@ -150,7 +174,6 @@ def _user_max_experience_rank(status: TrainingStatus) -> int:
 # (was duplicated in exercise_categorization.py).
 from ._utils import parse_view_count as _view_count
 
-
 # === Pattern matching ===
 
 def _matches_pattern(ex: Exercise, pattern: str) -> bool:
@@ -172,23 +195,45 @@ def _matches_pattern(ex: Exercise, pattern: str) -> bool:
         if not ex.force_type:
             return False
         ex_force_root = ex.force_type.split("(")[0].strip().lower()
-        if ex_force_root != expected_force.lower():
-            return False
-        return True
+        return ex_force_root == expected_force.lower()
     return False
 
 
-def _matches_muscle(ex: Exercise, primary_muscle: str) -> bool:
-    """Check if exercise targets the slot's primary muscle."""
+def _matches_muscle(
+    ex: Exercise,
+    primary_muscle: str,
+    *,
+    match_secondary: bool = True,
+) -> bool:
+    """Check if exercise targets the slot's primary muscle.
+
+    HIGH-severity fix: previously this function unconditionally matched on
+    `ex.secondary_muscles` too, which caused Tier-4/5 fallbacks to pick
+    wrong-muscle exercises — e.g. "Close Grip Bench Press" (primary=triceps,
+    secondary=chest) was returned for a CHEST slot, and "Tricep Dip" was
+    returned for a CHEST slot. Both inflated triceps volume and
+    under-trained chest.
+
+    Now ``match_secondary`` defaults to True (preserving Tier-1..3 behavior
+    where broader matching is desirable), but Tier-4/5 fallbacks pass
+    ``match_secondary=False`` so only exercises where the muscle is PRIMARY
+    are accepted. This prevents the wrong-muscle selection cascade.
+    """
     muscle = primary_muscle.lower()
-    if muscle in [m.lower() for m in ex.muscle_groups]:
+    primary_muscles_lower = [m.lower() for m in ex.muscle_groups]
+    if muscle in primary_muscles_lower:
         return True
-    if muscle in [m.lower() for m in ex.secondary_muscles]:
+    if match_secondary and muscle in [m.lower() for m in ex.secondary_muscles]:
         return True
     # Special case: "back" matches upper_back, lats, lower_back, traps
     if muscle == "back":
-        return any(m in ["upper_back", "lats", "lower_back", "traps", "middle_back"]
-                   for m in [x.lower() for x in ex.muscle_groups + ex.secondary_muscles])
+        back_targets = {"upper_back", "lats", "lower_back", "traps", "middle_back"}
+        if any(m in back_targets for m in primary_muscles_lower):
+            return True
+        if match_secondary and any(
+            m in back_targets for m in [x.lower() for x in ex.secondary_muscles]
+        ):
+            return True
     return False
 
 
@@ -231,7 +276,7 @@ def select_exercise_for_slot(
     equipment_allowed: set[str],
     user_experience: TrainingStatus,
     exclude_slugs: set[str],
-) -> Optional[Exercise]:
+) -> Exercise | None:
     """
     Pick the best exercise for a given MovementPatternSlot.
 
@@ -250,12 +295,15 @@ def select_exercise_for_slot(
       d. Alphabetical name (stable tiebreaker)
     """
     max_rank = _user_max_experience_rank(user_experience)
-    expected_force = _PATTERN_TO_FORCE_TYPE.get(slot.pattern)
+    # CRITICAL FIX: removed dead `expected_force` variable (was computed but
+    # never used — pattern matching is delegated to _matches_pattern which
+    # has its own force_type fallback).
 
     def _filter_pool(
         require_pattern: bool = True,
         require_muscle: bool = True,
         require_category: bool = True,
+        match_muscle_secondary: bool = True,
     ) -> list[Exercise]:
         pool = []
         for ex in EXERCISES:
@@ -263,23 +311,47 @@ def select_exercise_for_slot(
                 continue
             if ex.slug and ex.slug in exclude_slugs:
                 continue
+            # Filter out cardio/mobility exercises from strength slots
+            # (they should never be selected for hypertrophy/strength work).
+            if ex.category in (ExerciseCategory.CARDIO, ExerciseCategory.MOBILITY):
+                continue
+            # HIGH-severity fix: plyometric exercises are contraindicated for
+            # beginners (high-impact, requires movement competency). Filter
+            # them out so e.g. "Bodyweight Squat Jump" is never prescribed
+            # to a BEGINNER for their first squat exercise.
+            if (
+                user_experience == TrainingStatus.BEGINNER
+                and ex.exercise_type
+                and "plyometric" in ex.exercise_type.lower()
+            ):
+                continue
             if require_pattern and not _matches_pattern(ex, slot.pattern):
                 continue
-            if require_muscle and not _matches_muscle(ex, slot.primary_muscle):
+            if require_muscle and not _matches_muscle(
+                ex, slot.primary_muscle, match_secondary=match_muscle_secondary,
+            ):
                 continue
             if require_category and not _matches_category(ex, slot.category):
                 continue
             pool.append(ex)
         return pool
 
-    def _sort_and_pick(pool: list[Exercise], enforce_experience: bool) -> Optional[Exercise]:
+    def _sort_and_pick(pool: list[Exercise], enforce_experience: bool) -> Exercise | None:
         if enforce_experience:
             pool = [ex for ex in pool if _experience_rank(ex) <= max_rank]
         if not pool:
             return None
+        # CRITICAL FIX: previously the sort key was `_experience_rank(ex)`
+        # ascending, which ALWAYS preferred Beginner exercises (rank 0) over
+        # Intermediate/Advanced — regardless of the user's level. So an
+        # INTERMEDIATE user got "Decline Bench Press" (Beginner) instead of
+        # "Barbell Bench Press" (Intermediate). Now we sort by ABSOLUTE
+        # DISTANCE from the user's max rank, so an INTERMEDIATE user gets
+        # Intermediate-ranked exercises first, a BEGINNER gets Beginner
+        # first, an ADVANCED gets Advanced first.
         pool.sort(key=lambda ex: (
             _equipment_preference_rank(ex, slot.pattern, equipment_allowed),
-            _experience_rank(ex),
+            abs(_experience_rank(ex) - max_rank),
             -_view_count(ex),
             ex.name.lower(),
         ))
@@ -294,7 +366,13 @@ def select_exercise_for_slot(
     # Tier 2: pattern + muscle + category (skip experience cap)
     pick = _sort_and_pick(pool, enforce_experience=False)
     if pick:
-        _log.debug("Tier-2 fallback for slot %s: %s", slot.name, pick.name)
+        # HIGH-severity fix: upgrade from debug to warning — Tier-2 fallback
+        # means the user may get an exercise beyond their experience level,
+        # which is a real concern (not just a debug detail).
+        _log.warning(
+            "Tier-2 fallback for slot %s: %s (experience cap relaxed)",
+            slot.name, pick.name,
+        )
         return pick
 
     # Tier 3: pattern + muscle (any category)
@@ -304,15 +382,24 @@ def select_exercise_for_slot(
         _log.debug("Tier-3 fallback for slot %s: %s", slot.name, pick.name)
         return pick
 
-    # Tier 4: muscle + category (any pattern)
-    pool = _filter_pool(require_pattern=False, require_muscle=True, require_category=True)
+    # Tier 4: muscle + category (any pattern) — match muscle as PRIMARY only
+    # so e.g. close-grip-bench-press (primary=triceps, secondary=chest)
+    # is NOT selected for a chest slot.
+    pool = _filter_pool(
+        require_pattern=False, require_muscle=True, require_category=True,
+        match_muscle_secondary=False,
+    )
     pick = _sort_and_pick(pool, enforce_experience=True)
     if pick:
         _log.debug("Tier-4 fallback for slot %s: %s", slot.name, pick.name)
         return pick
 
-    # Tier 5: muscle only (any category, any pattern)
-    pool = _filter_pool(require_pattern=False, require_muscle=True, require_category=False)
+    # Tier 5: muscle only (any category, any pattern) — match muscle as
+    # PRIMARY only (same reason as Tier 4).
+    pool = _filter_pool(
+        require_pattern=False, require_muscle=True, require_category=False,
+        match_muscle_secondary=False,
+    )
     pick = _sort_and_pick(pool, enforce_experience=True)
     if pick:
         _log.debug("Tier-5 fallback for slot %s: %s", slot.name, pick.name)

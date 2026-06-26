@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fitn"
-version = "3.1.0"
+version = "3.1.1"
 description = "Deterministic, dependency-free Python fitness engine: assessment + nutrition + training + meal planning."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -42,7 +42,15 @@ Repository = "https://github.com/hai-png/fitn"
 Issues = "https://github.com/hai-png/fitn/issues"
 
 [tool.hatch.build.targets.wheel]
+# Include both the fitness_engine package AND the runtime data files
+# (all_exercises.json is loaded by exercise_loader.py at runtime — without
+# it, `pip install fitn` from PyPI would crash on first use).
 packages = ["fitness_engine"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+# Stage the exercise DB next to the package so exercise_loader can find it
+# via importlib.resources. (Source layout: content_files/ at repo root.)
+"content_files/all_exercises.json" = "fitness_engine/data/all_exercises.json"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -50,9 +58,11 @@ include = [
     "scripts/",
     "resources/synthesized/",
     "reports/",
+    "content_files/all_exercises.json",
     "README.md",
     "LICENSE",
     "pyproject.toml",
+    "ANALYSIS.md",
 ]
 exclude = [
     "content_files/videos/",

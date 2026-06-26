@@ -10,21 +10,23 @@ hold for ANY valid input, rather than testing specific implementation details.
 from __future__ import annotations
 
 import json
-import random
-from copy import deepcopy
 
 import pytest
 
 from fitness_engine import (
-    UserProfile, assess_profile, propose_plan, PlanPreferences, FitnessPlan,
+    FitnessPlan,
+    UserProfile,
+    assess_profile,
+    propose_plan,
 )
 from fitness_engine.models.profile import (
-    Sex, ActivityLevel, TrainingStatus, PrimaryGoal, EquipmentAccess,
-    DietType, CutRateTier, BulkAggressiveness, TrainingTimeOfDay,
-    ExerciseIntensity, Climate,
+    ActivityLevel,
+    DietType,
+    EquipmentAccess,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
 )
-from fitness_engine.models.meal import MealType
-
 
 # ============================================================
 # Helpers — generate diverse profiles for parameterized tests

@@ -39,14 +39,10 @@ Public API:
 """
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 from ..models.training import Exercise, ExerciseCategory
-from ..models.profile import EquipmentAccess
-
 
 # === Pattern families ===
 
@@ -787,8 +783,8 @@ def get_swappable_exercises(
       3. Popularity (views, desc)
       4. Alphabetical name
     """
-    from .exercise_library import EXERCISES
     from ..models.training import ExperienceLevel
+    from .exercise_library import EXERCISES
 
     pattern = get_movement_pattern(exercise)
     spec = MOVEMENT_PATTERNS.get(pattern)

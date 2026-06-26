@@ -25,17 +25,16 @@ Public API:
 """
 from __future__ import annotations
 
-from .models.profile import UserProfile
-from .models.assessment import AssessmentResult
-from .models.meal import FitnessPlan
-from .models.preferences import PlanPreferences
 from .assessment.assessor import assess_profile
+from .meal_plan.planner import build_meal_plan
+from .models.assessment import AssessmentResult
+from .models.meal import FitnessPlan, MealPlan
+from .models.nutrition import NutritionPlan
+from .models.preferences import PlanPreferences
+from .models.profile import UserProfile
+from .models.training import TrainingPlan
 from .nutrition.planner import build_nutrition_plan
 from .training.architect import build_training_plan
-from .meal_plan.planner import build_meal_plan
-from .models.nutrition import NutritionPlan
-from .models.training import TrainingPlan
-from .models.meal import MealPlan
 
 
 def propose_plan(
@@ -158,7 +157,7 @@ def _build_summary(
         "",
         "Meal plan:",
         f"  • Frequency: {meal.meal_frequency} meals/day"
-        + (f" (+ PRE/POST workout on training days)"
+        + (" (+ PRE/POST workout on training days)"
            if preferences.include_pre_post_workout else ""),
         "  • Template: 7-day rotation",
         f"  • Daily target: {nutrition.calories.target_calories_kcal:.0f} kcal",

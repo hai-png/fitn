@@ -20,28 +20,33 @@ weekly balancing separately.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 from ..models.meal import (
-    Meal, MealFood, MealType, Recipe,
+    MealFood,
+    MealType,
+    Recipe,
 )
 from .profile_requirements import MealSlotTarget
-from .recipe_scorer import (
-    score_candidates, RecipeScore, MIN_ACCEPTABLE_SCORE,
-)
+from .recipe_loader import recipes_by_filters
 from .recipe_scaler import (
-    scale_recipe, compute_filler_gap, select_fillers_for_meal,
-    ScaledRecipe, FillerResult, FillerGap, is_recipe_scalable_to_target,
+    FillerGap,
+    compute_filler_gap,
+    is_recipe_scalable_to_target,
+    scale_recipe,
+    select_fillers_for_meal,
+)
+from .recipe_scorer import (
+    MIN_ACCEPTABLE_SCORE,
+    score_candidates,
 )
 from .swap_system import get_recipe_swaps_for_plan, get_swaps_for_recipe_ingredients
-from .recipe_loader import recipes_by_filters
 
 
 @dataclass
 class SelectedMeal:
     """Result of selecting a recipe + fillers for a meal slot."""
     meal_type: MealType
-    recipe: Optional[Recipe]
+    recipe: Recipe | None
     scale_factor: float = 1.0
     scaled_kcal: float = 0.0
     scaled_protein_g: float = 0.0
@@ -101,7 +106,7 @@ class SelectedMeal:
 
 
 def _compute_allergen_filler_exclusions(
-    allergens_to_avoid: Optional[list[str]],
+    allergens_to_avoid: list[str] | None,
 ) -> set[str]:
     """
     Tier 3.37 fix: map allergen categories to filler food names that should be excluded.
@@ -161,12 +166,12 @@ def allocate_meal(
     slot: MealSlotTarget,
     diet_tag: str,
     user_goal: str = "maintenance",
-    cuisine_preference: Optional[str] = None,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
-    used_recipe_ids_last_3_days: Optional[set[str]] = None,
-    used_recipe_ids_last_7_days: Optional[set[str]] = None,
-    used_today: Optional[set[str]] = None,
+    cuisine_preference: str | None = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+    used_recipe_ids_last_3_days: set[str] | None = None,
+    used_recipe_ids_last_7_days: set[str] | None = None,
+    used_today: set[str] | None = None,
     is_main_meal: bool = True,
 ) -> SelectedMeal:
     """
@@ -223,15 +228,56 @@ def allocate_meal(
 
     # 3. Pick highest score
     if not scores:
-        # No recipe found — return empty SelectedMeal (planner handles fallback)
+        # HIGH-severity fix: previously this returned an empty SelectedMeal
+        # with recipe=None AND fillers=[] — silently producing a 0-kcal meal
+        # that contributed nothing to the day's totals. Across a 7-day plan
+        # with 30 coverage gaps (per coverage_analysis.md), this could
+        # produce ~30 meals × slot.target_kcal of daily drift.
+        # Now: attempt the same fillers-only fallback used for unscalable
+        # recipes. This builds a FillerGap covering the FULL slot target
+        # and calls select_fillers_for_meal, returning a fillers-only
+        # SelectedMeal that actually contributes kcal/macros to the day.
+        allergen_filler_exclusions = _compute_allergen_filler_exclusions(allergens_to_avoid)
+        full_gap = FillerGap(
+            kcal=slot.target_kcal,
+            protein_g=slot.target_protein_g,
+            carb_g=slot.target_carb_g,
+            fat_g=slot.target_fat_g,
+            fiber_g=slot.target_fiber_g,
+        )
+        filler_result = select_fillers_for_meal(
+            gap=full_gap,
+            diet_tag=diet_tag,
+            is_main_meal=is_main_meal,
+            exclude_foods=allergen_filler_exclusions,
+        )
+        no_recipe_notes: list[str] = [
+            f"No recipe candidates for slot ({slot.meal_type.value}, "
+            f"target {slot.target_kcal:.0f} kcal) — falling back to fillers-only meal."
+        ]
+        no_recipe_notes.extend(filler_result.notes)
         return SelectedMeal(
             meal_type=slot.meal_type,
             recipe=None,
+            scale_factor=0.0,
+            scaled_kcal=0.0,
+            scaled_protein_g=0.0,
+            scaled_carb_g=0.0,
+            scaled_fat_g=0.0,
+            scaled_fiber_g=0.0,
+            fillers=filler_result.fillers,
+            filler_kcal=filler_result.total_filler_kcal,
+            filler_protein_g=filler_result.total_filler_protein_g,
+            filler_carb_g=filler_result.total_filler_carb_g,
+            filler_fat_g=filler_result.total_filler_fat_g,
+            filler_fiber_g=filler_result.total_filler_fiber_g,
+            score=0.0,
             target_kcal=slot.target_kcal,
             target_protein_g=slot.target_protein_g,
             target_carb_g=slot.target_carb_g,
             target_fat_g=slot.target_fat_g,
-            notes=["No recipe found for this slot — planner should fall back to raw foods"],
+            target_fiber_g=slot.target_fiber_g,
+            notes=no_recipe_notes,
         )
 
     best = scores[0]
@@ -334,8 +380,16 @@ def allocate_meal(
         cuisine_preference=cuisine_preference,
     )
 
-    # 8. Get ingredient swaps
-    ingredient_swaps_raw = get_swaps_for_recipe_ingredients(best.recipe)
+    # 8. Get ingredient swaps (filtered by user's allergens + excluded ingredients)
+    # MEDIUM-severity fix: previously the ingredient-swap call did NOT forward
+    # the user's allergens or excluded ingredients, so a nut-allergic user
+    # would see "cashew" as a suggested swap for "cheese". Now we forward
+    # both lists so alternatives are filtered.
+    ingredient_swaps_raw = get_swaps_for_recipe_ingredients(
+        best.recipe,
+        allergens_to_avoid=allergens_to_avoid,
+        excluded_ingredients=excluded_ingredients,
+    )
     # Convert to serializable format
     ingredient_swaps = {
         ing: [

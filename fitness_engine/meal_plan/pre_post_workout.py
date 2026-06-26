@@ -22,8 +22,7 @@ recipe).
 """
 from __future__ import annotations
 
-from ..models.meal import Recipe, NutritionPerServing
-
+from ..models.meal import Recipe
 
 # === Pre/Post Workout Recipe Definitions ===
 # Each recipe is hand-crafted with verified nutrition (per serving).

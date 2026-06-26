@@ -24,13 +24,13 @@ Filler rules:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 from ..models.meal import (
-    Recipe, MealFood, FoodItem, FoodCategory,
+    FoodItem,
+    MealFood,
+    Recipe,
 )
 from .food_database import get_food
-
 
 # === Scaling limits ===
 
@@ -283,7 +283,7 @@ def _select_filler(
     min_grams: float | None = None,
     max_grams: float | None = None,
     exclude_foods: set[str] | None = None,
-) -> Optional[MealFood]:
+) -> MealFood | None:
     """Internal helper shared by all four `select_*_filler` wrappers.
 
     Picks the first filler in `options` whose `_grams_to_hit_macro` for the
@@ -334,7 +334,7 @@ def select_protein_filler(
     gap_protein_g: float,
     diet_tag: str,
     exclude_foods: set[str] | None = None,
-) -> Optional[MealFood]:
+) -> MealFood | None:
     """
     Select a protein filler to close the protein gap.
 
@@ -349,10 +349,7 @@ def select_protein_filler(
     """
     # match by prefix so VEGAN_ETHIOPIAN / VEGAN_* tags
     # resolve to the vegan list rather than silently falling back to OMNI.
-    if diet_tag.startswith("VEGAN"):
-        options = PROTEIN_FILLERS["VEGAN"]
-    else:
-        options = PROTEIN_FILLERS["OMNI"]
+    options = PROTEIN_FILLERS["VEGAN"] if diet_tag.startswith("VEGAN") else PROTEIN_FILLERS["OMNI"]
     return _select_filler(
         gap_protein_g,
         options,
@@ -365,7 +362,7 @@ def select_protein_filler(
 def select_carb_filler(
     gap_carb_g: float,
     exclude_foods: set[str] | None = None,
-) -> Optional[MealFood]:
+) -> MealFood | None:
     """Select a carb filler to close the carb gap."""
     return _select_filler(
         gap_carb_g,
@@ -379,7 +376,7 @@ def select_carb_filler(
 def select_fat_filler(
     gap_fat_g: float,
     exclude_foods: set[str] | None = None,
-) -> Optional[MealFood]:
+) -> MealFood | None:
     """Select a fat filler to close the fat gap."""
     return _select_filler(
         gap_fat_g,
@@ -393,7 +390,7 @@ def select_fat_filler(
 def select_veg_filler(
     gap_fiber_g: float,
     exclude_foods: set[str] | None = None,
-) -> Optional[MealFood]:
+) -> MealFood | None:
     """
     Select a vegetable filler to close the fiber gap.
 

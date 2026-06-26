@@ -10,9 +10,8 @@ Sources:
 """
 from __future__ import annotations
 
-from ..models.profile import UserProfile, ActivityLevel
 from ..models.nutrition import RMRResult, TDEEResult
-
+from ..models.profile import ActivityLevel, UserProfile
 
 # === Activity multipliers (RippedBody 5-category — DEFAULT) ===
 ACTIVITY_FACTORS_RIPPEDBODY = {

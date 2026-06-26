@@ -20,8 +20,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
-
 
 # === Plan shape ===
 
@@ -104,22 +102,22 @@ class Exercise:
     notes: str = ""
 
     # === Rich metadata (populated by loader) ===
-    slug: Optional[str] = None
-    source_url: Optional[str] = None
-    video_url: Optional[str] = None
-    video_id: Optional[str] = None
-    video_thumbnail: Optional[str] = None
-    views: Optional[str] = None
+    slug: str | None = None
+    source_url: str | None = None
+    video_url: str | None = None
+    video_id: str | None = None
+    video_thumbnail: str | None = None
+    views: str | None = None
 
     instructions: list[str] = field(default_factory=list)
     tips: list[str] = field(default_factory=list)
-    overview: Optional[str] = None
+    overview: str | None = None
 
     secondary_muscles: list[str] = field(default_factory=list)
-    experience_level: Optional[ExperienceLevel] = None
-    force_type: Optional[str] = None
-    mechanics: Optional[str] = None
-    exercise_type: Optional[str] = None
+    experience_level: ExperienceLevel | None = None
+    force_type: str | None = None
+    mechanics: str | None = None
+    exercise_type: str | None = None
 
     @property
     def all_muscle_groups(self) -> list[str]:
@@ -141,7 +139,7 @@ class WorkoutExercise:
     sets: int
     reps: str
     rest_sec: int
-    rpe_target: Optional[float] = None
+    rpe_target: float | None = None
     notes: str = ""
 
     def to_dict(self) -> dict:

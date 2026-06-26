@@ -18,11 +18,21 @@ from __future__ import annotations
 import pytest
 
 from fitness_engine import (
-    UserProfile, assess_profile, propose_plan, PlanPreferences,
+    PlanPreferences,
+    UserProfile,
+    assess_profile,
+    propose_plan,
 )
 from fitness_engine.models.profile import (
-    Sex, ActivityLevel, TrainingStatus, PrimaryGoal, EquipmentAccess,
-    DietType, CutRateTier, BulkAggressiveness, TrainingTimeOfDay,
+    ActivityLevel,
+    BulkAggressiveness,
+    CutRateTier,
+    DietType,
+    EquipmentAccess,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+    TrainingTimeOfDay,
 )
 
 

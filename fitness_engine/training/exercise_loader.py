@@ -13,13 +13,18 @@ Normalization rules:
   - Experience level: kept as-is (Beginner / Intermediate / Advanced)
 
 The loader is loaded lazily on first access to avoid slowing tests.
+
+Path resolution (v3.1.1 fix):
+  1. Try `importlib.resources` first (works when installed as a wheel —
+     the JSON is packaged at `fitness_engine/data/all_exercises.json`).
+  2. Fall back to the source-tree path `_REPO_ROOT/content_files/...`
+     (works when running from a git checkout).
 """
 from __future__ import annotations
 
 import json
 from functools import lru_cache
 from pathlib import Path
-from typing import Optional
 
 from ..models.training import (
     Exercise,
@@ -27,12 +32,47 @@ from ..models.training import (
     ExperienceLevel,
 )
 
-
 # === Path resolution ===
-# content_files/ lives at the repo root, two levels up from this file:
-#   fitness_engine/training/exercise_loader.py  →  ../../content_files/
+# Source-tree path: content_files/ lives at the repo root, two levels up
+# from this file:  fitness_engine/training/exercise_loader.py  →  ../../content_files/
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_EXERCISES_JSON = _REPO_ROOT / "content_files" / "all_exercises.json"
+
+
+def _resolve_exercises_json_path() -> Path:
+    """Locate all_exercises.json — installed wheel first, source tree fallback.
+
+    v3.1.1 fix: when fitn is `pip install`ed from PyPI, the JSON is packaged
+    at `fitness_engine/data/all_exercises.json` (per pyproject.toml's
+    [tool.hatch.build.targets.wheel.shared-data]). When running from a git
+    checkout, it lives at `<repo>/content_files/all_exercises.json`. This
+    helper tries the installed location first (via importlib.resources) and
+    falls back to the source-tree path.
+    """
+    # Try installed-wheel location via importlib.resources.
+    try:
+        from importlib.resources import files  # py3.9+
+        candidate = files("fitness_engine") / "data" / "all_exercises.json"
+        # `files()` returns a Traversable; convert to a real filesystem path
+        # if possible. Use str() — for uninstalled packages this raises.
+        path_str = str(candidate)
+        if Path(path_str).is_file():
+            return Path(path_str)
+    except (ImportError, ModuleNotFoundError, FileNotFoundError, OSError):
+        pass
+
+    # Fall back to source-tree path (git checkout / `pip install -e .`).
+    if _DEFAULT_EXERCISES_JSON.is_file():
+        return _DEFAULT_EXERCISES_JSON
+
+    raise FileNotFoundError(
+        f"Could not locate all_exercises.json. Tried:\n"
+        f"  1. importlib.resources: fitness_engine/data/all_exercises.json\n"
+        f"  2. source tree: {_DEFAULT_EXERCISES_JSON}\n"
+        f"If you installed from PyPI, the wheel may be missing the data file — "
+        f"report this issue. If running from source, ensure content_files/ "
+        f"is present at the repo root."
+    )
 
 
 # === Equipment normalization ===
@@ -61,7 +101,7 @@ _EQUIPMENT_MAP = {
 }
 
 
-def normalize_equipment(raw: Optional[str]) -> str:
+def normalize_equipment(raw: str | None) -> str:
     """Normalize equipment string to lowercase snake_case."""
     if not raw:
         return "other"
@@ -100,7 +140,7 @@ _MUSCLE_MAP = {
 }
 
 
-def normalize_muscle(raw: Optional[str]) -> list[str]:
+def normalize_muscle(raw: str | None) -> list[str]:
     """
     Normalize a muscle string into one or more lowercase engine tags.
 
@@ -124,24 +164,47 @@ def normalize_muscle(raw: Optional[str]) -> list[str]:
 
 # Movement patterns that qualify an exercise as a "compound primary".
 # These are the canonical barbell / heavy dumbbell lifts.
+#
+# CRITICAL FIX (was: 9 ghost slugs pointing at non-existent entries):
+# The previous list contained slugs like "barbell-back-squat" and
+# "conventional-deadlift" that DO NOT EXIST in all_exercises.json — the actual
+# DB uses "squat" (name "Barbell Back Squat") and "deadlifts" (plural, name
+# "Deadlift"). Because of the mismatch, both lifts were silently demoted to
+# COMPOUND_SECONDARY, which (a) gave them the wrong periodization presets for
+# STRENGTH-goal users and (b) prevented them from being selected for
+# COMPOUND_PRIMARY slots in split_designs.py (the selector fell through to
+# Tier 2-6 fallbacks, sometimes picking the wrong exercise entirely).
+# Verified against the actual DB slug set on 2026-06.
 _COMPOUND_PRIMARY_SLUGS = {
     # Squat pattern
-    "barbell-back-squat", "front-squat", "hack-squat",
-    "sumo-squat", "narrow-squat", "deep-squat", "deep-front-squat",
+    "squat",                              # was "barbell-back-squat" — DB name is "Barbell Back Squat"
+    "high-bar-back-squat", "low-bar-back-squat",
+    "front-squat", "hack-squat",
+    "sumo-squat", "narrow-squat", "deep-squat",
+    "deep-front-squats",                  # was "deep-front-squat" (singular)
     "wide-stance-front-squat", "wide-smith-machine-squat",
     # Hinge pattern
-    "conventional-deadlift", "sumo-deadlift", "trap-bar-deadlift",
-    "snatch-grip-deadlift", "deficit-deadlift", "rack-pull",
-    "romanian-deadlift", "stiff-leg-deadlift", "single-leg-romanian-deadlift",
+    "deadlifts",                          # was "conventional-deadlift" — DB slug is plural
+    "sumo-deadlift", "trap-bar-deadlift",
+    "snatch-grip-deadlift",
+    "snatch-grip-deficit-deadlift", "trap-bar-deficit-deadlifts", "sumo-deficit-deadlift",
+    "trap-bar-rack-pull",                 # was "rack-pull" (only variant in DB)
+    "romanian-deadlift",
+    "stiff-leg-deadlift-aka-romanian-deadlift",  # was "stiff-leg-deadlift"
+    "straight-leg-deadlift",
+    "single-leg-barbell-romanian-deadlift",      # was "single-leg-romanian-deadlift"
     # Horizontal push
     "barbell-bench-press", "dumbbell-bench-press",
     "incline-dumbbell-bench-press", "decline-bench-press",
     # Vertical push
     "military-press", "seated-dumbbell-press", "standing-dumbbell-press",
-    "arnold-press", "smith-machine-shoulder-press",
+    "seated-arnold-press", "standing-arnold-press",   # was "arnold-press" (no bare slug in DB)
+    "smith-machine-shoulder-press",
     # Horizontal pull
-    "bent-over-barbell-row", "pendlay-row", "t-bar-row",
-    "chest-supported-dumbbell-row",
+    "bent-over-row",                      # actual DB slug (was "bent-over-barbell-row")
+    "pendlay-row",
+    "machine-t-bar-row", "banded-machine-t-bar-row",  # was "t-bar-row" (only machine variants in DB)
+    "chest-supported-dumbbell-row-with-isohold",
     # Vertical pull
     "pull-up", "chin-up", "lat-pull-down", "wide-grip-pull-down",
     "v-bar-pull-down",
@@ -155,36 +218,54 @@ _COMPOUND_PRIMARY_SLUGS = {
 
 def derive_category(
     slug: str,
-    mechanics: Optional[str],
-    force_type: Optional[str],
-    exercise_type: Optional[str],
+    mechanics: str | None,
+    force_type: str | None,
+    exercise_type: str | None,
     equipment: str,
 ) -> ExerciseCategory:
     """
     Derive an ExerciseCategory from the new DB's free-form fields.
 
     Rules (in priority order):
-      1. exercise_type == "Cardio" → CARDIO
-      2. exercise_type contains "Mobility" / "Stretching" / "Foam Roll" → MOBILITY
+      1. exercise_type contains "Cardio" / "Conditioning" → CARDIO
+         (Conditioning-type exercises like rowing-machine, assault bike, sled
+         pushes are cardiometabolic — not strength work.)
+      2. exercise_type contains "Mobility" / "Stretching" / "Foam Roll" /
+         "SMR" / "Activation" → MOBILITY
+         (SMR = self-myofascial release e.g. lacrosse ball, foam roller.
+         Activation = warmup-style dynamic mobility work.)
       3. slug in _COMPOUND_PRIMARY_SLUGS → COMPOUND_PRIMARY
-      4. mechanics == "Compound" → COMPOUND_SECONDARY
-      5. mechanics == "Isolation" → ACCESSORY
+      4. mechanics == "Compound" (case-insensitive) → COMPOUND_SECONDARY
+      5. mechanics == "Isolation" (case-insensitive) → ACCESSORY
       6. Default → ACCESSORY
+
+    HIGH-severity fix: previously SMR (32 exercises), Conditioning (39),
+    Activation (7), and Plyometrics (33) were not handled — they fell through
+    to mechanics-based classification and ended up as COMPOUND_SECONDARY or
+    ACCESSORY, leading to nonsensical prescriptions (foam rolling at RPE 6
+    for 10-15 reps, plyometric squat jumps prescribed to beginners).
     """
     if exercise_type:
         et = exercise_type.lower()
-        if "cardio" in et:
+        if "cardio" in et or "conditioning" in et:
             return ExerciseCategory.CARDIO
-        if any(k in et for k in ("mobility", "stretch", "foam roll", "warm")):
+        if any(k in et for k in (
+            "mobility", "stretch", "foam roll", "warm",
+            "smr", "activation", "self-massage",
+        )):
             return ExerciseCategory.MOBILITY
 
     if slug in _COMPOUND_PRIMARY_SLUGS:
         return ExerciseCategory.COMPOUND_PRIMARY
 
-    if mechanics == "Compound":
-        return ExerciseCategory.COMPOUND_SECONDARY
-    if mechanics == "Isolation":
-        return ExerciseCategory.ACCESSORY
+    # Case-insensitive mechanics check (was: exact-match only — would silently
+    # misclassify exercises if the DB ever contained "compound" lowercase).
+    if mechanics:
+        m = mechanics.lower()
+        if m == "compound":
+            return ExerciseCategory.COMPOUND_SECONDARY
+        if m == "isolation":
+            return ExerciseCategory.ACCESSORY
 
     return ExerciseCategory.ACCESSORY
 
@@ -200,7 +281,7 @@ _DEFAULTS_BY_CATEGORY = {
 }
 
 
-def _parse_views(raw: Optional[str]) -> Optional[str]:
+def _parse_views(raw: str | None) -> str | None:
     """Pass through views string ('6.6M', '2M', etc.) — kept as string for fidelity."""
     return raw
 
@@ -208,19 +289,30 @@ def _parse_views(raw: Optional[str]) -> Optional[str]:
 # === Loader ===
 
 @lru_cache(maxsize=1)
-def _load_raw_db(json_path: Optional[str] = None) -> dict:
-    """Load and cache the raw JSON database."""
-    path = Path(json_path) if json_path else _DEFAULT_EXERCISES_JSON
+def _load_raw_db(json_path: str | None = None) -> dict:
+    """Load and cache the raw JSON database.
+
+    v3.1.1 fix: when ``json_path`` is None (the default), use the new
+    ``_resolve_exercises_json_path`` helper which tries the installed-wheel
+    location first and falls back to the source-tree path. This makes
+    `pip install fitn` actually work (previously the loader hard-coded the
+    source-tree path, which doesn't exist in an installed wheel).
+    """
+    if json_path is not None:
+        path = Path(json_path)
+    else:
+        path = _resolve_exercises_json_path()
     if not path.exists():
         raise FileNotFoundError(
             f"Exercise database not found at {path}. "
-            "Expected content_files/all_exercises.json in the repo root."
+            "Expected content_files/all_exercises.json in the repo root "
+            "(source tree) or fitness_engine/data/all_exercises.json (wheel)."
         )
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
-def load_exercises(json_path: Optional[str] = None) -> list[Exercise]:
+def load_exercises(json_path: str | None = None) -> list[Exercise]:
     """
     Load all exercises from the JSON database and normalize them.
 
@@ -295,7 +387,7 @@ def load_exercises(json_path: Optional[str] = None) -> list[Exercise]:
 # === Convenience indexes (built lazily) ===
 
 @lru_cache(maxsize=1)
-def _build_indexes(json_path: Optional[str] = None) -> tuple[dict, dict]:
+def _build_indexes(json_path: str | None = None) -> tuple[dict, dict]:
     """Build name→Exercise and slug→Exercise indexes."""
     exercises = load_exercises(json_path)
     by_name = {}
@@ -308,13 +400,13 @@ def _build_indexes(json_path: Optional[str] = None) -> tuple[dict, dict]:
     return by_name, by_slug
 
 
-def get_exercise_by_slug(slug: str) -> Optional[Exercise]:
+def get_exercise_by_slug(slug: str) -> Exercise | None:
     """Look up an exercise by its canonical slug (e.g. 'military-press')."""
     by_name, by_slug = _build_indexes()
     return by_slug.get(slug)
 
 
-def get_exercise_by_name(name: str) -> Optional[Exercise]:
+def get_exercise_by_name(name: str) -> Exercise | None:
     """Look up an exercise by its display name (case-sensitive)."""
     by_name, by_slug = _build_indexes()
     return by_name.get(name)

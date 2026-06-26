@@ -28,13 +28,11 @@ Source: /home/z/my-project/fitn/reports/rippedbody_insights.md
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
-from ..models.training import Exercise, ExerciseCategory, Workout, WorkoutExercise
+from ..models.training import Exercise, ExerciseCategory, Workout
 from .exercise_categorization import get_movement_pattern
-
 
 # === Exercise intensity tiers (Table 7.7) ===
 

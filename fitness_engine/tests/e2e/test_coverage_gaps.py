@@ -6,41 +6,50 @@ but are not naturally exercised by the E2E pipeline tests.
 """
 from __future__ import annotations
 
-import pytest
-
-from fitness_engine.models.profile import (
-    UserProfile, Sex, ActivityLevel, TrainingStatus, PrimaryGoal,
-    EquipmentAccess, DietType, CutRateTier, BulkAggressiveness,
-)
 from fitness_engine.assessment.assessor import assess_profile
-from fitness_engine.assessment.decision import decide_strategy, CUT_BULK_BOUNDARIES
-from fitness_engine.nutrition.calories import (
-    cut_target_calories, bulk_target_calories, recomp_target_calories,
-    maintenance_target_calories, reverse_diet_plan, compute_calorie_targets,
-)
-from fitness_engine.nutrition.tdee import (
-    update_tdee_with_logs, observed_tdee_first_principles, adaptive_weight_data,
-    TDEEResult,
-)
-from fitness_engine.nutrition.rmr import (
-    compute_rmr, select_rmr_formula, RMRFormula,
-    rmr_cunningham, rmr_harris_benedict_original, rmr_harris_benedict_revised,
-)
+from fitness_engine.assessment.decision import decide_strategy
 from fitness_engine.models.assessment import (
-    AssessmentResult, BodyComposition, HealthRiskAssessment, MuscularPotential,
-    RecommendedStrategy, BodyFatMethod, BodyFatCategory, BMICategory,
-    HealthRiskLevel,
+    RecommendedStrategy,
 )
 from fitness_engine.models.nutrition import (
-    CalorieTargets, CalorieStrategy, RMRResult, RMRFormula as RMRFormulaEnum,
+    CalorieStrategy,
+)
+from fitness_engine.models.profile import (
+    ActivityLevel,
+    BulkAggressiveness,
+    CutRateTier,
+    EquipmentAccess,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+    UserProfile,
+)
+from fitness_engine.nutrition.calories import (
+    bulk_target_calories,
+    compute_calorie_targets,
+    cut_target_calories,
+    reverse_diet_plan,
+)
+from fitness_engine.nutrition.rmr import (
+    RMRFormula,
+    compute_rmr,
+    rmr_cunningham,
+    rmr_harris_benedict_original,
+    rmr_harris_benedict_revised,
+)
+from fitness_engine.nutrition.tdee import (
+    TDEEResult,
+    adaptive_weight_data,
+    observed_tdee_first_principles,
+    update_tdee_with_logs,
 )
 from fitness_engine.training.exercise_categorization import (
-    get_swappable_exercises, categorize_exercise,
+    categorize_exercise,
+    get_swappable_exercises,
 )
 from fitness_engine.training.exercise_library import (
-    get_exercises, get_exercise_by_slug,
+    get_exercise_by_slug,
 )
-from fitness_engine.models.training import ExerciseCategory
 
 
 def _profile(**kw) -> UserProfile:
@@ -320,7 +329,6 @@ class TestTDEEAdaptive:
             rmr_kcal=1800, activity_factor=1.4,
             tdee_kcal=2520, final_tdee_kcal=2520,
         )
-        original_final = original.final_tdee_kcal
         # Call update (may or may not mutate; verify behavior)
         try:
             result = update_tdee_with_logs(
@@ -378,7 +386,7 @@ class TestExerciseLibraryLazyProxies:
         from fitness_engine.training.exercise_library import EXERCISES
         # Verify the lazy proxy is iterable
         count = 0
-        for ex in EXERCISES:
+        for _ex in EXERCISES:
             count += 1
             if count >= 10:
                 break

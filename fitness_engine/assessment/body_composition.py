@@ -11,15 +11,16 @@ Sources:
 from __future__ import annotations
 
 import math
-from typing import Optional
 
-from ..models.profile import UserProfile, Sex
 from ..models.assessment import (
-    BodyComposition, BodyFatMethod, BodyFatCategory, BMICategory,
+    BMICategory,
+    BodyComposition,
+    BodyFatCategory,
+    BodyFatMethod,
 )
+from ..models.profile import Sex, UserProfile
 from ..utils.units import cm_to_in
 from ._thresholds import HORMONAL_FLOOR
-
 
 # === Body Fat % Categories (ACE / WHO / ACSM canonical) ===
 # Bands are CONTINUOUS: each category's upper bound is the next category's
@@ -86,7 +87,7 @@ def classify_bmi(bmi: float) -> BMICategory:
 
 # === Body Fat % formulas ===
 
-def body_fat_navy(profile: UserProfile) -> Optional[float]:
+def body_fat_navy(profile: UserProfile) -> float | None:
     """
     US Navy circumference method (Hodgdon & Beckett 1984).
     Returns None if required measurements are missing.
@@ -94,6 +95,13 @@ def body_fat_navy(profile: UserProfile) -> Optional[float]:
     Source: rippedbody.com__how-calculate-body-fat-percentage, fatcalc.com__bf
     """
     if not profile.has_circumference_measurements:
+        return None
+
+    # HIGH-severity fix (mypy): cm_to_in signatures require non-None floats.
+    # has_circumference_measurements already guarantees neck_cm and waist_cm
+    # are not None for both sexes, and hip_cm is not None for females —
+    # but mypy can't infer the narrowing, so we add explicit guards.
+    if profile.neck_cm is None or profile.waist_cm is None:
         return None
 
     # Convert to inches (canonical formula uses inches)

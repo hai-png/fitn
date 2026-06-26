@@ -29,9 +29,8 @@ negative-LBM nonsense.
 """
 from __future__ import annotations
 
-from ..models.profile import UserProfile, Sex
-from ..models.nutrition import RMRResult, RMRFormula
-
+from ..models.nutrition import RMRFormula, RMRResult
+from ..models.profile import Sex, UserProfile
 
 # Bound for body_fat_pct in body-composition-aware formulas. Matches the
 # UserProfile validator range. Prevents negative-LBM nonsense (BF% > 100).

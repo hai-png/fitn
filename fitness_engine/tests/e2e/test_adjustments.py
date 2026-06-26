@@ -6,11 +6,12 @@ structured AdjustmentRecommendation objects for troubleshooting plateaus.
 """
 from __future__ import annotations
 
-import pytest
-
 from fitness_engine.nutrition.adjustments import (
-    detect_plateau, recommend_cut_adjustment, recommend_bulk_adjustment,
-    PlateauType, AdjustmentRecommendation,
+    AdjustmentRecommendation,
+    PlateauType,
+    detect_plateau,
+    recommend_bulk_adjustment,
+    recommend_cut_adjustment,
 )
 
 

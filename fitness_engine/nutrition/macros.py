@@ -12,13 +12,13 @@ from __future__ import annotations
 
 import math
 
-from ..models.profile import UserProfile, Sex, TrainingStatus, PrimaryGoal, DietType
-from ..models.assessment import RecommendedStrategy
-from ..models.nutrition import MacroSplit, CalorieTargets, CalorieStrategy
 from ..assessment.decision import CUT_BULK_BOUNDARIES
+from ..models.assessment import RecommendedStrategy
+from ..models.nutrition import CalorieStrategy, CalorieTargets, MacroSplit
+from ..models.profile import DietType, UserProfile
+
 # use shared unit conversion helper.
 from ..utils.units import kg_to_lb
-
 
 # === Energy densities (kcal/g) ===
 KCAL_PER_GRAM = {

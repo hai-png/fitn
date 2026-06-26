@@ -39,7 +39,6 @@ from dataclasses import dataclass, field
 from ..models.meal import Recipe
 from .profile_requirements import MealSlotTarget
 
-
 # === Score component weights ===
 # Weights normalized to sum to exactly 100. MIN_ACCEPTABLE_SCORE (60) means 60%.
 WEIGHTS = {
@@ -290,8 +289,8 @@ _ALLERGEN_ALIASES: dict[str, str] = {
 # PLANT_QUALIFIERS / PLANT_NAMED_PHRASES sourced from ``_allergen_constants``
 # (single source of truth). Imported here under the original local name for
 # minimal diff.
-from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS_FOR_ALLERGENS
 from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES_FOR_ALLERGENS
+from ._allergen_constants import PLANT_QUALIFIERS as _PLANT_QUALIFIERS_FOR_ALLERGENS
 
 # Pre-compile a word-boundary regex per allergen category for fast matching.
 _ALLERGEN_REGEXES: dict[str, list[tuple[re.Pattern, str]]] = {
@@ -353,7 +352,7 @@ def check_allergens(recipe: Recipe, allergens_to_avoid: list[str]) -> list[str]:
             patterns = [(re.compile(r"\b" + re.escape(allergen_lower) + r"\b", re.IGNORECASE), allergen_lower)]
         # For dairy/eggs, scan the sanitized string (plant-named phrases removed).
         scan_target = sanitized if allergen_lower in ("dairy", "eggs") else combined_ingredients
-        for pat, kw in patterns:
+        for pat, _kw in patterns:
             found = False
             for m in pat.finditer(scan_target):
                 # For dairy/eggs, check for a plant qualifier in the 25 chars
@@ -555,7 +554,17 @@ def score_candidates(
         if not score.excluded:
             scores.append(score)
 
-    scores.sort(key=lambda s: s.total_score, reverse=True)
+    # MEDIUM-severity fix: add explicit secondary sort keys (recipe ID, then
+    # name) so ties are broken deterministically regardless of file order.
+    # Previously ties were broken by insertion order (file order from
+    # load_recipes()), which is deterministic across runs but not a documented
+    # contract — adding a recipe to the top of the JSON would have changed
+    # tie-breaks silently.
+    scores.sort(key=lambda s: (
+        -s.total_score,
+        s.recipe.id or "",
+        s.recipe.name.lower(),
+    ))
     return scores
 
 

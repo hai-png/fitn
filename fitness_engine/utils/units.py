@@ -1,7 +1,6 @@
 """Unit conversion helpers."""
 from __future__ import annotations
 
-
 # Conversion constants
 KG_PER_LB = 0.45359237
 LB_PER_KG = 2.2046226218

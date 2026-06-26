@@ -10,11 +10,11 @@ All measurements use METRIC units (kg, cm, L) internally.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 from ..utils.serialize import convert_for_json
+
 # use shared unit conversion helper.
 from ..utils.units import kg_to_lb
 
@@ -126,14 +126,14 @@ class UserProfile:
     diet_type: DietType = DietType.OMNIVORE
 
     # === Body Composition (optional) ===
-    body_fat_pct: Optional[float] = None       # 2-60
-    neck_cm: Optional[float] = None
-    waist_cm: Optional[float] = None           # men: at navel; women: narrowest
-    hip_cm: Optional[float] = None             # required for women Navy method; optional for men
+    body_fat_pct: float | None = None       # 2-60
+    neck_cm: float | None = None
+    waist_cm: float | None = None           # men: at navel; women: narrowest
+    hip_cm: float | None = None             # required for women Navy method; optional for men
 
     # === Aggressiveness (optional overrides) ===
-    cut_rate_tier: Optional[CutRateTier] = None
-    bulk_aggressiveness: Optional[BulkAggressiveness] = None
+    cut_rate_tier: CutRateTier | None = None
+    bulk_aggressiveness: BulkAggressiveness | None = None
 
     # === Training schedule (optional) ===
     training_time_of_day: TrainingTimeOfDay = TrainingTimeOfDay.EVENING

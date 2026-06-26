@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from ..models.meal import MealType
 
-
 # === Macro allocation per meal (% of daily calories per meal) ===
 # Canonical definition lives in STANDARD_ALLOCATIONS in profile_requirements.
 

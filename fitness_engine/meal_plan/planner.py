@@ -30,18 +30,20 @@ Each Meal carries:
 from __future__ import annotations
 
 from collections import Counter
-from typing import Optional
 
-from ..models.profile import UserProfile, DietType
-from ..models.assessment import AssessmentResult, RecommendedStrategy
-from ..models.nutrition import NutritionPlan
+from ..models.assessment import AssessmentResult
 from ..models.meal import (
-    MealPlan, DayPlan, Meal, MealFood, MealType, Recipe,
+    DayPlan,
+    Meal,
+    MealPlan,
+    MealType,
 )
+from ..models.nutrition import NutritionPlan
+from ..models.profile import UserProfile
+from .allocator import allocate_meal
 from .profile_requirements import (
-    compute_meal_plan_requirements, MealPlanRequirements, MealSlotTarget,
+    compute_meal_plan_requirements,
 )
-from .allocator import allocate_meal, SelectedMeal, selected_meal_to_dict
 from .recipe_loader import database_stats
 
 
@@ -50,9 +52,9 @@ def build_meal_plan(
     assessment: AssessmentResult,
     nutrition: NutritionPlan,
     meal_frequency: int = 3,
-    cuisine_preference: Optional[str] = None,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
+    cuisine_preference: str | None = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
     include_pre_post_workout: bool = False,
 ) -> MealPlan:
     """
@@ -279,8 +281,6 @@ def build_meal_plan(
     # Match percentages
     target_kcal = requirements.daily_kcal
     target_p = requirements.daily_protein_g
-    target_c = requirements.daily_carb_g
-    target_f = requirements.daily_fat_g
 
     # clamp match-pct to [0, 100] — previously a weekly_avg
     # more than 2× the target produced a NEGATIVE match (e.g. 4500 vs 2000

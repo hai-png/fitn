@@ -3,11 +3,9 @@ Assessment result data models — output of the assessment module.
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
-
-import math
 
 from ..utils.serialize import convert_for_json
 
@@ -69,7 +67,7 @@ class BodyComposition:
     bmi_category: BMICategory
     ffmi: float                              # Fat-Free Mass Index
     normalized_ffmi: float                   # height-adjusted (Kouri 1995)
-    target_weight_at_target_bf_kg: Optional[float] = None
+    target_weight_at_target_bf_kg: float | None = None
     notes: list[str] = field(default_factory=list)
 
     def __post_init__(self):
@@ -97,17 +95,17 @@ class BodyComposition:
 @dataclass
 class HealthRiskAssessment:
     """Health risk metrics based on body measurements."""
-    whr: Optional[float] = None                       # waist-to-hip
-    whr_risk: Optional[HealthRiskLevel] = None
-    whtr: Optional[float] = None                      # waist-to-height
-    whtr_risk: Optional[HealthRiskLevel] = None
-    absi: Optional[float] = None                      # A Body Shape Index
-    absi_z_score: Optional[float] = None
-    absi_risk: Optional[ABSIRiskLevel] = None
-    ibw_devine_kg: Optional[float] = None
-    ibw_robinson_kg: Optional[float] = None
-    ibw_miller_kg: Optional[float] = None
-    ibw_hamwi_kg: Optional[float] = None
+    whr: float | None = None                       # waist-to-hip
+    whr_risk: HealthRiskLevel | None = None
+    whtr: float | None = None                      # waist-to-height
+    whtr_risk: HealthRiskLevel | None = None
+    absi: float | None = None                      # A Body Shape Index
+    absi_z_score: float | None = None
+    absi_risk: ABSIRiskLevel | None = None
+    ibw_devine_kg: float | None = None
+    ibw_robinson_kg: float | None = None
+    ibw_miller_kg: float | None = None
+    ibw_hamwi_kg: float | None = None
     overall_risk: HealthRiskLevel = HealthRiskLevel.LOW
     risk_factors: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
@@ -127,7 +125,7 @@ class MuscularPotential:
     natural_ceiling_ffmi: float = 25.0              # == FFMI_NATURAL_COMMON (Kouri 1995)
     attainable_ceiling_ffmi: float = 27.3            # == FFMI_NATURAL_ATTAINABLE (Mr. America 1939-1953)
     likely_max_ffmi: float = 28.0                    # == FFMI_NATURAL_LIKELY_MAX (RippedBody editorial)
-    berkhan_stage_max_kg: Optional[float] = None     # height_cm - 100
+    berkhan_stage_max_kg: float | None = None     # height_cm - 100
     ffmi_to_ceiling_pct: float = 0.0                 # current / natural ceiling
     headroom_kg: float = 0.0                         # FFM kg remaining to ceiling
     expected_monthly_muscle_gain_kg: float = 0.0     # by training status

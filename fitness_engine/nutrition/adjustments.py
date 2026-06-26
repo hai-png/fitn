@@ -10,20 +10,18 @@ Sources:
 """
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Callable
 
-from ..models.assessment import RecommendedStrategy
-from ..models.nutrition import MacroSplit, CalorieTargets
-from .calories import (
-    DEFICIT_KCAL_PER_LB_PER_WEEK, DEFICIT_KCAL_PER_KG_PER_WEEK,
-    SURPLUS_KCAL_PER_LB_PER_MONTH, SURPLUS_KCAL_PER_KG_PER_MONTH,
-)
-from .macros import cut_macro_adjustment, bulk_macro_adjustment
 # use shared unit conversion helper.
 # (target - actual) is in kg/wk (or kg/mo); kg_to_lb converts to lb/wk (or lb/mo).
 from ..utils.units import kg_to_lb
+from .calories import (
+    DEFICIT_KCAL_PER_LB_PER_WEEK,
+    SURPLUS_KCAL_PER_LB_PER_MONTH,
+)
+from .macros import bulk_macro_adjustment, cut_macro_adjustment
 
 
 class PlateauType(str, Enum):

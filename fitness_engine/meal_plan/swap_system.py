@@ -17,18 +17,17 @@ The swap system is queried:
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Optional
-
 import re
+from dataclasses import dataclass
 
 from ..models.meal import Recipe
-from .recipe_loader import load_recipes, get_recipe_by_id
 from ._allergen_constants import PLANT_NAMED_PHRASES as _PLANT_NAMED_PHRASES
+from .recipe_loader import load_recipes
 from .recipe_scorer import (
-    score_diet_match, check_allergens, check_excluded_ingredients,
+    check_allergens,
+    check_excluded_ingredients,
+    score_diet_match,
 )
-
 
 # === Ingredient swap database ===
 
@@ -257,24 +256,66 @@ def get_ingredient_swaps(ingredient: str) -> list[IngredientSwap]:
     return []
 
 
-def get_swaps_for_recipe_ingredients(recipe: Recipe) -> dict[str, list[IngredientSwap]]:
+def get_swaps_for_recipe_ingredients(
+    recipe: Recipe,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+) -> dict[str, list[IngredientSwap]]:
     """
     Get ingredient swap options for every ingredient in a recipe.
 
     Returns dict: {ingredient_string: list[IngredientSwap]}.
     Ingredients with no swaps are omitted from the dict.
+
+    MEDIUM-severity fix: now accepts ``allergens_to_avoid`` and
+    ``excluded_ingredients`` parameters. Each swap's ``alternatives`` list
+    is filtered to drop alternatives that contain an allergen or excluded
+    ingredient (using the same word-boundary regex as ``check_allergens``).
+    A swap with all alternatives filtered out is dropped entirely.
     """
+    # Build a regex-based allergen/excluded scanner.
+    import re
+
+    from .recipe_scorer import _ALLERGEN_REGEXES, _PLANT_QUALIFIERS_FOR_ALLERGENS
+    bad_patterns: list[tuple[re.Pattern, str]] = []
+    if allergens_to_avoid:
+        for ag in allergens_to_avoid:
+            ag_lower = ag.lower().strip()
+            patterns = _ALLERGEN_REGEXES.get(ag_lower)
+            if patterns is None:
+                # Unknown allergen — fall back to plain word-boundary substring match.
+                patterns = [(re.compile(r"\b" + re.escape(ag_lower) + r"\b", re.IGNORECASE), ag_lower)]
+            for pat, _kw in patterns:
+                bad_patterns.append((pat, f"allergen:{ag_lower}"))
+    if excluded_ingredients:
+        for ing in excluded_ingredients:
+            bad_patterns.append((re.compile(re.escape(ing.lower()), re.IGNORECASE), f"excluded:{ing}"))
+
+    def _is_safe(alt_name: str) -> bool:
+        """Return True if the alternative name contains no allergen/excluded ingredient."""
+        name_lower = alt_name.lower()
+        # Check plant-qualifier suppression for allergens (but NOT for excluded
+        # ingredients — if the user said "no soy", they don't want soy sauce
+        # even if it's "coconut soy sauce").
+        for pat, _label in bad_patterns:
+            m = pat.search(name_lower)
+            if m:
+                # Check plant-qualifier suppression (allergen-only).
+                if _label.startswith("allergen:"):
+                    context = name_lower[max(0, m.start() - 25):m.start()]
+                    if any(pq in context for pq in _PLANT_QUALIFIERS_FOR_ALLERGENS):
+                        continue
+                return False
+        return True
+
     swaps: dict[str, list[IngredientSwap]] = {}
     for ing in recipe.ingredients:
         # Extract the main ingredient name (strip quantities/units).
-        # Simple heuristic: take first 2-3 words. Test once, cache the result,
-        # and reuse it.
         words = ing.split()
         if len(words) <= 2:
             main = ing
             swap_list = get_ingredient_swaps(main)
         else:
-            # Try first 3 words, then 2, then fall back to the full string.
             main_3 = " ".join(words[:3])
             swap_list = get_ingredient_swaps(main_3)
             if swap_list:
@@ -288,7 +329,19 @@ def get_swaps_for_recipe_ingredients(recipe: Recipe) -> dict[str, list[Ingredien
                     main = ing
                     swap_list = get_ingredient_swaps(ing)
         if swap_list:
-            swaps[ing] = swap_list
+            # Filter alternatives by allergens/excluded ingredients.
+            if bad_patterns:
+                filtered_swap_list = []
+                for swp in swap_list:
+                    safe_alts = [a for a in swp.alternatives if _is_safe(a)]
+                    if safe_alts:
+                        # Return a copy with filtered alternatives.
+                        from dataclasses import replace
+                        filtered_swap_list.append(replace(swp, alternatives=safe_alts))
+                if filtered_swap_list:
+                    swaps[ing] = filtered_swap_list
+            else:
+                swaps[ing] = swap_list
 
     return swaps
 
@@ -300,11 +353,11 @@ def get_recipe_swaps(
     diet_tag: str,
     target_kcal: float,
     kcal_tolerance_pct: float = 0.20,
-    exclude_ids: Optional[set[str]] = None,
+    exclude_ids: set[str] | None = None,
     limit: int = 5,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
-    cuisine_preference: Optional[str] = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+    cuisine_preference: str | None = None,
 ) -> list[Recipe]:
     """
     Get alternative recipes that can substitute for the given recipe.
@@ -370,7 +423,12 @@ def get_recipe_swaps(
         candidates.append(r)
 
     # Sort by kcal closeness to target
-    candidates.sort(key=lambda r: abs(r.kcal - target_kcal))
+    # MEDIUM-severity fix: add secondary sort keys for explicit determinism.
+    candidates.sort(key=lambda r: (
+        abs(r.kcal - target_kcal),
+        r.id or "",
+        r.name.lower(),
+    ))
     return candidates[:limit]
 
 
@@ -378,9 +436,9 @@ def get_recipe_swaps_for_plan(
     recipe: Recipe,
     diet_tag: str,
     target_kcal: float,
-    allergens_to_avoid: Optional[list[str]] = None,
-    excluded_ingredients: Optional[list[str]] = None,
-    cuisine_preference: Optional[str] = None,
+    allergens_to_avoid: list[str] | None = None,
+    excluded_ingredients: list[str] | None = None,
+    cuisine_preference: str | None = None,
 ) -> list[dict]:
     """
     Get recipe swaps formatted for plan output (with reason + kcal match).

@@ -8,87 +8,97 @@ public API and edge cases.
 """
 from __future__ import annotations
 
+import contextlib
 import json
-import math
-import warnings
 
 import pytest
 
-from fitness_engine.models.profile import (
-    UserProfile, Sex, ActivityLevel, TrainingStatus, PrimaryGoal,
-    EquipmentAccess, DietType, CutRateTier, BulkAggressiveness,
-    TrainingTimeOfDay, ExerciseIntensity, Climate,
-)
-from fitness_engine.models.preferences import PlanPreferences
-from fitness_engine.models.meal import (
-    MealType, FoodCategory, FoodItem, MealFood, Meal, DayPlan,
-    MealPlan, FitnessPlan, Recipe, RecipeDietTag, NutritionPerServing,
-)
 from fitness_engine.assessment.assessor import assess_profile
-from fitness_engine.assessment.decision import decide_strategy, CUT_BULK_BOUNDARIES
-from fitness_engine.meal_plan.food_database import (
-    FOODS, FOOD_INDEX, get_food, protein_per_100kcal,
-)
-from fitness_engine.meal_plan.meal_templates import (
-    get_meal_plan_template, get_meal_name, MEAL_ORDER, MEAL_NAMES,
-)
-from fitness_engine.meal_plan.recipe_loader import (
-    load_recipes, get_recipe_by_id, get_recipe_by_name,
-    recipes_by_filters, recipes_by_kcal_range, recipes_by_diet_type,
-    database_stats, _recipe_has_meat_ingredients,
-)
-from fitness_engine.meal_plan.recipe_scorer import (
-    score_recipe_for_slot, check_allergens, check_excluded_ingredients,
-    score_diet_match, ALLERGEN_KEYWORDS,
-)
-from fitness_engine.meal_plan.swap_system import (
-    get_ingredient_swaps, get_swaps_for_recipe_ingredients,
-    get_recipe_swaps, INGREDIENT_SWAPS,
-)
-from fitness_engine.meal_plan.pre_post_workout import (
-    get_pre_post_workout_recipes, PRE_POST_WORKOUT_RECIPES,
-)
+from fitness_engine.assessment.decision import decide_strategy
 from fitness_engine.meal_plan.allocator import (
-    allocate_meal, SelectedMeal, MIN_ACCEPTABLE_SCORE,
     _compute_allergen_filler_exclusions,
 )
+from fitness_engine.meal_plan.food_database import (
+    FOOD_INDEX,
+    FOODS,
+    get_food,
+    protein_per_100kcal,
+)
+from fitness_engine.meal_plan.meal_templates import (
+    MEAL_ORDER,
+    get_meal_name,
+    get_meal_plan_template,
+)
+from fitness_engine.meal_plan.pre_post_workout import (
+    PRE_POST_WORKOUT_RECIPES,
+    get_pre_post_workout_recipes,
+)
+from fitness_engine.meal_plan.recipe_loader import (
+    _recipe_has_meat_ingredients,
+    database_stats,
+    get_recipe_by_id,
+    get_recipe_by_name,
+    load_recipes,
+    recipes_by_diet_type,
+    recipes_by_kcal_range,
+)
 from fitness_engine.meal_plan.recipe_scaler import (
-    compute_scale_factor, scale_recipe, is_recipe_scalable_to_target,
-    select_protein_filler, select_carb_filler, select_fat_filler,
-    select_veg_filler, select_fillers_for_meal, ScalerConfig,
+    ScalerConfig,
+    compute_scale_factor,
+    is_recipe_scalable_to_target,
+    select_carb_filler,
+    select_fat_filler,
+    select_protein_filler,
+    select_veg_filler,
 )
-from fitness_engine.nutrition.adjustments import (
-    detect_plateau, recommend_cut_adjustment, recommend_bulk_adjustment,
-    PlateauType, AdjustmentRecommendation,
+from fitness_engine.meal_plan.recipe_scorer import (
+    check_allergens,
+    check_excluded_ingredients,
 )
-from fitness_engine.nutrition.tdee import (
-    update_tdee_with_logs, observed_tdee_first_principles,
-    adaptive_weight_data, TDEEResult,
+from fitness_engine.meal_plan.swap_system import (
+    get_ingredient_swaps,
+    get_recipe_swaps,
+    get_swaps_for_recipe_ingredients,
 )
-from fitness_engine.nutrition.rmr import (
-    compute_rmr, select_rmr_formula, RMRFormula,
-    rmr_mifflin_st_jeor, rmr_katch_mcardle,
-    rmr_cunningham, rmr_harris_benedict_original, rmr_harris_benedict_revised,
+from fitness_engine.models.meal import (
+    MealType,
+    NutritionPerServing,
+    Recipe,
+    RecipeDietTag,
 )
-from fitness_engine.training.exercise_library import (
-    get_exercises, get_exercise_by_slug, get_exercise_by_name,
-    get_exercise_by_phase1_name, _clear_exercise_cache,
-)
-from fitness_engine.training.exercise_categorization import (
-    get_movement_pattern, get_pattern_family,
-    get_environment_preferred_equipment, get_swappable_exercises,
-    categorize_exercise, MOVEMENT_PATTERNS,
-)
-from fitness_engine.training.exercise_selector import select_exercise_for_slot
-from fitness_engine.training.intensity_model import (
-    get_exercise_intensity_tier, generate_warmup_sets,
-    WARMUP_LEQ_6_REP, WARMUP_GEQ_6_REP,
+from fitness_engine.models.preferences import PlanPreferences
+from fitness_engine.models.profile import (
+    ActivityLevel,
+    EquipmentAccess,
+    ExerciseIntensity,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+    UserProfile,
 )
 from fitness_engine.training._utils import parse_view_count
+from fitness_engine.training.exercise_categorization import (
+    MOVEMENT_PATTERNS,
+    categorize_exercise,
+    get_movement_pattern,
+    get_pattern_family,
+)
+from fitness_engine.training.exercise_library import (
+    _clear_exercise_cache,
+    get_exercise_by_name,
+    get_exercise_by_phase1_name,
+    get_exercise_by_slug,
+    get_exercises,
+)
 from fitness_engine.utils.serialize import convert_for_json
 from fitness_engine.utils.units import (
-    kg_to_lb, lb_to_kg, cm_to_in, in_to_cm,
-    LB_PER_KG, KG_PER_LB, IN_PER_CM, CM_PER_IN, WEEKS_PER_MONTH,
+    KG_PER_LB,
+    LB_PER_KG,
+    WEEKS_PER_MONTH,
+    cm_to_in,
+    in_to_cm,
+    kg_to_lb,
+    lb_to_kg,
 )
 
 
@@ -725,7 +735,7 @@ class TestSwapSystem:
                 assert "milk" not in swap.lower() or "plant" in swap.lower()
 
     def test_get_recipe_swaps_does_not_mutate_caller_set(self):
-        from fitness_engine import UserProfile, assess_profile, propose_plan, PlanPreferences
+        from fitness_engine import assess_profile, propose_plan
         profile = _profile()
         assessment = assess_profile(profile)
         plan = propose_plan(profile, assessment)
@@ -735,14 +745,12 @@ class TestSwapSystem:
                 if meal.recipe:
                     original = {"R_OTHER"}
                     original_copy = set(original)
-                    try:
+                    with contextlib.suppress(Exception):
                         get_recipe_swaps(
                             recipe=meal.recipe,
                             target_kcal=500,
                             exclude_ids=original,
                         )
-                    except Exception:
-                        pass
                     assert original == original_copy, (
                         "get_recipe_swaps mutated caller's exclude_ids set"
                     )

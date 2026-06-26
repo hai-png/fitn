@@ -3,11 +3,9 @@ Nutrition plan data models.
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
-
-import math
 
 from ..utils.serialize import convert_for_json
 
@@ -43,7 +41,7 @@ class TDEEResult:
     rmr_kcal: float
     activity_factor: float
     tdee_kcal: float
-    adaptive_tdee_kcal: Optional[float] = None    # if intake/weight logs provided
+    adaptive_tdee_kcal: float | None = None    # if intake/weight logs provided
     final_tdee_kcal: float = 0.0
     notes: list[str] = field(default_factory=list)
 
@@ -57,7 +55,7 @@ class CalorieTargets:
     calorie_delta_kcal: float                      # negative for cut, positive for bulk
     target_calories_kcal: float
     calorie_floor_applied: bool = False
-    floor_kcal: Optional[int] = None
+    floor_kcal: int | None = None
     notes: list[str] = field(default_factory=list)
 
     def __post_init__(self):

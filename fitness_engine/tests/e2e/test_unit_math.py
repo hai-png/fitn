@@ -6,68 +6,94 @@ tests don't directly exercise. They cover the math itself, not the integration.
 """
 from __future__ import annotations
 
-import math
-
 import pytest
 
-from fitness_engine.models.profile import (
-    UserProfile, Sex, ActivityLevel, TrainingStatus, PrimaryGoal,
-    EquipmentAccess, DietType,
-)
 from fitness_engine.assessment.body_composition import (
-    classify_bmi, classify_bf, body_fat_navy, body_fat_cun_bae,
-    compute_body_fat, compute_ffmi, target_weight_at_target_bf,
-    assess_body_composition, BMICategory, BodyFatCategory,
+    BMICategory,
+    BodyFatCategory,
+    body_fat_cun_bae,
+    body_fat_navy,
+    classify_bf,
+    classify_bmi,
+    compute_body_fat,
+    compute_ffmi,
+    target_weight_at_target_bf,
 )
 from fitness_engine.assessment.health_risk import (
-    compute_whr, compute_whtr, compute_absi, classify_whr, classify_whtr,
-    classify_absi, absi_z_score, assess_health_risk,
+    absi_z_score,
+    classify_whr,
+    compute_absi,
+    compute_whr,
+    compute_whtr,
 )
 from fitness_engine.assessment.muscular_potential import (
-    assess_muscular_potential, berkhan_stage_max_weight_kg,
-    FFMI_NATURAL_COMMON, FFMI_NATURAL_ATTAINABLE, FFMI_NATURAL_LIKELY_MAX,
+    FFMI_NATURAL_ATTAINABLE,
+    FFMI_NATURAL_COMMON,
+    FFMI_NATURAL_LIKELY_MAX,
+    assess_muscular_potential,
+    berkhan_stage_max_weight_kg,
 )
-from fitness_engine.assessment.decision import decide_strategy
-from fitness_engine.nutrition.rmr import (
-    compute_rmr, select_rmr_formula, RMRFormula, rmr_mifflin_st_jeor,
-    rmr_katch_mcardle, rmr_cunningham, rmr_harris_benedict_original,
-    rmr_harris_benedict_revised,
-)
-from fitness_engine.nutrition.tdee import (
-    compute_tdee, activity_factor, update_tdee_with_logs,
-    observed_tdee_first_principles, adaptive_weight_data,
-    ACTIVITY_FACTORS_RIPPEDBODY,
-)
-from fitness_engine.nutrition.calories import (
-    cut_target_calories, bulk_target_calories, maintenance_target_calories,
-    recomp_target_calories, compute_calorie_targets,
-    MAX_WEEKLY_LOSS_PCT, DEFAULT_CUT_RATE_PCT, SWEET_SPOT_CUT_RATE_PCT,
-)
-from fitness_engine.nutrition.macros import (
-    compute_protein, compute_fat, compute_carbs, compute_macros,
-    cut_macro_adjustment, bulk_macro_adjustment,
+from fitness_engine.models.profile import (
+    ActivityLevel,
+    EquipmentAccess,
+    PrimaryGoal,
+    Sex,
+    TrainingStatus,
+    UserProfile,
 )
 from fitness_engine.nutrition.adjustments import (
-    detect_plateau, recommend_cut_adjustment, recommend_bulk_adjustment,
     PlateauType,
+    detect_plateau,
+)
+from fitness_engine.nutrition.calories import (
+    MAX_WEEKLY_LOSS_PCT,
+    bulk_target_calories,
+    cut_target_calories,
+    maintenance_target_calories,
+    recomp_target_calories,
 )
 from fitness_engine.nutrition.hydration import compute_hydration
-from fitness_engine.nutrition.micronutrients import compute_micronutrients
-from fitness_engine.training.progression import (
-    linear_progression_next, dup_next,
+from fitness_engine.nutrition.macros import (
+    bulk_macro_adjustment,
+    compute_carbs,
+    compute_fat,
+    compute_protein,
+    cut_macro_adjustment,
 )
-from fitness_engine.training.periodization import (
-    apply_periodization, get_mesocycle_length, get_program_duration_weeks,
-    get_block_phases_for_program, _BLOCK_PHASE_MODIFIERS,
+from fitness_engine.nutrition.micronutrients import compute_micronutrients
+from fitness_engine.nutrition.rmr import (
+    RMRFormula,
+    compute_rmr,
+    rmr_katch_mcardle,
+    rmr_mifflin_st_jeor,
+    select_rmr_formula,
+)
+from fitness_engine.nutrition.tdee import (
+    ACTIVITY_FACTORS_RIPPEDBODY,
+    activity_factor,
+    adaptive_weight_data,
+    compute_tdee,
+    observed_tdee_first_principles,
 )
 from fitness_engine.training.intensity_model import (
-    rir_to_rpe, rpe_to_rir, get_rir_range, generate_warmup_sets,
+    generate_warmup_sets,
+    rir_to_rpe,
+    rpe_to_rir,
+)
+from fitness_engine.training.periodization import (
+    _BLOCK_PHASE_MODIFIERS,
+    get_block_phases_for_program,
+    get_mesocycle_length,
+    get_program_duration_weeks,
+)
+from fitness_engine.training.progression import (
+    dup_next,
+    linear_progression_next,
 )
 from fitness_engine.training.volume_landmarks import (
-    count_sets_toward_muscle, get_muscle_landmarks, get_recommended_frequency,
-    get_recommended_weekly_sets, validate_weekly_volume,
-    PER_SESSION_SET_CAP, check_session_volume_cap,
-    compute_weekly_volume_per_muscle, compute_session_volume_per_muscle,
+    check_session_volume_cap,
+    get_muscle_landmarks,
+    get_recommended_frequency,
 )
 
 
@@ -724,8 +750,11 @@ class TestHydration:
 
     def test_compute_hydration_clamped_to_5L_soft_ceiling(self):
         """Hydration should be clamped to ≤5 L/day (hyponatremia ceiling)."""
-        # Extreme: very heavy, hot climate, intense exercise, breastfeeding
-        profile = _profile(weight_kg=200)
+        # Extreme: very heavy, hot climate, intense exercise, breastfeeding.
+        # Uses a FEMALE profile because breastfeeding=True is biologically
+        # impossible for Sex.MALE (the hydration module now raises ValueError
+        # for that combination — previously it silently added +0.7 L).
+        profile = _profile(sex=Sex.FEMALE, weight_kg=120)
         result = compute_hydration(
             profile,
             exercise_hours_per_day=8,

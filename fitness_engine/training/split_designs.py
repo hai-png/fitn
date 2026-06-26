@@ -17,7 +17,6 @@ This separation (data vs. selection logic) makes it easy to:
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 from ..models.profile import TrainingStatus
 from ..models.training import (
@@ -25,7 +24,6 @@ from ..models.training import (
     SplitType,
     TrainingGoal,
 )
-
 
 # === Slot template ===
 
@@ -48,7 +46,7 @@ class MovementPatternSlot:
     sets: int                              # # of work sets
     secondary_muscles: list[str] = field(default_factory=list)
     # Optional: force_type hint for better exercise matching
-    force_type_hint: Optional[str] = None  # "Push" / "Pull" / "Hinge" / etc.
+    force_type_hint: str | None = None  # "Push" / "Pull" / "Hinge" / etc.
     # Optional: tag this slot as added by muscle_focus (for transparency)
     is_focus_emphasis: bool = False
 
@@ -60,7 +58,7 @@ class WorkoutTemplate:
     focus: str                             # "Strength + Hypertrophy"
     slots: list[MovementPatternSlot] = field(default_factory=list)
     # Optional day-type tag for periodization (e.g., "heavy" / "moderate" / "light")
-    day_type: Optional[str] = None
+    day_type: str | None = None
 
 
 @dataclass
@@ -664,7 +662,7 @@ def get_splits_for_days(days_per_week: int) -> list[SplitDesign]:
     return [s for s in ALL_SPLITS if s.days_per_week == days_per_week]
 
 
-def get_split(name: str) -> Optional[SplitDesign]:
+def get_split(name: str) -> SplitDesign | None:
     """Look up a split by name."""
     for s in ALL_SPLITS:
         if s.name == name:

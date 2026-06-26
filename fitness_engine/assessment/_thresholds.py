@@ -10,7 +10,6 @@ from __future__ import annotations
 
 from ..models.profile import Sex
 
-
 # Operational BF% range (RippedBody): outside this range, hormonal/
 # performance optimization is compromised.
 OPERATIONAL_BF_RANGE = {

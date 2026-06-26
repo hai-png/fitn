@@ -16,12 +16,11 @@ those kwargs.
 """
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 
-import logging
-
+from .profile import Climate, ExerciseIntensity
 from .training import PlanType
-from .profile import ExerciseIntensity, Climate
 
 
 def _coerce_intensity(v: str | ExerciseIntensity | None) -> ExerciseIntensity:
@@ -117,7 +116,7 @@ class PlanPreferences:
         # (handled in from_kwargs via logging)
 
     @classmethod
-    def from_kwargs(cls, **kwargs) -> "PlanPreferences":
+    def from_kwargs(cls, **kwargs) -> PlanPreferences:
         """
         Build PlanPreferences from flat kwargs (backward compat).
 

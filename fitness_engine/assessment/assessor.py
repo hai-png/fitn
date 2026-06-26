@@ -13,14 +13,20 @@ from __future__ import annotations
 
 import logging
 
+from ..models.assessment import (
+    AssessmentResult,
+    HealthRiskAssessment,
+    MuscularPotential,
+    RecommendedStrategy,
+)
 from ..models.profile import UserProfile
-from ..models.assessment import AssessmentResult, RecommendedStrategy, HealthRiskAssessment, MuscularPotential
-from .body_composition import assess_body_composition
-from .health_risk import assess_health_risk
-from .muscular_potential import assess_muscular_potential
-from .decision import decide_strategy
+
 # MEDICAL_DISCLAIMER sourced from _thresholds.py (single source of truth).
 from ._thresholds import MEDICAL_DISCLAIMER
+from .body_composition import assess_body_composition
+from .decision import decide_strategy
+from .health_risk import assess_health_risk
+from .muscular_potential import assess_muscular_potential
 
 _log = logging.getLogger(__name__)
 
@@ -46,7 +52,7 @@ def assess_profile(profile: UserProfile) -> AssessmentResult:
         errors.append(f"body_composition: {type(e).__name__}: {e}")
         # Minimal placeholder so downstream can continue.
         # use classify_bmi() (pure, won't raise) for the BMI category fallback.
-        from ..models.assessment import BodyComposition, BodyFatMethod, BodyFatCategory
+        from ..models.assessment import BodyComposition, BodyFatCategory, BodyFatMethod
         from .body_composition import classify_bmi
         # use CUN_BAE to match the fallback path in compute_body_fat.
         # Use `is not None` instead of truthy check (idiom for Optional[float]).
