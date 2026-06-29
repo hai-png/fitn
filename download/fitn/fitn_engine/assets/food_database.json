@@ -1,0 +1,405 @@
+{
+  "whey": {
+    "slug": "whey",
+    "name": "Whey Protein Powder",
+    "category": "proteinAnimal",
+    "serving_g": 30,
+    "per_100g": {
+      "kcal": 400,
+      "protein_g": 80,
+      "carb_g": 10,
+      "fat_g": 6,
+      "fiber_g": 0
+    }
+  },
+  "greek_yogurt": {
+    "slug": "greek_yogurt",
+    "name": "Greek Yogurt (plain, nonfat)",
+    "category": "dairy",
+    "serving_g": 170,
+    "per_100g": {
+      "kcal": 60,
+      "protein_g": 10,
+      "carb_g": 4,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  "egg_white": {
+    "slug": "egg_white",
+    "name": "Egg Whites",
+    "category": "proteinAnimal",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 52,
+      "protein_g": 11,
+      "carb_g": 1,
+      "fat_g": 0,
+      "fiber_g": 0
+    }
+  },
+  "cottage_cheese": {
+    "slug": "cottage_cheese",
+    "name": "Cottage Cheese (lowfat)",
+    "category": "dairy",
+    "serving_g": 226,
+    "per_100g": {
+      "kcal": 90,
+      "protein_g": 12,
+      "carb_g": 6,
+      "fat_g": 2,
+      "fiber_g": 0
+    }
+  },
+  "chicken_breast": {
+    "slug": "chicken_breast",
+    "name": "Chicken Breast (cooked)",
+    "category": "proteinAnimal",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 165,
+      "protein_g": 31,
+      "carb_g": 0,
+      "fat_g": 3.6,
+      "fiber_g": 0
+    }
+  },
+  "milk": {
+    "slug": "milk",
+    "name": "Milk (2%)",
+    "category": "dairy",
+    "serving_g": 240,
+    "per_100g": {
+      "kcal": 122,
+      "protein_g": 8,
+      "carb_g": 12,
+      "fat_g": 5,
+      "fiber_g": 0
+    }
+  },
+  "cheddar": {
+    "slug": "cheddar",
+    "name": "Cheddar Cheese",
+    "category": "dairy",
+    "serving_g": 30,
+    "per_100g": {
+      "kcal": 121,
+      "protein_g": 7,
+      "carb_g": 0,
+      "fat_g": 10,
+      "fiber_g": 0
+    }
+  },
+  "tofu": {
+    "slug": "tofu",
+    "name": "Tofu (firm)",
+    "category": "proteinPlant",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 144,
+      "protein_g": 17,
+      "carb_g": 3,
+      "fat_g": 9,
+      "fiber_g": 2
+    }
+  },
+  "tempeh": {
+    "slug": "tempeh",
+    "name": "Tempeh",
+    "category": "proteinPlant",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 192,
+      "protein_g": 20,
+      "carb_g": 8,
+      "fat_g": 11,
+      "fiber_g": 0
+    }
+  },
+  "pea_protein": {
+    "slug": "pea_protein",
+    "name": "Pea Protein Powder",
+    "category": "proteinPlant",
+    "serving_g": 30,
+    "per_100g": {
+      "kcal": 420,
+      "protein_g": 80,
+      "carb_g": 8,
+      "fat_g": 7,
+      "fiber_g": 0
+    }
+  },
+  "soy_protein": {
+    "slug": "soy_protein",
+    "name": "Soy Protein Isolate",
+    "category": "proteinPlant",
+    "serving_g": 30,
+    "per_100g": {
+      "kcal": 410,
+      "protein_g": 90,
+      "carb_g": 0,
+      "fat_g": 4,
+      "fiber_g": 0
+    }
+  },
+  "lentils": {
+    "slug": "lentils",
+    "name": "Lentils (cooked)",
+    "category": "proteinPlant",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 116,
+      "protein_g": 9,
+      "carb_g": 20,
+      "fat_g": 0.4,
+      "fiber_g": 8
+    }
+  },
+  "white_rice": {
+    "slug": "white_rice",
+    "name": "White Rice (cooked)",
+    "category": "carbGrain",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 130,
+      "protein_g": 2.7,
+      "carb_g": 28,
+      "fat_g": 0.3,
+      "fiber_g": 0.4
+    }
+  },
+  "brown_rice": {
+    "slug": "brown_rice",
+    "name": "Brown Rice (cooked)",
+    "category": "carbGrain",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 123,
+      "protein_g": 2.7,
+      "carb_g": 26,
+      "fat_g": 1,
+      "fiber_g": 1.8
+    }
+  },
+  "oats": {
+    "slug": "oats",
+    "name": "Rolled Oats (dry)",
+    "category": "carbGrain",
+    "serving_g": 40,
+    "per_100g": {
+      "kcal": 389,
+      "protein_g": 17,
+      "carb_g": 66,
+      "fat_g": 7,
+      "fiber_g": 10
+    }
+  },
+  "banana": {
+    "slug": "banana",
+    "name": "Banana",
+    "category": "carbFruit",
+    "serving_g": 118,
+    "per_100g": {
+      "kcal": 89,
+      "protein_g": 1.1,
+      "carb_g": 23,
+      "fat_g": 0.3,
+      "fiber_g": 2.6
+    }
+  },
+  "whole_wheat_bread": {
+    "slug": "whole_wheat_bread",
+    "name": "Whole Wheat Bread",
+    "category": "carbGrain",
+    "serving_g": 28,
+    "per_100g": {
+      "kcal": 247,
+      "protein_g": 13,
+      "carb_g": 41,
+      "fat_g": 4.2,
+      "fiber_g": 7
+    }
+  },
+  "quinoa": {
+    "slug": "quinoa",
+    "name": "Quinoa (cooked)",
+    "category": "carbGrain",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 120,
+      "protein_g": 4.4,
+      "carb_g": 21,
+      "fat_g": 1.9,
+      "fiber_g": 2.8
+    }
+  },
+  "sweet_potato": {
+    "slug": "sweet_potato",
+    "name": "Sweet Potato (baked)",
+    "category": "carbStarchyVeg",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 90,
+      "protein_g": 2,
+      "carb_g": 21,
+      "fat_g": 0.1,
+      "fiber_g": 3.3
+    }
+  },
+  "olive_oil": {
+    "slug": "olive_oil",
+    "name": "Olive Oil",
+    "category": "fatOil",
+    "serving_g": 14,
+    "per_100g": {
+      "kcal": 884,
+      "protein_g": 0,
+      "carb_g": 0,
+      "fat_g": 100,
+      "fiber_g": 0
+    }
+  },
+  "almonds": {
+    "slug": "almonds",
+    "name": "Almonds",
+    "category": "fatNutSeed",
+    "serving_g": 28,
+    "per_100g": {
+      "kcal": 579,
+      "protein_g": 21,
+      "carb_g": 22,
+      "fat_g": 50,
+      "fiber_g": 12
+    }
+  },
+  "peanut_butter": {
+    "slug": "peanut_butter",
+    "name": "Peanut Butter",
+    "category": "fatNutSeed",
+    "serving_g": 32,
+    "per_100g": {
+      "kcal": 588,
+      "protein_g": 25,
+      "carb_g": 20,
+      "fat_g": 50,
+      "fiber_g": 6
+    }
+  },
+  "walnuts": {
+    "slug": "walnuts",
+    "name": "Walnuts",
+    "category": "fatNutSeed",
+    "serving_g": 28,
+    "per_100g": {
+      "kcal": 654,
+      "protein_g": 15,
+      "carb_g": 14,
+      "fat_g": 65,
+      "fiber_g": 6.7
+    }
+  },
+  "avocado": {
+    "slug": "avocado",
+    "name": "Avocado",
+    "category": "fatOil",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 160,
+      "protein_g": 2,
+      "carb_g": 9,
+      "fat_g": 15,
+      "fiber_g": 7
+    }
+  },
+  "broccoli": {
+    "slug": "broccoli",
+    "name": "Broccoli (steamed)",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 35,
+      "protein_g": 2.4,
+      "carb_g": 7,
+      "fat_g": 0.4,
+      "fiber_g": 3.3
+    }
+  },
+  "spinach": {
+    "slug": "spinach",
+    "name": "Spinach (cooked)",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 23,
+      "protein_g": 3,
+      "carb_g": 4,
+      "fat_g": 0.3,
+      "fiber_g": 2.4
+    }
+  },
+  "mixed_greens": {
+    "slug": "mixed_greens",
+    "name": "Mixed Greens",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 20,
+      "protein_g": 2,
+      "carb_g": 3,
+      "fat_g": 0.3,
+      "fiber_g": 2
+    }
+  },
+  "bell_pepper": {
+    "slug": "bell_pepper",
+    "name": "Bell Pepper",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 31,
+      "protein_g": 1,
+      "carb_g": 6,
+      "fat_g": 0.3,
+      "fiber_g": 2.1
+    }
+  },
+  "asparagus": {
+    "slug": "asparagus",
+    "name": "Asparagus",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 20,
+      "protein_g": 2.2,
+      "carb_g": 3.9,
+      "fat_g": 0.1,
+      "fiber_g": 2.1
+    }
+  },
+  "green_beans": {
+    "slug": "green_beans",
+    "name": "Green Beans",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 35,
+      "protein_g": 1.8,
+      "carb_g": 7,
+      "fat_g": 0.5,
+      "fiber_g": 3.4
+    }
+  },
+  "carrots": {
+    "slug": "carrots",
+    "name": "Carrots",
+    "category": "vegetable",
+    "serving_g": 100,
+    "per_100g": {
+      "kcal": 41,
+      "protein_g": 0.9,
+      "carb_g": 10,
+      "fat_g": 0.2,
+      "fiber_g": 2.8
+    }
+  }
+}

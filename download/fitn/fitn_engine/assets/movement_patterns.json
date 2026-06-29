@@ -1,0 +1,1086 @@
+{
+  "horizontal_push": {
+    "family": "push",
+    "primary_muscles": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "detection_keywords": [
+      "bench",
+      "press",
+      "push-up",
+      "pushup",
+      "dip"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "cable",
+        "bodyweight",
+        "kettlebell"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "bodyweight",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "incline_push": {
+    "family": "push",
+    "primary_muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "detection_keywords": [
+      "incline",
+      "upper-chest"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "cable"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "decline_push": {
+    "family": "push",
+    "primary_muscles": [
+      "chest",
+      "triceps"
+    ],
+    "detection_keywords": [
+      "decline"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "vertical_push": {
+    "family": "push",
+    "primary_muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "detection_keywords": [
+      "overhead-press",
+      "military-press",
+      "shoulder-press",
+      "push-press",
+      "arnold-press"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "kettlebell",
+        "cable"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "lateral_raise": {
+    "family": "push",
+    "primary_muscles": [
+      "shoulders",
+      "side_delts"
+    ],
+    "detection_keywords": [
+      "lateral-raise",
+      "side-raise",
+      "lateral-fly"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "dumbbell",
+        "cable",
+        "machine"
+      ],
+      "home_gym": [
+        "dumbbell",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "chest_fly": {
+    "family": "push",
+    "primary_muscles": [
+      "chest"
+    ],
+    "detection_keywords": [
+      "fly",
+      "pec-dec",
+      "cable-crossover"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "dumbbell",
+        "cable",
+        "machine"
+      ],
+      "home_gym": [
+        "dumbbell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "horizontal_pull": {
+    "family": "pull",
+    "primary_muscles": [
+      "back",
+      "lats",
+      "biceps",
+      "rear_delts"
+    ],
+    "detection_keywords": [
+      "row",
+      "seated-row",
+      "pendlay",
+      "t-bar"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "cable",
+        "machine",
+        "kettlebell"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "vertical_pull": {
+    "family": "pull",
+    "primary_muscles": [
+      "back",
+      "lats",
+      "biceps"
+    ],
+    "detection_keywords": [
+      "pull-up",
+      "pulldown",
+      "chin-up"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "cable",
+        "machine"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "rear_delt": {
+    "family": "pull",
+    "primary_muscles": [
+      "rear_delts",
+      "upper_back"
+    ],
+    "detection_keywords": [
+      "rear-delt",
+      "face-pull",
+      "reverse-fly"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "dumbbell",
+        "cable",
+        "machine"
+      ],
+      "home_gym": [
+        "dumbbell",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "shrug": {
+    "family": "pull",
+    "primary_muscles": [
+      "traps"
+    ],
+    "detection_keywords": [
+      "shrug",
+      "trap"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "cable"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "squat": {
+    "family": "lower",
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "detection_keywords": [
+      "squat",
+      "hack-squat",
+      "goblet-squat",
+      "front-squat",
+      "leg-press"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "kettlebell",
+        "bodyweight",
+        "safety_bar",
+        "trap_bar"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "bodyweight",
+        "trap_bar"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "hip_hinge": {
+    "family": "lower",
+    "primary_muscles": [
+      "hamstrings",
+      "glutes",
+      "lower_back"
+    ],
+    "detection_keywords": [
+      "deadlift",
+      "rdl",
+      "romanian",
+      "good-morning",
+      "hip-hinge"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "trap_bar",
+        "machine"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "trap_bar"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "lunge": {
+    "family": "lower",
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "hamstrings"
+    ],
+    "detection_keywords": [
+      "lunge",
+      "split-squat",
+      "step-up",
+      "bulgarian"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "hip_thrust": {
+    "family": "lower",
+    "primary_muscles": [
+      "glutes",
+      "hamstrings"
+    ],
+    "detection_keywords": [
+      "hip-thrust",
+      "glute-bridge"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "knee_extension": {
+    "family": "lower",
+    "primary_muscles": [
+      "quads"
+    ],
+    "detection_keywords": [
+      "leg-extension",
+      "knee-extension"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "machine",
+        "cable",
+        "bands"
+      ],
+      "home_gym": [
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bands"
+      ]
+    }
+  },
+  "knee_flexion": {
+    "family": "lower",
+    "primary_muscles": [
+      "hamstrings"
+    ],
+    "detection_keywords": [
+      "leg-curl",
+      "hamstring-curl",
+      "knee-flexion"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "machine",
+        "cable",
+        "dumbbell"
+      ],
+      "home_gym": [
+        "dumbbell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "ankle_plantarflexion": {
+    "family": "lower",
+    "primary_muscles": [
+      "calves"
+    ],
+    "detection_keywords": [
+      "calf-raise",
+      "plantarflexion",
+      "seated-calf"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "machine",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "glute_isolation": {
+    "family": "lower",
+    "primary_muscles": [
+      "glutes"
+    ],
+    "detection_keywords": [
+      "kickback",
+      "abduction",
+      "glute-isolation"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "cable",
+        "machine",
+        "dumbbell",
+        "bands"
+      ],
+      "home_gym": [
+        "dumbbell",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "elbow_flexion": {
+    "family": "arms",
+    "primary_muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "detection_keywords": [
+      "curl",
+      "preacher",
+      "concentration",
+      "hammer-curl"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "cable",
+        "machine",
+        "ez_bar"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "ez_bar"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "elbow_extension": {
+    "family": "arms",
+    "primary_muscles": [
+      "triceps"
+    ],
+    "detection_keywords": [
+      "extension",
+      "pushdown",
+      "skull-crusher",
+      "kickback",
+      "french-press"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "cable",
+        "machine",
+        "ez_bar"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "ez_bar"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "front_raise": {
+    "family": "shoulders",
+    "primary_muscles": [
+      "shoulders"
+    ],
+    "detection_keywords": [
+      "front-raise"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "dumbbell",
+        "barbell",
+        "cable",
+        "kettlebell"
+      ],
+      "home_gym": [
+        "dumbbell",
+        "barbell",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "core_anti_extension": {
+    "family": "core",
+    "primary_muscles": [
+      "abs"
+    ],
+    "detection_keywords": [
+      "plank",
+      "ab-wheel",
+      "rollout",
+      "hanging-leg-raise"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "cable",
+        "machine",
+        "kettlebell"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "core_anti_rotation": {
+    "family": "core",
+    "primary_muscles": [
+      "obliques",
+      "abs"
+    ],
+    "detection_keywords": [
+      "pallof",
+      "anti-rotation",
+      "wood-chop",
+      "russian-twist"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "cable",
+        "band",
+        "dumbbell",
+        "kettlebell"
+      ],
+      "home_gym": [
+        "dumbbell",
+        "kettlebell",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "core_flexion": {
+    "family": "core",
+    "primary_muscles": [
+      "abs"
+    ],
+    "detection_keywords": [
+      "crunch",
+      "sit-up",
+      "leg-raise",
+      "v-up"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "cable",
+        "machine"
+      ],
+      "home_gym": [
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "core_rotation": {
+    "family": "core",
+    "primary_muscles": [
+      "obliques"
+    ],
+    "detection_keywords": [
+      "russian-twist",
+      "bicycle",
+      "rotation",
+      "cable-rotation"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "cable",
+        "dumbbell",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "home_gym": [
+        "dumbbell",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "mobility_hip": {
+    "family": "mobility",
+    "primary_muscles": [
+      "glutes",
+      "hip_flexors"
+    ],
+    "detection_keywords": [
+      "hip-mobility",
+      "lunge-mobility",
+      "spider"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "bands",
+        "foam_roll"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "mobility_thoracic": {
+    "family": "mobility",
+    "primary_muscles": [
+      "upper_back",
+      "lower_back"
+    ],
+    "detection_keywords": [
+      "thoracic",
+      "cat-cow",
+      "thread-the-needle"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "foam_roll"
+      ],
+      "home_gym": [
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "mobility_ankle": {
+    "family": "mobility",
+    "primary_muscles": [
+      "calves"
+    ],
+    "detection_keywords": [
+      "ankle-mobility",
+      "ankle-circle"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "bands"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "foam_roll": {
+    "family": "mobility",
+    "primary_muscles": [
+      "quads",
+      "hamstrings",
+      "lats"
+    ],
+    "detection_keywords": [
+      "foam-roll",
+      "smr",
+      "self-myofascial"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "foam_roll",
+        "tiger_tail",
+        "lacrosse_ball"
+      ],
+      "home_gym": [
+        "foam_roll"
+      ],
+      "bodyweight_only": []
+    }
+  },
+  "cardio_steady": {
+    "family": "cardio",
+    "primary_muscles": [],
+    "detection_keywords": [
+      "run",
+      "walk",
+      "cycle",
+      "row",
+      "elliptical",
+      "swim"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "machine",
+        "jump_rope"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "jump_rope",
+        "kettlebell"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "jump_rope"
+      ]
+    }
+  },
+  "cardio_hiit": {
+    "family": "cardio",
+    "primary_muscles": [
+      "quads",
+      "hamstrings",
+      "glutes",
+      "calves"
+    ],
+    "detection_keywords": [
+      "sprint",
+      "burpee",
+      "mountain-climber",
+      "jumping-jack",
+      "hiit"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "kettlebell",
+        "jump_rope"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "kettlebell",
+        "jump_rope"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "jump_rope",
+        "bands"
+      ]
+    }
+  },
+  "plyometric": {
+    "family": "cardio",
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "calves"
+    ],
+    "detection_keywords": [
+      "box-jump",
+      "jump-squat",
+      "depth-jump",
+      "plyo"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "box"
+      ],
+      "home_gym": [
+        "bodyweight",
+        "box"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "carry": {
+    "family": "lower",
+    "primary_muscles": [
+      "core",
+      "traps",
+      "forearms",
+      "glutes"
+    ],
+    "detection_keywords": [
+      "farmer-walk",
+      "suitcase-carry",
+      "carry",
+      "rack-carry"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "trap_bar"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "kettlebell",
+        "trap_bar"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "sprint": {
+    "family": "cardio",
+    "primary_muscles": [
+      "hamstrings",
+      "glutes",
+      "calves"
+    ],
+    "detection_keywords": [
+      "sprint"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight"
+      ],
+      "home_gym": [
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "row_cardio": {
+    "family": "cardio",
+    "primary_muscles": [
+      "back",
+      "lats",
+      "biceps"
+    ],
+    "detection_keywords": [
+      "rowing",
+      "erg"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "machine"
+      ],
+      "home_gym": [],
+      "bodyweight_only": []
+    }
+  },
+  "forearm_flexion": {
+    "family": "arms",
+    "primary_muscles": [
+      "forearms"
+    ],
+    "detection_keywords": [
+      "wrist-curl",
+      "reverse-curl",
+      "farmer-hold"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "barbell",
+        "dumbbell",
+        "ez_bar"
+      ],
+      "home_gym": [
+        "barbell",
+        "dumbbell",
+        "ez_bar"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "neck": {
+    "family": "shoulders",
+    "primary_muscles": [
+      "traps"
+    ],
+    "detection_keywords": [
+      "neck-flexion",
+      "neck-extension",
+      "neck-bridge"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "bodyweight",
+        "machine"
+      ],
+      "home_gym": [
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight"
+      ]
+    }
+  },
+  "adduction": {
+    "family": "lower",
+    "primary_muscles": [
+      "adductors"
+    ],
+    "detection_keywords": [
+      "adduction",
+      "adductor",
+      "copenhagen"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "machine",
+        "cable",
+        "bodyweight"
+      ],
+      "home_gym": [
+        "bodyweight"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  },
+  "abduction": {
+    "family": "lower",
+    "primary_muscles": [
+      "abductors",
+      "glutes"
+    ],
+    "detection_keywords": [
+      "abduction",
+      "abductor",
+      "banded-walk"
+    ],
+    "env_preference": {
+      "full_gym": [
+        "machine",
+        "cable",
+        "bands"
+      ],
+      "home_gym": [
+        "bands"
+      ],
+      "bodyweight_only": [
+        "bodyweight",
+        "bands"
+      ]
+    }
+  }
+}

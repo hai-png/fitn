@@ -1,0 +1,567 @@
+## 4. Engine (`fitn_engine` package)
+
+Pure Dart. No Flutter. No I/O. JSON data files loaded from `assets/` at construction.
+
+**Public API:**
+
+```dart
+// fitn_engine/lib/fitn_engine.dart
+
+class FitnEngine {
+  FitnEngine({required EngineData data});  // data loaded by caller
+
+  AssessmentResult assessProfile(UserProfile profile);
+  FitnessPlan proposePlan(UserProfile profile, AssessmentResult assessment, PlanPreferences prefs);
+  GeneratePlanResponse generatePlan(UserProfile profile, PlanPreferences prefs);  // convenience: assess + propose
+}
+
+class EngineData {
+  final List<Exercise> exercises;        // 1,217
+  final List<SplitDesign> splits;        // 8
+  final Map<String, MovementPatternSpec> movementPatterns;  // 40
+  final List<Recipe> recipes;            // ~400 (curated + uncurated + pre/post)
+  final Map<String, FoodItem> foodDatabase;
+}
+
+// Loads from rootBundle (Flutter) or File (CLI/test)
+Future<EngineData> loadEngineData({String? basePath});
+```
+
+### 4.1 Domain models (Dart `freezed`)
+
+All field names use `camelCase` in Dart, `snake_case` on the wire (via `@JsonKey`).
+
+#### 4.1.1 Enums
+
+```dart
+enum Sex { male, female }
+
+enum ActivityLevel { sedentary, mostlySedentary, lightlyActive, active, highlyActive }
+
+enum TrainingStatus { beginner, novice, intermediate, advanced }
+
+enum PrimaryGoal { fatLoss, muscleGain, recomp, maintenance, strength }
+
+enum EquipmentAccess { fullGym, homeGym, bodyweightOnly }
+
+enum DietType { omnivore, vegetarian, vegan }  // keto/paleo unsupported by engine
+
+enum CutRateTier { veryConservative, conservative, moderate, aggressive, veryAggressive }
+
+enum BulkAggressiveness { conservative, happyMedium, aggressive, veryAggressive }
+
+enum TrainingTimeOfDay { morning, midday, evening }
+
+enum ExerciseIntensity { light, moderate, intense }
+
+enum Climate { cold, temperate, hot, hotHumid }
+
+// Assessment
+enum BodyFatMethod { userProvided, navy, cunBae }
+enum BodyFatCategory { essential, athlete, fitness, acceptable, obesity }
+enum BMICategory { underweight, normal, overweight, obese }
+enum HealthRiskLevel { low, moderate, high, veryHigh }
+enum ABSIRiskLevel { low, belowAverage, average, aboveAverage, high }
+enum RecommendedStrategy { cut, bulk, recomp, maintenance, habitChangeFirst, reverseDiet }
+
+// Nutrition
+enum RMRFormula { mifflinStJeor, harrisBenedictOriginal, harrisBenedictRevised, cunningham, katchMcArdle }
+enum CalorieStrategy { deficit, surplus, maintenance, recomp, reverseDiet }
+
+// Training
+enum TrainingGoal { strength, hypertrophy, generalFitness, fatLoss, muscleGain, recomp, maintenance }
+enum SplitType { fullBody, upperLower, ppl, pplX2, pushPullLegsUpperLower, bodyPart, pushPull }
+enum ProgressionScheme { linear, dup, block }
+enum ExerciseCategory { compoundPrimary, compoundSecondary, accessory, cardio, mobility }
+enum ExperienceLevel { beginner, intermediate, advanced }  // lowercase in Dart; capitalize on display
+
+// Meal
+enum MealType { breakfast, lunch, dinner, snack, side, preWorkout, postWorkout }
+enum RecipeDietTag { omni, vegan, veganEthiopian, vegetarian, omniEthiopian }
+enum FoodCategory { proteinAnimal, proteinPlant, dairy, carbGrain, carbStarchyVeg, carbFruit, fatOil, fatNutSeed, vegetable, beverage }
+```
+
+#### 4.1.2 Inputs
+
+```dart
+@freezed
+class UserProfile with _$UserProfile {
+  const factory UserProfile({
+    required int age,                    // 18–100
+    required Sex sex,
+    required double heightCm,            // 140–230
+    required double weightKg,            // 35–300
+    required ActivityLevel activityLevel,
+    required TrainingStatus trainingStatus,
+    required PrimaryGoal primaryGoal,
+    required int trainingDaysPerWeek,    // 2–6
+    required EquipmentAccess equipmentAccess,
+    @Default(DietType.omnivore) DietType dietType,
+    double? bodyFatPct,                  // 2–60, null = unknown
+    double? neckCm,                      // 20–80
+    double? waistCm,                     // 40–200
+    double? hipCm,                       // 40–200 (required for female Navy BF)
+    CutRateTier? cutRateTier,
+    BulkAggressiveness? bulkAggressiveness,
+    @Default(TrainingTimeOfDay.evening) TrainingTimeOfDay trainingTimeOfDay,
+    @Default([]) List<double> weightLogKg,       // each 30–300, max 365
+    @Default([]) List<double> intakeLogKcal,     // each 0–10000, max 365
+  }) = _UserProfile;
+
+  const UserProfile._();
+
+  double get bmi => weightKg / (heightCm / 100 * heightCm / 100);
+  double get heightM => heightCm / 100;
+  double get heightIn => heightCm / 2.54;
+  double get weightLb => weightKg * 2.2046226218;
+  bool get hasCircumferenceMeasurements => switch (sex) {
+    Sex.male   => neckCm != null && waistCm != null,
+    Sex.female => neckCm != null && waistCm != null && hipCm != null,
+  };
+}
+
+@freezed
+class PlanPreferences with _$PlanPreferences {
+  const factory PlanPreferences({
+    @Default(1.0) double exerciseHoursPerDay,    // 0.25–4
+    @Default(ExerciseIntensity.moderate) ExerciseIntensity exerciseIntensity,
+    @Default(Climate.temperate) Climate climate,
+    @Default(0.0) double weightReducedPct,       // 0.0–1.0
+    List<String>? muscleFocus,                    // e.g. ["chest", "back", "shoulders", "arms", "legs", "glutes", "core", "calves"]
+    int? programDurationWeeks,                    // 4–52
+    @Default(3) int mealFrequency,                // 2–6
+    String? cuisinePreference,                    // e.g. "ethiopian", "italian", "american"
+    List<String>? allergensToAvoid,               // ["dairy", "gluten", "eggs", "soy", "peanuts", "tree_nuts", "shellfish", "fish", "sesame", "corn"]
+    List<String>? excludedIngredients,
+    @Default(false) bool includePrePostWorkout,
+  }) = _PlanPreferences;
+}
+```
+
+**Construction-time validation** throws `ArgumentError` with a clear message on:
+- Range violations (age, height, weight, training_days, body_fat_pct, log entries)
+- Mismatched log lengths (`weightLogKg.length != intakeLogKcal.length` when both non-empty)
+
+#### 4.1.3 Outputs
+
+The full output tree (`AssessmentResult`, `BodyComposition`, `HealthRiskAssessment`, `MuscularPotential`, `NutritionPlan`, `RMRResult`, `TDEEResult`, `CalorieTargets`, `MacroSplit`, `HydrationTarget`, `MicronutrientTargets`, `TrainingPlan`, `Mesocycle`, `Microcycle`, `Workout`, `WorkoutExercise`, `Exercise`, `MealPlan`, `DayPlan`, `Meal`, `Recipe`, `MealFood`, `FoodItem`, `FitnessPlan`) is defined in §9.1 (Output model reference).
+
+### 4.2 Assessment sub-engine
+
+Orchestration (`assessProfile`) runs 4 sub-assessments in order, **never short-circuiting on failure**:
+
+1. `assessBodyComposition(profile)` — root of the dependency tree.
+2. `assessHealthRisk(profile)` — independent of body comp.
+3. `assessMuscularPotential(profile, bodyComp.bodyFatPct)` — **skipped** if `bodyComp == null`.
+4. `decideStrategy(profile, bodyComp.bodyFatPct)` — **skipped** if `bodyComp == null`, defaults to `maintenance`.
+
+If any sub-assessment throws, record `"sub_name: ArgumentError: <msg>"` in `errors` and set the sub-result to null. `is_partial = errors.isNotEmpty`. The summary string is built defensively (every nullable field guarded).
+
+`proposePlan()` throws `PartialAssessmentError` if called with `is_partial == true`.
+
+#### 4.2.1 Body fat % selection (priority order)
+
+1. **User-provided** (`bodyFatPct != null`) → use as-is.
+2. **US Navy circumference** (Hodgdon & Beckett 1984) — if `hasCircumferenceMeasurements`:
+   - Male: `86.010 × log10(waistIn − neckIn) − 70.041 × log10(heightIn) + 36.76`
+   - Female: `163.205 × log10(waistIn + hipIn − neckIn) − 97.684 × log10(heightIn) − 78.387`
+   - If `(waistIn − neckIn) ≤ 0` (male) or `(waistIn + hipIn − neckIn) ≤ 0` (female), return null → fall through to CUN-BAE.
+   - Clamp to `[2.0, 60.0]`.
+3. **CUN-BAE** (always computable):
+   - `bf = -24.988 + 0.503 × age + 1.0689 × bmi + 0.462 × (sex == female ? 1.0 : 0.0)`
+   - Clamp to `[2.0, 60.0]`.
+
+#### 4.2.2 BMI categories
+
+| Category     | BMI range            |
+| ------------ | -------------------- |
+| UNDERWEIGHT  | `[0, 18.5)`          |
+| NORMAL       | `[18.5, 25.0)`       |
+| OVERWEIGHT   | `[25.0, 30.0)`       |
+| OBESE        | `[30.0, +∞)`         |
+
+#### 4.2.3 Body fat categories (sex-specific)
+
+| Category     | Male BF%       | Female BF%      |
+| ------------ | -------------- | --------------- |
+| ESSENTIAL    | `[0, 6)`       | `[0, 14)`       |
+| ATHLETE      | `[6, 14)`      | `[14, 21)`      |
+| FITNESS      | `[14, 18)`     | `[21, 25)`      |
+| ACCEPTABLE   | `[18, 25)`     | `[25, 32)`      |
+| OBESITY      | `[25, +∞)`     | `[32, +∞)`      |
+
+#### 4.2.4 FFMI (Kouri 1995)
+
+- `ffmKg = weightKg × (1 − bfPct/100)`
+- `ffmi = ffmKg / heightM²`
+- `normalizedFfmi = ffmi + 6.1 × (1.8 − heightM)`
+
+**Ceiling constants:** `FFMI_NATURAL_COMMON = 25.0`, `ATTAINABLE = 27.3`, `LIKELY_MAX = 28.0`. Normalization coefficient `6.1`, reference height `1.8 m`.
+
+**Named target BF% landmarks** (for `targetWeightsKg` map):
+
+| Label            | Male | Female |
+| ---------------- | ---- | ------ |
+| athletic         | 14.0 | 21.0   |
+| fitness          | 18.0 | 25.0   |
+| acceptable       | 25.0 | 32.0   |
+| hormonal_floor   | 10.0 | 18.0   |
+
+`targetWeight = lbm / (1 − targetBf/100)` where `lbm = currentWeight × (1 − currentBf/100)`.
+
+#### 4.2.5 Health risk
+
+| Metric | Formula | Classification |
+| ------ | ------- | -------------- |
+| **WHR** | `waist / hip` | Male: ≤0.85 LOW, ≤0.90 MOD, ≤1.0 HIGH, >1.0 VERY_HIGH. Female: ≤0.80 LOW, ≤0.85 MOD, ≤1.0 HIGH, >1.0 VERY_HIGH. |
+| **WHtR** | `waist / height` | Male: <0.50 LOW, <0.53 MOD, <0.58 HIGH, ≥0.58 VERY_HIGH. Female: <0.46 LOW, <0.49 MOD, <0.54 HIGH, ≥0.54 VERY_HIGH. |
+| **ABSI** | `(waist_m) × weight^(-2/3) × height^(5/6)` | Z-score from NHANES 10-year age bands (see §9.3). |
+| **IBW** | `base + mult × (heightIn − 60)` | 4 formulas: Devine (50/2.3 M, 45.5/2.3 F), Robinson (52/1.9, 49/1.7), Miller (56.2/1.41, 53.1/1.36), Hamwi (48/2.7, 45.4/2.2). |
+
+**Overall risk** (weighted heuristic): ABSI weight 0.5, WHR 0.3, WHtR 0.2. Add weight when the metric is HIGH/VERY_HIGH (ABSI: ABOVE_AVERAGE/HIGH). Map: ≥0.75 → VERY_HIGH, ≥0.50 → HIGH, any clinical risk factor → MODERATE, else LOW.
+
+#### 4.2.6 Muscular potential
+
+- Use **normalized FFMI** for ceiling comparison.
+- `ffmiToCeilingPct = clamp(normalizedFfmi / 25.0 × 100, 0, 100)`.
+- `headroomKg = max(0, ffmAtCeiling − ffmKg)` where `ffmAtCeiling = (25.0 − 6.1 × (1.8 − heightM)) × heightM²`.
+- **Berkhan stage max** (men only): `heightCm − 100` at 5-6% BF. Null for women (essential BF floor is ~10-13%, not 5-6%).
+- **Expected monthly muscle gain** (Lyle McDonald, men; × 0.5 for women):
+
+| Status        | Monthly gain (men) |
+| ------------- | ------------------ |
+| BEGINNER      | 0.85 kg            |
+| NOVICE        | 0.575 kg           |
+| INTERMEDIATE  | 0.325 kg           |
+| ADVANCED      | 0.10 kg            |
+
+#### 4.2.7 Strategy decision tree
+
+**Sex-specific boundaries** (single source of truth):
+
+| Boundary           | Male | Female |
+| ------------------ | ---- | ------ |
+| cut_floor          | 10   | 18     |
+| bulk_ceiling       | 20   | 28     |
+| bulk_start         | 15   | 23     |
+| operational_lo     | 10   | 18     |
+| operational_hi     | 20   | 28     |
+| obese_threshold    | 25   | 32     |
+| recomp_excellent   | 23   | 30     |
+| recomp_good_lo     | 15   | 25     |
+| recomp_limited     | 15   | 25     |
+| skinny_fat_lo      | 12   | 20     |
+| skinny_fat_hi      | 23   | 31     |
+
+**Algorithm (first match wins):**
+
+1. **Safety override (obesity):** `bfPct >= obese_threshold`:
+   - BEGINNER + goal != fat_loss → `habitChangeFirst` ("start with habit changes before calorie counting")
+   - Else → `cut` ("prioritise fat loss")
+2. **Goal = maintenance:**
+   - If `bfPct < hormonal_floor` → warn about bulk.
+   - If `bfPct > operational_hi` → warn about cut.
+   - **Reverse-diet detection:** if `intakeLogKcal.length >= 30` AND `operational_lo <= bfPct <= operational_hi`:
+     - Trailing 7-day avg intake vs estimated TDEE (compute via RMR+TDEE pipeline; fallback `weightKg × 35`).
+     - If `recentIntake < tdee × 0.90` → `reverseDiet`.
+   - Else → `maintenance`.
+3. **Goal = strength:** if `bfPct > bulk_ceiling` → `cut`; else `maintenance`.
+4. **Goal = fat_loss:** if `bfPct < cut_floor` → `maintenance` (protect hormones); else `cut`.
+5. **Goal = muscle_gain:** if `bfPct > bulk_ceiling` → `cut`; else `bulk`.
+6. **Goal = recomp:** `bfPct >= recomp_excellent` → `recomp` (excellent); `>= recomp_good_lo` → `recomp` (good); else `bulk` (limited).
+7. **Auto-decide (no explicit goal override — fallback path):**
+   - `bfPct > operational_hi` → `cut`
+   - `bfPct < cut_floor` → `bulk`
+   - Novice + skinny-fat range → `recomp`
+   - Novice + `bfPct < bulk_start` → `recomp` (milk newbie gains)
+   - `bfPct < bulk_start` → `bulk`
+   - Else → `cut`
+
+### 4.3 Nutrition sub-engine
+
+`buildNutritionPlan(profile, assessment, exerciseHours, exerciseIntensity, climate, weightReducedPct)`:
+
+1. **RMR** — `KATCH_MCARDLE` if `bodyFatPct != null`, else `MIFFLIN_ST_JEOR`.
+   - Mifflin: `10 × weight + 6.25 × height − 5 × age + (male ? 5 : -161)`
+   - Katch-McArdle: `370 + 21.6 × lbm` (throws if `bfPct ∉ [2, 60]`)
+   - Adjustments: `× 0.95` if active deficit (cut/recomp), `× 0.97` if `weightReducedPct > 0.10`.
+2. **TDEE** — RippedBody activity factors (1.25 / 1.45 / 1.65 / 1.85 / 2.05 for sedentary / mostly_sedentary / lightly_active / active / highly_active).
+3. **Adaptive TDEE** — if `weightLogKg` and `intakeLogKcal` are both non-empty, equal-length, and ≥8 entries:
+   - `observed = avgIntake − (Δweight × 7700) / nDays`
+   - Sanity: `observed ∈ [800, 7000]`, else skip.
+   - Ramp weight: `w = clamp((nDays − 7) / 53, 0, 1)` — no adaptation below 7 days, full at 60+.
+   - `adaptive = w × observed + (1 − w) × tdee`.
+4. **Calorie targets** — by strategy, with floor 1200 (F) / 1500 (M):
+
+| Strategy           | Computation                                                                                       |
+| ------------------ | ------------------------------------------------------------------------------------------------- |
+| cut                | `weeklyLoss = weight × rate`; `dailyDeficit = weeklyLoss × 1100`; `target = tdee − dailyDeficit` |
+| bulk               | `monthlyGain = weight × rate`; `dailySurplus = monthlyGain × 330`; `target = tdee + dailySurplus` |
+| maintenance        | `target = tdee`                                                                                   |
+| recomp             | `target = tdee × (1 − deficitPct)` where deficitPct = 0.15/0.05/0.0 by recomp potential           |
+| reverse_diet       | Weekly ladder: `+50/+100/+150 kcal/wk` by aggressiveness, until target reached                    |
+| habit_change_first | Same as maintenance                                                                               |
+
+**Cut rate** (priority): explicit `cutRateTier` → BF%-threshold table → default 0.75% BW/week. Hard cap 1.0% BW/week.
+
+**Cut rate by BF% threshold** (first match):
+
+| Sex    | Thresholds (BF%) | Rate (% BW/week)   |
+| ------ | ---------------- | ------------------ |
+| Male   | [25, 20, 15]     | [1.00, 0.75, 0.50, 0.50] |
+| Female | [32, 28, 22]     | [1.00, 0.75, 0.50, 0.50] |
+
+**Bulk rate** (priority): explicit `bulkAggressiveness × trainingStatus` table → default by status (beginner 2%/mo, novice 1.5%/mo, intermediate 1%/mo, advanced 0.5%/mo).
+
+**Bulk weekly rate tiers** (% BW/week):
+
+| Aggressiveness     | Beginner/Novice | Intermediate | Advanced |
+| ------------------ | --------------- | ------------ | -------- |
+| conservative       | 0.0020          | 0.0015       | 0.0010   |
+| happyMedium        | 0.0050          | 0.00325      | 0.0015   |
+| aggressive         | 0.0080          | 0.00575      | 0.0035   |
+| veryAggressive     | 0.0100          | 0.00800      | 0.0060   |
+
+5. **Macros:**
+   - **Protein:**
+     - Obese override (`bfPct >= obese_threshold`): `1 g × heightCm`.
+     - BF% known: `lbm_lb × 1.14` (cut) or `× 1.0` (else).
+     - BF% unknown: `target_weight_lb × 1.0` (cut, target = 90% current) or `weight_lb × 0.73` (else).
+     - Diet boost: vegan ×1.20 (ceil), vegetarian ×1.10 (ceil).
+   - **Fat:** midpoint of strategy range (deficit/recomp: 15-25%; surplus/maintenance/reverse: 20-30%). Floor: `max(40, weight_lb × 0.25)`. Saturated ceiling: 10% of calories.
+   - **Carbs:** remainder = `targetKcal − proteinKcal − fatKcal`, clamped to ≥0.
+6. **Hydration** (multi-step FatCalc):
+   - Base: `weightKg × 0.030 L`
+   - Sex: +0.3 L (male)
+   - Exercise: `hours × sweatRate / 1000` (light 300, moderate 500, intense 800 mL/hr)
+   - Climate multiplier (cold 0.95, temperate 1.0, hot 1.3, hot_humid 1.4) applied to exercise component only
+   - Pregnancy +0.3 L, breastfeeding +0.7 L (throws if male)
+   - Soft ceiling 5.0 L (hyponatremia protection)
+7. **Micronutrients:** fiber = `14 g × targetKcal / 1000`. Fruit/veg cups: 2/2 (≤2000 kcal), 3/3 (≤3000), 4/4 (≤4000+).
+8. **Timeline:**
+   - Cut: `max(4, floor(kgToLose / weeklyRateKg) + 4)` where target BF = `operational_lo + 2`.
+   - Bulk: `max(12, floor((targetGainKg / monthlyRateKg) × 4.348) + 4)` where targetGain = 5% BW.
+   - Recomp: 12 weeks. Maintenance: 12. Habit-change: 8. Reverse-diet: parse from notes, default 8.
+
+### 4.4 Training sub-engine
+
+`buildTrainingPlan(profile, assessment, muscleFocus, programDurationWeeks)`:
+
+1. **Derive goal** from `(primaryGoal, recommendedStrategy)`:
+
+| primaryGoal | strategy                                        | → TrainingGoal      |
+| ----------- | ----------------------------------------------- | -------------------- |
+| strength    | maintenance / bulk / recomp                     | strength             |
+| (any)       | cut                                             | fatLoss              |
+| (any)       | bulk                                            | muscleGain           |
+| (any)       | recomp                                          | recomp               |
+| (any)       | maintenance                                     | maintenance          |
+| (any)       | habitChangeFirst                                | generalFitness       |
+| (any)       | reverseDiet (or unmapped)                       | hypertrophy (fallback) |
+
+2. **Pick split** from 8 designs (`split_designs.json`):
+   - Filter by `days_per_week` → by `experience` AND `goal` → by `experience` → by `goal` → all.
+   - Tie-break by experience preference order:
+     - BEGINNER: fullBody > upperLower > ppl
+     - NOVICE: fullBody > upperLower > ppl > pushPull
+     - INTERMEDIATE: upperLower > fullBody > ppl > pplul > pplX2
+     - ADVANCED: pplX2 > pplul > bodyPart > upperLower > fullBody
+3. **Pick progression:** BLOCK if (strength + intermediate/advanced); else LINEAR (beginner/novice), DUP (intermediate), BLOCK (advanced).
+4. **Apply muscle focus:** for each focus muscle, append 1-2 accessory slots to templates that already train that muscle.
+
+| Focus muscle | Added slots (category, sets, pattern)                                       |
+| ------------ | --------------------------------------------------------------------------- |
+| chest        | chest_fly accessory × 3; incline_push accessory × 3                         |
+| back         | seated_row accessory × 3; vertical_pull accessory × 3                       |
+| quads        | knee_extension accessory × 3; front_squat compound_secondary × 3            |
+| hamstrings   | knee_flexion accessory × 3; romanian_deadlift accessory × 3                 |
+| glutes       | hip_thrust compound_secondary × 3; glute_isolation accessory × 3            |
+| shoulders    | lateral_raise accessory × 4; rear_delt accessory × 3                        |
+| arms         | elbow_flexion accessory × 4; elbow_extension accessory × 4                  |
+| biceps       | elbow_flexion accessory × 4                                                 |
+| triceps      | elbow_extension accessory × 4                                               |
+| calves       | ankle_plantarflexion accessory × 5                                          |
+| abs          | core_anti_extension accessory × 3; core_anti_rotation accessory × 3         |
+
+5. **Build workouts from templates** — for each slot, run the **7-tier exercise selector**:
+   - Equipment filter (full_gym: 33 types, home_gym: 9, bodyweight_only: 2).
+   - Exclude CARDIO/MOBILITY categories; exclude plyometrics for beginners.
+   - Tier 1-7: progressively relax constraints (pattern → muscle → category), experience enforced or relaxed.
+   - Sort by: equipment preference rank → experience distance → view count → name.
+   - Movement pattern detection: keyword match (slug wins 100+length, name wins length) → force-type fallback → primary-muscle fallback.
+6. **Build mesocycles:**
+   - Mesocycle length: 4w (beginner/novice), 5w (intermediate), 6w (advanced).
+   - Program duration: 4/8/10/12w by experience (bumped to 12 if strength + intermediate/advanced). User override: 4-52w.
+   - `numMesocycles = max(1, floor(duration / mesoLength))`.
+   - Each mesocycle's last week is a deload (sets × 0.5, RPE − 1.5).
+   - BLOCK progression: assign phases across mesocycles — 1→[accumulation], 2→[accumulation, intensification], 3+→[accumulation, intensification, peak].
+7. **Apply periodization** (5 layers, in order):
+   - **Layer 1 — Goal preset** (base reps/rest/RPE by goal × exercise category).
+   - **Layer 2 — DUP day-type modifiers** (heavy/moderate/light, only if `dayType` set on template).
+   - **Layer 3 — Block phase modifiers** (accumulation/intensification/peak; for strength + compound_primary, use StrengthPhase specs).
+   - **Layer 4 — Deload** (sets × 0.5, RPE − 1.5).
+   - **Layer 5 — RIR clamp** (lookup RIR range by tier × rep range, convert to RPE bounds, clamp).
+8. **Compute weekly volume** (fractional set counting: primary 1.0, secondary 0.5, dedupe secondary against primary).
+9. **Validate volume** against landmarks (MEV/MAV/MRV/ML for 22 muscles + default fallback).
+10. **Per-session cap:** 11 sets/muscle/workout — warn if exceeded.
+
+**Goal presets** (reps / rest_sec / RPE):
+
+| Goal             | Compound Primary | Compound Secondary | Accessory    | Cardio        | Mobility      |
+| ---------------- | ---------------- | ------------------ | ------------ | ------------- | ------------- |
+| strength         | 3-6 / 240 / 8.5  | 5-8 / 180 / 8.0    | 8-12 / 90 / 7.0 | 20-45 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+| hypertrophy / muscleGain / recomp | 5-8 / 180 / 8.0 | 8-12 / 120 / 7.0 | 10-15 / 60 / 6.0 | 20-30 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+| fatLoss          | 6-10 / 120 / 7.5 | 8-12 / 90 / 7.0    | 12-20 / 45 / 6.0 | 20-45 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+| generalFitness   | 8-12 / 120 / 7.0 | 10-15 / 90 / 6.5   | 12-20 / 60 / 6.0 | 20-45 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+| maintenance      | 6-10 / 150 / 7.0 | 8-12 / 120 / 6.5   | 10-15 / 60 / 6.0 | 20-30 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+
+**Volume landmarks** (`DEFAULT_MUSCLE_LANDMARKS`):
+
+| Muscle                          | MEV | MAV_lo | MAV_hi | MRV | ML |
+| -------------------------------- | --- | ------ | ------ | --- | -- |
+| chest                            | 8   | 10     | 22     | 24  | 5  |
+| back / upper_back / lats         | 10  | 14     | 22     | 27  | 7  |
+| middle_back                      | 8   | 12     | 18     | 22  | 5  |
+| lower_back                       | 3   | 4      | 8      | 15  | 2  |
+| traps                            | 4   | 6      | 12     | 18  | 3  |
+| quads                            | 8   | 12     | 20     | 25  | 6  |
+| hamstrings                       | 6   | 10     | 16     | 20  | 5  |
+| glutes                           | 4   | 8      | 16     | 20  | 3  |
+| adductors / abductors            | 4   | 6      | 12     | 16  | 3  |
+| hip_flexors                      | 2   | 4      | 8      | 10  | 2  |
+| shoulders / side_delts           | 6   | 8      | 16     | 20  | 4  |
+| rear_delts                       | 4   | 6      | 12     | 16  | 3  |
+| triceps                          | 6   | 8      | 14     | 18  | 4  |
+| biceps                           | 6   | 8      | 14     | 20  | 4  |
+| forearms                         | 3   | 4      | 8      | 15  | 2  |
+| calves                           | 8   | 10     | 16     | 20  | 5  |
+| abs                              | 6   | 10     | 20     | 25  | 5  |
+| obliques                         | 4   | 6      | 12     | 18  | 3  |
+| (unknown — fallback)             | 6   | 10     | 16     | 25  | 5  |
+
+**Recommended weekly sets** = `mavMid × tierMultiplier × goalMultiplier × experienceMultiplier`, floored at ML (maintenance) or MEV (else).
+
+- Goal multipliers: hypertrophy/muscleGain 1.0, recomp 0.9, strength 0.7, fatLoss 0.8, maintenance 0.6, generalFitness 0.7.
+- Experience multipliers: beginner 0.7, novice 0.85, intermediate 1.0, advanced 1.1.
+- Tier multipliers (MINIMAL/LOW/MEDIUM/HIGH/VERY_HIGH → 4-8/9-12/13-16/17-20/21-30 sets/muscle/wk), normalized so MEDIUM = 1.0.
+
+**RIR intensity tiers:**
+
+| Tier                            | 1-3 reps | 4-6 reps | 7-10 reps | 11-20 reps | 21-50 reps |
+| ------------------------------- | -------- | -------- | --------- | ---------- | ---------- |
+| LOWER_FREE_WEIGHT_COMPOUND      | [0, 1]   | [1, 3]   | [2, 4]    | [3, 5]     | —          |
+| MACHINE_OR_UPPER_PRESS          | [0, 2]   | [1, 3]   | [2, 4]    | [3, 5]     | —          |
+| MACHINE_PRESS_OR_PULL           | [1, 3]   | [2, 4]   | [2, 4]    | [3, 5]     | —          |
+| ISOLATION (default)             | [1, 3]   | [2, 4]   | [2, 4]    | [3, 5]     | [4, 6]     |
+
+`RPE = clamp(10 − RIR, 4, 10)`.
+
+### 4.5 Meal plan sub-engine
+
+`buildMealPlan(profile, assessment, nutrition, mealFrequency, cuisinePreference, allergensToAvoid, excludedIngredients, includePrePostWorkout)`:
+
+1. **Compute slot targets** from daily macros × meal allocation:
+
+| Frequency | Allocation                                              |
+| --------- | ------------------------------------------------------- |
+| 2 meals   | LUNCH 0.50, DINNER 0.50 (no breakfast — intentional)   |
+| 3 meals   | BREAKFAST 0.30, LUNCH 0.35, DINNER 0.35                 |
+| 4 meals   | BREAKFAST 0.25, LUNCH 0.30, DINNER 0.30, SNACK 0.15    |
+| 5 meals   | BREAKFAST 0.20, LUNCH 0.25, DINNER 0.30, SNACK 0.15, SNACK 0.10 |
+
+2. **Determine training days** for the 7-day week:
+   - 2d → [1, 4], 3d → [1, 3, 5], 4d → [1, 2, 4, 5], 5d → [1, 2, 3, 4, 5], 6d → [1, 2, 3, 4, 5, 6].
+3. **For each of 7 days × N slots:** allocate meal via `scoreRecipeForSlot` → pick top → scale → fill gap.
+4. **Track recipe usage** (rolling 3-day and 7-day windows) for variety scoring.
+
+**Diet tag derivation:**
+- omnivore → `"OMNI"`
+- vegan → `"VEGAN"`
+- vegetarian → `"VEGAN"` (recipe DB has no separate vegetarian tag — vegetarians get vegan recipes)
+
+**Recipe scoring** (9 weighted components, each 0-100):
+
+| Component        | Weight | Tight band | Loose band |
+| ---------------- | ------ | ---------- | ---------- |
+| kcal_match       | 26     | ±20%       | ±40%       |
+| protein_match    | 22     | ±15%       | ±30%       |
+| carb_match       | 13     | ±20%       | ±40%       |
+| fat_match        | 9      | ±25%       | ±50%       |
+| diet_match       | 13     | —          | —          |
+| goal_fit         | 4      | —          | —          |
+| fiber_match      | 4      | ±50%       | ±100%      |
+| variety_bonus    | 4      | —          | —          |
+| cuisine_match    | 5      | —          | —          |
+
+**Hard exclusions** (score = 0):
+- Allergen violation
+- Excluded ingredient present
+- Diet mismatch
+
+**Allergen scanning** (best-in-class — plant-qualifier suppression):
+- Normalize allergen aliases (`tree_nuts` → `nuts`, `crustacean(s)` → `shellfish`).
+- Build word-boundary regexes for each allergen's keywords.
+- Sanitize ingredients: blank out plant-named phrases (eggplant, butter lettuce, coconut milk, etc. — full list in §9.2) before scanning for `dairy` and `eggs`.
+- For each `dairy`/`eggs` match, check 25-char context before for plant qualifiers (almond, soy, oat, coconut, etc. — full list in §9.2). If found, skip the match.
+- Other allergens scan the unsanitized string.
+
+**Recipe scaling:**
+- `scaleFactor = clamp(targetKcal / recipeKcal, 0.7, 1.5)` (1.0 if within ±10%).
+- Scaled nutrition = per-serving × scaleFactor.
+
+**Filler system** (closes macro gap after scaling):
+
+| Priority | Type     | Trigger (`gap >`) | OMNI options                                           | VEGAN* options                                |
+| -------- | -------- | ----------------- | ------------------------------------------------------ | --------------------------------------------- |
+| 1        | Protein  | 5 g               | Whey, Greek yogurt, egg white, cottage cheese, chicken | Tofu, tempeh, pea/soy protein, lentils        |
+| 2        | Carb     | 5 g               | White/brown rice, oats, banana, whole wheat bread, quinoa, sweet potato | (same)                                        |
+| 3        | Fat      | 3 g               | Olive oil, almonds, peanut butter, walnuts, avocado    | (same)                                        |
+| 4        | Veg      | 3 g (main meals only) | Broccoli, spinach, mixed greens, bell pepper, asparagus, green beans, carrots | (same)                                        |
+
+\* VEGAN prefix match — `VEGAN_ETHIOPIAN` resolves to VEGAN list.
+
+Filler grams: `(targetG / food.per100g) × 100`, capped at `serving × {protein:4, carb:3, fat:3}`, min serving = `serving × 0.5`. Veg: fixed `[80g, 200g]`.
+
+**Allergen → filler exclusion map:**
+- dairy → Whey, Greek Yogurt, Cottage Cheese, Milk, Cheddar
+- eggs → Egg White, Eggs
+- gluten → Whole Wheat Bread, Oats
+- nuts → Almonds, Walnuts
+- peanuts → Peanut Butter
+- soy → Tofu, Tempeh, Soy Protein, Edamame
+
+**Swap system:**
+- **Recipe swaps:** alternatives sharing ≥1 meal_type, diet-compatible, kcal within ±20%, no allergens, cuisine-matching if specified. Sorted by kcal closeness, limited to 5.
+- **Ingredient swaps:** static substitution database (proteins, carbs, Ethiopian ingredients, fats, dairy alternatives, vegetables). Longest-key-first matching, plant-named-phrase protection.
+
+**Recipe database** (~400 recipes from 3 JSON files merged at load):
+- `recipe_database.json` (79 curated) — `is_curated=true`, notes get `[curated]` tag.
+- `recipe_database_uncurated.json` (~305) — `is_curated=false`. ID collisions with curated → rename to `U<id>`.
+- `pre_post_workout_recipes.json` (16) — 4 diets × 2 meal types × 2 kcal bins. `nutrition_source="calculated"`, `source="engine-generated"`.
+
+**Load-time sanitization:**
+- VEGAN-tagged recipe with meat/dairy/egg ingredients → append `[diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg — likely a curation error]`.
+- Stated kcal vs macro-derived kcal (P×4 + C×4 + F×9) > 10% off → append `[kcal-warning: ...]`.
+
+**Meal name templates** (cycled by day for variety):
+- 5-meal canonical order: BREAKFAST, SNACK, LUNCH, SNACK, DINNER (interleaved — NOT snacks at end).
+- Each meal type has 7 default name options (e.g. breakfast: Greek Yogurt Parfait, Oatmeal Power Bowl, Egg & Avocado Toast, ...).
+
+
+---
+
+## 5. Data Model
+
+### 5.1 Local (Isar) collections
+
+The app owns these locally. All except `app_state` and `sync_queue` sync to Supabase.
+
+```dart
+@Collection()
+class ProfileRecord {
+  Id id = Isar.autoIncrement;           // always 1 (singleton per device)
+  late String userId;                    // Supabase auth.uid() or "anonymous"
+  late String dataJson;                  // serialized UserProfile + PlanPreferences
+  @Index() late DateTime updatedAt;
+  @Index() late String syncStatus;       // "pending" | "synced" | "conflict"
+}

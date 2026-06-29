@@ -1,0 +1,602 @@
+     1→# Fitn — Flutter App Specification
+     2→
+     3→**Product:** Fitn — a mobile fitness companion.
+     4→**Platform:** Flutter (iOS + Android), single Dart codebase.
+     5→**Audience:** Senior Flutter engineer. Build-ready.
+     6→
+     7→This document specifies a fitness app built around a deterministic, physiology-grounded engine. The engine is the product's core value — its formulas, thresholds, and decision trees are pinned down completely. Everything around it (UI, state, storage, sync) is specified to a buildable level of detail, with implementation choices made where they matter and left to the engineer where they don't.
+     8→
+     9→---
+    10→
+    11→## 1. Product Vision
+    12→
+    13→A mobile fitness companion that turns a 5-minute onboarding questionnaire into a fully personalized, deterministic fitness plan — body composition assessment, nutrition targets, multi-week training program, 7-day meal rotation — and then **stays with the user daily**: logging workouts, tracking progress, and tuning the plan as their body changes.
+    14→
+    15→**The differentiator is the engine.** It's deterministic (same inputs → byte-identical output), grounded in published physiology (Mifflin-St Jeor, Katch-McArdle, Kouri FFMI, Hodgdon-Beckett Navy, CUN-BAE, ABSI, RippedBody volume landmarks, Lyle McDonald muscle-gain rates), and produces a coherent cut/bulk/recomp/maintenance/reverse-diet recommendation with a defensible rationale. The app's job is to get out of the engine's way.
+    16→
+    17→**What the app must do well:**
+    18→1. **Onboard in 5 steps** — minimal friction, sensible defaults, never block on optional fields.
+    19→2. **Generate a plan in <500 ms** — instant feedback, no spinner anxiety.
+    20→3. **Work offline** — the plan, exercise library, and recipe database live on-device. Sync is a background concern, never a UX blocker.
+    21→4. **Log workouts** — sets, reps, weight, RPE. Rest timer. This is the daily-use loop.
+    22→5. **Track progress** — weight log, workout history, volume trends. The engine accepts weight/intake logs as inputs for adaptive TDEE; the UI must collect them.
+    23→6. **Sync across devices** — sign in, pick up where you left up on another phone.
+    24→7. **Regenerate gracefully** — when the user's body changes, the plan should update without losing history.
+    25→
+    26→**What the app must NOT do:**
+    27→- Block on auth. Anonymous use is first-class.
+    28→- Require a server round-trip for plan generation.
+    29→- Lose data on sign-out (local data survives; only server-synced data is disowned).
+    30→- Pretend to be a marketplace. Commerce is out of scope.
+    31→
+    32→---
+    33→
+    34→## 2. Key Decisions
+    35→
+    36→### 2.1 In scope
+    37→
+    38→| Feature                               | Notes                                                                                            |
+    39→| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+    40→| On-device engine in a Dart isolate    | Plan generation is instant, offline, free. Runs via `Isolate.run()`; engine lives in a pure-Dart `fitn_engine` package. |
+    41→| 5-step onboarding                     | Minimal friction, sensible defaults, optional fields never block.                               |
+    42→| 5 main tabs                           | Home, Workouts, Meals, Progress, Profile.                                                       |
+    43→| Workout session logger                | Full-screen set/rep/weight/RPE logger with rest timer. Every set persists to `WorkoutLogRecord`. |
+    44→| Weight + intake logging               | Engine inputs for adaptive TDEE — collecting them closes the feedback loop. Stored as `WeightLogRecord` / `IntakeLogRecord`. |
+    45→| Progress tracking                     | Weight chart, volume trends, workout history, PRs (computed from workout logs).                 |
+    46→| Exercise library browser              | Browse all 1,217 exercises independently of a plan (search, filter by muscle/equipment).        |
+    47→| Plan versioning + restore             | History of generated plans with rollback.                                                       |
+    48→| Background sync queue                 | Optimistic local writes, `workmanager`-driven flush, `updated_at` conflict resolution.          |
+    49→| Anonymous-first auth                  | Plan works without sign-in. Optional Supabase auth (magic-link + Google/Apple OAuth) for cross-device sync. |
+    50→| Single program plan type              | Every plan is a program (≥1 mesocycle). No user-facing "standard vs program" toggle.            |
+    51→| Diet types: omnivore, vegetarian, vegan | Three supported diets. Engine rejects keto/paleo; UI does not expose them.                     |
+    52→| YouTube exercise videos               | Embedded via `youtube_player_flutter`. No local video hosting.                                  |
+    53→
+    54→### 2.2 Out of scope (deferred)
+    55→
+    56→| Item                                  | Why                                                                                              |
+    57→| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+    58→| Custom auth tables (`Account`, `Session`, `VerificationToken`) | Supabase Auth manages these internally.                                                         |
+    59→| Marketplace / commerce (`Product`, `WishlistItem` tables, checkout) | No payment integration. Build fresh when prioritized.                                          |
+    60→| Keto / paleo diet support             | Engine doesn't model them. Adding requires nutrition + meal plan rework.                        |
+    61→| Local video file hosting              | YouTube embeds cover the use case; bundling MP4s bloats the app.                                 |
+    62→| Realtime cross-device sync            | Pull-on-foreground + push-on-write is sufficient for launch. Supabase Realtime available later. |
+    63→| Edge Functions / server-side logic    | Not needed — all logic runs on-device.                                                           |
+    64→| Social features (sharing, leaderboards) | Not part of the single-user fitness companion model.                                           |
+    65→| Custom exercise / recipe creation     | Engine uses fixed libraries (1,217 exercises, ~400 recipes). Schema changes required to support. |
+    66→| Wear OS / watchOS companion           | Future enhancement for rest timer + set logging from the wrist.                                 |
+    67→| Apple Health / Google Fit sync        | Future enhancement for pulling weight + workouts from health APIs.                              |
+    68→| Adaptive plan adjustments UI          | Engine has `recommendCutAdjustment` / `recommendBulkAdjustment` (plateau detection + macro tuning). Wire into UI when users have 3+ weeks of weight logs. |
+    69→
+    70→### 2.3 Stack
+    71→
+    72→| Layer            | Choice                                   | Rationale                                                                  |
+    73→| ---------------- | ---------------------------------------- | -------------------------------------------------------------------------- |
+    74→| UI               | Flutter 3.x + Material 3                 | Single codebase, iOS + Android.                                            |
+    75→| State            | Riverpod 2.x (`AsyncNotifier` + `select`) | Fine-grained subscriptions, no re-render storms.                           |
+    76→| Navigation       | `go_router` 14.x                         | Deep links for auth callbacks, exercise deep-links.                        |
+    77→| Local DB         | Isar 4.x                                 | Structured data (plans, logs, history) with query support.                 |
+    78→| K/V prefs        | `shared_preferences`                     | UI state (active tab, has_onboarded, theme mode).                          |
+    79→| Engine runtime   | `Isolate.run()`                          | Plan generation off the UI thread.                                         |
+    80→| Auth + DB + Sync | Supabase (`supabase_flutter`)            | Auth (magic-link + OAuth), Postgres, Realtime, Storage — one SDK.          |
+    81→| HTTP             | `dio` 5.x                                | Interceptors, cancellation, retry.                                         |
+    82→| Secure storage   | `flutter_secure_storage`                 | Supabase refresh token.                                                    |
+    83→| Background sync  | `workmanager`                            | Flush sync queue when online.                                              |
+    84→| Charts           | `fl_chart` 0.70+                         | Weight log, volume trends, macro rings.                                    |
+    85→| YouTube          | `youtube_player_flutter`                 | Native player, no webview overhead.                                        |
+    86→| Animations       | `flutter_animate`                        | Fade, slide, count-up, shimmer.                                            |
+    87→| Icons            | `lucide_icons`                           | Open icon set, broad coverage.                                             |
+    88→| Models           | `freezed` + `json_serializable`          | Immutable, `copyWith`, JSON.                                               |
+    89→| Validation       | `freezed` constructors + `Result` types  | No external schema lib; Dart's type system + null safety suffices.         |
+    90→| Engine package   | `fitn_engine` (pure Dart)                | No Flutter deps. Ships JSON data as assets.                                |
+    91→
+    92→### 2.4 Why Supabase
+    93→
+    94→Supabase provides Postgres, Auth (magic-link + OAuth), Realtime, and Storage as one service with one Flutter SDK. For a mobile app this avoids deploying, monitoring, and scaling a custom backend. The data model is plain Postgres with row-level security (RLS), so the data is portable — Supabase is a hosting layer, not a proprietary lock-in.
+    95→
+    96→Supabase provides:
+    97→- **Postgres** with row-level security — no server code needed for CRUD.
+    98→- **Auth** with magic-link, Google, Apple, GitHub out of the box.
+    99→- **Realtime** (optional — cross-device live sync; not needed for launch).
+   100→- **Storage** for any future self-hosted media (not needed — YouTube embeds suffice).
+   101→- **Edge Functions** if server-side logic is ever needed (not needed for launch).
+   102→
+   103→---
+   104→
+   105→## 3. Architecture
+   106→
+   107→### 3.1 High-level
+   108→
+   109→```mermaid
+   110→flowchart TB
+   111→  subgraph Device["Flutter App"]
+   112→    UI["UI Layer<br/>5 tabs + onboarding + auth"]
+   113→    State["Riverpod Providers<br/>single AppState + select()"]
+   114→    Engine["fitn_engine (pure Dart)<br/>runs in Isolate.run()"]
+   115→    Isar["Isar DB<br/>plans, profiles, workout_logs,<br/>weight_logs, intake_logs"]
+   116→    Prefs["SharedPreferences<br/>ui_state, theme"]
+   117→    Sync["Sync Queue<br/>workmanager background flush"]
+   118→    UI --> State
+   119→    State --> Isar
+   120→    State --> Prefs
+   121→    State -->|"generatePlan()"| Engine
+   122→    Engine -->|"FitnessPlan"| State
+   123→    State -->|"enqueue()"| Sync
+   124→  end
+   125→
+   126→  subgraph Cloud["Supabase"]
+   127→    Auth["Auth<br/>magic-link + OAuth"]
+   128→    PG["Postgres<br/>profiles, plans, workout_logs,<br/>weight_logs (RLS-protected)"]
+   129→    RT["Realtime<br/>(optional)"]
+   130→  end
+   131→
+   132→  Device -->|"supabase_flutter SDK"| Cloud
+   133→```
+   134→
+   135→### 3.2 Engine orchestration
+   136→
+   137→```mermaid
+   138→flowchart LR
+   139→  Input["UserProfile + PlanPreferences"] --> Assess["assessProfile()"]
+   140→  Assess --> AR["AssessmentResult<br/>(is_partial flag)"]
+   141→  AR -->|"is_partial == false"| Plan["proposePlan()"]
+   142→  Input --> Plan
+   143→  Plan --> NP["buildNutritionPlan()"]
+   144→  Plan --> TP["buildTrainingPlan()"]
+   145→  Plan --> MP["buildMealPlan()"]
+   146→  NP --> FP["FitnessPlan"]
+   147→  TP --> FP
+   148→  MP --> FP
+   149→  AR -->|"is_partial == true"| Err["PartialAssessmentError<br/>(UI surfaces regenerate CTA)"]
+   150→```
+   151→
+   152→**Critical contract:** `proposePlan()` refuses to run on a partial assessment. The UI must check `assessment.isPartial` first and show a "regenerate" CTA instead of attempting plan generation.
+   153→
+   154→### 3.3 Plan generation lifecycle
+   155→
+   156→```mermaid
+   157→sequenceDiagram
+   158→  participant U as User
+   159→  participant UI as Flutter UI
+   160→  participant S as Riverpod State
+   161→  participant E as fitn_engine (Isolate)
+   162→  participant IDB as Isar
+   163→  participant Q as Sync Queue
+   164→  participant SB as Supabase
+   165→
+   166→  U->>UI: Completes onboarding step 5
+   167→  UI->>S: generatePlan(profile, prefs)
+   168→  S->>S: setGenerating(true)
+   169→  S->>E: Isolate.run(() => proposePlan(...))
+   170→  E-->>S: FitnessPlan (50-200 ms)
+   171→  S->>IDB: PUT plan (active=true), PUT profile
+   172→  S->>S: setPlan(plan), setOnboarded(true)
+   173→  S-->>UI: notify → render Home tab
+   174→  S->>Q: enqueue({type: plan, data})
+   175→  Q->>SB: UPSERT plan (when online)
+   176→  SB-->>Q: 200 OK
+   177→  Q->>IDB: mark synced
+   178→```
+   179→
+   180→Generation is local and synchronous from the UI's perspective (the isolate is an implementation detail). Sync is queued and flushed in the background. Failures are retried with exponential backoff, never shown to the user unless they persist for >24h.
+   181→
+   182→### 3.4 Sync protocol
+   183→
+   184→- **Optimistic local writes** — every mutation writes to Isar immediately with `syncStatus: pending`.
+   185→- **Background flush** — `workmanager` runs every 15 min (when online), drains the queue.
+   186→- **Conflict resolution** — `updated_at` timestamp. Server wins if `server.updated_at > local.updated_at`. Last-writer-wins is fine for this domain (single user, single device active at a time in practice).
+   187→- **Push** — `UPSERT` to Supabase with `WHERE user_id = auth.uid()` (RLS enforces ownership).
+   188→- **Pull** — on sign-in, fetch all rows for the user, merge by `updated_at`.
+   189→- **No realtime at launch** — cross-device live sync is nice-to-have, not required. Pull-on-foreground + push-on-write is sufficient.
+   190→
+   191→---
+   192→
+   193→## 4. Engine (`fitn_engine` package)
+   194→
+   195→Pure Dart. No Flutter. No I/O. JSON data files loaded from `assets/` at construction.
+   196→
+   197→**Public API:**
+   198→
+   199→```dart
+   200→// fitn_engine/lib/fitn_engine.dart
+   201→
+   202→class FitnEngine {
+   203→  FitnEngine({required EngineData data});  // data loaded by caller
+   204→
+   205→  AssessmentResult assessProfile(UserProfile profile);
+   206→  FitnessPlan proposePlan(UserProfile profile, AssessmentResult assessment, PlanPreferences prefs);
+   207→  GeneratePlanResponse generatePlan(UserProfile profile, PlanPreferences prefs);  // convenience: assess + propose
+   208→}
+   209→
+   210→class EngineData {
+   211→  final List<Exercise> exercises;        // 1,217
+   212→  final List<SplitDesign> splits;        // 8
+   213→  final Map<String, MovementPatternSpec> movementPatterns;  // 40
+   214→  final List<Recipe> recipes;            // ~400 (curated + uncurated + pre/post)
+   215→  final Map<String, FoodItem> foodDatabase;
+   216→}
+   217→
+   218→// Loads from rootBundle (Flutter) or File (CLI/test)
+   219→Future<EngineData> loadEngineData({String? basePath});
+   220→```
+   221→
+   222→### 4.1 Domain models (Dart `freezed`)
+   223→
+   224→All field names use `camelCase` in Dart, `snake_case` on the wire (via `@JsonKey`).
+   225→
+   226→#### 4.1.1 Enums
+   227→
+   228→```dart
+   229→enum Sex { male, female }
+   230→
+   231→enum ActivityLevel { sedentary, mostlySedentary, lightlyActive, active, highlyActive }
+   232→
+   233→enum TrainingStatus { beginner, novice, intermediate, advanced }
+   234→
+   235→enum PrimaryGoal { fatLoss, muscleGain, recomp, maintenance, strength }
+   236→
+   237→enum EquipmentAccess { fullGym, homeGym, bodyweightOnly }
+   238→
+   239→enum DietType { omnivore, vegetarian, vegan }  // keto/paleo unsupported by engine
+   240→
+   241→enum CutRateTier { veryConservative, conservative, moderate, aggressive, veryAggressive }
+   242→
+   243→enum BulkAggressiveness { conservative, happyMedium, aggressive, veryAggressive }
+   244→
+   245→enum TrainingTimeOfDay { morning, midday, evening }
+   246→
+   247→enum ExerciseIntensity { light, moderate, intense }
+   248→
+   249→enum Climate { cold, temperate, hot, hotHumid }
+   250→
+   251→// Assessment
+   252→enum BodyFatMethod { userProvided, navy, cunBae }
+   253→enum BodyFatCategory { essential, athlete, fitness, acceptable, obesity }
+   254→enum BMICategory { underweight, normal, overweight, obese }
+   255→enum HealthRiskLevel { low, moderate, high, veryHigh }
+   256→enum ABSIRiskLevel { low, belowAverage, average, aboveAverage, high }
+   257→enum RecommendedStrategy { cut, bulk, recomp, maintenance, habitChangeFirst, reverseDiet }
+   258→
+   259→// Nutrition
+   260→enum RMRFormula { mifflinStJeor, harrisBenedictOriginal, harrisBenedictRevised, cunningham, katchMcArdle }
+   261→enum CalorieStrategy { deficit, surplus, maintenance, recomp, reverseDiet }
+   262→
+   263→// Training
+   264→enum TrainingGoal { strength, hypertrophy, generalFitness, fatLoss, muscleGain, recomp, maintenance }
+   265→enum SplitType { fullBody, upperLower, ppl, pplX2, pushPullLegsUpperLower, bodyPart, pushPull }
+   266→enum ProgressionScheme { linear, dup, block }
+   267→enum ExerciseCategory { compoundPrimary, compoundSecondary, accessory, cardio, mobility }
+   268→enum ExperienceLevel { beginner, intermediate, advanced }  // lowercase in Dart; capitalize on display
+   269→
+   270→// Meal
+   271→enum MealType { breakfast, lunch, dinner, snack, side, preWorkout, postWorkout }
+   272→enum RecipeDietTag { omni, vegan, veganEthiopian, vegetarian, omniEthiopian }
+   273→enum FoodCategory { proteinAnimal, proteinPlant, dairy, carbGrain, carbStarchyVeg, carbFruit, fatOil, fatNutSeed, vegetable, beverage }
+   274→```
+   275→
+   276→#### 4.1.2 Inputs
+   277→
+   278→```dart
+   279→@freezed
+   280→class UserProfile with _$UserProfile {
+   281→  const factory UserProfile({
+   282→    required int age,                    // 18–100
+   283→    required Sex sex,
+   284→    required double heightCm,            // 140–230
+   285→    required double weightKg,            // 35–300
+   286→    required ActivityLevel activityLevel,
+   287→    required TrainingStatus trainingStatus,
+   288→    required PrimaryGoal primaryGoal,
+   289→    required int trainingDaysPerWeek,    // 2–6
+   290→    required EquipmentAccess equipmentAccess,
+   291→    @Default(DietType.omnivore) DietType dietType,
+   292→    double? bodyFatPct,                  // 2–60, null = unknown
+   293→    double? neckCm,                      // 20–80
+   294→    double? waistCm,                     // 40–200
+   295→    double? hipCm,                       // 40–200 (required for female Navy BF)
+   296→    CutRateTier? cutRateTier,
+   297→    BulkAggressiveness? bulkAggressiveness,
+   298→    @Default(TrainingTimeOfDay.evening) TrainingTimeOfDay trainingTimeOfDay,
+   299→    @Default([]) List<double> weightLogKg,       // each 30–300, max 365
+   300→    @Default([]) List<double> intakeLogKcal,     // each 0–10000, max 365
+   301→  }) = _UserProfile;
+   302→
+   303→  const UserProfile._();
+   304→
+   305→  double get bmi => weightKg / (heightCm / 100 * heightCm / 100);
+   306→  double get heightM => heightCm / 100;
+   307→  double get heightIn => heightCm / 2.54;
+   308→  double get weightLb => weightKg * 2.2046226218;
+   309→  bool get hasCircumferenceMeasurements => switch (sex) {
+   310→    Sex.male   => neckCm != null && waistCm != null,
+   311→    Sex.female => neckCm != null && waistCm != null && hipCm != null,
+   312→  };
+   313→}
+   314→
+   315→@freezed
+   316→class PlanPreferences with _$PlanPreferences {
+   317→  const factory PlanPreferences({
+   318→    @Default(1.0) double exerciseHoursPerDay,    // 0.25–4
+   319→    @Default(ExerciseIntensity.moderate) ExerciseIntensity exerciseIntensity,
+   320→    @Default(Climate.temperate) Climate climate,
+   321→    @Default(0.0) double weightReducedPct,       // 0.0–1.0
+   322→    List<String>? muscleFocus,                    // e.g. ["chest", "back", "shoulders", "arms", "legs", "glutes", "core", "calves"]
+   323→    int? programDurationWeeks,                    // 4–52
+   324→    @Default(3) int mealFrequency,                // 2–6
+   325→    String? cuisinePreference,                    // e.g. "ethiopian", "italian", "american"
+   326→    List<String>? allergensToAvoid,               // ["dairy", "gluten", "eggs", "soy", "peanuts", "tree_nuts", "shellfish", "fish", "sesame", "corn"]
+   327→    List<String>? excludedIngredients,
+   328→    @Default(false) bool includePrePostWorkout,
+   329→  }) = _PlanPreferences;
+   330→}
+   331→```
+   332→
+   333→**Construction-time validation** throws `ArgumentError` with a clear message on:
+   334→- Range violations (age, height, weight, training_days, body_fat_pct, log entries)
+   335→- Mismatched log lengths (`weightLogKg.length != intakeLogKcal.length` when both non-empty)
+   336→
+   337→#### 4.1.3 Outputs
+   338→
+   339→The full output tree (`AssessmentResult`, `BodyComposition`, `HealthRiskAssessment`, `MuscularPotential`, `NutritionPlan`, `RMRResult`, `TDEEResult`, `CalorieTargets`, `MacroSplit`, `HydrationTarget`, `MicronutrientTargets`, `TrainingPlan`, `Mesocycle`, `Microcycle`, `Workout`, `WorkoutExercise`, `Exercise`, `MealPlan`, `DayPlan`, `Meal`, `Recipe`, `MealFood`, `FoodItem`, `FitnessPlan`) is defined in §9.1 (Output model reference).
+   340→
+   341→### 4.2 Assessment sub-engine
+   342→
+   343→Orchestration (`assessProfile`) runs 4 sub-assessments in order, **never short-circuiting on failure**:
+   344→
+   345→1. `assessBodyComposition(profile)` — root of the dependency tree.
+   346→2. `assessHealthRisk(profile)` — independent of body comp.
+   347→3. `assessMuscularPotential(profile, bodyComp.bodyFatPct)` — **skipped** if `bodyComp == null`.
+   348→4. `decideStrategy(profile, bodyComp.bodyFatPct)` — **skipped** if `bodyComp == null`, defaults to `maintenance`.
+   349→
+   350→If any sub-assessment throws, record `"sub_name: ArgumentError: <msg>"` in `errors` and set the sub-result to null. `is_partial = errors.isNotEmpty`. The summary string is built defensively (every nullable field guarded).
+   351→
+   352→`proposePlan()` throws `PartialAssessmentError` if called with `is_partial == true`.
+   353→
+   354→#### 4.2.1 Body fat % selection (priority order)
+   355→
+   356→1. **User-provided** (`bodyFatPct != null`) → use as-is.
+   357→2. **US Navy circumference** (Hodgdon & Beckett 1984) — if `hasCircumferenceMeasurements`:
+   358→   - Male: `86.010 × log10(waistIn − neckIn) − 70.041 × log10(heightIn) + 36.76`
+   359→   - Female: `163.205 × log10(waistIn + hipIn − neckIn) − 97.684 × log10(heightIn) − 78.387`
+   360→   - If `(waistIn − neckIn) ≤ 0` (male) or `(waistIn + hipIn − neckIn) ≤ 0` (female), return null → fall through to CUN-BAE.
+   361→   - Clamp to `[2.0, 60.0]`.
+   362→3. **CUN-BAE** (always computable):
+   363→   - `bf = -24.988 + 0.503 × age + 1.0689 × bmi + 0.462 × (sex == female ? 1.0 : 0.0)`
+   364→   - Clamp to `[2.0, 60.0]`.
+   365→
+   366→#### 4.2.2 BMI categories
+   367→
+   368→| Category     | BMI range            |
+   369→| ------------ | -------------------- |
+   370→| UNDERWEIGHT  | `[0, 18.5)`          |
+   371→| NORMAL       | `[18.5, 25.0)`       |
+   372→| OVERWEIGHT   | `[25.0, 30.0)`       |
+   373→| OBESE        | `[30.0, +∞)`         |
+   374→
+   375→#### 4.2.3 Body fat categories (sex-specific)
+   376→
+   377→| Category     | Male BF%       | Female BF%      |
+   378→| ------------ | -------------- | --------------- |
+   379→| ESSENTIAL    | `[0, 6)`       | `[0, 14)`       |
+   380→| ATHLETE      | `[6, 14)`      | `[14, 21)`      |
+   381→| FITNESS      | `[14, 18)`     | `[21, 25)`      |
+   382→| ACCEPTABLE   | `[18, 25)`     | `[25, 32)`      |
+   383→| OBESITY      | `[25, +∞)`     | `[32, +∞)`      |
+   384→
+   385→#### 4.2.4 FFMI (Kouri 1995)
+   386→
+   387→- `ffmKg = weightKg × (1 − bfPct/100)`
+   388→- `ffmi = ffmKg / heightM²`
+   389→- `normalizedFfmi = ffmi + 6.1 × (1.8 − heightM)`
+   390→
+   391→**Ceiling constants:** `FFMI_NATURAL_COMMON = 25.0`, `ATTAINABLE = 27.3`, `LIKELY_MAX = 28.0`. Normalization coefficient `6.1`, reference height `1.8 m`.
+   392→
+   393→**Named target BF% landmarks** (for `targetWeightsKg` map):
+   394→
+   395→| Label            | Male | Female |
+   396→| ---------------- | ---- | ------ |
+   397→| athletic         | 14.0 | 21.0   |
+   398→| fitness          | 18.0 | 25.0   |
+   399→| acceptable       | 25.0 | 32.0   |
+   400→| hormonal_floor   | 10.0 | 18.0   |
+   401→
+   402→`targetWeight = lbm / (1 − targetBf/100)` where `lbm = currentWeight × (1 − currentBf/100)`.
+   403→
+   404→#### 4.2.5 Health risk
+   405→
+   406→| Metric | Formula | Classification |
+   407→| ------ | ------- | -------------- |
+   408→| **WHR** | `waist / hip` | Male: ≤0.85 LOW, ≤0.90 MOD, ≤1.0 HIGH, >1.0 VERY_HIGH. Female: ≤0.80 LOW, ≤0.85 MOD, ≤1.0 HIGH, >1.0 VERY_HIGH. |
+   409→| **WHtR** | `waist / height` | Male: <0.50 LOW, <0.53 MOD, <0.58 HIGH, ≥0.58 VERY_HIGH. Female: <0.46 LOW, <0.49 MOD, <0.54 HIGH, ≥0.54 VERY_HIGH. |
+   410→| **ABSI** | `(waist_m) × weight^(-2/3) × height^(5/6)` | Z-score from NHANES 10-year age bands (see §9.3). |
+   411→| **IBW** | `base + mult × (heightIn − 60)` | 4 formulas: Devine (50/2.3 M, 45.5/2.3 F), Robinson (52/1.9, 49/1.7), Miller (56.2/1.41, 53.1/1.36), Hamwi (48/2.7, 45.4/2.2). |
+   412→
+   413→**Overall risk** (weighted heuristic): ABSI weight 0.5, WHR 0.3, WHtR 0.2. Add weight when the metric is HIGH/VERY_HIGH (ABSI: ABOVE_AVERAGE/HIGH). Map: ≥0.75 → VERY_HIGH, ≥0.50 → HIGH, any clinical risk factor → MODERATE, else LOW.
+   414→
+   415→#### 4.2.6 Muscular potential
+   416→
+   417→- Use **normalized FFMI** for ceiling comparison.
+   418→- `ffmiToCeilingPct = clamp(normalizedFfmi / 25.0 × 100, 0, 100)`.
+   419→- `headroomKg = max(0, ffmAtCeiling − ffmKg)` where `ffmAtCeiling = (25.0 − 6.1 × (1.8 − heightM)) × heightM²`.
+   420→- **Berkhan stage max** (men only): `heightCm − 100` at 5-6% BF. Null for women (essential BF floor is ~10-13%, not 5-6%).
+   421→- **Expected monthly muscle gain** (Lyle McDonald, men; × 0.5 for women):
+   422→
+   423→| Status        | Monthly gain (men) |
+   424→| ------------- | ------------------ |
+   425→| BEGINNER      | 0.85 kg            |
+   426→| NOVICE        | 0.575 kg           |
+   427→| INTERMEDIATE  | 0.325 kg           |
+   428→| ADVANCED      | 0.10 kg            |
+   429→
+   430→#### 4.2.7 Strategy decision tree
+   431→
+   432→**Sex-specific boundaries** (single source of truth):
+   433→
+   434→| Boundary           | Male | Female |
+   435→| ------------------ | ---- | ------ |
+   436→| cut_floor          | 10   | 18     |
+   437→| bulk_ceiling       | 20   | 28     |
+   438→| bulk_start         | 15   | 23     |
+   439→| operational_lo     | 10   | 18     |
+   440→| operational_hi     | 20   | 28     |
+   441→| obese_threshold    | 25   | 32     |
+   442→| recomp_excellent   | 23   | 30     |
+   443→| recomp_good_lo     | 15   | 25     |
+   444→| recomp_limited     | 15   | 25     |
+   445→| skinny_fat_lo      | 12   | 20     |
+   446→| skinny_fat_hi      | 23   | 31     |
+   447→
+   448→**Algorithm (first match wins):**
+   449→
+   450→1. **Safety override (obesity):** `bfPct >= obese_threshold`:
+   451→   - BEGINNER + goal != fat_loss → `habitChangeFirst` ("start with habit changes before calorie counting")
+   452→   - Else → `cut` ("prioritise fat loss")
+   453→2. **Goal = maintenance:**
+   454→   - If `bfPct < hormonal_floor` → warn about bulk.
+   455→   - If `bfPct > operational_hi` → warn about cut.
+   456→   - **Reverse-diet detection:** if `intakeLogKcal.length >= 30` AND `operational_lo <= bfPct <= operational_hi`:
+   457→     - Trailing 7-day avg intake vs estimated TDEE (compute via RMR+TDEE pipeline; fallback `weightKg × 35`).
+   458→     - If `recentIntake < tdee × 0.90` → `reverseDiet`.
+   459→   - Else → `maintenance`.
+   460→3. **Goal = strength:** if `bfPct > bulk_ceiling` → `cut`; else `maintenance`.
+   461→4. **Goal = fat_loss:** if `bfPct < cut_floor` → `maintenance` (protect hormones); else `cut`.
+   462→5. **Goal = muscle_gain:** if `bfPct > bulk_ceiling` → `cut`; else `bulk`.
+   463→6. **Goal = recomp:** `bfPct >= recomp_excellent` → `recomp` (excellent); `>= recomp_good_lo` → `recomp` (good); else `bulk` (limited).
+   464→7. **Auto-decide (no explicit goal override — fallback path):**
+   465→   - `bfPct > operational_hi` → `cut`
+   466→   - `bfPct < cut_floor` → `bulk`
+   467→   - Novice + skinny-fat range → `recomp`
+   468→   - Novice + `bfPct < bulk_start` → `recomp` (milk newbie gains)
+   469→   - `bfPct < bulk_start` → `bulk`
+   470→   - Else → `cut`
+   471→
+   472→### 4.3 Nutrition sub-engine
+   473→
+   474→`buildNutritionPlan(profile, assessment, exerciseHours, exerciseIntensity, climate, weightReducedPct)`:
+   475→
+   476→1. **RMR** — `KATCH_MCARDLE` if `bodyFatPct != null`, else `MIFFLIN_ST_JEOR`.
+   477→   - Mifflin: `10 × weight + 6.25 × height − 5 × age + (male ? 5 : -161)`
+   478→   - Katch-McArdle: `370 + 21.6 × lbm` (throws if `bfPct ∉ [2, 60]`)
+   479→   - Adjustments: `× 0.95` if active deficit (cut/recomp), `× 0.97` if `weightReducedPct > 0.10`.
+   480→2. **TDEE** — RippedBody activity factors (1.25 / 1.45 / 1.65 / 1.85 / 2.05 for sedentary / mostly_sedentary / lightly_active / active / highly_active).
+   481→3. **Adaptive TDEE** — if `weightLogKg` and `intakeLogKcal` are both non-empty, equal-length, and ≥8 entries:
+   482→   - `observed = avgIntake − (Δweight × 7700) / nDays`
+   483→   - Sanity: `observed ∈ [800, 7000]`, else skip.
+   484→   - Ramp weight: `w = clamp((nDays − 7) / 53, 0, 1)` — no adaptation below 7 days, full at 60+.
+   485→   - `adaptive = w × observed + (1 − w) × tdee`.
+   486→4. **Calorie targets** — by strategy, with floor 1200 (F) / 1500 (M):
+   487→
+   488→| Strategy           | Computation                                                                                       |
+   489→| ------------------ | ------------------------------------------------------------------------------------------------- |
+   490→| cut                | `weeklyLoss = weight × rate`; `dailyDeficit = weeklyLoss × 1100`; `target = tdee − dailyDeficit` |
+   491→| bulk               | `monthlyGain = weight × rate`; `dailySurplus = monthlyGain × 330`; `target = tdee + dailySurplus` |
+   492→| maintenance        | `target = tdee`                                                                                   |
+   493→| recomp             | `target = tdee × (1 − deficitPct)` where deficitPct = 0.15/0.05/0.0 by recomp potential           |
+   494→| reverse_diet       | Weekly ladder: `+50/+100/+150 kcal/wk` by aggressiveness, until target reached                    |
+   495→| habit_change_first | Same as maintenance                                                                               |
+   496→
+   497→**Cut rate** (priority): explicit `cutRateTier` → BF%-threshold table → default 0.75% BW/week. Hard cap 1.0% BW/week.
+   498→
+   499→**Cut rate by BF% threshold** (first match):
+   500→
+   501→| Sex    | Thresholds (BF%) | Rate (% BW/week)   |
+   502→| ------ | ---------------- | ------------------ |
+   503→| Male   | [25, 20, 15]     | [1.00, 0.75, 0.50, 0.50] |
+   504→| Female | [32, 28, 22]     | [1.00, 0.75, 0.50, 0.50] |
+   505→
+   506→**Bulk rate** (priority): explicit `bulkAggressiveness × trainingStatus` table → default by status (beginner 2%/mo, novice 1.5%/mo, intermediate 1%/mo, advanced 0.5%/mo).
+   507→
+   508→**Bulk weekly rate tiers** (% BW/week):
+   509→
+   510→| Aggressiveness     | Beginner/Novice | Intermediate | Advanced |
+   511→| ------------------ | --------------- | ------------ | -------- |
+   512→| conservative       | 0.0020          | 0.0015       | 0.0010   |
+   513→| happyMedium        | 0.0050          | 0.00325      | 0.0015   |
+   514→| aggressive         | 0.0080          | 0.00575      | 0.0035   |
+   515→| veryAggressive     | 0.0100          | 0.00800      | 0.0060   |
+   516→
+   517→5. **Macros:**
+   518→   - **Protein:**
+   519→     - Obese override (`bfPct >= obese_threshold`): `1 g × heightCm`.
+   520→     - BF% known: `lbm_lb × 1.14` (cut) or `× 1.0` (else).
+   521→     - BF% unknown: `target_weight_lb × 1.0` (cut, target = 90% current) or `weight_lb × 0.73` (else).
+   522→     - Diet boost: vegan ×1.20 (ceil), vegetarian ×1.10 (ceil).
+   523→   - **Fat:** midpoint of strategy range (deficit/recomp: 15-25%; surplus/maintenance/reverse: 20-30%). Floor: `max(40, weight_lb × 0.25)`. Saturated ceiling: 10% of calories.
+   524→   - **Carbs:** remainder = `targetKcal − proteinKcal − fatKcal`, clamped to ≥0.
+   525→6. **Hydration** (multi-step FatCalc):
+   526→   - Base: `weightKg × 0.030 L`
+   527→   - Sex: +0.3 L (male)
+   528→   - Exercise: `hours × sweatRate / 1000` (light 300, moderate 500, intense 800 mL/hr)
+   529→   - Climate multiplier (cold 0.95, temperate 1.0, hot 1.3, hot_humid 1.4) applied to exercise component only
+   530→   - Pregnancy +0.3 L, breastfeeding +0.7 L (throws if male)
+   531→   - Soft ceiling 5.0 L (hyponatremia protection)
+   532→7. **Micronutrients:** fiber = `14 g × targetKcal / 1000`. Fruit/veg cups: 2/2 (≤2000 kcal), 3/3 (≤3000), 4/4 (≤4000+).
+   533→8. **Timeline:**
+   534→   - Cut: `max(4, floor(kgToLose / weeklyRateKg) + 4)` where target BF = `operational_lo + 2`.
+   535→   - Bulk: `max(12, floor((targetGainKg / monthlyRateKg) × 4.348) + 4)` where targetGain = 5% BW.
+   536→   - Recomp: 12 weeks. Maintenance: 12. Habit-change: 8. Reverse-diet: parse from notes, default 8.
+   537→
+   538→### 4.4 Training sub-engine
+   539→
+   540→`buildTrainingPlan(profile, assessment, muscleFocus, programDurationWeeks)`:
+   541→
+   542→1. **Derive goal** from `(primaryGoal, recommendedStrategy)`:
+   543→
+   544→| primaryGoal | strategy                                        | → TrainingGoal      |
+   545→| ----------- | ----------------------------------------------- | -------------------- |
+   546→| strength    | maintenance / bulk / recomp                     | strength             |
+   547→| (any)       | cut                                             | fatLoss              |
+   548→| (any)       | bulk                                            | muscleGain           |
+   549→| (any)       | recomp                                          | recomp               |
+   550→| (any)       | maintenance                                     | maintenance          |
+   551→| (any)       | habitChangeFirst                                | generalFitness       |
+   552→| (any)       | reverseDiet (or unmapped)                       | hypertrophy (fallback) |
+   553→
+   554→2. **Pick split** from 8 designs (`split_designs.json`):
+   555→   - Filter by `days_per_week` → by `experience` AND `goal` → by `experience` → by `goal` → all.
+   556→   - Tie-break by experience preference order:
+   557→     - BEGINNER: fullBody > upperLower > ppl
+   558→     - NOVICE: fullBody > upperLower > ppl > pushPull
+   559→     - INTERMEDIATE: upperLower > fullBody > ppl > pplul > pplX2
+   560→     - ADVANCED: pplX2 > pplul > bodyPart > upperLower > fullBody
+   561→3. **Pick progression:** BLOCK if (strength + intermediate/advanced); else LINEAR (beginner/novice), DUP (intermediate), BLOCK (advanced).
+   562→4. **Apply muscle focus:** for each focus muscle, append 1-2 accessory slots to templates that already train that muscle.
+   563→
+   564→| Focus muscle | Added slots (category, sets, pattern)                                       |
+   565→| ------------ | --------------------------------------------------------------------------- |
+   566→| chest        | chest_fly accessory × 3; incline_push accessory × 3                         |
+   567→| back         | seated_row accessory × 3; vertical_pull accessory × 3                       |
+   568→| quads        | knee_extension accessory × 3; front_squat compound_secondary × 3            |
+   569→| hamstrings   | knee_flexion accessory × 3; romanian_deadlift accessory × 3                 |
+   570→| glutes       | hip_thrust compound_secondary × 3; glute_isolation accessory × 3            |
+   571→| shoulders    | lateral_raise accessory × 4; rear_delt accessory × 3                        |
+   572→| arms         | elbow_flexion accessory × 4; elbow_extension accessory × 4                  |
+   573→| biceps       | elbow_flexion accessory × 4                                                 |
+   574→| triceps      | elbow_extension accessory × 4                                               |
+   575→| calves       | ankle_plantarflexion accessory × 5                                          |
+   576→| abs          | core_anti_extension accessory × 3; core_anti_rotation accessory × 3         |
+   577→
+   578→5. **Build workouts from templates** — for each slot, run the **7-tier exercise selector**:
+   579→   - Equipment filter (full_gym: 33 types, home_gym: 9, bodyweight_only: 2).
+   580→   - Exclude CARDIO/MOBILITY categories; exclude plyometrics for beginners.
+   581→   - Tier 1-7: progressively relax constraints (pattern → muscle → category), experience enforced or relaxed.
+   582→   - Sort by: equipment preference rank → experience distance → view count → name.
+   583→   - Movement pattern detection: keyword match (slug wins 100+length, name wins length) → force-type fallback → primary-muscle fallback.
+   584→6. **Build mesocycles:**
+   585→   - Mesocycle length: 4w (beginner/novice), 5w (intermediate), 6w (advanced).
+   586→   - Program duration: 4/8/10/12w by experience (bumped to 12 if strength + intermediate/advanced). User override: 4-52w.
+   587→   - `numMesocycles = max(1, floor(duration / mesoLength))`.
+   588→   - Each mesocycle's last week is a deload (sets × 0.5, RPE − 1.5).
+   589→   - BLOCK progression: assign phases across mesocycles — 1→[accumulation], 2→[accumulation, intensification], 3+→[accumulation, intensification, peak].
+   590→7. **Apply periodization** (5 layers, in order):
+   591→   - **Layer 1 — Goal preset** (base reps/rest/RPE by goal × exercise category).
+   592→   - **Layer 2 — DUP day-type modifiers** (heavy/moderate/light, only if `dayType` set on template).
+   593→   - **Layer 3 — Block phase modifiers** (accumulation/intensification/peak; for strength + compound_primary, use StrengthPhase specs).
+   594→   - **Layer 4 — Deload** (sets × 0.5, RPE − 1.5).
+   595→   - **Layer 5 — RIR clamp** (lookup RIR range by tier × rep range, convert to RPE bounds, clamp).
+   596→8. **Compute weekly volume** (fractional set counting: primary 1.0, secondary 0.5, dedupe secondary against primary).
+   597→9. **Validate volume** against landmarks (MEV/MAV/MRV/ML for 22 muscles + default fallback).
+   598→10. **Per-session cap:** 11 sets/muscle/workout — warn if exceeded.
+   599→
+   600→**Goal presets** (reps / rest_sec / RPE):
+
+[showing lines 1-600 of 2097; use offset=601 with limit to continue reading]

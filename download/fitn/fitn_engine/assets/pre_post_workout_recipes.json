@@ -1,0 +1,792 @@
+{
+  "version": "3.2.0",
+  "total_recipes": 16,
+  "recipes": [
+    {
+      "id": "PW-OMNI-pre-low",
+      "name": "Pre-Workout Banana Oats (OMNI)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "1 medium banana (118g)",
+        "30g rolled oats",
+        "150ml skim milk"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Top with sliced banana.",
+        "Eat 30-45 min before training."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 180,
+        "protein_g": 5,
+        "carb_g": 35,
+        "fat_g": 2,
+        "fiber_g": 4,
+        "sugar_g": 12
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "low",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI-pre-high",
+      "name": "Pre-Workout Oat Energy Bowl (OMNI)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "60g rolled oats",
+        "1 banana",
+        "15g peanut butter",
+        "200ml milk",
+        "1 tsp honey"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Stir in nut butter.",
+        "Top with banana slices and honey."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 320,
+        "protein_g": 9,
+        "carb_g": 55,
+        "fat_g": 9,
+        "fiber_g": 6,
+        "sugar_g": 22
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI-post-low",
+      "name": "Post-Workout Greek Yogurt Bowl (OMNI)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "200g nonfat Greek yogurt",
+        "1 medium banana",
+        "15g honey",
+        "30g rolled oats"
+      ],
+      "instructions": [
+        "Combine yogurt and oats.",
+        "Top with banana slices.",
+        "Drizzle honey on top."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 270,
+        "protein_g": 25,
+        "carb_g": 40,
+        "fat_g": 2,
+        "fiber_g": 4,
+        "sugar_g": 25
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI-post-high",
+      "name": "Post-Workout Recovery Smoothie (OMNI)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "200g nonfat Greek yogurt",
+        "1 banana",
+        "200ml milk",
+        "30g whey protein",
+        "15g peanut butter",
+        "1 cup ice"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth.",
+        "Consume within 30 min post-workout."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 450,
+        "protein_g": 50,
+        "carb_g": 45,
+        "fat_g": 10,
+        "fiber_g": 5,
+        "sugar_g": 30
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "high",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN-pre-low",
+      "name": "Pre-Workout Banana Oats (VEGAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "1 medium banana (118g)",
+        "30g rolled oats",
+        "150ml almond milk"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Top with sliced banana.",
+        "Eat 30-45 min before training."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 180,
+        "protein_g": 5,
+        "carb_g": 35,
+        "fat_g": 2,
+        "fiber_g": 4,
+        "sugar_g": 12
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "low",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN-pre-high",
+      "name": "Pre-Workout Oat Energy Bowl (VEGAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "60g rolled oats",
+        "1 banana",
+        "15g almond butter",
+        "200ml almond milk",
+        "1 tsp honey"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Stir in nut butter.",
+        "Top with banana slices and honey."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 320,
+        "protein_g": 9,
+        "carb_g": 55,
+        "fat_g": 9,
+        "fiber_g": 6,
+        "sugar_g": 22
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN-post-low",
+      "name": "Post-Workout Soy Protein Shake (VEGAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "30g soy protein isolate",
+        "1 medium banana",
+        "250ml almond milk",
+        "5g cocoa powder"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth.",
+        "Drink within 30 min after training."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 270,
+        "protein_g": 27,
+        "carb_g": 30,
+        "fat_g": 4,
+        "fiber_g": 4,
+        "sugar_g": 16
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN-post-high",
+      "name": "Post-Workout Vegan Recovery Smoothie (VEGAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "30g pea protein",
+        "1 banana",
+        "200ml almond milk",
+        "20g peanut butter",
+        "30g oats",
+        "1 cup ice"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth.",
+        "Consume within 30 min post-workout."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 450,
+        "protein_g": 35,
+        "carb_g": 50,
+        "fat_g": 13,
+        "fiber_g": 8,
+        "sugar_g": 18
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "high",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI_ETHIOPIAN-pre-low",
+      "name": "Pre-Workout Banana Oats (OMNI_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "OMNI_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "1 medium banana (118g)",
+        "30g rolled oats",
+        "150ml skim milk"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Top with sliced banana.",
+        "Eat 30-45 min before training."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 180,
+        "protein_g": 5,
+        "carb_g": 35,
+        "fat_g": 2,
+        "fiber_g": 4,
+        "sugar_g": 12
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "low",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI_ETHIOPIAN-pre-high",
+      "name": "Pre-Workout Oat Energy Bowl (OMNI_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "OMNI_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "60g rolled oats",
+        "1 banana",
+        "15g peanut butter",
+        "200ml milk",
+        "1 tsp honey"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Stir in nut butter.",
+        "Top with banana slices and honey."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 320,
+        "protein_g": 9,
+        "carb_g": 55,
+        "fat_g": 9,
+        "fiber_g": 6,
+        "sugar_g": 22
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI_ETHIOPIAN-post-low",
+      "name": "Post-Workout Greek Yogurt Bowl (OMNI_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "OMNI_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "200g nonfat Greek yogurt",
+        "1 medium banana",
+        "15g honey",
+        "30g rolled oats"
+      ],
+      "instructions": [
+        "Combine yogurt and oats.",
+        "Top with banana slices.",
+        "Drizzle honey on top."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 270,
+        "protein_g": 25,
+        "carb_g": 40,
+        "fat_g": 2,
+        "fiber_g": 4,
+        "sugar_g": 25
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-OMNI_ETHIOPIAN-post-high",
+      "name": "Post-Workout Recovery Smoothie (OMNI_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "OMNI_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "200g nonfat Greek yogurt",
+        "1 banana",
+        "200ml milk",
+        "30g whey protein",
+        "15g peanut butter",
+        "1 cup ice"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth.",
+        "Consume within 30 min post-workout."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 450,
+        "protein_g": 50,
+        "carb_g": 45,
+        "fat_g": 10,
+        "fiber_g": 5,
+        "sugar_g": 30
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "high",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN_ETHIOPIAN-pre-low",
+      "name": "Pre-Workout Banana Oats (VEGAN_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "VEGAN_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "1 medium banana (118g)",
+        "30g rolled oats",
+        "150ml almond milk"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Top with sliced banana.",
+        "Eat 30-45 min before training."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 180,
+        "protein_g": 5,
+        "carb_g": 35,
+        "fat_g": 2,
+        "fiber_g": 4,
+        "sugar_g": 12
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "low",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN_ETHIOPIAN-pre-high",
+      "name": "Pre-Workout Oat Energy Bowl (VEGAN_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "pre_workout"
+      ],
+      "diet_types": [
+        "VEGAN_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "60g rolled oats",
+        "1 banana",
+        "15g almond butter",
+        "200ml almond milk",
+        "1 tsp honey"
+      ],
+      "instructions": [
+        "Combine oats and milk; microwave 90 seconds.",
+        "Stir in nut butter.",
+        "Top with banana slices and honey."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 320,
+        "protein_g": 9,
+        "carb_g": 55,
+        "fat_g": 9,
+        "fiber_g": 6,
+        "sugar_g": 22
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "low",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN_ETHIOPIAN-post-low",
+      "name": "Post-Workout Soy Protein Shake (VEGAN_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "VEGAN_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "30g soy protein isolate",
+        "1 medium banana",
+        "250ml almond milk",
+        "5g cocoa powder"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth.",
+        "Drink within 30 min after training."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 270,
+        "protein_g": 27,
+        "carb_g": 30,
+        "fat_g": 4,
+        "fiber_g": 4,
+        "sugar_g": 16
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    },
+    {
+      "id": "PW-VEGAN_ETHIOPIAN-post-high",
+      "name": "Post-Workout Vegan Recovery Smoothie (VEGAN_ETHIOPIAN)",
+      "source": "engine-generated",
+      "cuisine": "neutral",
+      "meal_types": [
+        "post_workout"
+      ],
+      "diet_types": [
+        "VEGAN_ETHIOPIAN"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "30g pea protein",
+        "1 banana",
+        "200ml almond milk",
+        "20g peanut butter",
+        "30g oats",
+        "1 cup ice"
+      ],
+      "instructions": [
+        "Blend all ingredients until smooth.",
+        "Consume within 30 min post-workout."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 450,
+        "protein_g": 35,
+        "carb_g": 50,
+        "fat_g": 13,
+        "fiber_g": 8,
+        "sugar_g": 18
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "high",
+      "allergens": [],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp",
+        "strength"
+      ],
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "notes": " [pre/post workout — engine-generated]"
+    }
+  ]
+}

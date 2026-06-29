@@ -1,0 +1,2002 @@
+     1→     1→# Fitn — Flutter App Specification
+     2→     2→
+     3→     3→**Product:** Fitn — a mobile fitness companion.
+     4→     4→**Platform:** Flutter (iOS + Android), single Dart codebase.
+     5→     5→**Audience:** Senior Flutter engineer. Build-ready.
+     6→     6→
+     7→     7→This document specifies a fitness app built around a deterministic, physiology-grounded engine. The engine is the product's core value — its formulas, thresholds, and decision trees are pinned down completely. Everything around it (UI, state, storage, sync) is specified to a buildable level of detail, with implementation choices made where they matter and left to the engineer where they don't.
+     8→     8→
+     9→     9→---
+    10→    10→
+    11→    11→## 1. Product Vision
+    12→    12→
+    13→    13→A mobile fitness companion that turns a 5-minute onboarding questionnaire into a fully personalized, deterministic fitness plan — body composition assessment, nutrition targets, multi-week training program, 7-day meal rotation — and then **stays with the user daily**: logging workouts, tracking progress, and tuning the plan as their body changes.
+    14→    14→
+    15→    15→**The differentiator is the engine.** It's deterministic (same inputs → byte-identical output), grounded in published physiology (Mifflin-St Jeor, Katch-McArdle, Kouri FFMI, Hodgdon-Beckett Navy, CUN-BAE, ABSI, RippedBody volume landmarks, Lyle McDonald muscle-gain rates), and produces a coherent cut/bulk/recomp/maintenance/reverse-diet recommendation with a defensible rationale. The app's job is to get out of the engine's way.
+    16→    16→
+    17→    17→**What the app must do well:**
+    18→    18→1. **Onboard in 5 steps** — minimal friction, sensible defaults, never block on optional fields.
+    19→    19→2. **Generate a plan in <500 ms** — instant feedback, no spinner anxiety.
+    20→    20→3. **Work offline** — the plan, exercise library, and recipe database live on-device. Sync is a background concern, never a UX blocker.
+    21→    21→4. **Log workouts** — sets, reps, weight, RPE. Rest timer. This is the daily-use loop.
+    22→    22→5. **Track progress** — weight log, workout history, volume trends. The engine accepts weight/intake logs as inputs for adaptive TDEE; the UI must collect them.
+    23→    23→6. **Sync across devices** — sign in, pick up where you left up on another phone.
+    24→    24→7. **Regenerate gracefully** — when the user's body changes, the plan should update without losing history.
+    25→    25→
+    26→    26→**What the app must NOT do:**
+    27→    27→- Block on auth. Anonymous use is first-class.
+    28→    28→- Require a server round-trip for plan generation.
+    29→    29→- Lose data on sign-out (local data survives; only server-synced data is disowned).
+    30→    30→- Pretend to be a marketplace. Commerce is out of scope.
+    31→    31→
+    32→    32→---
+    33→    33→
+    34→    34→## 2. Key Decisions
+    35→    35→
+    36→    36→### 2.1 In scope
+    37→    37→
+    38→    38→| Feature                               | Notes                                                                                            |
+    39→    39→| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+    40→    40→| On-device engine in a Dart isolate    | Plan generation is instant, offline, free. Runs via `Isolate.run()`; engine lives in a pure-Dart `fitn_engine` package. |
+    41→    41→| 5-step onboarding                     | Minimal friction, sensible defaults, optional fields never block.                               |
+    42→    42→| 5 main tabs                           | Home, Workouts, Meals, Progress, Profile.                                                       |
+    43→    43→| Workout session logger                | Full-screen set/rep/weight/RPE logger with rest timer. Every set persists to `WorkoutLogRecord`. |
+    44→    44→| Weight + intake logging               | Engine inputs for adaptive TDEE — collecting them closes the feedback loop. Stored as `WeightLogRecord` / `IntakeLogRecord`. |
+    45→    45→| Progress tracking                     | Weight chart, volume trends, workout history, PRs (computed from workout logs).                 |
+    46→    46→| Exercise library browser              | Browse all 1,217 exercises independently of a plan (search, filter by muscle/equipment).        |
+    47→    47→| Plan versioning + restore             | History of generated plans with rollback.                                                       |
+    48→    48→| Background sync queue                 | Optimistic local writes, `workmanager`-driven flush, `updated_at` conflict resolution.          |
+    49→    49→| Anonymous-first auth                  | Plan works without sign-in. Optional Supabase auth (magic-link + Google/Apple OAuth) for cross-device sync. |
+    50→    50→| Single program plan type              | Every plan is a program (≥1 mesocycle). No user-facing "standard vs program" toggle.            |
+    51→    51→| Diet types: omnivore, vegetarian, vegan | Three supported diets. Engine rejects keto/paleo; UI does not expose them.                     |
+    52→    52→| YouTube exercise videos               | Embedded via `youtube_player_flutter`. No local video hosting.                                  |
+    53→    53→
+    54→    54→### 2.2 Out of scope (deferred)
+    55→    55→
+    56→    56→| Item                                  | Why                                                                                              |
+    57→    57→| ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+    58→    58→| Custom auth tables (`Account`, `Session`, `VerificationToken`) | Supabase Auth manages these internally.                                                         |
+    59→    59→| Marketplace / commerce (`Product`, `WishlistItem` tables, checkout) | No payment integration. Build fresh when prioritized.                                          |
+    60→    60→| Keto / paleo diet support             | Engine doesn't model them. Adding requires nutrition + meal plan rework.                        |
+    61→    61→| Local video file hosting              | YouTube embeds cover the use case; bundling MP4s bloats the app.                                 |
+    62→    62→| Realtime cross-device sync            | Pull-on-foreground + push-on-write is sufficient for launch. Supabase Realtime available later. |
+    63→    63→| Edge Functions / server-side logic    | Not needed — all logic runs on-device.                                                           |
+    64→    64→| Social features (sharing, leaderboards) | Not part of the single-user fitness companion model.                                           |
+    65→    65→| Custom exercise / recipe creation     | Engine uses fixed libraries (1,217 exercises, ~400 recipes). Schema changes required to support. |
+    66→    66→| Wear OS / watchOS companion           | Future enhancement for rest timer + set logging from the wrist.                                 |
+    67→    67→| Apple Health / Google Fit sync        | Future enhancement for pulling weight + workouts from health APIs.                              |
+    68→    68→| Adaptive plan adjustments UI          | Engine has `recommendCutAdjustment` / `recommendBulkAdjustment` (plateau detection + macro tuning). Wire into UI when users have 3+ weeks of weight logs. |
+    69→    69→
+    70→    70→### 2.3 Stack
+    71→    71→
+    72→    72→| Layer            | Choice                                   | Rationale                                                                  |
+    73→    73→| ---------------- | ---------------------------------------- | -------------------------------------------------------------------------- |
+    74→    74→| UI               | Flutter 3.x + Material 3                 | Single codebase, iOS + Android.                                            |
+    75→    75→| State            | Riverpod 2.x (`AsyncNotifier` + `select`) | Fine-grained subscriptions, no re-render storms.                           |
+    76→    76→| Navigation       | `go_router` 14.x                         | Deep links for auth callbacks, exercise deep-links.                        |
+    77→    77→| Local DB         | Isar 4.x                                 | Structured data (plans, logs, history) with query support.                 |
+    78→    78→| K/V prefs        | `shared_preferences`                     | UI state (active tab, has_onboarded, theme mode).                          |
+    79→    79→| Engine runtime   | `Isolate.run()`                          | Plan generation off the UI thread.                                         |
+    80→    80→| Auth + DB + Sync | Supabase (`supabase_flutter`)            | Auth (magic-link + OAuth), Postgres, Realtime, Storage — one SDK.          |
+    81→    81→| HTTP             | `dio` 5.x                                | Interceptors, cancellation, retry.                                         |
+    82→    82→| Secure storage   | `flutter_secure_storage`                 | Supabase refresh token.                                                    |
+    83→    83→| Background sync  | `workmanager`                            | Flush sync queue when online.                                              |
+    84→    84→| Charts           | `fl_chart` 0.70+                         | Weight log, volume trends, macro rings.                                    |
+    85→    85→| YouTube          | `youtube_player_flutter`                 | Native player, no webview overhead.                                        |
+    86→    86→| Animations       | `flutter_animate`                        | Fade, slide, count-up, shimmer.                                            |
+    87→    87→| Icons            | `lucide_icons`                           | Open icon set, broad coverage.                                             |
+    88→    88→| Models           | `freezed` + `json_serializable`          | Immutable, `copyWith`, JSON.                                               |
+    89→    89→| Validation       | `freezed` constructors + `Result` types  | No external schema lib; Dart's type system + null safety suffices.         |
+    90→    90→| Engine package   | `fitn_engine` (pure Dart)                | No Flutter deps. Ships JSON data as assets.                                |
+    91→    91→
+    92→    92→### 2.4 Why Supabase
+    93→    93→
+    94→    94→Supabase provides Postgres, Auth (magic-link + OAuth), Realtime, and Storage as one service with one Flutter SDK. For a mobile app this avoids deploying, monitoring, and scaling a custom backend. The data model is plain Postgres with row-level security (RLS), so the data is portable — Supabase is a hosting layer, not a proprietary lock-in.
+    95→    95→
+    96→    96→Supabase provides:
+    97→    97→- **Postgres** with row-level security — no server code needed for CRUD.
+    98→    98→- **Auth** with magic-link, Google, Apple, GitHub out of the box.
+    99→    99→- **Realtime** (optional — cross-device live sync; not needed for launch).
+   100→   100→- **Storage** for any future self-hosted media (not needed — YouTube embeds suffice).
+   101→   101→- **Edge Functions** if server-side logic is ever needed (not needed for launch).
+   102→   102→
+   103→   103→---
+   104→   104→
+   105→   105→## 3. Architecture
+   106→   106→
+   107→   107→### 3.1 High-level
+   108→   108→
+   109→   109→```mermaid
+   110→   110→flowchart TB
+   111→   111→  subgraph Device["Flutter App"]
+   112→   112→    UI["UI Layer<br/>5 tabs + onboarding + auth"]
+   113→   113→    State["Riverpod Providers<br/>single AppState + select()"]
+   114→   114→    Engine["fitn_engine (pure Dart)<br/>runs in Isolate.run()"]
+   115→   115→    Isar["Isar DB<br/>plans, profiles, workout_logs,<br/>weight_logs, intake_logs"]
+   116→   116→    Prefs["SharedPreferences<br/>ui_state, theme"]
+   117→   117→    Sync["Sync Queue<br/>workmanager background flush"]
+   118→   118→    UI --> State
+   119→   119→    State --> Isar
+   120→   120→    State --> Prefs
+   121→   121→    State -->|"generatePlan()"| Engine
+   122→   122→    Engine -->|"FitnessPlan"| State
+   123→   123→    State -->|"enqueue()"| Sync
+   124→   124→  end
+   125→   125→
+   126→   126→  subgraph Cloud["Supabase"]
+   127→   127→    Auth["Auth<br/>magic-link + OAuth"]
+   128→   128→    PG["Postgres<br/>profiles, plans, workout_logs,<br/>weight_logs (RLS-protected)"]
+   129→   129→    RT["Realtime<br/>(optional)"]
+   130→   130→  end
+   131→   131→
+   132→   132→  Device -->|"supabase_flutter SDK"| Cloud
+   133→   133→```
+   134→   134→
+   135→   135→### 3.2 Engine orchestration
+   136→   136→
+   137→   137→```mermaid
+   138→   138→flowchart LR
+   139→   139→  Input["UserProfile + PlanPreferences"] --> Assess["assessProfile()"]
+   140→   140→  Assess --> AR["AssessmentResult<br/>(is_partial flag)"]
+   141→   141→  AR -->|"is_partial == false"| Plan["proposePlan()"]
+   142→   142→  Input --> Plan
+   143→   143→  Plan --> NP["buildNutritionPlan()"]
+   144→   144→  Plan --> TP["buildTrainingPlan()"]
+   145→   145→  Plan --> MP["buildMealPlan()"]
+   146→   146→  NP --> FP["FitnessPlan"]
+   147→   147→  TP --> FP
+   148→   148→  MP --> FP
+   149→   149→  AR -->|"is_partial == true"| Err["PartialAssessmentError<br/>(UI surfaces regenerate CTA)"]
+   150→   150→```
+   151→   151→
+   152→   152→**Critical contract:** `proposePlan()` refuses to run on a partial assessment. The UI must check `assessment.isPartial` first and show a "regenerate" CTA instead of attempting plan generation.
+   153→   153→
+   154→   154→### 3.3 Plan generation lifecycle
+   155→   155→
+   156→   156→```mermaid
+   157→   157→sequenceDiagram
+   158→   158→  participant U as User
+   159→   159→  participant UI as Flutter UI
+   160→   160→  participant S as Riverpod State
+   161→   161→  participant E as fitn_engine (Isolate)
+   162→   162→  participant IDB as Isar
+   163→   163→  participant Q as Sync Queue
+   164→   164→  participant SB as Supabase
+   165→   165→
+   166→   166→  U->>UI: Completes onboarding step 5
+   167→   167→  UI->>S: generatePlan(profile, prefs)
+   168→   168→  S->>S: setGenerating(true)
+   169→   169→  S->>E: Isolate.run(() => proposePlan(...))
+   170→   170→  E-->>S: FitnessPlan (50-200 ms)
+   171→   171→  S->>IDB: PUT plan (active=true), PUT profile
+   172→   172→  S->>S: setPlan(plan), setOnboarded(true)
+   173→   173→  S-->>UI: notify → render Home tab
+   174→   174→  S->>Q: enqueue({type: plan, data})
+   175→   175→  Q->>SB: UPSERT plan (when online)
+   176→   176→  SB-->>Q: 200 OK
+   177→   177→  Q->>IDB: mark synced
+   178→   178→```
+   179→   179→
+   180→   180→Generation is local and synchronous from the UI's perspective (the isolate is an implementation detail). Sync is queued and flushed in the background. Failures are retried with exponential backoff, never shown to the user unless they persist for >24h.
+   181→   181→
+   182→   182→### 3.4 Sync protocol
+   183→   183→
+   184→   184→- **Optimistic local writes** — every mutation writes to Isar immediately with `syncStatus: pending`.
+   185→   185→- **Background flush** — `workmanager` runs every 15 min (when online), drains the queue.
+   186→   186→- **Conflict resolution** — `updated_at` timestamp. Server wins if `server.updated_at > local.updated_at`. Last-writer-wins is fine for this domain (single user, single device active at a time in practice).
+   187→   187→- **Push** — `UPSERT` to Supabase with `WHERE user_id = auth.uid()` (RLS enforces ownership).
+   188→   188→- **Pull** — on sign-in, fetch all rows for the user, merge by `updated_at`.
+   189→   189→- **No realtime at launch** — cross-device live sync is nice-to-have, not required. Pull-on-foreground + push-on-write is sufficient.
+   190→   190→
+   191→   191→---
+   192→   192→
+   193→   193→## 4. Engine (`fitn_engine` package)
+   194→   194→
+   195→   195→Pure Dart. No Flutter. No I/O. JSON data files loaded from `assets/` at construction.
+   196→   196→
+   197→   197→**Public API:**
+   198→   198→
+   199→   199→```dart
+   200→   200→// fitn_engine/lib/fitn_engine.dart
+   201→   201→
+   202→   202→class FitnEngine {
+   203→   203→  FitnEngine({required EngineData data});  // data loaded by caller
+   204→   204→
+   205→   205→  AssessmentResult assessProfile(UserProfile profile);
+   206→   206→  FitnessPlan proposePlan(UserProfile profile, AssessmentResult assessment, PlanPreferences prefs);
+   207→   207→  GeneratePlanResponse generatePlan(UserProfile profile, PlanPreferences prefs);  // convenience: assess + propose
+   208→   208→}
+   209→   209→
+   210→   210→class EngineData {
+   211→   211→  final List<Exercise> exercises;        // 1,217
+   212→   212→  final List<SplitDesign> splits;        // 8
+   213→   213→  final Map<String, MovementPatternSpec> movementPatterns;  // 40
+   214→   214→  final List<Recipe> recipes;            // ~400 (curated + uncurated + pre/post)
+   215→   215→  final Map<String, FoodItem> foodDatabase;
+   216→   216→}
+   217→   217→
+   218→   218→// Loads from rootBundle (Flutter) or File (CLI/test)
+   219→   219→Future<EngineData> loadEngineData({String? basePath});
+   220→   220→```
+   221→   221→
+   222→   222→### 4.1 Domain models (Dart `freezed`)
+   223→   223→
+   224→   224→All field names use `camelCase` in Dart, `snake_case` on the wire (via `@JsonKey`).
+   225→   225→
+   226→   226→#### 4.1.1 Enums
+   227→   227→
+   228→   228→```dart
+   229→   229→enum Sex { male, female }
+   230→   230→
+   231→   231→enum ActivityLevel { sedentary, mostlySedentary, lightlyActive, active, highlyActive }
+   232→   232→
+   233→   233→enum TrainingStatus { beginner, novice, intermediate, advanced }
+   234→   234→
+   235→   235→enum PrimaryGoal { fatLoss, muscleGain, recomp, maintenance, strength }
+   236→   236→
+   237→   237→enum EquipmentAccess { fullGym, homeGym, bodyweightOnly }
+   238→   238→
+   239→   239→enum DietType { omnivore, vegetarian, vegan }  // keto/paleo unsupported by engine
+   240→   240→
+   241→   241→enum CutRateTier { veryConservative, conservative, moderate, aggressive, veryAggressive }
+   242→   242→
+   243→   243→enum BulkAggressiveness { conservative, happyMedium, aggressive, veryAggressive }
+   244→   244→
+   245→   245→enum TrainingTimeOfDay { morning, midday, evening }
+   246→   246→
+   247→   247→enum ExerciseIntensity { light, moderate, intense }
+   248→   248→
+   249→   249→enum Climate { cold, temperate, hot, hotHumid }
+   250→   250→
+   251→   251→// Assessment
+   252→   252→enum BodyFatMethod { userProvided, navy, cunBae }
+   253→   253→enum BodyFatCategory { essential, athlete, fitness, acceptable, obesity }
+   254→   254→enum BMICategory { underweight, normal, overweight, obese }
+   255→   255→enum HealthRiskLevel { low, moderate, high, veryHigh }
+   256→   256→enum ABSIRiskLevel { low, belowAverage, average, aboveAverage, high }
+   257→   257→enum RecommendedStrategy { cut, bulk, recomp, maintenance, habitChangeFirst, reverseDiet }
+   258→   258→
+   259→   259→// Nutrition
+   260→   260→enum RMRFormula { mifflinStJeor, harrisBenedictOriginal, harrisBenedictRevised, cunningham, katchMcArdle }
+   261→   261→enum CalorieStrategy { deficit, surplus, maintenance, recomp, reverseDiet }
+   262→   262→
+   263→   263→// Training
+   264→   264→enum TrainingGoal { strength, hypertrophy, generalFitness, fatLoss, muscleGain, recomp, maintenance }
+   265→   265→enum SplitType { fullBody, upperLower, ppl, pplX2, pushPullLegsUpperLower, bodyPart, pushPull }
+   266→   266→enum ProgressionScheme { linear, dup, block }
+   267→   267→enum ExerciseCategory { compoundPrimary, compoundSecondary, accessory, cardio, mobility }
+   268→   268→enum ExperienceLevel { beginner, intermediate, advanced }  // lowercase in Dart; capitalize on display
+   269→   269→
+   270→   270→// Meal
+   271→   271→enum MealType { breakfast, lunch, dinner, snack, side, preWorkout, postWorkout }
+   272→   272→enum RecipeDietTag { omni, vegan, veganEthiopian, vegetarian, omniEthiopian }
+   273→   273→enum FoodCategory { proteinAnimal, proteinPlant, dairy, carbGrain, carbStarchyVeg, carbFruit, fatOil, fatNutSeed, vegetable, beverage }
+   274→   274→```
+   275→   275→
+   276→   276→#### 4.1.2 Inputs
+   277→   277→
+   278→   278→```dart
+   279→   279→@freezed
+   280→   280→class UserProfile with _$UserProfile {
+   281→   281→  const factory UserProfile({
+   282→   282→    required int age,                    // 18–100
+   283→   283→    required Sex sex,
+   284→   284→    required double heightCm,            // 140–230
+   285→   285→    required double weightKg,            // 35–300
+   286→   286→    required ActivityLevel activityLevel,
+   287→   287→    required TrainingStatus trainingStatus,
+   288→   288→    required PrimaryGoal primaryGoal,
+   289→   289→    required int trainingDaysPerWeek,    // 2–6
+   290→   290→    required EquipmentAccess equipmentAccess,
+   291→   291→    @Default(DietType.omnivore) DietType dietType,
+   292→   292→    double? bodyFatPct,                  // 2–60, null = unknown
+   293→   293→    double? neckCm,                      // 20–80
+   294→   294→    double? waistCm,                     // 40–200
+   295→   295→    double? hipCm,                       // 40–200 (required for female Navy BF)
+   296→   296→    CutRateTier? cutRateTier,
+   297→   297→    BulkAggressiveness? bulkAggressiveness,
+   298→   298→    @Default(TrainingTimeOfDay.evening) TrainingTimeOfDay trainingTimeOfDay,
+   299→   299→    @Default([]) List<double> weightLogKg,       // each 30–300, max 365
+   300→   300→    @Default([]) List<double> intakeLogKcal,     // each 0–10000, max 365
+   301→   301→  }) = _UserProfile;
+   302→   302→
+   303→   303→  const UserProfile._();
+   304→   304→
+   305→   305→  double get bmi => weightKg / (heightCm / 100 * heightCm / 100);
+   306→   306→  double get heightM => heightCm / 100;
+   307→   307→  double get heightIn => heightCm / 2.54;
+   308→   308→  double get weightLb => weightKg * 2.2046226218;
+   309→   309→  bool get hasCircumferenceMeasurements => switch (sex) {
+   310→   310→    Sex.male   => neckCm != null && waistCm != null,
+   311→   311→    Sex.female => neckCm != null && waistCm != null && hipCm != null,
+   312→   312→  };
+   313→   313→}
+   314→   314→
+   315→   315→@freezed
+   316→   316→class PlanPreferences with _$PlanPreferences {
+   317→   317→  const factory PlanPreferences({
+   318→   318→    @Default(1.0) double exerciseHoursPerDay,    // 0.25–4
+   319→   319→    @Default(ExerciseIntensity.moderate) ExerciseIntensity exerciseIntensity,
+   320→   320→    @Default(Climate.temperate) Climate climate,
+   321→   321→    @Default(0.0) double weightReducedPct,       // 0.0–1.0
+   322→   322→    List<String>? muscleFocus,                    // e.g. ["chest", "back", "shoulders", "arms", "legs", "glutes", "core", "calves"]
+   323→   323→    int? programDurationWeeks,                    // 4–52
+   324→   324→    @Default(3) int mealFrequency,                // 2–6
+   325→   325→    String? cuisinePreference,                    // e.g. "ethiopian", "italian", "american"
+   326→   326→    List<String>? allergensToAvoid,               // ["dairy", "gluten", "eggs", "soy", "peanuts", "tree_nuts", "shellfish", "fish", "sesame", "corn"]
+   327→   327→    List<String>? excludedIngredients,
+   328→   328→    @Default(false) bool includePrePostWorkout,
+   329→   329→  }) = _PlanPreferences;
+   330→   330→}
+   331→   331→```
+   332→   332→
+   333→   333→**Construction-time validation** throws `ArgumentError` with a clear message on:
+   334→   334→- Range violations (age, height, weight, training_days, body_fat_pct, log entries)
+   335→   335→- Mismatched log lengths (`weightLogKg.length != intakeLogKcal.length` when both non-empty)
+   336→   336→
+   337→   337→#### 4.1.3 Outputs
+   338→   338→
+   339→   339→The full output tree (`AssessmentResult`, `BodyComposition`, `HealthRiskAssessment`, `MuscularPotential`, `NutritionPlan`, `RMRResult`, `TDEEResult`, `CalorieTargets`, `MacroSplit`, `HydrationTarget`, `MicronutrientTargets`, `TrainingPlan`, `Mesocycle`, `Microcycle`, `Workout`, `WorkoutExercise`, `Exercise`, `MealPlan`, `DayPlan`, `Meal`, `Recipe`, `MealFood`, `FoodItem`, `FitnessPlan`) is defined in §9.1 (Output model reference).
+   340→   340→
+   341→   341→### 4.2 Assessment sub-engine
+   342→   342→
+   343→   343→Orchestration (`assessProfile`) runs 4 sub-assessments in order, **never short-circuiting on failure**:
+   344→   344→
+   345→   345→1. `assessBodyComposition(profile)` — root of the dependency tree.
+   346→   346→2. `assessHealthRisk(profile)` — independent of body comp.
+   347→   347→3. `assessMuscularPotential(profile, bodyComp.bodyFatPct)` — **skipped** if `bodyComp == null`.
+   348→   348→4. `decideStrategy(profile, bodyComp.bodyFatPct)` — **skipped** if `bodyComp == null`, defaults to `maintenance`.
+   349→   349→
+   350→   350→If any sub-assessment throws, record `"sub_name: ArgumentError: <msg>"` in `errors` and set the sub-result to null. `is_partial = errors.isNotEmpty`. The summary string is built defensively (every nullable field guarded).
+   351→   351→
+   352→   352→`proposePlan()` throws `PartialAssessmentError` if called with `is_partial == true`.
+   353→   353→
+   354→   354→#### 4.2.1 Body fat % selection (priority order)
+   355→   355→
+   356→   356→1. **User-provided** (`bodyFatPct != null`) → use as-is.
+   357→   357→2. **US Navy circumference** (Hodgdon & Beckett 1984) — if `hasCircumferenceMeasurements`:
+   358→   358→   - Male: `86.010 × log10(waistIn − neckIn) − 70.041 × log10(heightIn) + 36.76`
+   359→   359→   - Female: `163.205 × log10(waistIn + hipIn − neckIn) − 97.684 × log10(heightIn) − 78.387`
+   360→   360→   - If `(waistIn − neckIn) ≤ 0` (male) or `(waistIn + hipIn − neckIn) ≤ 0` (female), return null → fall through to CUN-BAE.
+   361→   361→   - Clamp to `[2.0, 60.0]`.
+   362→   362→3. **CUN-BAE** (always computable):
+   363→   363→   - `bf = -24.988 + 0.503 × age + 1.0689 × bmi + 0.462 × (sex == female ? 1.0 : 0.0)`
+   364→   364→   - Clamp to `[2.0, 60.0]`.
+   365→   365→
+   366→   366→#### 4.2.2 BMI categories
+   367→   367→
+   368→   368→| Category     | BMI range            |
+   369→   369→| ------------ | -------------------- |
+   370→   370→| UNDERWEIGHT  | `[0, 18.5)`          |
+   371→   371→| NORMAL       | `[18.5, 25.0)`       |
+   372→   372→| OVERWEIGHT   | `[25.0, 30.0)`       |
+   373→   373→| OBESE        | `[30.0, +∞)`         |
+   374→   374→
+   375→   375→#### 4.2.3 Body fat categories (sex-specific)
+   376→   376→
+   377→   377→| Category     | Male BF%       | Female BF%      |
+   378→   378→| ------------ | -------------- | --------------- |
+   379→   379→| ESSENTIAL    | `[0, 6)`       | `[0, 14)`       |
+   380→   380→| ATHLETE      | `[6, 14)`      | `[14, 21)`      |
+   381→   381→| FITNESS      | `[14, 18)`     | `[21, 25)`      |
+   382→   382→| ACCEPTABLE   | `[18, 25)`     | `[25, 32)`      |
+   383→   383→| OBESITY      | `[25, +∞)`     | `[32, +∞)`      |
+   384→   384→
+   385→   385→#### 4.2.4 FFMI (Kouri 1995)
+   386→   386→
+   387→   387→- `ffmKg = weightKg × (1 − bfPct/100)`
+   388→   388→- `ffmi = ffmKg / heightM²`
+   389→   389→- `normalizedFfmi = ffmi + 6.1 × (1.8 − heightM)`
+   390→   390→
+   391→   391→**Ceiling constants:** `FFMI_NATURAL_COMMON = 25.0`, `ATTAINABLE = 27.3`, `LIKELY_MAX = 28.0`. Normalization coefficient `6.1`, reference height `1.8 m`.
+   392→   392→
+   393→   393→**Named target BF% landmarks** (for `targetWeightsKg` map):
+   394→   394→
+   395→   395→| Label            | Male | Female |
+   396→   396→| ---------------- | ---- | ------ |
+   397→   397→| athletic         | 14.0 | 21.0   |
+   398→   398→| fitness          | 18.0 | 25.0   |
+   399→   399→| acceptable       | 25.0 | 32.0   |
+   400→   400→| hormonal_floor   | 10.0 | 18.0   |
+   401→   401→
+   402→   402→`targetWeight = lbm / (1 − targetBf/100)` where `lbm = currentWeight × (1 − currentBf/100)`.
+   403→   403→
+   404→   404→#### 4.2.5 Health risk
+   405→   405→
+   406→   406→| Metric | Formula | Classification |
+   407→   407→| ------ | ------- | -------------- |
+   408→   408→| **WHR** | `waist / hip` | Male: ≤0.85 LOW, ≤0.90 MOD, ≤1.0 HIGH, >1.0 VERY_HIGH. Female: ≤0.80 LOW, ≤0.85 MOD, ≤1.0 HIGH, >1.0 VERY_HIGH. |
+   409→   409→| **WHtR** | `waist / height` | Male: <0.50 LOW, <0.53 MOD, <0.58 HIGH, ≥0.58 VERY_HIGH. Female: <0.46 LOW, <0.49 MOD, <0.54 HIGH, ≥0.54 VERY_HIGH. |
+   410→   410→| **ABSI** | `(waist_m) × weight^(-2/3) × height^(5/6)` | Z-score from NHANES 10-year age bands (see §9.3). |
+   411→   411→| **IBW** | `base + mult × (heightIn − 60)` | 4 formulas: Devine (50/2.3 M, 45.5/2.3 F), Robinson (52/1.9, 49/1.7), Miller (56.2/1.41, 53.1/1.36), Hamwi (48/2.7, 45.4/2.2). |
+   412→   412→
+   413→   413→**Overall risk** (weighted heuristic): ABSI weight 0.5, WHR 0.3, WHtR 0.2. Add weight when the metric is HIGH/VERY_HIGH (ABSI: ABOVE_AVERAGE/HIGH). Map: ≥0.75 → VERY_HIGH, ≥0.50 → HIGH, any clinical risk factor → MODERATE, else LOW.
+   414→   414→
+   415→   415→#### 4.2.6 Muscular potential
+   416→   416→
+   417→   417→- Use **normalized FFMI** for ceiling comparison.
+   418→   418→- `ffmiToCeilingPct = clamp(normalizedFfmi / 25.0 × 100, 0, 100)`.
+   419→   419→- `headroomKg = max(0, ffmAtCeiling − ffmKg)` where `ffmAtCeiling = (25.0 − 6.1 × (1.8 − heightM)) × heightM²`.
+   420→   420→- **Berkhan stage max** (men only): `heightCm − 100` at 5-6% BF. Null for women (essential BF floor is ~10-13%, not 5-6%).
+   421→   421→- **Expected monthly muscle gain** (Lyle McDonald, men; × 0.5 for women):
+   422→   422→
+   423→   423→| Status        | Monthly gain (men) |
+   424→   424→| ------------- | ------------------ |
+   425→   425→| BEGINNER      | 0.85 kg            |
+   426→   426→| NOVICE        | 0.575 kg           |
+   427→   427→| INTERMEDIATE  | 0.325 kg           |
+   428→   428→| ADVANCED      | 0.10 kg            |
+   429→   429→
+   430→   430→#### 4.2.7 Strategy decision tree
+   431→   431→
+   432→   432→**Sex-specific boundaries** (single source of truth):
+   433→   433→
+   434→   434→| Boundary           | Male | Female |
+   435→   435→| ------------------ | ---- | ------ |
+   436→   436→| cut_floor          | 10   | 18     |
+   437→   437→| bulk_ceiling       | 20   | 28     |
+   438→   438→| bulk_start         | 15   | 23     |
+   439→   439→| operational_lo     | 10   | 18     |
+   440→   440→| operational_hi     | 20   | 28     |
+   441→   441→| obese_threshold    | 25   | 32     |
+   442→   442→| recomp_excellent   | 23   | 30     |
+   443→   443→| recomp_good_lo     | 15   | 25     |
+   444→   444→| recomp_limited     | 15   | 25     |
+   445→   445→| skinny_fat_lo      | 12   | 20     |
+   446→   446→| skinny_fat_hi      | 23   | 31     |
+   447→   447→
+   448→   448→**Algorithm (first match wins):**
+   449→   449→
+   450→   450→1. **Safety override (obesity):** `bfPct >= obese_threshold`:
+   451→   451→   - BEGINNER + goal != fat_loss → `habitChangeFirst` ("start with habit changes before calorie counting")
+   452→   452→   - Else → `cut` ("prioritise fat loss")
+   453→   453→2. **Goal = maintenance:**
+   454→   454→   - If `bfPct < hormonal_floor` → warn about bulk.
+   455→   455→   - If `bfPct > operational_hi` → warn about cut.
+   456→   456→   - **Reverse-diet detection:** if `intakeLogKcal.length >= 30` AND `operational_lo <= bfPct <= operational_hi`:
+   457→   457→     - Trailing 7-day avg intake vs estimated TDEE (compute via RMR+TDEE pipeline; fallback `weightKg × 35`).
+   458→   458→     - If `recentIntake < tdee × 0.90` → `reverseDiet`.
+   459→   459→   - Else → `maintenance`.
+   460→   460→3. **Goal = strength:** if `bfPct > bulk_ceiling` → `cut`; else `maintenance`.
+   461→   461→4. **Goal = fat_loss:** if `bfPct < cut_floor` → `maintenance` (protect hormones); else `cut`.
+   462→   462→5. **Goal = muscle_gain:** if `bfPct > bulk_ceiling` → `cut`; else `bulk`.
+   463→   463→6. **Goal = recomp:** `bfPct >= recomp_excellent` → `recomp` (excellent); `>= recomp_good_lo` → `recomp` (good); else `bulk` (limited).
+   464→   464→7. **Auto-decide (no explicit goal override — fallback path):**
+   465→   465→   - `bfPct > operational_hi` → `cut`
+   466→   466→   - `bfPct < cut_floor` → `bulk`
+   467→   467→   - Novice + skinny-fat range → `recomp`
+   468→   468→   - Novice + `bfPct < bulk_start` → `recomp` (milk newbie gains)
+   469→   469→   - `bfPct < bulk_start` → `bulk`
+   470→   470→   - Else → `cut`
+   471→   471→
+   472→   472→### 4.3 Nutrition sub-engine
+   473→   473→
+   474→   474→`buildNutritionPlan(profile, assessment, exerciseHours, exerciseIntensity, climate, weightReducedPct)`:
+   475→   475→
+   476→   476→1. **RMR** — `KATCH_MCARDLE` if `bodyFatPct != null`, else `MIFFLIN_ST_JEOR`.
+   477→   477→   - Mifflin: `10 × weight + 6.25 × height − 5 × age + (male ? 5 : -161)`
+   478→   478→   - Katch-McArdle: `370 + 21.6 × lbm` (throws if `bfPct ∉ [2, 60]`)
+   479→   479→   - Adjustments: `× 0.95` if active deficit (cut/recomp), `× 0.97` if `weightReducedPct > 0.10`.
+   480→   480→2. **TDEE** — RippedBody activity factors (1.25 / 1.45 / 1.65 / 1.85 / 2.05 for sedentary / mostly_sedentary / lightly_active / active / highly_active).
+   481→   481→3. **Adaptive TDEE** — if `weightLogKg` and `intakeLogKcal` are both non-empty, equal-length, and ≥8 entries:
+   482→   482→   - `observed = avgIntake − (Δweight × 7700) / nDays`
+   483→   483→   - Sanity: `observed ∈ [800, 7000]`, else skip.
+   484→   484→   - Ramp weight: `w = clamp((nDays − 7) / 53, 0, 1)` — no adaptation below 7 days, full at 60+.
+   485→   485→   - `adaptive = w × observed + (1 − w) × tdee`.
+   486→   486→4. **Calorie targets** — by strategy, with floor 1200 (F) / 1500 (M):
+   487→   487→
+   488→   488→| Strategy           | Computation                                                                                       |
+   489→   489→| ------------------ | ------------------------------------------------------------------------------------------------- |
+   490→   490→| cut                | `weeklyLoss = weight × rate`; `dailyDeficit = weeklyLoss × 1100`; `target = tdee − dailyDeficit` |
+   491→   491→| bulk               | `monthlyGain = weight × rate`; `dailySurplus = monthlyGain × 330`; `target = tdee + dailySurplus` |
+   492→   492→| maintenance        | `target = tdee`                                                                                   |
+   493→   493→| recomp             | `target = tdee × (1 − deficitPct)` where deficitPct = 0.15/0.05/0.0 by recomp potential           |
+   494→   494→| reverse_diet       | Weekly ladder: `+50/+100/+150 kcal/wk` by aggressiveness, until target reached                    |
+   495→   495→| habit_change_first | Same as maintenance                                                                               |
+   496→   496→
+   497→   497→**Cut rate** (priority): explicit `cutRateTier` → BF%-threshold table → default 0.75% BW/week. Hard cap 1.0% BW/week.
+   498→   498→
+   499→   499→**Cut rate by BF% threshold** (first match):
+   500→   500→
+   501→   501→| Sex    | Thresholds (BF%) | Rate (% BW/week)   |
+   502→   502→| ------ | ---------------- | ------------------ |
+   503→   503→| Male   | [25, 20, 15]     | [1.00, 0.75, 0.50, 0.50] |
+   504→   504→| Female | [32, 28, 22]     | [1.00, 0.75, 0.50, 0.50] |
+   505→   505→
+   506→   506→**Bulk rate** (priority): explicit `bulkAggressiveness × trainingStatus` table → default by status (beginner 2%/mo, novice 1.5%/mo, intermediate 1%/mo, advanced 0.5%/mo).
+   507→   507→
+   508→   508→**Bulk weekly rate tiers** (% BW/week):
+   509→   509→
+   510→   510→| Aggressiveness     | Beginner/Novice | Intermediate | Advanced |
+   511→   511→| ------------------ | --------------- | ------------ | -------- |
+   512→   512→| conservative       | 0.0020          | 0.0015       | 0.0010   |
+   513→   513→| happyMedium        | 0.0050          | 0.00325      | 0.0015   |
+   514→   514→| aggressive         | 0.0080          | 0.00575      | 0.0035   |
+   515→   515→| veryAggressive     | 0.0100          | 0.00800      | 0.0060   |
+   516→   516→
+   517→   517→5. **Macros:**
+   518→   518→   - **Protein:**
+   519→   519→     - Obese override (`bfPct >= obese_threshold`): `1 g × heightCm`.
+   520→   520→     - BF% known: `lbm_lb × 1.14` (cut) or `× 1.0` (else).
+   521→   521→     - BF% unknown: `target_weight_lb × 1.0` (cut, target = 90% current) or `weight_lb × 0.73` (else).
+   522→   522→     - Diet boost: vegan ×1.20 (ceil), vegetarian ×1.10 (ceil).
+   523→   523→   - **Fat:** midpoint of strategy range (deficit/recomp: 15-25%; surplus/maintenance/reverse: 20-30%). Floor: `max(40, weight_lb × 0.25)`. Saturated ceiling: 10% of calories.
+   524→   524→   - **Carbs:** remainder = `targetKcal − proteinKcal − fatKcal`, clamped to ≥0.
+   525→   525→6. **Hydration** (multi-step FatCalc):
+   526→   526→   - Base: `weightKg × 0.030 L`
+   527→   527→   - Sex: +0.3 L (male)
+   528→   528→   - Exercise: `hours × sweatRate / 1000` (light 300, moderate 500, intense 800 mL/hr)
+   529→   529→   - Climate multiplier (cold 0.95, temperate 1.0, hot 1.3, hot_humid 1.4) applied to exercise component only
+   530→   530→   - Pregnancy +0.3 L, breastfeeding +0.7 L (throws if male)
+   531→   531→   - Soft ceiling 5.0 L (hyponatremia protection)
+   532→   532→7. **Micronutrients:** fiber = `14 g × targetKcal / 1000`. Fruit/veg cups: 2/2 (≤2000 kcal), 3/3 (≤3000), 4/4 (≤4000+).
+   533→   533→8. **Timeline:**
+   534→   534→   - Cut: `max(4, floor(kgToLose / weeklyRateKg) + 4)` where target BF = `operational_lo + 2`.
+   535→   535→   - Bulk: `max(12, floor((targetGainKg / monthlyRateKg) × 4.348) + 4)` where targetGain = 5% BW.
+   536→   536→   - Recomp: 12 weeks. Maintenance: 12. Habit-change: 8. Reverse-diet: parse from notes, default 8.
+   537→   537→
+   538→   538→### 4.4 Training sub-engine
+   539→   539→
+   540→   540→`buildTrainingPlan(profile, assessment, muscleFocus, programDurationWeeks)`:
+   541→   541→
+   542→   542→1. **Derive goal** from `(primaryGoal, recommendedStrategy)`:
+   543→   543→
+   544→   544→| primaryGoal | strategy                                        | → TrainingGoal      |
+   545→   545→| ----------- | ----------------------------------------------- | -------------------- |
+   546→   546→| strength    | maintenance / bulk / recomp                     | strength             |
+   547→   547→| (any)       | cut                                             | fatLoss              |
+   548→   548→| (any)       | bulk                                            | muscleGain           |
+   549→   549→| (any)       | recomp                                          | recomp               |
+   550→   550→| (any)       | maintenance                                     | maintenance          |
+   551→   551→| (any)       | habitChangeFirst                                | generalFitness       |
+   552→   552→| (any)       | reverseDiet (or unmapped)                       | hypertrophy (fallback) |
+   553→   553→
+   554→   554→2. **Pick split** from 8 designs (`split_designs.json`):
+   555→   555→   - Filter by `days_per_week` → by `experience` AND `goal` → by `experience` → by `goal` → all.
+   556→   556→   - Tie-break by experience preference order:
+   557→   557→     - BEGINNER: fullBody > upperLower > ppl
+   558→   558→     - NOVICE: fullBody > upperLower > ppl > pushPull
+   559→   559→     - INTERMEDIATE: upperLower > fullBody > ppl > pplul > pplX2
+   560→   560→     - ADVANCED: pplX2 > pplul > bodyPart > upperLower > fullBody
+   561→   561→3. **Pick progression:** BLOCK if (strength + intermediate/advanced); else LINEAR (beginner/novice), DUP (intermediate), BLOCK (advanced).
+   562→   562→4. **Apply muscle focus:** for each focus muscle, append 1-2 accessory slots to templates that already train that muscle.
+   563→   563→
+   564→   564→| Focus muscle | Added slots (category, sets, pattern)                                       |
+   565→   565→| ------------ | --------------------------------------------------------------------------- |
+   566→   566→| chest        | chest_fly accessory × 3; incline_push accessory × 3                         |
+   567→   567→| back         | seated_row accessory × 3; vertical_pull accessory × 3                       |
+   568→   568→| quads        | knee_extension accessory × 3; front_squat compound_secondary × 3            |
+   569→   569→| hamstrings   | knee_flexion accessory × 3; romanian_deadlift accessory × 3                 |
+   570→   570→| glutes       | hip_thrust compound_secondary × 3; glute_isolation accessory × 3            |
+   571→   571→| shoulders    | lateral_raise accessory × 4; rear_delt accessory × 3                        |
+   572→   572→| arms         | elbow_flexion accessory × 4; elbow_extension accessory × 4                  |
+   573→   573→| biceps       | elbow_flexion accessory × 4                                                 |
+   574→   574→| triceps      | elbow_extension accessory × 4                                               |
+   575→   575→| calves       | ankle_plantarflexion accessory × 5                                          |
+   576→   576→| abs          | core_anti_extension accessory × 3; core_anti_rotation accessory × 3         |
+   577→   577→
+   578→   578→5. **Build workouts from templates** — for each slot, run the **7-tier exercise selector**:
+   579→   579→   - Equipment filter (full_gym: 33 types, home_gym: 9, bodyweight_only: 2).
+   580→   580→   - Exclude CARDIO/MOBILITY categories; exclude plyometrics for beginners.
+   581→   581→   - Tier 1-7: progressively relax constraints (pattern → muscle → category), experience enforced or relaxed.
+   582→   582→   - Sort by: equipment preference rank → experience distance → view count → name.
+   583→   583→   - Movement pattern detection: keyword match (slug wins 100+length, name wins length) → force-type fallback → primary-muscle fallback.
+   584→   584→6. **Build mesocycles:**
+   585→   585→   - Mesocycle length: 4w (beginner/novice), 5w (intermediate), 6w (advanced).
+   586→   586→   - Program duration: 4/8/10/12w by experience (bumped to 12 if strength + intermediate/advanced). User override: 4-52w.
+   587→   587→   - `numMesocycles = max(1, floor(duration / mesoLength))`.
+   588→   588→   - Each mesocycle's last week is a deload (sets × 0.5, RPE − 1.5).
+   589→   589→   - BLOCK progression: assign phases across mesocycles — 1→[accumulation], 2→[accumulation, intensification], 3+→[accumulation, intensification, peak].
+   590→   590→7. **Apply periodization** (5 layers, in order):
+   591→   591→   - **Layer 1 — Goal preset** (base reps/rest/RPE by goal × exercise category).
+   592→   592→   - **Layer 2 — DUP day-type modifiers** (heavy/moderate/light, only if `dayType` set on template).
+   593→   593→   - **Layer 3 — Block phase modifiers** (accumulation/intensification/peak; for strength + compound_primary, use StrengthPhase specs).
+   594→   594→   - **Layer 4 — Deload** (sets × 0.5, RPE − 1.5).
+   595→   595→   - **Layer 5 — RIR clamp** (lookup RIR range by tier × rep range, convert to RPE bounds, clamp).
+   596→   596→8. **Compute weekly volume** (fractional set counting: primary 1.0, secondary 0.5, dedupe secondary against primary).
+   597→   597→9. **Validate volume** against landmarks (MEV/MAV/MRV/ML for 22 muscles + default fallback).
+   598→   598→10. **Per-session cap:** 11 sets/muscle/workout — warn if exceeded.
+   599→   599→
+   600→   600→**Goal presets** (reps / rest_sec / RPE):
+   601→   601→
+   602→   602→| Goal             | Compound Primary | Compound Secondary | Accessory    | Cardio        | Mobility      |
+   603→   603→| ---------------- | ---------------- | ------------------ | ------------ | ------------- | ------------- |
+   604→   604→| strength         | 3-6 / 240 / 8.5  | 5-8 / 180 / 8.0    | 8-12 / 90 / 7.0 | 20-45 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+   605→   605→| hypertrophy / muscleGain / recomp | 5-8 / 180 / 8.0 | 8-12 / 120 / 7.0 | 10-15 / 60 / 6.0 | 20-30 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+   606→   606→| fatLoss          | 6-10 / 120 / 7.5 | 8-12 / 90 / 7.0    | 12-20 / 45 / 6.0 | 20-45 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+   607→   607→| generalFitness   | 8-12 / 120 / 7.0 | 10-15 / 90 / 6.5   | 12-20 / 60 / 6.0 | 20-45 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+   608→   608→| maintenance      | 6-10 / 150 / 7.0 | 8-12 / 120 / 6.5   | 10-15 / 60 / 6.0 | 20-30 min / 0 / 5.0 | 30-60 sec / 30 / 4.0 |
+   609→   609→
+   610→   610→**Volume landmarks** (`DEFAULT_MUSCLE_LANDMARKS`):
+   611→   611→
+   612→   612→| Muscle                          | MEV | MAV_lo | MAV_hi | MRV | ML |
+   613→   613→| -------------------------------- | --- | ------ | ------ | --- | -- |
+   614→   614→| chest                            | 8   | 10     | 22     | 24  | 5  |
+   615→   615→| back / upper_back / lats         | 10  | 14     | 22     | 27  | 7  |
+   616→   616→| middle_back                      | 8   | 12     | 18     | 22  | 5  |
+   617→   617→| lower_back                       | 3   | 4      | 8      | 15  | 2  |
+   618→   618→| traps                            | 4   | 6      | 12     | 18  | 3  |
+   619→   619→| quads                            | 8   | 12     | 20     | 25  | 6  |
+   620→   620→| hamstrings                       | 6   | 10     | 16     | 20  | 5  |
+   621→   621→| glutes                           | 4   | 8      | 16     | 20  | 3  |
+   622→   622→| adductors / abductors            | 4   | 6      | 12     | 16  | 3  |
+   623→   623→| hip_flexors                      | 2   | 4      | 8      | 10  | 2  |
+   624→   624→| shoulders / side_delts           | 6   | 8      | 16     | 20  | 4  |
+   625→   625→| rear_delts                       | 4   | 6      | 12     | 16  | 3  |
+   626→   626→| triceps                          | 6   | 8      | 14     | 18  | 4  |
+   627→   627→| biceps                           | 6   | 8      | 14     | 20  | 4  |
+   628→   628→| forearms                         | 3   | 4      | 8      | 15  | 2  |
+   629→   629→| calves                           | 8   | 10     | 16     | 20  | 5  |
+   630→   630→| abs                              | 6   | 10     | 20     | 25  | 5  |
+   631→   631→| obliques                         | 4   | 6      | 12     | 18  | 3  |
+   632→   632→| (unknown — fallback)             | 6   | 10     | 16     | 25  | 5  |
+   633→   633→
+   634→   634→**Recommended weekly sets** = `mavMid × tierMultiplier × goalMultiplier × experienceMultiplier`, floored at ML (maintenance) or MEV (else).
+   635→   635→
+   636→   636→- Goal multipliers: hypertrophy/muscleGain 1.0, recomp 0.9, strength 0.7, fatLoss 0.8, maintenance 0.6, generalFitness 0.7.
+   637→   637→- Experience multipliers: beginner 0.7, novice 0.85, intermediate 1.0, advanced 1.1.
+   638→   638→- Tier multipliers (MINIMAL/LOW/MEDIUM/HIGH/VERY_HIGH → 4-8/9-12/13-16/17-20/21-30 sets/muscle/wk), normalized so MEDIUM = 1.0.
+   639→   639→
+   640→   640→**RIR intensity tiers:**
+   641→   641→
+   642→   642→| Tier                            | 1-3 reps | 4-6 reps | 7-10 reps | 11-20 reps | 21-50 reps |
+   643→   643→| ------------------------------- | -------- | -------- | --------- | ---------- | ---------- |
+   644→   644→| LOWER_FREE_WEIGHT_COMPOUND      | [0, 1]   | [1, 3]   | [2, 4]    | [3, 5]     | —          |
+   645→   645→| MACHINE_OR_UPPER_PRESS          | [0, 2]   | [1, 3]   | [2, 4]    | [3, 5]     | —          |
+   646→   646→| MACHINE_PRESS_OR_PULL           | [1, 3]   | [2, 4]   | [2, 4]    | [3, 5]     | —          |
+   647→   647→| ISOLATION (default)             | [1, 3]   | [2, 4]   | [2, 4]    | [3, 5]     | [4, 6]     |
+   648→   648→
+   649→   649→`RPE = clamp(10 − RIR, 4, 10)`.
+   650→   650→
+   651→   651→### 4.5 Meal plan sub-engine
+   652→   652→
+   653→   653→`buildMealPlan(profile, assessment, nutrition, mealFrequency, cuisinePreference, allergensToAvoid, excludedIngredients, includePrePostWorkout)`:
+   654→   654→
+   655→   655→1. **Compute slot targets** from daily macros × meal allocation:
+   656→   656→
+   657→   657→| Frequency | Allocation                                              |
+   658→   658→| --------- | ------------------------------------------------------- |
+   659→   659→| 2 meals   | LUNCH 0.50, DINNER 0.50 (no breakfast — intentional)   |
+   660→   660→| 3 meals   | BREAKFAST 0.30, LUNCH 0.35, DINNER 0.35                 |
+   661→   661→| 4 meals   | BREAKFAST 0.25, LUNCH 0.30, DINNER 0.30, SNACK 0.15    |
+   662→   662→| 5 meals   | BREAKFAST 0.20, LUNCH 0.25, DINNER 0.30, SNACK 0.15, SNACK 0.10 |
+   663→   663→
+   664→   664→2. **Determine training days** for the 7-day week:
+   665→   665→   - 2d → [1, 4], 3d → [1, 3, 5], 4d → [1, 2, 4, 5], 5d → [1, 2, 3, 4, 5], 6d → [1, 2, 3, 4, 5, 6].
+   666→   666→3. **For each of 7 days × N slots:** allocate meal via `scoreRecipeForSlot` → pick top → scale → fill gap.
+   667→   667→4. **Track recipe usage** (rolling 3-day and 7-day windows) for variety scoring.
+   668→   668→
+   669→   669→**Diet tag derivation:**
+   670→   670→- omnivore → `"OMNI"`
+   671→   671→- vegan → `"VEGAN"`
+   672→   672→- vegetarian → `"VEGAN"` (recipe DB has no separate vegetarian tag — vegetarians get vegan recipes)
+   673→   673→
+   674→   674→**Recipe scoring** (9 weighted components, each 0-100):
+   675→   675→
+   676→   676→| Component        | Weight | Tight band | Loose band |
+   677→   677→| ---------------- | ------ | ---------- | ---------- |
+   678→   678→| kcal_match       | 26     | ±20%       | ±40%       |
+   679→   679→| protein_match    | 22     | ±15%       | ±30%       |
+   680→   680→| carb_match       | 13     | ±20%       | ±40%       |
+   681→   681→| fat_match        | 9      | ±25%       | ±50%       |
+   682→   682→| diet_match       | 13     | —          | —          |
+   683→   683→| goal_fit         | 4      | —          | —          |
+   684→   684→| fiber_match      | 4      | ±50%       | ±100%      |
+   685→   685→| variety_bonus    | 4      | —          | —          |
+   686→   686→| cuisine_match    | 5      | —          | —          |
+   687→   687→
+   688→   688→**Hard exclusions** (score = 0):
+   689→   689→- Allergen violation
+   690→   690→- Excluded ingredient present
+   691→   691→- Diet mismatch
+   692→   692→
+   693→   693→**Allergen scanning** (best-in-class — plant-qualifier suppression):
+   694→   694→- Normalize allergen aliases (`tree_nuts` → `nuts`, `crustacean(s)` → `shellfish`).
+   695→   695→- Build word-boundary regexes for each allergen's keywords.
+   696→   696→- Sanitize ingredients: blank out plant-named phrases (eggplant, butter lettuce, coconut milk, etc. — full list in §9.2) before scanning for `dairy` and `eggs`.
+   697→   697→- For each `dairy`/`eggs` match, check 25-char context before for plant qualifiers (almond, soy, oat, coconut, etc. — full list in §9.2). If found, skip the match.
+   698→   698→- Other allergens scan the unsanitized string.
+   699→   699→
+   700→   700→**Recipe scaling:**
+   701→   701→- `scaleFactor = clamp(targetKcal / recipeKcal, 0.7, 1.5)` (1.0 if within ±10%).
+   702→   702→- Scaled nutrition = per-serving × scaleFactor.
+   703→   703→
+   704→   704→**Filler system** (closes macro gap after scaling):
+   705→   705→
+   706→   706→| Priority | Type     | Trigger (`gap >`) | OMNI options                                           | VEGAN* options                                |
+   707→   707→| -------- | -------- | ----------------- | ------------------------------------------------------ | --------------------------------------------- |
+   708→   708→| 1        | Protein  | 5 g               | Whey, Greek yogurt, egg white, cottage cheese, chicken | Tofu, tempeh, pea/soy protein, lentils        |
+   709→   709→| 2        | Carb     | 5 g               | White/brown rice, oats, banana, whole wheat bread, quinoa, sweet potato | (same)                                        |
+   710→   710→| 3        | Fat      | 3 g               | Olive oil, almonds, peanut butter, walnuts, avocado    | (same)                                        |
+   711→   711→| 4        | Veg      | 3 g (main meals only) | Broccoli, spinach, mixed greens, bell pepper, asparagus, green beans, carrots | (same)                                        |
+   712→   712→
+   713→   713→\* VEGAN prefix match — `VEGAN_ETHIOPIAN` resolves to VEGAN list.
+   714→   714→
+   715→   715→Filler grams: `(targetG / food.per100g) × 100`, capped at `serving × {protein:4, carb:3, fat:3}`, min serving = `serving × 0.5`. Veg: fixed `[80g, 200g]`.
+   716→   716→
+   717→   717→**Allergen → filler exclusion map:**
+   718→   718→- dairy → Whey, Greek Yogurt, Cottage Cheese, Milk, Cheddar
+   719→   719→- eggs → Egg White, Eggs
+   720→   720→- gluten → Whole Wheat Bread, Oats
+   721→   721→- nuts → Almonds, Walnuts
+   722→   722→- peanuts → Peanut Butter
+   723→   723→- soy → Tofu, Tempeh, Soy Protein, Edamame
+   724→   724→
+   725→   725→**Swap system:**
+   726→   726→- **Recipe swaps:** alternatives sharing ≥1 meal_type, diet-compatible, kcal within ±20%, no allergens, cuisine-matching if specified. Sorted by kcal closeness, limited to 5.
+   727→   727→- **Ingredient swaps:** static substitution database (proteins, carbs, Ethiopian ingredients, fats, dairy alternatives, vegetables). Longest-key-first matching, plant-named-phrase protection.
+   728→   728→
+   729→   729→**Recipe database** (~400 recipes from 3 JSON files merged at load):
+   730→   730→- `recipe_database.json` (79 curated) — `is_curated=true`, notes get `[curated]` tag.
+   731→   731→- `recipe_database_uncurated.json` (~305) — `is_curated=false`. ID collisions with curated → rename to `U<id>`.
+   732→   732→- `pre_post_workout_recipes.json` (16) — 4 diets × 2 meal types × 2 kcal bins. `nutrition_source="calculated"`, `source="engine-generated"`.
+   733→   733→
+   734→   734→**Load-time sanitization:**
+   735→   735→- VEGAN-tagged recipe with meat/dairy/egg ingredients → append `[diet-warning: tagged VEGAN but ingredients contain meat/dairy/egg — likely a curation error]`.
+   736→   736→- Stated kcal vs macro-derived kcal (P×4 + C×4 + F×9) > 10% off → append `[kcal-warning: ...]`.
+   737→   737→
+   738→   738→**Meal name templates** (cycled by day for variety):
+   739→   739→- 5-meal canonical order: BREAKFAST, SNACK, LUNCH, SNACK, DINNER (interleaved — NOT snacks at end).
+   740→   740→- Each meal type has 7 default name options (e.g. breakfast: Greek Yogurt Parfait, Oatmeal Power Bowl, Egg & Avocado Toast, ...).
+   741→   741→
+   742→   742→
+   743→   743→---
+   744→   744→
+   745→   745→## 5. Data Model
+   746→   746→
+   747→   747→### 5.1 Local (Isar) collections
+   748→   748→
+   749→   749→The app owns these locally. All except `app_state` and `sync_queue` sync to Supabase.
+   750→   750→
+   751→   751→```dart
+   752→   752→@Collection()
+   753→   753→class ProfileRecord {
+   754→   754→  Id id = Isar.autoIncrement;           // always 1 (singleton per device)
+   755→   755→  late String userId;                    // Supabase auth.uid() or "anonymous"
+   756→   756→  late String dataJson;                  // serialized UserProfile + PlanPreferences
+   757→   757→  @Index() late DateTime updatedAt;
+   758→   758→  @Index() late String syncStatus;       // "pending" | "synced" | "conflict"
+   759→   759→}
+   760→   760→
+   761→   761→@Collection()
+   762→   762→class PlanRecord {
+   763→   763→  Id id = Isar.autoIncrement;
+   764→   764→  late String userId;
+   765→   765→  late String planId;                    // UUID, server-generated on first sync
+   766→   766→  late String dataJson;                  // serialized FitnessPlan
+   767→   767→  late String profileSnapshotJson;       // UserProfile at generation time
+   768→   768→  late String preferencesSnapshotJson;
+   769→   769→  late String engineVersion;             // "3.2.0"
+   770→   770→  @Index() late bool isActive;           // only one true per user
+   771→   771→  @Index() late DateTime generatedAt;
+   772→   772→  @Index() late String syncStatus;
+   773→   773→}
+   774→   774→
+   775→   775→@Collection()
+   776→   776→class WorkoutLogRecord {
+   777→   777→  Id id = Isar.autoIncrement;
+   778→   778→  late String userId;
+   779→   779→  late String planId;                    // which plan this workout belongs to
+   780→   780→  late int dayNumber;                    // 1-7 (week day)
+   781→   781→  late DateTime startedAt;
+   782→   782→  DateTime? completedAt;
+   783→   783→  late String workoutName;
+   784→   784→  late String dataJson;                  // List<SetEntry> — see below
+   785→   785→  @Index() late String syncStatus;
+   786→   786→}
+   787→   787→
+   788→   788→class SetEntry {
+   789→   789→  late String exerciseSlug;
+   790→   790→  late int setNum;
+   791→   791→  double? weightKg;
+   792→   792→  int? reps;
+   793→   793→  double? rpe;
+   794→   794→  late bool done;
+   795→   795→  late DateTime completedAt;
+   796→   796→}
+   797→   797→
+   798→   798→@Collection()
+   799→   799→class WeightLogRecord {
+   800→   800→  Id id = Isar.autoIncrement;
+   801→   801→  late String userId;
+   802→   802→  @Index() late DateTime date;
+   803→   803→  late double weightKg;                  // 30-300
+   804→   804→  @Index() late String syncStatus;
+   805→   805→}
+   806→   806→
+   807→   807→@Collection()
+   808→   808→class IntakeLogRecord {
+   809→   809→  Id id = Isar.autoIncrement;
+   810→   810→  late String userId;
+   811→   811→  @Index() late DateTime date;
+   812→   812→  late double intakeKcal;                // 0-10000
+   813→   813→  @Index() late String syncStatus;
+   814→   814→}
+   815→   815→
+   816→   816→@Collection()
+   817→   817→class AppStateRecord {
+   818→   818→  Id id = 1;                             // singleton
+   819→   819→  late String activeTab;                 // "home" | "workouts" | "meals" | "progress" | "profile"
+   820→   820→  late bool hasOnboarded;
+   821→   821→  late bool planStale;                   // profile changed since last plan generation
+   822→   822→  late String? activePlanId;
+   823→   823→}
+   824→   824→
+   825→   825→@Collection()
+   826→   826→class SyncQueueRecord {
+   827→   827→  Id id = Isar.autoIncrement;
+   828→   828→  late String operationType;             // "upsert_profile" | "upsert_plan" | "upsert_workout_log" | ...
+   829→   829→  late String recordId;                  // Isar id of the record to sync
+   830→   830→  late String collectionName;            // "ProfileRecord" | "PlanRecord" | ...
+   831→   831→  late int attempts;
+   832→   832→  late DateTime? nextAttemptAt;
+   833→   833→  @Index() late String status;           // "pending" | "in_progress" | "failed"
+   834→   834→}
+   835→   835→```
+   836→   836→
+   837→   837→**Design notes:**
+   838→   838→- `dataJson` fields store the full serialized object. Isar doesn't do nested objects well; we use it as a typed KV store for the big blobs and index only what we query by.
+   839→   839→- `syncStatus` on every record enables the background flush to find pending rows quickly.
+   840→   840→- `WorkoutLogRecord` is the daily-use loop — every set logged in a workout session persists here.
+   841→   841→- `WeightLogRecord` and `IntakeLogRecord` feed back into the engine as `weightLogKg` and `intakeLogKcal` for adaptive TDEE on the next plan generation.
+   842→   842→
+   843→   843→### 5.2 Remote (Supabase Postgres)
+   844→   844→
+   845→   845→RLS-protected. Every table has `user_id UUID REFERENCES auth.users(id)`. Every policy is `USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id)`.
+   846→   846→
+   847→   847→```sql
+   848→   848→-- profiles (1:1 with auth.users)
+   849→   849→CREATE TABLE profiles (
+   850→   850→  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+   851→   851→  data JSONB NOT NULL,
+   852→   852→  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+   853→   853→);
+   854→   854→
+   855→   855→-- plans (1:N with users; one isActive per user)
+   856→   856→CREATE TABLE plans (
+   857→   857→  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   858→   858→  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+   859→   859→  data JSONB NOT NULL,                  -- full FitnessPlan
+   860→   860→  profile_snapshot JSONB NOT NULL,
+   861→   861→  preferences_snapshot JSONB NOT NULL,
+   862→   862→  engine_version TEXT NOT NULL,
+   863→   863→  is_active BOOLEAN NOT NULL DEFAULT false,
+   864→   864→  generated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+   865→   865→  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+   866→   866→);
+   867→   867→CREATE INDEX plans_user_active_generated_idx ON plans(user_id, is_active, generated_at DESC);
+   868→   868→CREATE INDEX plans_user_generated_idx ON plans(user_id, generated_at DESC);
+   869→   869→
+   870→   870→-- workout_logs (1:N with users + plans)
+   871→   871→CREATE TABLE workout_logs (
+   872→   872→  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   873→   873→  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+   874→   874→  plan_id UUID REFERENCES plans(id) ON DELETE SET NULL,
+   875→   875→  day_number INT NOT NULL,
+   876→   876→  started_at TIMESTAMPTZ NOT NULL,
+   877→   877→  completed_at TIMESTAMPTZ,
+   878→   878→  workout_name TEXT NOT NULL,
+   879→   879→  data JSONB NOT NULL,                  -- List<SetEntry>
+   880→   880→  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+   881→   881→);
+   882→   882→CREATE INDEX workout_logs_user_started_idx ON workout_logs(user_id, started_at DESC);
+   883→   883→
+   884→   884→-- weight_logs (1:N with users)
+   885→   885→CREATE TABLE weight_logs (
+   886→   886→  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   887→   887→  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+   888→   888→  date DATE NOT NULL,
+   889→   889→  weight_kg NUMERIC(5,1) NOT NULL CHECK (weight_kg BETWEEN 30 AND 300),
+   890→   890→  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+   891→   891→  UNIQUE(user_id, date)
+   892→   892→);
+   893→   893→CREATE INDEX weight_logs_user_date_idx ON weight_logs(user_id, date DESC);
+   894→   894→
+   895→   895→-- intake_logs (1:N with users)
+   896→   896→CREATE TABLE intake_logs (
+   897→   897→  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+   898→   898→  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+   899→   899→  date DATE NOT NULL,
+   900→   900→  intake_kcal INT NOT NULL CHECK (intake_kcal BETWEEN 0 AND 10000),
+   901→   901→  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+   902→   902→  UNIQUE(user_id, date)
+   903→   903→);
+   904→   904→CREATE INDEX intake_logs_user_date_idx ON intake_logs(user_id, date DESC);
+   905→   905→```
+   906→   906→
+   907→   907→**RLS policies** (apply to every table):
+   908→   908→```sql
+   909→   909→ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+   910→   910→CREATE POLICY profiles_owner ON profiles
+   911→   911→  FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+   912→   912→-- (repeat for plans, workout_logs, weight_logs, intake_logs)
+   913→   913→```
+   914→   914→
+   915→   915→**Trigger** (keep `updated_at` fresh):
+   916→   916→```sql
+   917→   917→CREATE OR REPLACE FUNCTION touch_updated_at()
+   918→   918→RETURNS TRIGGER AS $$ BEGIN NEW.updated_at = now(); RETURN NEW; END; $$ LANGUAGE plpgsql;
+   919→   919→
+   920→   920→CREATE TRIGGER profiles_touch BEFORE UPDATE ON profiles
+   921→   921→  FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
+   922→   922→-- (repeat for plans, workout_logs, weight_logs, intake_logs)
+   923→   923→```
+   924→   924→
+   925→   925→### 5.3 Sync resolution
+   926→   926→
+   927→   927→- **Push:** for each `SyncQueueRecord` with `status == "pending"`:
+   928→   928→  - Read the local record.
+   929→   929→  - `UPSERT` to Supabase by `(user_id, <natural key>)` — natural key is `id` for plans/workout_logs, `date` for weight/intake logs, `user_id` for profile.
+   930→   930→  - On 200: mark local `syncStatus = "synced"`, delete queue entry.
+   931→   931→  - On 409 (conflict): fetch server row, compare `updated_at`, last-writer-wins, mark `syncStatus = "synced"` or `"conflict"` (rare — surface in UI as "Sync conflict, tap to resolve").
+   932→   932→  - On 5xx / network error: `attempts++`, `nextAttemptAt = now + min(2^attempts minutes, 1 hour)`.
+   933→   933→- **Pull:** on sign-in (and on app foreground if last pull > 1h ago):
+   934→   934→  - `SELECT * FROM <table> WHERE user_id = auth.uid() AND updated_at > <last_pull_at>`.
+   935→   935→  - For each row: if local exists, compare `updated_at`, replace if server newer. Else keep local (will be pushed next flush).
+   936→   936→  - Update `last_pull_at`.
+   937→   937→
+   938→   938→---
+   939→   939→
+   940→   940→## 6. App Structure
+   941→   941→
+   942→   942→### 6.1 Project layout
+   943→   943→
+   944→   944→```
+   945→   945→lib/
+   946→   946→  main.dart                              # ProviderScope + AppBootstrap
+   947→   947→  app.dart                               # MaterialApp.router + theme
+   948→   948→  router.dart                            # go_router config
+   949→   949→  bootstrap.dart                         # Isar init, Supabase init, engine data load
+   950→   950→  core/
+   951→   951→    env.dart                             # env vars (Supabase URL/anon key)
+   952→   952→    result.dart                          # Result<T> sealed class
+   953→   953→    extensions.dart                      # DateTime, num extensions
+   954→   954→  engine/                                # imports fitn_engine package
+   955→   955→    engine_provider.dart                 # FutureProvider<FitnEngine>
+   956→   956→    generate_plan.dart                   # wraps Isolate.run(() => proposePlan)
+   957→   957→  data/
+   958→   958→    isar/
+   959→   959→      collections/                       # @Collection classes (see §5.1)
+   960→   960→      isar_provider.dart                 # FutureProvider<Isar>
+   961→   961→      repositories/
+   962→   962→        profile_repository.dart
+   963→   963→        plan_repository.dart
+   964→   964→        workout_log_repository.dart
+   965→   965→        weight_log_repository.dart
+   966→   966→        intake_log_repository.dart
+   967→   967→        sync_queue_repository.dart
+   968→   968→    supabase/
+   969→   969→      supabase_provider.dart             # Provider<SupabaseClient>
+   970→   970→      sync/
+   971→   971→        sync_service.dart                # drain queue, push to Supabase
+   972→   972→        pull_service.dart                # pull on sign-in
+   973→   973→    prefs/
+   974→   974→      app_state_provider.dart            # SharedPreferences wrapper
+   975→   975→  state/
+   976→   976→    app_state.dart                       # AppState freezed class
+   977→   977→    app_notifier.dart                    # AsyncNotifier<AppState>
+   978→   978→    plan_notifier.dart                   # plan CRUD + generation
+   979→   979→    workout_session_notifier.dart        # active workout session
+   980→   980→    progress_notifier.dart               # weight/intake logging
+   981→   981→    auth_notifier.dart                   # Supabase auth state
+   982→   982→    sync_notifier.dart                   # queue length, last sync time
+   983→   983→  ui/
+   984→   984→    theme/
+   985→   985→      app_theme.dart                     # Material 3 + dark-first
+   986→   986→      colors.dart                        # OKLCH → sRGB
+   987→   987→      text_styles.dart
+   988→   988→    widgets/
+   989→   989→      progress_ring.dart
+   990→   990→      animated_number.dart
+   991→   991→      macro_ring.dart
+   992→   992→      skeleton.dart
+   993→   993→      haptics.dart
+   994→   994→      exercise_video.dart                # youtube_player_flutter wrapper
+   995→   995→    shell/
+   996→   996→      app_shell.dart                     # Scaffold + IndexedStack + BottomNav
+   997→   997→      bottom_nav.dart
+   998→   998→    onboarding/
+   999→   999→      onboarding_screen.dart             # 5-step wizard
+  1000→  1000→      steps/
+  1001→  1001→        basics_step.dart
+  1002→  1002→        body_step.dart
+  1003→  1003→        activity_step.dart
+  1004→  1004→        goal_step.dart
+  1005→  1005→        preferences_step.dart
+  1006→  1006→    tabs/
+  1007→  1007→      home_tab.dart
+  1008→  1008→      workouts_tab.dart
+  1009→  1009→      meals_tab.dart
+  1010→  1010→      progress_tab.dart
+  1011→  1011→      profile_tab.dart
+  1012→  1012→    workout/
+  1013→  1013→      workout_session_screen.dart        # active workout logger
+  1014→  1014→      exercise_detail_sheet.dart
+  1015→  1015→      set_tracker.dart
+  1016→  1016→      rest_timer.dart
+  1017→  1017→    exercise_library/
+  1018→  1018→      library_screen.dart                # browse all 1,217 exercises
+  1019→  1019→      exercise_search_sheet.dart
+  1020→  1020→    auth/
+  1021→  1021→      signin_screen.dart
+  1022→  1022→      auth_callback_screen.dart          # deep-link handler
+  1023→  1023→    settings/
+  1024→  1024→      settings_screen.dart
+  1025→  1025→```
+  1026→  1026→
+  1027→  1027→### 6.2 Navigation (`go_router`)
+  1028→  1028→
+  1029→  1029→```dart
+  1030→  1030→final router = GoRouter(
+  1031→  1031→  initialLocation: '/',
+  1032→  1032→  routes: [
+  1033→  1033→    GoRoute(path: '/', builder: (_, __) => AppShell()),
+  1034→  1034→    GoRoute(path: '/onboarding', builder: (_, __) => OnboardingScreen()),
+  1035→  1035→    GoRoute(path: '/signin', builder: (_, __) => SignInScreen()),
+  1036→  1036→    GoRoute(path: '/auth/callback', builder: (_, __) => AuthCallbackScreen()),
+  1037→  1037→    GoRoute(path: '/workout-session', builder: (_, __) => WorkoutSessionScreen()),
+  1038→  1038→    GoRoute(path: '/exercise/:slug', builder: (_, state) => ExerciseDetailSheet(slug: state.pathParameters['slug']!)),
+  1039→  1039→    GoRoute(path: '/exercise-library', builder: (_, __) => ExerciseLibraryScreen()),
+  1040→  1040→    GoRoute(path: '/settings', builder: (_, __) => SettingsScreen()),
+  1041→  1041→  ],
+  1042→  1042→  redirect: (context, state) {
+  1043→  1043→    final appState = appNotifier.read(context);
+  1044→  1044→    if (!appState.hasOnboarded && state.path != '/onboarding' && state.path != '/signin') {
+  1045→  1045→      return '/onboarding';
+  1046→  1046→    }
+  1047→  1047→    return null;
+  1048→  1048→  },
+  1049→  1049→);
+  1050→  1050→```
+  1051→  1051→
+  1052→  1052→**Tab switching** is state-driven (not URL-driven) — `activeTab` in `AppState`. The shell uses `IndexedStack` to preserve tab state. Deep links (`/exercise/:slug`) push modals on top.
+  1053→  1053→
+  1054→  1054→### 6.3 State (single `AppState` + `select`)
+  1055→  1055→
+  1056→  1056→```dart
+  1057→  1057→@freezed
+  1058→  1058→class AppState with _$AppState {
+  1059→  1059→  const factory AppState({
+  1060→  1060→    @Default(false) bool hydrated,
+  1061→  1061→    @Default(false) bool hasOnboarded,
+  1062→  1062→    @Default(Tab.home) Tab activeTab,
+  1063→  1063→    @Default(false) bool planGenerating,
+  1064→  1064→    String? planError,
+  1065→  1065→    @Default(false) bool planStale,
+  1066→  1066→    UserProfile? profile,
+  1067→  1067→    PlanPreferences? preferences,
+  1068→  1068→    FitnessPlan? activePlan,
+  1069→  1069→    String? activePlanId,
+  1070→  1070→    @Default([]) List<PlanRecord> planHistory,
+  1071→  1071→    AuthState? auth,                      // null = not signed in
+  1072→  1072→    @Default(0) int syncQueueLength,
+  1073→  1073→    DateTime? lastSyncAt,
+  1074→  1074→  }) = _AppState;
+  1075→  1075→
+  1076→  1076→  const AppState._();
+  1077→  1077→
+  1078→  1078→  bool get hasPlan => activePlan != null;
+  1079→  1079→}
+  1080→  1080→
+  1081→  1081→enum Tab { home, workouts, meals, progress, profile }
+  1082→  1082→```
+  1083→  1083→
+  1084→  1084→**`AppNotifier` (AsyncNotifier):**
+  1085→  1085→- `build()` — load `AppStateRecord` from Isar, hydrate, return.
+  1086→  1086→- `setActiveTab(Tab tab)` — update `activeTab` + persist.
+  1087→  1087→- `setProfile(UserProfile p)` — update `profile`, mark `planStale = true`, persist.
+  1088→  1088→- `setPreferences(PlanPreferences p)` — update `preferences`, mark `planStale = true`, persist.
+  1089→  1089→- `generatePlan()` — set `planGenerating = true`, run engine in isolate, save plan to Isar, enqueue sync, set `planStale = false`, switch to Home tab.
+  1090→  1090→- `restorePlan(String planId)` — load from Isar, set as active, enqueue sync.
+  1091→  1091→- `clearOnSignOut()` — reset auth state, keep local plan/profile/logs, clear sync queue.
+  1092→  1092→
+  1093→  1093→**Fine-grained subscriptions** via `select`:
+  1094→  1094→```dart
+  1095→  1095→final activeTab = ref.watch(appNotifier.select((s) => s.activeTab));
+  1096→  1096→final hasPlan = ref.watch(appNotifier.select((s) => s.hasPlan));
+  1097→  1097→```
+  1098→  1098→
+  1099→  1099→Riverpod only rebuilds widgets whose `select`ed slice changed.
+  1100→  1100→
+  1101→  1101→### 6.4 Engine integration
+  1102→  1102→
+  1103→  1103→```dart
+  1104→  1104→final engineProvider = FutureProvider<FitnEngine>((ref) async {
+  1105→  1105→  final data = await loadEngineData();      // loads JSON assets
+  1106→  1106→  return FitnEngine(data: data);
+  1107→  1107→});
+  1108→  1108→
+  1109→  1109→Future<FitnessPlan> generatePlan(UserProfile profile, PlanPreferences prefs) async {
+  1110→  1110→  return Isolate.run(() {
+  1111→  1111→    final engine = FitnEngine(data: _engineDataSingleton);
+  1112→  1112→    final assessment = engine.assessProfile(profile);
+  1113→  1113→    if (assessment.isPartial) {
+  1114→  1114→      throw PartialAssessmentError(assessment.errors);
+  1115→  1115→    }
+  1116→  1116→    return engine.proposePlan(profile, assessment, prefs);
+  1117→  1117→  });
+  1118→  1118→}
+  1119→  1119→```
+  1120→  1120→
+  1121→  1121→**Why an isolate:** the engine loads 1,217 exercises + ~400 recipes + does scoring across hundreds of candidates per meal slot. On a mid-range phone, plan generation is 200-500 ms — noticeable jank if on the UI thread. Isolate keeps the UI smooth.
+  1122→  1122→
+  1123→  1123→**Engine data singleton:** loaded once at app startup, passed to every isolate. Don't reload per generation.
+  1124→  1124→
+  1125→  1125→---
+  1126→  1126→
+  1127→  1127→## 7. Screen Specs
+  1128→  1128→
+  1129→  1129→### 7.1 Onboarding (5 steps)
+  1130→  1130→
+  1131→  1131→Shown when `!hasOnboarded`. Progress dots at top (past = tappable, current/future = disabled).
+  1132→  1132→
+  1133→  1133→**Step 1 — Basics**
+  1134→  1134→- `age` (number, 18-100), `sex` (radio: male/female), `heightCm` (140-230), `weightKg` (35-300, 1 decimal)
+  1135→  1135→- All required. Continue button disabled until valid.
+  1136→  1136→
+  1137→  1137→**Step 2 — Body (all optional)**
+  1138→  1138→- `bodyFatPct` (slider 2-50, null = unknown; the slider has a "Unknown" toggle that sets it to null)
+  1139→  1139→- `neckCm` (20-80), `waistCm` (40-200), `hipCm` (50-200)
+  1140→  1140→- Helper text: "If body fat is unknown, the engine estimates it via the Navy method using your measurements, or CUN-BAE as a final fallback."
+  1141→  1141→- Always valid (all optional).
+  1142→  1142→
+  1143→  1143→**Step 3 — Activity**
+  1144→  1144→- `activityLevel` (5 radio cards with descriptions)
+  1145→  1145→- `trainingStatus` (2×2 grid: beginner / novice / intermediate / advanced)
+  1146→  1146→- `equipmentAccess` (3 cards with emoji: full_gym 🏟️, home_gym 🏠, bodyweight_only 🤸)
+  1147→  1147→- All required.
+  1148→  1148→
+  1149→  1149→**Step 4 — Goal**
+  1150→  1150→- `primaryGoal` (5 cards with emoji: fat_loss 🔥, muscle_gain 💪, recomp ⚖️, maintenance 🎯, strength 🏋️)
+  1151→  1151→- `trainingDaysPerWeek` (slider 2-6)
+  1152→  1152→- `trainingTimeOfDay` (3 cards: morning 🌅, midday ☀️, evening 🌆)
+  1153→  1153→- All required.
+  1154→  1154→
+  1155→  1155→**Step 5 — Preferences**
+  1156→  1156→- `dietType` (3 cards: omnivore, vegetarian, vegan — no keto/paleo)
+  1157→  1157→- `mealFrequency` (slider 2-5)
+  1158→  1158→- `cuisinePreference` (dropdown: none, american, ethiopian, italian, mexican, asian, mediterranean)
+  1159→  1159→- `allergensToAvoid` (chip toggle: dairy, gluten, eggs, soy, peanuts, tree_nuts, shellfish, fish, sesame, corn)
+  1160→  1160→- `muscleFocus` (chip toggle: chest, back, shoulders, arms, legs, glutes, core, calves)
+  1161→  1161→- `includePrePostWorkout` (switch, default ON)
+  1162→  1162→- Advanced (collapsible): `cutRateTier`, `bulkAggressiveness`, `programDurationWeeks`, `exerciseHoursPerDay`, `exerciseIntensity`, `climate`, `weightReducedPct`
+  1163→  1163→- Meal frequency + diet required.
+  1164→  1164→
+  1165→  1165→**Submit:**
+  1166→  1166→```dart
+  1167→  1167→Future<void> generatePlan() async {
+  1168→  1168→  if (state.planGenerating) return;  // guard double-tap
+  1169→  1169→  state = state.copyWith(planGenerating: true, planError: null);
+  1170→  1170→  try {
+  1171→  1171→    final plan = await ref.read(engineProvider).when(
+  1172→  1172→      data: (engine) => ref.read(planNotifierProvider.notifier).generate(
+  1173→  1173→        state.profile!, state.preferences!,
+  1174→  1174→      ),
+  1175→  1175→      loading: () => throw Exception('Engine not ready'),
+  1176→  1176→      error: (e, _) => throw e,
+  1177→  1177→    );
+  1178→  1178→    state = state.copyWith(
+  1179→  1179→      hasOnboarded: true,
+  1180→  1180→      planStale: false,
+  1181→  1181→      activeTab: Tab.home,
+  1182→  1182→      planGenerating: false,
+  1183→  1183→    );
+  1184→  1184→    toast.success('Your plan is ready!');
+  1185→  1185→  } on PartialAssessmentError catch (e) {
+  1186→  1186→    state = state.copyWith(planGenerating: false, planError: e.message);
+  1187→  1187→    toast.error('Assessment incomplete: ${e.message}');
+  1188→  1188→  } catch (e) {
+  1189→  1189→    state = state.copyWith(planGenerating: false, planError: e.toString());
+  1190→  1190→    toast.error('Failed to generate plan');
+  1191→  1191→  }
+  1192→  1192→}
+  1193→  1193→```
+  1194→  1194→
+  1195→  1195→**Loading state:** 3 skeleton cards + branded loader + "Generating your plan…" text.
+  1196→  1196→
+  1197→  1197→### 7.2 App shell
+  1198→  1198→
+  1199→  1199→- `Scaffold` with `IndexedStack` (preserves tab state) + `BottomNav`.
+  1200→  1200→- `bottomNavigationBar`: 5 items — Home 🏠, Workouts 🏋️, Meals 🍽️, Progress 📈, Profile 👤.
+  1201→  1201→- Tap fires `HapticFeedback.selectionClick()` + `setActiveTab(tab)`.
+  1202→  1202→- Active state: emerald top bar on the icon, scale-1.1 icon, primary-tinted background.
+  1203→  1203→- iOS safe-area inset for home indicator.
+  1204→  1204→
+  1205→  1205→### 7.3 Home tab
+  1206→  1206→
+  1207→  1207→**Dashboard.** No API calls — all data from in-memory plan.
+  1208→  1208→
+  1209→  1209→1. **Staleness banner** (if `planStale`): yellow banner "Your plan is out of date" → "Update" button → Profile tab.
+  1210→  1210→2. **Greeting** (time-of-day) + goal-specific title + strategy line.
+  1211→  1211→3. **Today's Workout CTA** — large card → Workouts tab. Shows today's workout name, # exercises, ~duration. Pulse animation on icon.
+  1212→  1212→4. **Daily Target Card** — big `targetKcal` (AnimatedNumber count-up), delta vs TDEE, `ProgressRing` showing FFMI% of ceiling (with strategy label inside). Below: 3 `MacroRing`s for Protein/Carbs/Fat.
+  1213→  1213→5. **Stat grid (2×2)** — Hydration, Fiber, Timeline, FFMI.
+  1214→  1214→6. **Body Composition Card** — ProgressRing (FFMI), 2 metric bars (BF%, BMI), 3 mini-stats (lean mass, fat mass, monthly muscle gain).
+  1215→  1215→7. **Three Pillars** — tappable cards → Workouts / Meals / Progress.
+  1216→  1216→
+  1217→  1217→### 7.4 Workouts tab
+  1218→  1218→
+  1219→  1219→**Browse the training plan + start a workout session.**
+  1220→  1220→
+  1221→  1221→1. **Header** — "Training Plan" + program duration. Subtitle: `<split> · <days>/wk · <progression> · <weeks>w`.
+  1222→  1222→2. **KPI grid** — Mesocycles, Workouts, Exercises counts.
+  1223→  1223→3. **Muscle focus chips** (if set).
+  1224→  1224→4. **Weekly Volume Chart** — horizontal bars per muscle, color-coded: push=emerald, pull=orange, legs=cyan, core=gold, other=rose.
+  1225→  1225→5. **Mesocycles accordion** — first expanded. Each mesocycle → microcycles → workouts.
+  1226→  1226→6. **Workout cards** (collapsible) — day badge, name, focus, stats (sets, exercises, minutes). Expand → exercise rows.
+  1227→  1227→7. **Exercise rows** — thumbnail, name, sets×reps, rest, RPE, "Compound" badge. Tap → exercise detail sheet.
+  1228→  1228→8. **"Start Workout" button** (top-right) — opens `WorkoutSessionScreen` with today's workout pre-loaded.
+  1229→  1229→
+  1230→  1230→**Exercise detail sheet** (`showModalBottomSheet`):
+  1231→  1231→- Hero: aspect-video thumbnail with play overlay (opens `youtube_player_flutter`).
+  1232→  1232→- Prescription: Sets / Reps / Rest / RPE grid.
+  1233→  1233→- Metadata chips: category, mechanics, force, equipment, experience.
+  1234→  1234→- Target muscles: primary (filled badges), secondary (outline badges).
+  1235→  1235→- Overview paragraph, numbered instructions, pro tips, coach cue.
+  1236→  1236→- "Watch Full Demo" → YouTube in app.
+  1237→  1237→- Source attribution (hostname).
+  1238→  1238→
+  1239→  1239→### 7.5 Workout session screen
+  1240→  1240→
+  1241→  1241→Full-screen workout logger. Persists every set to `WorkoutLogRecord`.
+  1242→  1242→
+  1243→  1243→**Layout:**
+  1244→  1244→- App bar: workout name, elapsed time, "Finish" button.
+  1245→  1245→- Exercise list (collapsible per exercise):
+  1246→  1246→  - Exercise name + thumbnail.
+  1247→  1247→  - Set table: Set # / Weight / Reps / RPE / Done (checkbox).
+  1248→  1248→  - "Add set" button.
+  1249→  1249→  - Rest timer appears in a sticky bottom bar when a set is marked done.
+  1250→  1250→- Sticky bottom bar: current exercise + set, rest countdown (MM:SS), skip/add 15s buttons.
+  1251→  1251→- "Finish" → confirm dialog → save `WorkoutLogRecord` to Isar → enqueue sync → toast "Workout saved!" → pop to Workouts tab.
+  1252→  1252→
+  1253→  1253→**Rest timer:**
+  1254→  1254→- Drift-free: `endAt = DateTime.now().add(Duration(seconds: restSec))`. Compute remaining from `endAt.difference(now)` on a 4Hz tick.
+  1255→  1255→- Color turns red ≤10s. Label "Rest" → "GO!" at 0.
+  1256→  1256→- On completion: `HapticFeedback.heavyImpact()` → 100ms pause → `mediumImpact()` → 100ms pause → `heavyImpact()`.
+  1257→  1257→- Controls: Reset, Start/Pause, −15s, +15s (recomputes `endAt`).
+  1258→  1258→
+  1259→  1259→**Persistence:** every set tap writes to the in-memory `WorkoutSessionNotifier`. On "Finish", the notifier serializes to `WorkoutLogRecord.dataJson` and saves to Isar. Background sync flushes to Supabase.
+  1260→  1260→
+  1261→  1261→**Workout history:** see Progress tab.
+  1262→  1262→
+  1263→  1263→### 7.6 Meals tab
+  1264→  1264→
+  1265→  1265→7-day meal rotation browser.
+  1266→  1266→
+  1267→  1267→1. **Header** — `<mealFrequency> meals/day · 7-day rotation · pre/post: on/off · cuisine`.
+  1268→  1268→2. **Day picker** — horizontal scroll, 7 day buttons. Today highlighted (matches `DateTime.now().weekday`).
+  1269→  1269→3. **Day summary** — big kcal (AnimatedNumber), delta vs target (green if within 100 kcal), 4 MacroRings (P/C/F/Fiber).
+  1270→  1270→4. **Meal cards** (one per meal in the day):
+  1271→  1271→   - Trigger: emoji (🌅 breakfast, ☀️ lunch, 🌙 dinner, 🍎 snack, ⚡ pre, 🔋 post), name, kcal + protein.
+  1272→  1272→   - "Log this meal" toggle (local-only, success-tinted when logged).
+  1273→  1273→   - Expand: macros grid, recipe meta (prep/cook time, servings, scale factor, density tags), ingredients (bulleted), instructions (numbered), fillers with grams + kcal, selection reason, easy swaps (badges).
+  1274→  1274→
+  1275→  1275→### 7.7 Progress tab
+  1276→  1276→
+  1277→  1277→**Track body metrics + workout history + PRs.**
+  1278→  1278→
+  1279→  1279→1. **Weight log section:**
+  1280→  1280→   - Line chart (`fl_chart`) of weight over time (last 90 days default, switchable to all-time).
+  1281→  1281→   - "Log weight" FAB → bottom sheet with date picker + number input (30-300 kg).
+  1282→  1282→   - Stats: current, 7-day avg, 30-day avg, delta from start.
+  1283→  1283→2. **Intake log section:**
+  1284→  1284→   - Line chart of daily intake vs target.
+  1285→  1285→   - "Log intake" FAB → date + kcal input (0-10000).
+  1286→  1286→3. **Workout history section:**
+  1287→  1287→   - List of `WorkoutLogRecord` (most recent first).
+  1288→  1288→   - Each row: date, workout name, duration, total sets, total volume (kg).
+  1289→  1289→   - Tap → detail view (full set log, exercise by exercise).
+  1290→  1290→4. **Volume trends:**
+  1291→  1291→   - Bar chart: weekly volume per muscle group (computed from workout logs).
+  1292→  1292→   - Compare against plan's `weekly_volume_summary` to show adherence.
+  1293→  1293→5. **PRs (personal records):**
+  1294→  1294→   - Computed from workout logs: max weight × reps for each compound exercise (squat, bench, deadlift, overhead press, etc.).
+  1295→  1295→   - "New PR!" badge when a logged set exceeds the previous max.
+  1296→  1296→
+  1297→  1297→**Why this matters:** the engine accepts `weightLogKg` and `intakeLogKcal` for adaptive TDEE. This tab closes the loop — the user logs weight → next plan regeneration uses adaptive TDEE → plan gets more accurate over time.
+  1298→  1298→
+  1299→  1299→### 7.8 Profile tab
+  1300→  1300→
+  1301→  1301→1. **Header** — avatar, `<sex> · <age>y`, `<height>cm · <weight>kg`. Edit button → bottom sheet (editable age, sex, height, weight, BF%, goal, training days).
+  1302→  1302→2. **Strategy card** — "Recommended Strategy" + rationale + `describeStrategy(...)`.
+  1303→  1303→3. **Body composition card** — BF% + category, BMI + category, method, lean/fat mass, target weights at 4 landmarks.
+  1304→  1304→4. **Health risk card** — overall risk, WHR, WHtR, ABSI, IBW (Devine).
+  1305→  1305→5. **Muscular potential card** — current FFMI, normalized FFMI, ceiling + % reached, headroom, monthly muscle gain, Berkhan max.
+  1306→  1306→6. **Profile details card** — activity, status, goal, equipment, diet, time of day, cuisine, allergens, muscle focus.
+  1307→  1307→7. **Plan history** — list of past plans, tap to view summary or restore.
+  1308→  1308→8. **Quick actions** — "Regenerate Plan" + "Back to Dashboard".
+  1309→  1309→9. **Auth section:**
+  1310→  1310→   - Not signed in: "Sign in to sync across devices" + button.
+  1311→  1311→   - Signed in: email + "Sign out" button.
+  1312→  1312→10. **Footer** — "Engine v3.2.0 · Deterministic · All data stays on your device".
+  1313→  1313→
+  1314→  1314→**Regenerate flow** — identical to onboarding submit, but doesn't flip `hasOnboarded`. Old plan is archived (kept in history), new plan becomes active.
+  1315→  1315→
+  1316→  1316→### 7.9 Exercise library
+  1317→  1317→
+  1318→  1318→Accessible from Workouts tab overflow menu + Profile tab.
+  1319→  1319→
+  1320→  1320→- Search bar (search by name, muscle, equipment).
+  1321→  1321→- Filters: muscle group (chips), equipment (chips), category (compound primary/secondary/accessory), mechanics (compound/isolation).
+  1322→  1322→- List of exercises (lazy-loaded, virtual scroll for 1,217 items).
+  1323→  1323→- Tap → exercise detail sheet (same as in-workout).
+  1324→  1324→
+  1325→  1325→### 7.10 Auth screens
+  1326→  1326→
+  1327→  1327→**Sign-in screen:**
+  1328→  1328→- Email input + "Send magic link" button.
+  1329→  1329→- OAuth buttons (Google, Apple) — only show if env vars configured.
+  1330→  1330→- Privacy note: "Your plan stays on your device. Sign-in only syncs across devices."
+  1331→  1331→
+  1332→  1332→**Magic-link flow:**
+  1333→  1333→1. User enters email → `supabase.auth.signInWithOtp(email: ...)`.
+  1334→  1334→2. Supabase sends email with link.
+  1335→  1335→3. User taps link → opens app via deep link (`com.fitn.app://auth/callback`).
+  1336→  1336→4. `AuthCallbackScreen` calls `supabase.auth.getSession()` → stores session → triggers pull sync → pops to Home.
+  1337→  1337→
+  1338→  1338→**OAuth flow:**
+  1339→  1339→1. User taps Google/Apple → `supabase.auth.signInWithOAuth(provider: 'google', redirectTo: 'com.fitn.app://auth/callback')`.
+  1340→  1340→2. Opens system browser → OAuth consent → redirect back to app.
+  1341→  1341→3. Same callback handling as magic-link.
+  1342→  1342→
+  1343→  1343→**Sign-out:**
+  1344→  1344→- `supabase.auth.signOut()`.
+  1345→  1345→- **Does NOT clear local data.** The plan + profile + workout logs survive — they're the user's data, not the auth session's. Only the sync queue is cleared (can't sync to a signed-out account).
+  1346→  1346→- Next sign-in (same or different account) offers "Restore previous plan?" if a plan exists locally.
+  1347→  1347→
+  1348→  1348→### 7.11 Settings
+  1349→  1349→
+  1350→  1350→- Theme: System / Light / Dark.
+  1351→  1351→- Units: Metric / Imperial.
+  1352→  1352→- Sync: show queue length, last sync time, "Sync now" button, "Sign out" button.
+  1353→  1353→- About: engine version, app version, links (privacy policy, terms).
+  1354→  1354→- Danger zone: "Clear all local data" (confirms twice).
+  1355→  1355→
+  1356→  1356→---
+  1357→  1357→
+  1358→  1358→## 8. Backend & Sync
+  1359→  1359→
+  1360→  1360→### 8.1 Supabase setup
+  1361→  1361→
+  1362→  1362→1. Create project at supabase.com.
+  1363→  1363→2. Run the SQL from §5.2 (tables + RLS + triggers).
+  1364→  1364→3. Enable Email auth (magic-link) in Auth settings.
+  1365→  1365→4. Enable Google + Apple OAuth (configure client IDs in Auth settings).
+  1366→  1366→5. Configure email templates (magic-link email body).
+  1367→  1367→6. Get Project URL + anon key → put in `env.dart` (anon key is safe to ship in the app; it's protected by RLS).
+  1368→  1368→
+  1369→  1369→### 8.2 Auth state
+  1370→  1370→
+  1371→  1371→```dart
+  1372→  1372→final authNotifierProvider = NotifierProvider<AuthNotifier, AuthState>(AuthNotifier.new);
+  1373→  1373→
+  1374→  1374→class AuthNotifier extends Notifier<AuthState> {
+  1375→  1375→  @override
+  1376→  1376→  AuthState build() {
+  1377→  1377→    final sub = Supabase.instance.client.auth.onAuthStateChange.listen((event) {
+  1378→  1378→      state = AuthState(
+  1379→  1379→        session: event.session,
+  1380→  1380→        status: event.session != null ? AuthStatus.authenticated : AuthStatus.anonymous,
+  1381→  1381→      );
+  1382→  1382→      if (event.event == AuthChangeEvent.signedIn) {
+  1383→  1383→        ref.read(syncProvider.notifier).pullAll();
+  1384→  1384→      }
+  1385→  1385→    });
+  1386→  1386→    ref.onDispose(sub.cancel);
+  1387→  1387→    return AuthState.initial();
+  1388→  1388→  }
+  1389→  1389→
+  1390→  1390→  Future<void> signInWithMagicLink(String email) async {
+  1391→  1391→    await Supabase.instance.client.auth.signInWithOtp(email: email);
+  1392→  1392→  }
+  1393→  1393→
+  1394→  1394→  Future<void> signInWithOAuth(String provider) async {
+  1395→  1395→    await Supabase.instance.client.auth.signInWithOAuth(
+  1396→  1396→      OAuthProvider.fromString(provider),
+  1397→  1397→      redirectTo: 'com.fitn.app://auth/callback',
+  1398→  1398→    );
+  1399→  1399→  }
+  1400→  1400→
+  1401→  1401→  Future<void> signOut() async {
+  1402→  1402→    await Supabase.instance.client.auth.signOut();
+  1403→  1403→    ref.read(syncProvider.notifier).clearQueue();
+  1404→  1404→  }
+  1405→  1405→}
+  1406→  1406→```
+  1407→  1407→
+  1408→  1408→### 8.3 Sync service
+  1409→  1409→
+  1410→  1410→```dart
+  1411→  1411→final syncProvider = NotifierProvider<SyncNotifier, SyncState>(SyncNotifier.new);
+  1412→  1412→
+  1413→  1413→class SyncNotifier extends Notifier<SyncState> {
+  1414→  1414→  @override
+  1415→  1415→  SyncState build() {
+  1416→  1416→    // Register workmanager for background sync
+  1417→  1417→    Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
+  1418→  1418→    Workmanager().registerPeriodicTask(
+  1419→  1419→      'fitn-sync', 'syncTask',
+  1420→  1420→      frequency: Duration(minutes: 15),
+  1421→  1421→      constraints: Constraints(networkType: NetworkType.connected),
+  1422→  1422→    );
+  1423→  1423→    // Also flush on app foreground
+  1424→  1424→    _flushIfNeeded();
+  1425→  1425→    return SyncState.initial();
+  1426→  1426→  }
+  1427→  1427→
+  1428→  1428→  void enqueue({required String operationType, required String recordId, required String collectionName}) {
+  1429→  1429→    ref.read(syncQueueRepoProvider).enqueue(...);
+  1430→  1430→    state = state.copyWith(queueLength: state.queueLength + 1);
+  1431→  1431→    _flushIfNeeded();
+  1432→  1432→  }
+  1433→  1433→
+  1434→  1434→  Future<void> _flushIfNeeded() async {
+  1435→  1435→    if (state.isFlushing) return;
+  1436→  1436→    final queue = ref.read(syncQueueRepoProvider).pending();
+  1437→  1437→    if (queue.isEmpty) return;
+  1438→  1438→    state = state.copyWith(isFlushing: true);
+  1439→  1439→    try {
+  1440→  1440→      for (final entry in queue) {
+  1441→  1441→        await _pushEntry(entry);
+  1442→  1442→      }
+  1443→  1443→      await pullAll();
+  1444→  1444→    } finally {
+  1445→  1445→      state = state.copyWith(isFlushing: false, lastSyncAt: DateTime.now());
+  1446→  1446→    }
+  1447→  1447→  }
+  1448→  1448→
+  1449→  1449→  Future<void> pullAll() async {
+  1450→  1450→    final userId = Supabase.instance.client.auth.currentUser?.id;
+  1451→  1451→    if (userId == null) return;
+  1452→  1452→    // Pull profiles, plans, workout_logs, weight_logs, intake_logs
+  1453→  1453→    // Merge by updated_at (last-writer-wins)
+  1454→  1454→  }
+  1455→  1455→
+  1456→  1456→  void clearQueue() {
+  1457→  1457→    ref.read(syncQueueRepoProvider).clear();
+  1458→  1458→    state = state.copyWith(queueLength: 0);
+  1459→  1459→  }
+  1460→  1460→}
+  1461→  1461→
+  1462→  1462→@pragma('vm:entry-point')
+  1463→  1463→void callbackDispatcher() {
+  1464→  1464→  Workmanager().executeTask((task, inputData) async {
+  1465→  1465→    // Initialize Isar + Supabase in the background isolate
+  1466→  1466→    // Drain the sync queue
+  1467→  1467→    return true;
+  1468→  1468→  });
+  1469→  1469→}
+  1470→  1470→```
+  1471→  1471→
+  1472→  1472→### 8.4 Conflict resolution
+  1473→  1473→
+  1474→  1474→- Every record has `updated_at` (local Isar + remote Postgres, both set by trigger/app).
+  1475→  1475→- On push: `INSERT ... ON CONFLICT (user_id, <natural_key>) DO UPDATE SET data = EXCLUDED.data, updated_at = now() WHERE plans.updated_at < EXCLUDED.updated_at`.
+  1476→  1476→- On pull: for each server row, if local `updated_at < server.updated_at`, replace local. Else keep local (will be pushed next flush).
+  1477→  1477→- **No merge** — last-writer-wins is fine for single-user, single-active-device scenarios. If the user edits on two devices simultaneously (rare), the later write wins. Surface a "sync conflict" toast if `server.updated_at > local.updated_at AND local.syncStatus == "pending"` (i.e., local has unsaved changes that would be overwritten).
+  1478→  1478→
+  1479→  1479→### 8.5 Offline behavior
+  1480→  1480→
+  1481→  1481→- All reads from Isar (local). UI never blocks on network.
+  1482→  1482→- All writes to Isar + sync queue. UI updates immediately.
+  1483→  1483→- Sync runs in background; failures retry with exponential backoff.
+  1484→  1484→- If offline for >7 days, surface a banner: "You've been offline for a week. Sync will resume when you're back online."
+  1485→  1485→
+  1486→  1486→---
+  1487→  1487→
+  1488→  1488→## 9. Reference
+  1489→  1489→
+  1490→  1490→### 9.1 Output model reference
+  1491→  1491→
+  1492→  1492→The full output tree (defined in `fitn_engine/lib/models/`):
+  1493→  1493→
+  1494→  1494→```
+  1495→  1495→GeneratePlanResponse
+  1496→  1496→├── profile: UserProfile (echoed input)
+  1497→  1497→├── preferences: PlanPreferences (echoed input)
+  1498→  1498→├── assessment: AssessmentResult
+  1499→  1499→│   ├── bodyComposition: BodyComposition?
+  1500→  1500→│   │   ├── bodyFatPct, bodyFatMethod, bodyFatCategory
+  1501→  1501→│   │   ├── leanBodyMassKg, fatMassKg
+  1502→  1502→│   │   ├── bmi, bmiCategory
+  1503→  1503→│   │   ├── ffmi, normalizedFfmi
+  1504→  1504→│   │   ├── targetWeightAtTargetBfKg (deprecated, alias of targetWeightsKg["fitness"])
+  1505→  1505→│   │   ├── targetWeightsKg: {athletic, fitness, acceptable, hormonal_floor}
+  1506→  1506→│   │   └── notes: List<String>
+  1507→  1507→│   ├── healthRisk: HealthRiskAssessment?
+  1508→  1508→│   │   ├── whr, whrRisk, whtr, whtrRisk
+  1509→  1509→│   │   ├── absi, absiZScore, absiRisk
+  1510→  1510→│   │   ├── ibwDevineKg, ibwRobinsonKg, ibwMillerKg, ibwHamwiKg
+  1511→  1511→│   │   ├── overallRisk, riskFactors: List<String>, notes: List<String>
+  1512→  1512→│   ├── muscularPotential: MuscularPotential?
+  1513→  1513→│   │   ├── currentFfmi, currentNormalizedFfmi
+  1514→  1514→│   │   ├── naturalCeilingFfmi (25.0), attainableCeilingFfmi (27.3), likelyMaxFfmi (28.0)
+  1515→  1515→│   │   ├── berkhanStageMaxKg (men only, heightCm - 100)
+  1516→  1516→│   │   ├── ffmiToCeilingPct, headroomKg
+  1517→  1517→│   │   ├── expectedMonthlyMuscleGainKg
+  1518→  1518→│   │   ├── isAboveCeiling
+  1519→  1519→│   │   └── notes: List<String>
+  1520→  1520→│   ├── recommendedStrategy: RecommendedStrategy
+  1521→  1521→│   ├── strategyRationale: String
+  1522→  1522→│   ├── summary: String
+  1523→  1523→│   ├── isPartial: bool
+  1524→  1524→│   └── errors: List<String>
+  1525→  1525→└── plan: FitnessPlan
+  1526→  1526→    ├── nutrition: NutritionPlan
+  1527→  1527→    │   ├── rmr: RMRResult (formula, baseRmrKcal, metabolicAdaptationFactor, weightReducedFactor, adjustedRmrKcal, notes)
+  1528→  1528→    │   ├── tdee: TDEEResult (rmrKcal, activityFactor, tdeeKcal, adaptiveTdeeKcal?, finalTdeeKcal, notes)
+  1529→  1529→    │   ├── calories: CalorieTargets (strategy, baseTdeeKcal, ratePct, rateLabel, calorieDeltaKcal, targetCaloriesKcal, calorieFloorApplied, floorKcal?, notes)
+  1530→  1530→    │   ├── macros: MacroSplit (proteinG, fatG, carbG, proteinPct, fatPct, carbPct, proteinKcal, fatKcal, carbKcal, notes)
+  1531→  1531→    │   ├── hydration: HydrationTarget (waterLitersPerDay, components: Map, notes)
+  1532→  1532→    │   ├── micronutrients: MicronutrientTargets (fiberG, fruitCups, vegCups, notes)
+  1533→  1533→    │   ├── timelineWeeks: int
+  1534→  1534→    │   └── notes: List<String>
+  1535→  1535→    ├── training: TrainingPlan
+  1536→  1536→    │   ├── goal: TrainingGoal
+  1537→  1537→    │   ├── splitType: SplitType
+  1538→  1538→    │   ├── trainingDaysPerWeek: int
+  1539→  1539→    │   ├── progression: ProgressionScheme
+  1540→  1540→    │   ├── mesocycles: List<Mesocycle>
+  1541→  1541→    │   │   └── each: {name, durationWeeks, progression, microcycles: List<Microcycle>, deloadWeek, notes}
+  1542→  1542→    │   │       └── microcycle: {name, workouts: List<Workout>, restDays: List<int>, isDeload}
+  1543→  1543→    │   │           └── workout: {dayNumber, name, focus, exercises: List<WorkoutExercise>, estimatedDurationMin, notes}
+  1544→  1544→    │   │               └── workoutExercise: {exercise: Exercise, sets, reps (string), restSec, rpeTarget?, notes}
+  1545→  1545→    │   │                   └── exercise: {name, category, muscleGroups, secondaryMuscles, equipment, ...videoUrl, videoThumbnail, slug, ...}
+  1546→  1546→    │   ├── totalDurationWeeks: int
+  1547→  1547→    │   ├── muscleFocus: List<String>
+  1548→  1548→    │   ├── weeklyVolumeSummary: Map<String, double>  // muscle → sets/week
+  1549→  1549→    │   └── notes: List<String>
+  1550→  1550→    ├── meal: MealPlan
+  1551→  1551→    │   ├── days: List<DayPlan>  // exactly 7
+  1552→  1552→    │   │   └── each: {dayNumber, dayName, meals: List<Meal>, isTrainingDay, totalKcal, totalProteinG, totalCarbG, totalFatG, totalFiberG}
+  1553→  1553→    │   │       └── meal: {mealType, name, foods: List<MealFood>, recipe?, scaleFactor, scaledNutrition, targetKcal/.../, actualKcal/.../, selectionReason, notes}
+  1554→  1554→    │   ├── mealFrequency: int
+  1555→  1555→    │   ├── macroAllocation: Map<String, double>
+  1556→  1556→    │   ├── cuisineMix: Map<String, int>
+  1557→  1557→    │   ├── recipeSourceSummary: {curatedUsed, uncuratedUsed, fallbackToRawFoods, uniqueRecipesUsed, databaseTotal, databaseCurated, databaseUncurated, weeklyAvg*, weeklyKcalMatchPct, weeklyProteinMatchPct, trainingDays: List<int>, includePrePostWorkout}
+  1558→  1558→    │   └── notes: List<String>
+  1559→  1559→    ├── summary: String  // multi-line human-readable
+  1560→  1560→    └── engineVersion: String  // "3.2.0"
+  1561→  1561→```
+  1562→  1562→
+  1563→  1563→### 9.2 Allergen constants
+  1564→  1564→
+  1565→  1565→**`PLANT_QUALIFIERS`** (substring match in 25-char context before allergen keyword):
+  1566→  1566→almond, soy, oat, rice, coconut, cashew, hemp, flax, macadamia, pea, vegan, plant, dairy-free, dairy free, non-dairy, nondairy, peanut, cocoa, shea, sunflower, avocado, apple, agave, maple, date, molasses, vegenaise, just egg, egg replacer, flax egg, chia egg, beyond, impossible, gardein, tofu, tempeh, seitan, vegetable, veggie, mushroom, no-chicken, no chicken, chicken-style, chicken style, vegan beef, vegan chicken, vegan pork, vegan fish
+  1567→  1567→
+  1568→  1568→**`PLANT_NAMED_PHRASES`** (blank out with equal-length spaces BEFORE keyword scanning):
+  1569→  1569→eggplant, eggsplant, butter lettuce, butterleaf, buttercup squash, cocoa butter, shea butter, cream of tartar, creamed corn, coconut cream, almond butter, peanut butter, cashew butter, sunflower butter, apple butter, pumpkin butter, milk thistle, milkweed, honeydew, honeycrisp, broth of, just egg(s), flax egg(s), chia egg(s), egg replacer, egg substitute, vegan egg(s), almond milk, soy milk, oat milk, rice milk, coconut milk, cashew milk, hemp milk, macadamia milk, pea milk, nutmeg, coconut, hazelnut, peanut, brazil nut, walnut, pecan, almond, cashew, pistachio, macadamia
+  1570→  1570→
+  1571→  1571→**Allergen → keyword map:**
+  1572→  1572→
+  1573→  1573→| Allergen    | Keywords                                                                                                                       |
+  1574→  1574→| ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
+  1575→  1575→| dairy       | milk, cheese, butter, cream, yogurt, whey, lactose, ghee, kibbeh, niter kibbeh                                                 |
+  1576→  1576→| gluten      | wheat, flour, bread, pasta, couscous, barley, rye, seitan, bulgur, farro, spelt, injera                                        |
+  1577→  1577→| soy         | soy, tofu, tempeh, edamame, tamari, soy sauce, miso                                                                            |
+  1578→  1578→| nuts        | almond(s), cashew(s), walnut(s), pecan(s), hazelnut(s), pistachio(s), brazil nut(s), macadamia(s), pine nut(s)                  |
+  1579→  1579→| peanuts     | peanut, groundnut                                                                                                              |
+  1580→  1580→| eggs        | egg, eggs, mayonnaise, meringue                                                                                                |
+  1581→  1581→| shellfish   | shrimp, prawn, crab, lobster, crawfish, langoustine                                                                            |
+  1582→  1582→| fish        | salmon, tuna, cod, tilapia, sardine, anchovy, mackerel, trout, halibut, fish                                                   |
+  1583→  1583→| sesame      | sesame, tahini, sesame oil                                                                                                     |
+  1584→  1584→
+  1585→  1585→**Alias normalization:** `tree_nuts` → `nuts`, `crustacean` / `crustaceans` → `shellfish`.
+  1586→  1586→
+  1587→  1587→### 9.3 ABSI z-score reference (NHANES 1999-2004, 10-year age bands)
+  1588→  1588→
+  1589→  1589→| Sex    | Age range | Mean     | SD      |
+  1590→  1590→| ------ | --------- | -------- | ------- |
+  1591→  1591→| Male   | 18-29     | 0.0813   | 0.0037  |
+  1592→  1592→| Male   | 30-39     | 0.0815   | 0.0038  |
+  1593→  1593→| Male   | 40-49     | 0.0827   | 0.0039  |
+  1594→  1594→| Male   | 50-59     | 0.0846   | 0.0042  |
+  1595→  1595→| Male   | 60-69     | 0.0861   | 0.0043  |
+  1596→  1596→| Male   | 70+       | 0.0874   | 0.0045  |
+  1597→  1597→| Female | 18-29     | 0.0780   | 0.0036  |
+  1598→  1598→| Female | 30-39     | 0.0779   | 0.0037  |
+  1599→  1599→| Female | 40-49     | 0.0790   | 0.0038  |
+  1600→  1600→| Female | 50-59     | 0.0821   | 0.0041  |
+  1601→  1601→| Female | 60-69     | 0.0845   | 0.0043  |
+  1602→  1602→| Female | 70+       | 0.0867   | 0.0045  |
+  1603→  1603→
+  1604→  1604→**ABSI risk by z-score:** < -0.868 LOW, [-0.868, -0.272) BELOW_AVERAGE, [-0.272, 0.229) AVERAGE, [0.229, 0.798) ABOVE_AVERAGE, ≥ 0.798 HIGH.
+  1605→  1605→
+  1606→  1606→### 9.4 Data file schemas
+  1607→  1607→
+  1608→  1608→#### `split_designs.json` (8 entries)
+  1609→  1609→
+  1610→  1610→```json
+  1611→  1611→[{
+  1612→  1612→  "name": "full_body_2day",
+  1613→  1613→  "split_type": "full_body",
+  1614→  1614→  "days_per_week": 2,
+  1615→  1615→  "description": "...",
+  1616→  1616→  "templates": [{
+  1617→  1617→    "name": "Full Body A",
+  1618→  1618→    "focus": "Strength + Hypertrophy",
+  1619→  1619→    "day_type": null,                   // null | "heavy" | "moderate" | "light" (for DUP)
+  1620→  1620→    "slots": [{
+  1621→  1621→      "name": "Squat Primary",
+  1622→  1622→      "primary_muscle": "quads",
+  1623→  1623→      "pattern": "squat",                // matches movement_patterns.json key
+  1624→  1624→      "category": "compound_primary",
+  1625→  1625→      "sets": 4,
+  1626→  1626→      "secondary_muscles": ["glutes", "hamstrings"],
+  1627→  1627→      "force_type_hint": "Push",          // hint, not authoritative
+  1628→  1628→      "is_focus_emphasis": false
+  1629→  1629→    }]
+  1630→  1630→  }],
+  1631→  1631→  "rest_days": [],
+  1632→  1632→  "suitable_for_experience": ["beginner", "novice", "intermediate"],
+  1633→  1633→  "suitable_for_goals": ["general_fitness", "maintenance", "muscle_gain", "strength", "fat_loss", "recomp"]
+  1634→  1634→}]
+  1635→  1635→```
+  1636→  1636→
+  1637→  1637→#### `movement_patterns.json` (40 entries)
+  1638→  1638→
+  1639→  1639→```json
+  1640→  1640→{
+  1641→  1641→  "squat": {
+  1642→  1642→    "family": "lower",                    // push | pull | lower | arms | shoulders | core | mobility | cardio
+  1643→  1643→    "primary_muscles": ["quads", "glutes", "hamstrings"],
+  1644→  1644→    "detection_keywords": ["squat", "hack-squat", "goblet-squat"],
+  1645→  1645→    "env_preference": {
+  1646→  1646→      "full_gym": ["barbell", "machine", "dumbbell", "kettlebell", "bodyweight"],
+  1647→  1647→      "home_gym": ["barbell", "dumbbell", "kettlebell", "bodyweight"],
+  1648→  1648→      "bodyweight_only": ["bodyweight", "bands"]
+  1649→  1649→    }
+  1650→  1650→  }
+  1651→  1651→}
+  1652→  1652→```
+  1653→  1653→
+  1654→  1654→#### `all_exercises.json` (1,217 entries)
+  1655→  1655→
+  1656→  1656→```json
+  1657→  1657→{
+  1658→  1658→  "total_count": 1217,
+  1659→  1659→  "exercises": {
+  1660→  1660→    "military-press": {                   // key = slug
+  1661→  1661→      "slug": "military-press",
+  1662→  1662→      "name": "Military Press (AKA Overhead Press)",
+  1663→  1663→      "equipment": "Barbell",             // capitalize; engine lowercases
+  1664→  1664→      "mechanics": "Compound",            // "Compound" | "Isolation"
+  1665→  1665→      "force_type": "Push (Bilateral)",   // root before "(" used for fallback matching
+  1666→  1666→      "experience_level": "Intermediate", // capitalize
+  1667→  1667→      "exercise_type": "Strength",        // "Strength" | "Cardio" | "Plyometric" | ...
+  1668→  1668→      "categories": ["shoulders"],        // → muscle_groups (lowercased)
+  1669→  1669→      "secondary_muscles": "Abs, Traps, Triceps",  // comma-separated → split
+  1670→  1670→      "views": "6.6M",                    // parse: M=1e6, K=1e3, plain=Int
+  1671→  1671→      "overview": "...",
+  1672→  1672→      "instructions": ["...", "..."],
+  1673→  1673→      "tips": ["...", "..."],
+  1674→  1674→      "video_url": "https://www.youtube.com/embed/j7ULT6dznNc?rel=0",
+  1675→  1675→      "video_id": "j7ULT6dznNc",
+  1676→  1676→      "video_thumbnail": "https://i.ytimg.com/vi/j7ULT6dznNc/maxresdefault.jpg",
+  1677→  1677→      "url": "https://www.muscleandstrength.com/exercises/military-press.html"
+  1678→  1678→    }
+  1679→  1679→  }
+  1680→  1680→}
+  1681→  1681→```
+  1682→  1682→
+  1683→  1683→**Equipment vocabulary:**
+  1684→  1684→- **full_gym** (33): barbell, dumbbell, bodyweight, cable, machine, kettlebell, bands, exercise_ball, other, medicine_ball, rope, sled, foam_roll, ez_bar, landmine, box, lacrosse_ball, trap_bar, jump_rope, chains, tiger_tail, bench, rings, valslide, hipthruster, fat_bar, safety_bar, tire, weight_plate, plate, bar
+  1685→  1685→- **home_gym** (9): barbell, dumbbell, kettlebell, bodyweight, bands, ez_bar, landmine, trap_bar, exercise_ball
+  1686→  1686→- **bodyweight_only** (2): bodyweight, bands
+  1687→  1687→
+  1688→  1688→#### `recipe_database.json` (79 curated)
+  1689→  1689→
+  1690→  1690→```json
+  1691→  1691→{
+  1692→  1692→  "version": "3.2.0",
+  1693→  1693→  "total_recipes": 79,
+  1694→  1694→  "recipes": [{
+  1695→  1695→    "name": "Alicha Doro Wot Recipe",
+  1696→  1696→    "id": "R001",                          // R001-R079 curated; UR001+ uncurated; PW001-PW016 pre/post
+  1697→  1697→    "source": "https://...",
+  1698→  1698→    "cuisine": "ethiopian",
+  1699→  1699→    "meal_types": ["dinner", "lunch"],     // breakfast|lunch|dinner|snack|side|pre_workout|post_workout
+  1700→  1700→    "diet_types": ["OMNI_ETHIOPIAN"],      // OMNI|VEGAN|VEGAN_ETHIOPIAN|VEGETARIAN|OMNI_ETHIOPIAN
+  1701→  1701→    "goal_fit": ["bulk", "maintenance"],   // cut|bulk|recomp|maintenance|strength
+  1702→  1702→    "servings": 5,
+  1703→  1703→    "prep_time_min": 30,
+  1704→  1704→    "cook_time_min": 60,
+  1705→  1705→    "ingredients": ["3 pounds chicken...", "4 eggs...", ...],
+  1706→  1706→    "instructions": ["Start by...", "Wash...", ...],
+  1707→  1707→    "nutrition_per_serving": {
+  1708→  1708→      "kcal": 520.0, "protein_g": 38.0, "carb_g": 12.0, "fat_g": 34.0, "fiber_g": 0.0, "sugar_g": 0.0
+  1709→  1709→    },
+  1710→  1710→    "nutrition_source": "published",       // published | calculated
+  1711→  1711→    "protein_density": "medium",           // low | medium | high
+  1712→  1712→    "calorie_density": "medium",
+  1713→  1713→    "allergens": ["eggs"],
+  1714→  1714→    "alternative_recipe_ids": [],
+  1715→  1715→    "fasting_yetsom": false,               // Ethiopian fasting-diet flag
+  1716→  1716→    "injera_accompaniment": true,
+  1717→  1717→    "image_url": "https://...",
+  1718→  1718→    "selection_reason": "Ethiopian cuisine; for bulking",
+  1719→  1719→    "top_alternatives": [{"id": "R004", "name": "...", "kcal": 480.0, "protein_g": 35.0, "cuisine": "ethiopian", "similarity": 0.85}],
+  1720→  1720→    "notes": " [curated]"                  // appended at load: [curated] | [diet-warning] | [kcal-warning]
+  1721→  1721→  }],
+  1722→  1722→  "swap_groups": {}                        // optional, for recipe swap grouping
+  1723→  1723→}
+  1724→  1724→```
+  1725→  1725→
+  1726→  1726→#### `pre_post_workout_recipes.json` (16 entries)
+  1727→  1727→
+  1728→  1728→4 diets (OMNI, VEGAN, OMNI_ETHIOPIAN, VEGAN_ETHIOPIAN) × 2 meal types (pre, post) × 2 kcal bins (pre: <200, 200-400; post: <300, 300-500) = 16. Same schema as `recipe_database.json` but `nutrition_source="calculated"`, `source="engine-generated"`.
+  1729→  1729→
+  1730→  1730→### 9.5 Rounding rules
+  1731→  1731→
+  1732→  1732→The engine uses **banker's rounding** (round-half-to-even) everywhere.
+  1733→  1733→
+  1734→  1734→- `round1(0.5) == 0`, `round1(1.5) == 2`, `round1(2.5) == 2`, `round1(3.5) == 4`
+  1735→  1735→- `round2(0.125) == 0.12`, `round2(0.135) == 0.14`
+  1736→  1736→
+  1737→  1737→**Exception:** rep-range math in DUP periodization uses `roundHalfUp` (away-from-zero on tie) — so "3-6" × 1.5 → "5-10" not "4-11". This is the only place round-half-up is used.
+  1738→  1738→
+  1739→  1739→Dart's `num.round()` uses round-half-up by default. **Implement banker's rounding manually:**
+  1740→  1740→
+  1741→  1741→```dart
+  1742→  1742→double roundBankers(double value, int decimals) {
+  1743→  1743→  final factor = math.pow(10, decimals);
+  1744→  1744→  final scaled = value * factor;
+  1745→  1745→  final floor = scaled.floor();
+  1746→  1746→  final frac = scaled - floor;
+  1747→  1747→  if (frac < 0.5) return floor / factor;
+  1748→  1748→  if (frac > 0.5) return (floor + 1) / factor;
+  1749→  1749→  // exact 0.5 → round to even
+  1750→  1750→  return (floor % 2 == 0 ? floor : floor + 1) / factor;
+  1751→  1751→}
+  1752→  1752→
+  1753→  1753→int roundBankersToInt(double value) {
+  1754→  1754→  final floor = value.floor();
+  1755→  1755→  final frac = value - floor;
+  1756→  1756→  if (frac < 0.5) return floor;
+  1757→  1757→  if (frac > 0.5) return floor + 1;
+  1758→  1758→  return floor % 2 == 0 ? floor : floor + 1;
+  1759→  1759→}
+  1760→  1760→```
+  1761→  1761→
+  1762→  1762→### 9.6 Engine version
+  1763→  1763→
+  1764→  1764→`ENGINE_VERSION = "3.2.0"` — stamped on every `FitnessPlan.engineVersion`. Bump on any engine logic change. The app can detect stale plans by comparing stored `engineVersion` to current and offer to regenerate.
+  1765→  1765→
+  1766→  1766→### 9.7 Conversion constants
+  1767→  1767→
+  1768→  1768→| Constant                | Value             |
+  1769→  1769→| ----------------------- | ----------------- |
+  1770→  1770→| `WEEKS_PER_MONTH`       | 4.348             |
+  1771→  1771→| `KCAL_PER_KG_FAT`       | 7700              |
+  1772→  1772→| `KCAL_PER_LB_FAT`       | 3500              |
+  1773→  1773→| `KCAL_PER_LB_MUSCLE`    | 2500              |
+  1774→  1774→| `KCAL_PER_GRAM.protein` | 4                 |
+  1775→  1775→| `KCAL_PER_GRAM.carb`    | 4                 |
+  1776→  1776→| `KCAL_PER_GRAM.fat`     | 9                 |
+  1777→  1777→| `KCAL_PER_GRAM.alcohol` | 7                 |
+  1778→  1778→| `KG_TO_LB`              | 2.2046226218      |
+  1779→  1779→| `CM_TO_IN`              | 1 / 2.54          |
+  1780→  1780→| `CM_TO_M`               | 0.01              |
+  1781→  1781→
+  1782→  1782→### 9.8 Energy + rate constants
+  1783→  1783→
+  1784→  1784→| Constant                            | Value     | Used for                          |
+  1785→  1785→| ----------------------------------- | --------- | --------------------------------- |
+  1786→  1786→| `SURPLUS_KCAL_PER_KG_PER_MONTH`     | 330       | bulk daily surplus (includes +50% NEAT buffer) |
+  1787→  1787→| `DEFICIT_KCAL_PER_KG_PER_WEEK`      | 1100      | cut daily deficit                 |
+  1788→  1788→| `SURPLUS_KCAL_PER_LB_PER_MONTH`     | 150       | bulk adjustment protocol          |
+  1789→  1789→| `DEFICIT_KCAL_PER_LB_PER_WEEK`      | 500       | cut adjustment protocol           |
+  1790→  1790→| `MAX_WEEKLY_LOSS_PCT`               | 0.010     | hard cap on cut rate              |
+  1791→  1791→| `DEFAULT_CUT_RATE_PCT`              | 0.0075    | when no tier + no BF%             |
+  1792→  1792→| `SWEET_SPOT_CUT_RATE_PCT`           | 0.005     | below bulk_start                  |
+  1793→  1793→
+  1794→  1794→### 9.9 Macro constants
+  1795→  1795→
+  1796→  1796→| Constant                          | Value                                              |
+  1797→  1797→| --------------------------------- | -------------------------------------------------- |
+  1798→  1798→| `FAT_ABSOLUTE_FLOOR_G`            | 40                                                 |
+  1799→  1799→| `FAT_PER_LB_FLOOR`                | 0.25                                               |
+  1800→  1800→| `SATURATED_FAT_CEILING_PCT`       | 0.10                                               |
+  1801→  1801→| `CUT_TARGET_WEIGHT_PCT_OF_CURRENT`| 0.90                                               |
+  1802→  1802→| `PROTEIN_G_PER_CM_HEIGHT_OBESE`   | 1.0                                                |
+  1803→  1803→| `VEGAN_PROTEIN_BOOST`             | 1.20 (ceil the result)                             |
+  1804→  1804→| `VEGETARIAN_PROTEIN_BOOST`        | 1.10 (ceil the result)                             |
+  1805→  1805→| Protein (cut, BF% known)          | 1.14 g/lb LBM                                      |
+  1806→  1806→| Protein (non-cut, BF% known)      | 1.0 g/lb LBM                                       |
+  1807→  1807→| Protein (cut, BF% unknown)        | 1.0 g/lb target weight (target = current × 0.90)  |
+  1808→  1808→| Protein (non-cut, BF% unknown)    | 0.73 g/lb body weight                              |
+  1809→  1809→
+  1810→  1810→Fat % ranges by strategy: deficit/recomp [15%, 25%], surplus/maintenance/reverse [20%, 30%]. Use midpoint.
+  1811→  1811→
+  1812→  1812→### 9.10 Hydration constants
+  1813→  1813→
+  1814→  1814→| Constant                  | Value                            |
+  1815→  1815→| ------------------------- | -------------------------------- |
+  1816→  1816→| `BASE_ML_PER_KG`          | 30                               |
+  1817→  1817→| `SEX_ADD_ML.male`         | 300 (female: 0)                  |
+  1818→  1818→| `SWEAT_RATE_ML_PER_HR`    | light 300, moderate 500, intense 800 |
+  1819→  1819→| `CLIMATE_MULTIPLIER`      | cold 0.95, temperate 1.0, hot 1.3, hot_humid 1.4 |
+  1820→  1820→| `PREGNANCY_ADD_ML`        | 300 (throws if male)             |
+  1821→  1821→| `BREASTFEEDING_ADD_ML`    | 700 (throws if male)             |
+  1822→  1822→| `HYDRATION_SOFT_CEILING_L`| 5.0                              |
+  1823→  1823→
+  1824→  1824→### 9.11 Recipe scoring constants
+  1825→  1825→
+  1826→  1826→| Constant                  | Value                                              |
+  1827→  1827→| ------------------------- | -------------------------------------------------- |
+  1828→  1828→| `MIN_SCALE`               | 0.7                                                |
+  1829→  1829→| `MAX_SCALE`               | 1.5                                                |
+  1830→  1830→| `NO_SCALE_BAND`           | 0.10 (±10% → 1.0)                                  |
+  1831→  1831→| `SCALE_DEVIATION_LIMIT`   | 0.40                                               |
+  1832→  1832→| `FILLER_THRESHOLDS`       | kcal 50, protein 5g, carb 5g, fat 3g, fiber 3g     |
+  1833→  1833→| `FILLER_SERVING_CAPS`     | protein ×4, carb ×3, fat ×3                        |
+  1834→  1834→| `FILLER_MIN_SERVING_FRAC` | 0.5                                                |
+  1835→  1835→| `VEG_MIN_G`               | 80                                                 |
+  1836→  1836→| `VEG_MAX_G`               | 200                                                |
+  1837→  1837→| `MIN_ACCEPTABLE_SCORE`    | 60 (informational, not enforced)                   |
+  1838→  1838→
+  1839→  1839→### 9.12 Periodization constants
+  1840→  1840→
+  1841→  1841→**DUP day-type modifiers** (multipliers on reps_lo, reps_hi; delta on RPE; multiplier on rest):
+  1842→  1842→
+  1843→  1843→| Day type  | Hypertrophy family | Strength | Default |
+  1844→  1844→| --------- | ------------------ | -------- | ------- |
+  1845→  1845→| heavy     | 1.0/1.0, +0.5, ×1.5 | 0.5/0.7, +0.5, ×1.5 | 0.8/0.85, +0.5, ×1.25 |
+  1846→  1846→| moderate  | 1.2/1.25, 0, ×1.0   | 1.0/1.0, 0, ×1.0    | 1.0/1.0, 0, ×1.0      |
+  1847→  1847→| light     | 1.5/1.6, -1.0, ×0.6 | 1.5/1.8, -1.0, ×0.6 | 1.25/1.4, -1.0, ×0.7  |
+  1848→  1848→
+  1849→  1849→**Block phase modifiers** (non-strength or non-compound-primary):
+  1850→  1850→
+  1851→  1851→| Phase           | reps_mult | sets_delta | rpe_delta |
+  1852→  1852→| --------------- | --------- | ---------- | --------- |
+  1853→  1853→| accumulation    | 1.2       | +1         | -0.5      |
+  1854→  1854→| intensification | 0.6       | -1         | +1.0      |
+  1855→  1855→| peak            | 0.5       | -2         | +1.5      |
+  1856→  1856→
+  1857→  1857→**Deload:** sets × 0.5, RPE - 1.5.
+  1858→  1858→
+  1859→  1859→**Strength phase specs** (for STRENGTH goal + COMPOUND_PRIMARY):
+  1860→  1860→
+  1861→  1861→| Phase (StrengthPhase) | Duration (wks) | Main singles/wk | Main RPE | Backoff sets/single | Backoff RPE | Backoff reps | Secondary sets/wk | Secondary reps | Secondary RIR |
+  1862→  1862→| --------------------- | -------------- | --------------- | -------- | ------------------- | ----------- | ------------ | ----------------- | -------------- | ------------- |
+  1863→  1863→| VOLUME                | 6-12           | 1-3             | 5-8      | 0-0                 | —           | —            | 10-20             | 6-20           | 0-3           |
+  1864→  1864→| LOAD                  | 4-8            | 2-4             | 6-9      | 2-2                 | 5-8         | 5-3          | 5-10              | 6-20           | 0-3           |
+  1865→  1865→| PEAK                  | 2-4            | 2-5             | 7-10     | 0-3                 | 5-8         | 4-2          | 0-4               | 6-20           | 0-3           |
+  1866→  1866→
+  1867→  1867→### 9.13 Mesocycle / program length
+  1868→  1868→
+  1869→  1869→| Experience   | Mesocycle (wks) | Default program (wks) |
+  1870→  1870→| ------------ | --------------- | --------------------- |
+  1871→  1871→| BEGINNER     | 4               | 4                     |
+  1872→  1872→| NOVICE       | 4               | 8                     |
+  1873→  1873→| INTERMEDIATE | 5               | 10 (12 if strength)   |
+  1874→  1874→| ADVANCED     | 6               | 12                    |
+  1875→  1875→
+  1876→  1876→User override: 4-52 weeks. `numMesocycles = max(1, floor(duration / mesoLength))`.
+  1877→  1877→
+  1878→  1878→### 9.14 Auth + sync constants
+  1879→  1879→
+  1880→  1880→| Setting                  | Value         |
+  1881→  1881→| ------------------------ | ------------- |
+  1882→  1882→| Sync interval            | 15 min (workmanager) |
+  1883→  1883→| Sync retry backoff       | exponential, capped at 1 hour |
+  1884→  1884→| Pull on sign-in          | yes           |
+  1885→  1885→| Pull on foreground       | if last pull > 1h ago |
+  1886→  1886→| Conflict resolution      | last-writer-wins by `updated_at` |
+  1887→  1887→| Magic-link TTL           | 24h (Supabase default) |
+  1888→  1888→| Session refresh          | automatic (Supabase SDK) |
+  1889→  1889→
+  1890→  1890→---
+  1891→  1891→
+  1892→  1892→## 10. Build & Deploy
+  1893→  1893→
+  1894→  1894→### 10.1 Flutter app
+  1895→  1895→
+  1896→  1896→**`pubspec.yaml` (key deps):**
+  1897→  1897→```yaml
+  1898→  1898→dependencies:
+  1899→  1899→  flutter:
+  1900→  1900→    sdk: flutter
+  1901→  1901→  flutter_riverpod: ^2.5.1
+  1902→  1902→  go_router: ^14.0.0
+  1903→  1903→  isar: ^4.0.3
+  1904→  1904→  isar_flutter_libs: ^4.0.3
+  1905→  1905→  shared_preferences: ^2.2.0
+  1906→  1906→  supabase_flutter: ^2.6.0
+  1907→  1907→  workmanager: ^0.5.2
+  1908→  1908→  dio: ^5.4.0
+  1909→  1909→  flutter_secure_storage: ^9.0.0
+  1910→  1910→  freezed_annotation: ^2.4.1
+  1911→  1911→  json_annotation: ^4.8.1
+  1912→  1912→  youtube_player_flutter: ^9.0.1
+  1913→  1913→  fl_chart: ^0.68.0
+  1914→  1914→  flutter_animate: ^4.5.0
+  1915→  1915→  lucide_icons: ^0.462.0
+  1916→  1916→  intl: ^0.19.0
+  1917→  1917→  fitn_engine:
+  1918→  1918→    path: ../fitn_engine   # local path; publish to pub.dev when stable
+  1919→  1919→
+  1920→  1920→dev_dependencies:
+  1921→  1921→  build_runner: ^2.4.0
+  1922→  1922→  freezed: ^2.4.0
+  1923→  1923→  json_serializable: ^6.7.0
+  1924→  1924→  isar_generator: ^4.0.3
+  1925→  1925→  flutter_test: { sdk: flutter }
+  1926→  1926→  integration_test: { sdk: flutter }
+  1927→  1927→```
+  1928→  1928→
+  1929→  1929→**Build:**
+  1930→  1930→```bash
+  1931→  1931→# Development
+  1932→  1932→flutter run --flavor dev
+  1933→  1933→
+  1934→  1934→# Production
+  1935→  1935→flutter build ipa --release    # iOS
+  1936→  1936→flutter build apk --release    # Android
+  1937→  1937→flutter build appbundle --release  # Android (Play Store)
+  1938→  1938→```
+  1939→  1939→
+  1940→  1940→### 10.2 `fitn_engine` package
+  1941→  1941→
+  1942→  1942→```
+  1943→  1943→fitn_engine/
+  1944→  1944→  pubspec.yaml
+  1945→  1945→  lib/
+  1946→  1946→    fitn_engine.dart          # public API
+  1947→  1947→    src/
+  1948→  1948→      models/
+  1949→  1949→        enums.dart
+  1950→  1950→        profile.dart
+  1951→  1951→        preferences.dart
+  1952→  1952→        assessment.dart
+  1953→  1953→        nutrition.dart
+  1954→  1954→        training.dart
+  1955→  1955→        meal.dart
+  1956→  1956→        fitness_plan.dart
+  1957→  1957→      assessment/
+  1958→  1958→        assessor.dart
+  1959→  1959→        body_composition.dart
+  1960→  1960→        health_risk.dart
+  1961→  1961→        muscular_potential.dart
+  1962→  1962→        decision.dart
+  1963→  1963→        thresholds.dart       # all sex-specific boundaries
+  1964→  1964→        constants.dart        # FFMI ceilings, named BF% targets
+  1965→  1965→        categories.dart       # BF/BMI category bands
+  1966→  1966→      nutrition/
+  1967→  1967→        planner.dart
+  1968→  1968→        rmr.dart
+  1969→  1969→        tdee.dart
+  1970→  1970→        calories.dart
+  1971→  1971→        macros.dart
+  1972→  1972→        hydration.dart
+  1973→  1973→        micronutrients.dart
+  1974→  1974→        adjustments.dart      # plateau detection + adjustment protocol
+  1975→  1975→      training/
+  1976→  1976→        architect.dart
+  1977→  1977→        split_designs.dart
+  1978→  1978→        exercise_selector.dart
+  1979→  1979→        exercise_categorization.dart
+  1980→  1980→        exercise_library.dart
+  1981→  1981→        intensity_model.dart
+  1982→  1982→        periodization.dart
+  1983→  1983→        volume_landmarks.dart
+  1984→  1984→      meal_plan/
+  1985→  1985→        planner.dart
+  1986→  1986→        allocator.dart
+  1987→  1987→        recipe_loader.dart
+  1988→  1988→        recipe_scorer.dart
+  1989→  1989→        recipe_scaler.dart
+  1990→  1990→        swap_system.dart
+  1991→  1991→        meal_templates.dart
+  1992→  1992→        profile_requirements.dart
+  1993→  1993→        pre_post_workout.dart
+  1994→  1994→        food_database.dart
+  1995→  1995→        allergen_constants.dart
+  1996→  1996→      utils/
+  1997→  1997→        units.dart
+  1998→  1998→        round.dart             # banker's rounding
+  1999→  1999→        enum_helpers.dart
+  2000→  2000→      errors.dart
+
+[showing lines 1-2000 of 2002; use offset=2001 with limit to continue reading]

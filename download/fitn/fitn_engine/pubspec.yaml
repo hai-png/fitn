@@ -1,0 +1,15 @@
+name: fitn_engine
+description: Pure-Dart physiology-grounded fitness engine. Deterministic (same inputs → byte-identical output). Loads JSON data assets. No Flutter deps.
+version: 3.2.0
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  # Pure Dart only — no Flutter deps.
+  # We use dart:convert + dart:io + dart:math + dart:async from the SDK.
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^4.0.0

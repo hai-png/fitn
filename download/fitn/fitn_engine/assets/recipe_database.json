@@ -1,0 +1,666 @@
+{
+  "version": "3.2.0",
+  "total_recipes": 12,
+  "recipes": [
+    {
+      "id": "R001",
+      "name": "Alicha Doro Wot",
+      "source": "https://example.com/alicha-doro-wot",
+      "cuisine": "ethiopian",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "diet_types": [
+        "OMNI_ETHIOPIAN"
+      ],
+      "goal_fit": [
+        "bulk",
+        "maintenance"
+      ],
+      "servings": 5,
+      "prep_time_min": 30,
+      "cook_time_min": 60,
+      "ingredients": [
+        "3 pounds chicken thighs",
+        "4 hard-boiled eggs",
+        "2 large onions (diced)",
+        "3 tbsp niter kibbeh",
+        "2 tbsp garlic-ginger paste",
+        "1 tsp turmeric",
+        "Salt to taste"
+      ],
+      "instructions": [
+        "Sauté onions in niter kibbeh until golden.",
+        "Add garlic-ginger paste and turmeric.",
+        "Add chicken and brown lightly.",
+        "Cover and simmer 45 minutes.",
+        "Add hard-boiled eggs in the last 10 minutes.",
+        "Serve with injera."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 520.0,
+        "protein_g": 38.0,
+        "carb_g": 12.0,
+        "fat_g": 34.0,
+        "fiber_g": 2.0,
+        "sugar_g": 4.0
+      },
+      "nutrition_source": "published",
+      "protein_density": "high",
+      "calorie_density": "high",
+      "allergens": [
+        "eggs"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": true,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Ethiopian cuisine; high protein; great for bulking",
+      "top_alternatives": []
+    },
+    {
+      "id": "R002",
+      "name": "Misir Wot (Spiced Red Lentils)",
+      "source": "https://example.com/misir-wot",
+      "cuisine": "ethiopian",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "diet_types": [
+        "VEGAN_ETHIOPIAN"
+      ],
+      "goal_fit": [
+        "bulk",
+        "maintenance",
+        "recomp"
+      ],
+      "servings": 4,
+      "prep_time_min": 10,
+      "cook_time_min": 30,
+      "ingredients": [
+        "1 cup red lentils",
+        "1 large onion (diced)",
+        "2 tbsp olive oil",
+        "2 tbsp berbere spice",
+        "1 tbsp garlic-ginger paste",
+        "3 cups water"
+      ],
+      "instructions": [
+        "Sauté onion in oil until soft.",
+        "Add berbere and garlic-ginger paste; toast 1 min.",
+        "Add lentils and water; bring to boil.",
+        "Simmer 20-25 min until lentils break down.",
+        "Season and serve with injera."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 320.0,
+        "protein_g": 14.0,
+        "carb_g": 42.0,
+        "fat_g": 10.0,
+        "fiber_g": 12.0,
+        "sugar_g": 4.0
+      },
+      "nutrition_source": "published",
+      "protein_density": "medium",
+      "calorie_density": "medium",
+      "allergens": [],
+      "fasting_yetsom": true,
+      "injera_accompaniment": true,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Vegan Ethiopian; high fiber; plant protein",
+      "top_alternatives": []
+    },
+    {
+      "id": "R003",
+      "name": "Greek Yogurt Parfait",
+      "source": "https://example.com/yogurt-parfait",
+      "cuisine": "american",
+      "meal_types": [
+        "breakfast",
+        "snack"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "goal_fit": [
+        "recomp",
+        "maintenance",
+        "fat_loss"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "200g nonfat Greek yogurt",
+        "30g rolled oats",
+        "100g mixed berries",
+        "15g honey",
+        "10g almonds (chopped)"
+      ],
+      "instructions": [
+        "Layer yogurt and oats in a glass.",
+        "Top with berries.",
+        "Drizzle honey and sprinkle almonds."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 380.0,
+        "protein_g": 25.0,
+        "carb_g": 50.0,
+        "fat_g": 9.0,
+        "fiber_g": 7.0,
+        "sugar_g": 28.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [
+        "dairy",
+        "nuts"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Quick breakfast; high protein; balanced macros",
+      "top_alternatives": []
+    },
+    {
+      "id": "R004",
+      "name": "Oatmeal Power Bowl",
+      "source": "https://example.com/oatmeal-bowl",
+      "cuisine": "american",
+      "meal_types": [
+        "breakfast"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "goal_fit": [
+        "bulk",
+        "maintenance"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 5,
+      "ingredients": [
+        "60g rolled oats",
+        "250ml almond milk",
+        "1 banana (sliced)",
+        "20g peanut butter",
+        "10g chia seeds",
+        "5g cinnamon"
+      ],
+      "instructions": [
+        "Combine oats and almond milk; microwave 90 seconds.",
+        "Stir, then top with banana, peanut butter, chia, and cinnamon."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 510.0,
+        "protein_g": 14.0,
+        "carb_g": 75.0,
+        "fat_g": 17.0,
+        "fiber_g": 12.0,
+        "sugar_g": 25.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "medium",
+      "calorie_density": "high",
+      "allergens": [
+        "peanuts"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Vegan breakfast; high fiber; calorie-dense for bulking",
+      "top_alternatives": []
+    },
+    {
+      "id": "R005",
+      "name": "Egg & Avocado Toast",
+      "source": "https://example.com/egg-avocado-toast",
+      "cuisine": "american",
+      "meal_types": [
+        "breakfast",
+        "lunch"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "goal_fit": [
+        "recomp",
+        "maintenance"
+      ],
+      "servings": 1,
+      "prep_time_min": 10,
+      "cook_time_min": 5,
+      "ingredients": [
+        "2 slices whole wheat bread",
+        "2 eggs",
+        "1/2 avocado",
+        "Salt, pepper, chili flakes"
+      ],
+      "instructions": [
+        "Toast bread.",
+        "Fry eggs sunny-side up.",
+        "Mash avocado on toast; top with eggs; season."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 460.0,
+        "protein_g": 22.0,
+        "carb_g": 36.0,
+        "fat_g": 24.0,
+        "fiber_g": 10.0,
+        "sugar_g": 4.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [
+        "eggs",
+        "gluten"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Balanced breakfast; healthy fats; satiating",
+      "top_alternatives": []
+    },
+    {
+      "id": "R006",
+      "name": "Grilled Chicken & Quinoa Bowl",
+      "source": "https://example.com/chicken-quinoa-bowl",
+      "cuisine": "mediterranean",
+      "meal_types": [
+        "lunch",
+        "dinner"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "goal_fit": [
+        "recomp",
+        "maintenance",
+        "fat_loss"
+      ],
+      "servings": 1,
+      "prep_time_min": 15,
+      "cook_time_min": 20,
+      "ingredients": [
+        "150g chicken breast",
+        "80g dry quinoa",
+        "100g mixed greens",
+        "1/2 cucumber (sliced)",
+        "5 cherry tomatoes",
+        "1 tbsp olive oil",
+        "Lemon juice"
+      ],
+      "instructions": [
+        "Cook quinoa per package.",
+        "Grill chicken 5 min/side; slice.",
+        "Combine quinoa, greens, vegetables; top with chicken.",
+        "Dress with olive oil and lemon."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 540.0,
+        "protein_g": 45.0,
+        "carb_g": 50.0,
+        "fat_g": 17.0,
+        "fiber_g": 7.0,
+        "sugar_g": 4.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "High protein; balanced; lean bulk favorite",
+      "top_alternatives": []
+    },
+    {
+      "id": "R007",
+      "name": "Tofu Stir-Fry with Brown Rice",
+      "source": "https://example.com/tofu-stirfry",
+      "cuisine": "asian",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "goal_fit": [
+        "recomp",
+        "maintenance",
+        "fat_loss"
+      ],
+      "servings": 2,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "ingredients": [
+        "300g firm tofu (cubed)",
+        "150g broccoli florets",
+        "1 red bell pepper (sliced)",
+        "100g brown rice (dry)",
+        "2 tbsp soy sauce",
+        "1 tbsp sesame oil",
+        "1 tbsp ginger-garlic paste"
+      ],
+      "instructions": [
+        "Cook rice per package.",
+        "Pan-fry tofu in sesame oil until golden.",
+        "Add vegetables and ginger-garlic; stir-fry 5 min.",
+        "Add soy sauce; serve over rice."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 480.0,
+        "protein_g": 24.0,
+        "carb_g": 55.0,
+        "fat_g": 16.0,
+        "fiber_g": 6.0,
+        "sugar_g": 4.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [
+        "soy"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Vegan; balanced; high plant protein",
+      "top_alternatives": []
+    },
+    {
+      "id": "R008",
+      "name": "Salmon with Sweet Potato & Asparagus",
+      "source": "https://example.com/salmon-sweet-potato",
+      "cuisine": "mediterranean",
+      "meal_types": [
+        "dinner"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "goal_fit": [
+        "recomp",
+        "maintenance",
+        "fat_loss"
+      ],
+      "servings": 1,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "ingredients": [
+        "150g salmon fillet",
+        "200g sweet potato (cubed)",
+        "150g asparagus",
+        "1 tbsp olive oil",
+        "Lemon, salt, pepper"
+      ],
+      "instructions": [
+        "Roast sweet potato at 220C for 20 min.",
+        "Add asparagus for last 10 min.",
+        "Pan-sear salmon skin-side down 4 min; flip 2 min.",
+        "Serve with lemon."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 580.0,
+        "protein_g": 38.0,
+        "carb_g": 40.0,
+        "fat_g": 28.0,
+        "fiber_g": 7.0,
+        "sugar_g": 10.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "medium",
+      "allergens": [
+        "fish"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Omega-3 rich; high protein; nutrient-dense",
+      "top_alternatives": []
+    },
+    {
+      "id": "R009",
+      "name": "Shiro Wot (Chickpea Flour Stew)",
+      "source": "https://example.com/shiro-wot",
+      "cuisine": "ethiopian",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "diet_types": [
+        "VEGAN_ETHIOPIAN"
+      ],
+      "goal_fit": [
+        "bulk",
+        "maintenance"
+      ],
+      "servings": 4,
+      "prep_time_min": 10,
+      "cook_time_min": 25,
+      "ingredients": [
+        "1 cup shiro powder",
+        "1 large onion (diced)",
+        "3 tbsp olive oil",
+        "2 tbsp garlic-ginger paste",
+        "4 cups water",
+        "Salt, berbere to taste"
+      ],
+      "instructions": [
+        "Sauté onion in oil until golden.",
+        "Add garlic-ginger paste.",
+        "Whisk shiro into water; add to pot.",
+        "Simmer 15-20 min until thick.",
+        "Serve with injera."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 380.0,
+        "protein_g": 12.0,
+        "carb_g": 38.0,
+        "fat_g": 18.0,
+        "fiber_g": 6.0,
+        "sugar_g": 3.0
+      },
+      "nutrition_source": "published",
+      "protein_density": "medium",
+      "calorie_density": "medium",
+      "allergens": [],
+      "fasting_yetsom": true,
+      "injera_accompaniment": true,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Vegan Ethiopian; comfort food; fasting-friendly",
+      "top_alternatives": []
+    },
+    {
+      "id": "R010",
+      "name": "Cottage Cheese & Berry Bowl",
+      "source": "https://example.com/cottage-berry",
+      "cuisine": "american",
+      "meal_types": [
+        "snack",
+        "breakfast"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "goal_fit": [
+        "fat_loss",
+        "recomp"
+      ],
+      "servings": 1,
+      "prep_time_min": 5,
+      "cook_time_min": 0,
+      "ingredients": [
+        "200g lowfat cottage cheese",
+        "100g mixed berries",
+        "10g chia seeds",
+        "5g stevia or honey"
+      ],
+      "instructions": [
+        "Combine cottage cheese and berries in bowl.",
+        "Sprinkle chia and sweetener."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 230.0,
+        "protein_g": 28.0,
+        "carb_g": 18.0,
+        "fat_g": 5.0,
+        "fiber_g": 6.0,
+        "sugar_g": 12.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "low",
+      "allergens": [
+        "dairy"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "High-protein snack; casein for slow release",
+      "top_alternatives": []
+    },
+    {
+      "id": "R011",
+      "name": "Lentil & Vegetable Soup",
+      "source": "https://example.com/lentil-soup",
+      "cuisine": "mediterranean",
+      "meal_types": [
+        "lunch",
+        "dinner"
+      ],
+      "diet_types": [
+        "VEGAN"
+      ],
+      "goal_fit": [
+        "fat_loss",
+        "recomp",
+        "maintenance"
+      ],
+      "servings": 4,
+      "prep_time_min": 15,
+      "cook_time_min": 35,
+      "ingredients": [
+        "1 cup brown lentils",
+        "1 onion (diced)",
+        "2 carrots (chopped)",
+        "2 celery stalks",
+        "2 garlic cloves",
+        "1 can diced tomatoes",
+        "6 cups vegetable broth",
+        "1 tsp cumin",
+        "1 tsp smoked paprika"
+      ],
+      "instructions": [
+        "Sauté onion, carrots, celery 5 min.",
+        "Add garlic and spices.",
+        "Add lentils, tomatoes, broth; boil.",
+        "Simmer 30 min until lentils are tender."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 280.0,
+        "protein_g": 16.0,
+        "carb_g": 45.0,
+        "fat_g": 3.0,
+        "fiber_g": 12.0,
+        "sugar_g": 6.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "medium",
+      "calorie_density": "low",
+      "allergens": [],
+      "fasting_yetsom": true,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Vegan; high fiber; low calorie; satiating",
+      "top_alternatives": []
+    },
+    {
+      "id": "R012",
+      "name": "Beef Stir-Fry with Vegetables",
+      "source": "https://example.com/beef-stirfry",
+      "cuisine": "asian",
+      "meal_types": [
+        "dinner",
+        "lunch"
+      ],
+      "diet_types": [
+        "OMNI"
+      ],
+      "goal_fit": [
+        "bulk",
+        "maintenance"
+      ],
+      "servings": 2,
+      "prep_time_min": 15,
+      "cook_time_min": 15,
+      "ingredients": [
+        "300g lean beef strips",
+        "150g broccoli",
+        "1 bell pepper (sliced)",
+        "100g white rice (dry)",
+        "2 tbsp soy sauce",
+        "1 tbsp sesame oil",
+        "1 tbsp ginger-garlic paste",
+        "1 tsp cornstarch"
+      ],
+      "instructions": [
+        "Cook rice.",
+        "Sear beef in sesame oil; remove.",
+        "Stir-fry vegetables 3 min.",
+        "Return beef; add soy+cornstarch slurry.",
+        "Serve over rice."
+      ],
+      "nutrition_per_serving": {
+        "kcal": 620.0,
+        "protein_g": 42.0,
+        "carb_g": 60.0,
+        "fat_g": 20.0,
+        "fiber_g": 5.0,
+        "sugar_g": 4.0
+      },
+      "nutrition_source": "calculated",
+      "protein_density": "high",
+      "calorie_density": "high",
+      "allergens": [
+        "soy"
+      ],
+      "fasting_yetsom": false,
+      "injera_accompaniment": false,
+      "image_url": "",
+      "alternative_recipe_ids": [],
+      "notes": " [curated]",
+      "selection_reason": "Calorie-dense; high protein; great for bulking",
+      "top_alternatives": []
+    }
+  ],
+  "swap_groups": {}
+}

@@ -1,0 +1,2202 @@
+[
+  {
+    "name": "full_body_2day",
+    "split_type": "full_body",
+    "days_per_week": 2,
+    "description": "Two-day full-body split for beginners. Trains every major muscle group each session, 2-3x per week for optimal frequency.",
+    "templates": [
+      {
+        "name": "Full Body A",
+        "focus": "Strength + Hypertrophy",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Squat Primary",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Bench Press Primary",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Row Primary",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press Accessory",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Hip Hinge Accessory",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Core Work",
+            "primary_muscle": "abs",
+            "pattern": "core_anti_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "obliques"
+            ],
+            "force_type_hint": null,
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Full Body B",
+        "focus": "Strength + Hypertrophy",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Deadlift Primary",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Incline Press Primary",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up / Lat Pulldown",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lunge Accessory",
+            "primary_muscle": "quads",
+            "pattern": "lunge",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Curl Accessory",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Accessory",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "suitable_for_experience": [
+      "beginner",
+      "novice",
+      "intermediate"
+    ],
+    "suitable_for_goals": [
+      "general_fitness",
+      "maintenance",
+      "muscle_gain",
+      "strength",
+      "fat_loss",
+      "recomp"
+    ]
+  },
+  {
+    "name": "full_body_3day",
+    "split_type": "full_body",
+    "days_per_week": 3,
+    "description": "Three-day full-body split. The gold standard for beginner-to-novice trainees.",
+    "templates": [
+      {
+        "name": "Full Body A",
+        "focus": "Squat emphasis",
+        "day_type": "heavy",
+        "slots": [
+          {
+            "name": "Squat Primary",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Bench Press Primary",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Row Primary",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Core",
+            "primary_muscle": "abs",
+            "pattern": "core_anti_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "obliques"
+            ],
+            "force_type_hint": null,
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Full Body B",
+        "focus": "Deadlift emphasis",
+        "day_type": "moderate",
+        "slots": [
+          {
+            "name": "Deadlift Primary",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press Primary",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "traps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up / Lat Pulldown",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lunge Accessory",
+            "primary_muscle": "quads",
+            "pattern": "lunge",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Full Body C",
+        "focus": "Bench emphasis",
+        "day_type": "light",
+        "slots": [
+          {
+            "name": "Front Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "core"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Incline Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Seated Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Arm Accessory Superset",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      4,
+      5,
+      7
+    ],
+    "suitable_for_experience": [
+      "beginner",
+      "novice",
+      "intermediate"
+    ],
+    "suitable_for_goals": [
+      "general_fitness",
+      "maintenance",
+      "muscle_gain",
+      "strength",
+      "fat_loss",
+      "recomp"
+    ]
+  },
+  {
+    "name": "upper_lower_4day",
+    "split_type": "upper_lower",
+    "days_per_week": 4,
+    "description": "Four-day upper/lower split. Ideal for novice-to-intermediate trainees seeking a balance of frequency and recovery.",
+    "templates": [
+      {
+        "name": "Upper A (Heavy)",
+        "focus": "Strength + Hypertrophy",
+        "day_type": "heavy",
+        "slots": [
+          {
+            "name": "Bench Press",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Biceps Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Extension",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Lower A (Heavy)",
+        "focus": "Strength + Hypertrophy",
+        "day_type": "heavy",
+        "slots": [
+          {
+            "name": "Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Romanian Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Press",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Core",
+            "primary_muscle": "abs",
+            "pattern": "core_anti_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "obliques"
+            ],
+            "force_type_hint": null,
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Upper B (Volume)",
+        "focus": "Hypertrophy",
+        "day_type": "moderate",
+        "slots": [
+          {
+            "name": "Incline DB Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lat Pulldown",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Cable Fly",
+            "primary_muscle": "chest",
+            "pattern": "chest_fly",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lateral Raise",
+            "primary_muscle": "shoulders",
+            "pattern": "lateral_raise",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Rear Delt Fly",
+            "primary_muscle": "rear_delts",
+            "pattern": "rear_delt",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "upper_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Lower B (Volume)",
+        "focus": "Hypertrophy",
+        "day_type": "moderate",
+        "slots": [
+          {
+            "name": "Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Front Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "core"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Curl",
+            "primary_muscle": "hamstrings",
+            "pattern": "knee_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Hip Thrust",
+            "primary_muscle": "glutes",
+            "pattern": "hip_thrust",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      3,
+      7
+    ],
+    "suitable_for_experience": [
+      "novice",
+      "intermediate",
+      "advanced"
+    ],
+    "suitable_for_goals": [
+      "muscle_gain",
+      "strength",
+      "recomp",
+      "maintenance",
+      "fat_loss"
+    ]
+  },
+  {
+    "name": "push_pull_legs_3day",
+    "split_type": "ppl",
+    "days_per_week": 3,
+    "description": "Three-day push/pull/legs. Frequency is lower but each session is highly focused.",
+    "templates": [
+      {
+        "name": "Push",
+        "focus": "Chest, Shoulders, Triceps",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Bench Press",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Incline DB Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lateral Raise",
+            "primary_muscle": "shoulders",
+            "pattern": "lateral_raise",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Extension",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Pull",
+        "focus": "Back, Biceps",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Barbell Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Rear Delt Fly",
+            "primary_muscle": "rear_delts",
+            "pattern": "rear_delt",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "upper_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Biceps Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Legs",
+        "focus": "Quads, Hamstrings, Glutes, Calves",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Romanian Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Press",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Curl",
+            "primary_muscle": "hamstrings",
+            "pattern": "knee_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Core",
+            "primary_muscle": "abs",
+            "pattern": "core_anti_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "obliques"
+            ],
+            "force_type_hint": null,
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      4,
+      5,
+      6,
+      7
+    ],
+    "suitable_for_experience": [
+      "novice",
+      "intermediate"
+    ],
+    "suitable_for_goals": [
+      "muscle_gain",
+      "strength",
+      "recomp",
+      "maintenance"
+    ]
+  },
+  {
+    "name": "push_pull_legs_6day",
+    "split_type": "pplX2",
+    "days_per_week": 6,
+    "description": "Six-day push/pull/legs performed twice per week. High frequency, high volume — for intermediate+ trainees with strong recovery.",
+    "templates": [
+      {
+        "name": "Push A (Heavy)",
+        "focus": "Strength",
+        "day_type": "heavy",
+        "slots": [
+          {
+            "name": "Bench Press",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 5,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Incline DB Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lateral Raise",
+            "primary_muscle": "shoulders",
+            "pattern": "lateral_raise",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Extension",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Pull A (Heavy)",
+        "focus": "Strength",
+        "day_type": "heavy",
+        "slots": [
+          {
+            "name": "Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Weighted Pull-Up",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pendlay Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Rear Delt Fly",
+            "primary_muscle": "rear_delts",
+            "pattern": "rear_delt",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "upper_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Biceps Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Legs A (Heavy)",
+        "focus": "Strength",
+        "day_type": "heavy",
+        "slots": [
+          {
+            "name": "Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 5,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Romanian Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Press",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Curl",
+            "primary_muscle": "hamstrings",
+            "pattern": "knee_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 5,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Push B (Volume)",
+        "focus": "Hypertrophy",
+        "day_type": "moderate",
+        "slots": [
+          {
+            "name": "Incline DB Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Cable Fly",
+            "primary_muscle": "chest",
+            "pattern": "chest_fly",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "DB Shoulder Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lateral Raise",
+            "primary_muscle": "shoulders",
+            "pattern": "lateral_raise",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Pushdown",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Pull B (Volume)",
+        "focus": "Hypertrophy",
+        "day_type": "moderate",
+        "slots": [
+          {
+            "name": "Lat Pulldown",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Seated Cable Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Face Pull",
+            "primary_muscle": "rear_delts",
+            "pattern": "rear_delt",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "upper_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Hammer Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms",
+              "brachialis"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Incline Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Legs B (Volume)",
+        "focus": "Hypertrophy",
+        "day_type": "moderate",
+        "slots": [
+          {
+            "name": "Front Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "core"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Hip Thrust",
+            "primary_muscle": "glutes",
+            "pattern": "hip_thrust",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Walking Lunge",
+            "primary_muscle": "quads",
+            "pattern": "lunge",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Extension",
+            "primary_muscle": "quads",
+            "pattern": "knee_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Seated Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      7
+    ],
+    "suitable_for_experience": [
+      "intermediate",
+      "advanced"
+    ],
+    "suitable_for_goals": [
+      "muscle_gain",
+      "strength",
+      "recomp"
+    ]
+  },
+  {
+    "name": "ppl_upper_lower_5day",
+    "split_type": "pushPullLegsUpperLower",
+    "days_per_week": 5,
+    "description": "Five-day hybrid: PPL + Upper/Lower. Balances volume and frequency for intermediate trainees.",
+    "templates": [
+      {
+        "name": "Push",
+        "focus": "Chest/Shoulders/Triceps",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Bench Press",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Cable Fly",
+            "primary_muscle": "chest",
+            "pattern": "chest_fly",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lateral Raise",
+            "primary_muscle": "shoulders",
+            "pattern": "lateral_raise",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Extension",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Pull",
+        "focus": "Back/Biceps",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Barbell Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Rear Delt Fly",
+            "primary_muscle": "rear_delts",
+            "pattern": "rear_delt",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "upper_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Biceps Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Legs",
+        "focus": "Lower Body",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Romanian Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Press",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Curl",
+            "primary_muscle": "hamstrings",
+            "pattern": "knee_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Upper",
+        "focus": "Full Upper Body",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Incline Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lat Pulldown",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "DB Shoulder Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Seated Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Arms Superset",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Lower",
+        "focus": "Full Lower Body",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Front Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "core"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Hip Thrust",
+            "primary_muscle": "glutes",
+            "pattern": "hip_thrust",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Walking Lunge",
+            "primary_muscle": "quads",
+            "pattern": "lunge",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Core",
+            "primary_muscle": "abs",
+            "pattern": "core_anti_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "obliques"
+            ],
+            "force_type_hint": null,
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      6,
+      7
+    ],
+    "suitable_for_experience": [
+      "intermediate",
+      "advanced"
+    ],
+    "suitable_for_goals": [
+      "muscle_gain",
+      "recomp",
+      "strength"
+    ]
+  },
+  {
+    "name": "body_part_split_5day",
+    "split_type": "bodyPart",
+    "days_per_week": 5,
+    "description": "Five-day body-part split (bro split): one major muscle group per day. Classic hypertrophy focus.",
+    "templates": [
+      {
+        "name": "Chest Day",
+        "focus": "Chest",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Bench Press",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Incline DB Press",
+            "primary_muscle": "chest",
+            "pattern": "incline_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Cable Fly",
+            "primary_muscle": "chest",
+            "pattern": "chest_fly",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Dips",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Pushdown",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Back Day",
+        "focus": "Back",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Barbell Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lat Pulldown",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Biceps Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Shoulders Day",
+        "focus": "Shoulders",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Overhead Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "DB Shoulder Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lateral Raise",
+            "primary_muscle": "shoulders",
+            "pattern": "lateral_raise",
+            "category": "accessory",
+            "sets": 5,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Rear Delt Fly",
+            "primary_muscle": "rear_delts",
+            "pattern": "rear_delt",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [
+              "upper_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Shrug",
+            "primary_muscle": "traps",
+            "pattern": "shrug",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Legs Day",
+        "focus": "Quads/Hamstrings/Glutes",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Romanian Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Press",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Curl",
+            "primary_muscle": "hamstrings",
+            "pattern": "knee_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Calf Raise",
+            "primary_muscle": "calves",
+            "pattern": "ankle_plantarflexion",
+            "category": "accessory",
+            "sets": 5,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Arms Day",
+        "focus": "Biceps/Triceps",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Barbell Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Skull Crusher",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 4,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Hammer Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms",
+              "brachialis"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Pushdown",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Preacher Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      6,
+      7
+    ],
+    "suitable_for_experience": [
+      "intermediate",
+      "advanced"
+    ],
+    "suitable_for_goals": [
+      "muscle_gain",
+      "maintenance"
+    ]
+  },
+  {
+    "name": "push_pull_2day",
+    "split_type": "pushPull",
+    "days_per_week": 2,
+    "description": "Two-day push/pull split for very low training frequency. Minimum effective dose.",
+    "templates": [
+      {
+        "name": "Push Day",
+        "focus": "Chest/Shoulders/Triceps/Quads",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Bench Press",
+            "primary_muscle": "chest",
+            "pattern": "horizontal_push",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "triceps",
+              "shoulders"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Squat",
+            "primary_muscle": "quads",
+            "pattern": "squat",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "hamstrings"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Overhead Press",
+            "primary_muscle": "shoulders",
+            "pattern": "vertical_push",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "triceps"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Lunge",
+            "primary_muscle": "quads",
+            "pattern": "lunge",
+            "category": "compound_secondary",
+            "sets": 3,
+            "secondary_muscles": [
+              "glutes"
+            ],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Triceps Extension",
+            "primary_muscle": "triceps",
+            "pattern": "elbow_extension",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Push",
+            "is_focus_emphasis": false
+          }
+        ]
+      },
+      {
+        "name": "Pull Day",
+        "focus": "Back/Biceps/Hamstrings",
+        "day_type": null,
+        "slots": [
+          {
+            "name": "Deadlift",
+            "primary_muscle": "hamstrings",
+            "pattern": "hip_hinge",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "glutes",
+              "lower_back",
+              "traps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Pull-Up",
+            "primary_muscle": "back",
+            "pattern": "vertical_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Barbell Row",
+            "primary_muscle": "back",
+            "pattern": "horizontal_pull",
+            "category": "compound_primary",
+            "sets": 4,
+            "secondary_muscles": [
+              "biceps",
+              "rear_delts"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Leg Curl",
+            "primary_muscle": "hamstrings",
+            "pattern": "knee_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          },
+          {
+            "name": "Biceps Curl",
+            "primary_muscle": "biceps",
+            "pattern": "elbow_flexion",
+            "category": "accessory",
+            "sets": 3,
+            "secondary_muscles": [
+              "forearms"
+            ],
+            "force_type_hint": "Pull",
+            "is_focus_emphasis": false
+          }
+        ]
+      }
+    ],
+    "rest_days": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "suitable_for_experience": [
+      "beginner",
+      "novice",
+      "intermediate"
+    ],
+    "suitable_for_goals": [
+      "general_fitness",
+      "maintenance",
+      "fat_loss"
+    ]
+  }
+]
