@@ -1,4 +1,4 @@
-/// Top-level MaterialApp.router. See spec §6.2.
+/// Top-level MaterialApp.router — uses the Fitn design system.
 library;
 
 import 'package:flutter/material.dart';
@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'data/prefs/app_state_provider.dart';
 import 'router.dart';
-import 'ui/theme/app_theme.dart';
+import 'ui/theme/fitn_design.dart';
 
 class FitnApp extends ConsumerWidget {
   const FitnApp({super.key});
@@ -17,10 +17,10 @@ class FitnApp extends ConsumerWidget {
     final themeMode = ref.watch(themeModeProvider);
 
     return MaterialApp.router(
-      title: 'Fitn',
+      title: 'Fitn — FitLife Hub',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
+      theme: FitnTheme.light(),
+      darkTheme: FitnTheme.light(), // light-first design
       themeMode: themeMode,
       routerConfig: router,
     );

@@ -1,14 +1,15 @@
-/// Settings screen. See spec §7.11.
+/// Settings screen — matches FitLife Hub design.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../core/env.dart';
 import '../../data/prefs/app_state_provider.dart';
 import '../../state/app_state.dart';
-import '../../theme/app_theme.dart';
+import '../../ui/theme/fitn_design.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -21,69 +22,63 @@ class SettingsScreen extends ConsumerWidget {
     final auth = ref.watch(authNotifierProvider);
 
     return Scaffold(
+      backgroundColor: FitnColors.cream,
       appBar: AppBar(title: const Text('Settings')),
       body: SafeArea(
         child: ListView(
           children: [
-            const _SectionHeader('Appearance'),
+            _section('APPEARANCE'),
             ListTile(
-              leading: const Icon(LucideIcons.sunMoon),
-              title: const Text('Theme'),
+              leading: Icon(LucideIcons.sunMoon, color: FitnColors.ink),
+              title: Text('Theme', style: GoogleFonts.inter(fontSize: 13)),
               trailing: DropdownButton<ThemeMode>(
                 value: themeMode,
                 underline: const SizedBox(),
+                style: GoogleFonts.inter(fontSize: 12, color: FitnColors.ink),
                 items: const [
-                  DropdownMenuItem(
-                      value: ThemeMode.system, child: Text('System')),
-                  DropdownMenuItem(
-                      value: ThemeMode.light, child: Text('Light')),
-                  DropdownMenuItem(
-                      value: ThemeMode.dark, child: Text('Dark')),
+                  DropdownMenuItem(value: ThemeMode.system, child: Text('System')),
+                  DropdownMenuItem(value: ThemeMode.light, child: Text('Light')),
+                  DropdownMenuItem(value: ThemeMode.dark, child: Text('Dark')),
                 ],
                 onChanged: (m) {
-                  if (m != null) {
-                    ref.read(themeModeProvider.notifier).set(m);
-                  }
+                  if (m != null) ref.read(themeModeProvider.notifier).set(m);
                 },
               ),
             ),
             ListTile(
-              leading: const Icon(LucideIcons.ruler),
-              title: const Text('Units'),
+              leading: Icon(LucideIcons.ruler, color: FitnColors.ink),
+              title: Text('Units', style: GoogleFonts.inter(fontSize: 13)),
               trailing: DropdownButton<UnitsSystem>(
                 value: units,
                 underline: const SizedBox(),
+                style: GoogleFonts.inter(fontSize: 12, color: FitnColors.ink),
                 items: const [
-                  DropdownMenuItem(
-                      value: UnitsSystem.metric, child: Text('Metric')),
-                  DropdownMenuItem(
-                      value: UnitsSystem.imperial, child: Text('Imperial')),
+                  DropdownMenuItem(value: UnitsSystem.metric, child: Text('Metric')),
+                  DropdownMenuItem(value: UnitsSystem.imperial, child: Text('Imperial')),
                 ],
                 onChanged: (u) {
-                  if (u != null) {
-                    ref.read(unitsProvider.notifier).set(u);
-                  }
+                  if (u != null) ref.read(unitsProvider.notifier).set(u);
                 },
               ),
             ),
             const Divider(),
-            const _SectionHeader('Sync'),
+            _section('SYNC'),
             if (!Env.isSupabaseConfigured)
               const ListTile(
-                leading: Icon(LucideIcons.cloudOff, color: AppColors.warning),
+                leading: Icon(LucideIcons.cloudOff, color: FitnColors.warning),
                 title: Text('Sync not configured'),
                 subtitle: Text(
                     'Add SUPABASE_URL and SUPABASE_ANON_KEY to enable sync.'),
               )
             else ...[
               ListTile(
-                leading: const Icon(LucideIcons.cloud),
+                leading: Icon(LucideIcons.cloud, color: FitnColors.ink),
                 title: Text(auth.isAuthenticated
                     ? 'Signed in as ${auth.email}'
-                    : 'Not signed in'),
+                    : 'Not signed in', style: GoogleFonts.inter(fontSize: 13)),
                 subtitle: Text(sync.lastSyncAt != null
                     ? 'Last sync: ${sync.lastSyncAt}'
-                    : 'Never synced'),
+                    : 'Never synced', style: GoogleFonts.inter(fontSize: 11)),
                 trailing: sync.isFlushing
                     ? const SizedBox(
                         width: 16,
@@ -92,21 +87,23 @@ class SettingsScreen extends ConsumerWidget {
                     : null,
               ),
               ListTile(
-                leading: const Icon(LucideIcons.refreshCw),
-                title: const Text('Sync now'),
-                subtitle: Text('${sync.queueLength} pending'),
+                leading: Icon(LucideIcons.refreshCw, color: FitnColors.ink),
+                title: Text('Sync now', style: GoogleFonts.inter(fontSize: 13)),
+                subtitle: Text('${sync.queueLength} pending',
+                    style: GoogleFonts.inter(fontSize: 11)),
                 onTap: () => ref.read(syncProvider.notifier).flush(),
               ),
               if (auth.isAuthenticated)
                 ListTile(
-                  leading: const Icon(LucideIcons.logOut, color: AppColors.danger),
-                  title: const Text('Sign out',
-                      style: TextStyle(color: AppColors.danger)),
+                  leading: Icon(LucideIcons.logOut, color: FitnColors.danger),
+                  title: Text('Sign out',
+                      style: GoogleFonts.inter(
+                          fontSize: 13, color: FitnColors.danger)),
                   onTap: () => ref.read(authNotifierProvider.notifier).signOut(),
                 ),
             ],
             const Divider(),
-            const _SectionHeader('About'),
+            _section('ABOUT'),
             const ListTile(
               leading: Icon(LucideIcons.info),
               title: Text('Engine version'),
@@ -117,18 +114,13 @@ class SettingsScreen extends ConsumerWidget {
               title: Text('Privacy policy'),
               trailing: Icon(LucideIcons.chevronRight),
             ),
-            const ListTile(
-              leading: Icon(LucideIcons.fileText),
-              title: Text('Terms of service'),
-              trailing: Icon(LucideIcons.chevronRight),
-            ),
             const Divider(),
-            const _SectionHeader('Danger Zone'),
+            _section('DANGER ZONE'),
             ListTile(
-              leading:
-                  const Icon(LucideIcons.trash2, color: AppColors.danger),
-              title: const Text('Clear all local data',
-                  style: TextStyle(color: AppColors.danger)),
+              leading: Icon(LucideIcons.trash2, color: FitnColors.danger),
+              title: Text('Clear all local data',
+                  style: GoogleFonts.inter(
+                      fontSize: 13, color: FitnColors.danger)),
               onTap: () => _confirmClear(context, ref),
             ),
           ],
@@ -137,82 +129,50 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _confirmClear(BuildContext context, WidgetRef ref) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Clear all data?'),
-          content: const Text(
-              'This permanently deletes your profile, plans, workout logs, weight logs, and intake logs from this device. This cannot be undone.'),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: const Text('Cancel')),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.danger),
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Clear all'),
-            ),
-          ],
-        );
-      },
-    );
-    if (confirmed == true) {
-      // Re-confirm.
-      if (!context.mounted) return;
-      final confirmed2 = await showDialog<bool>(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Are you absolutely sure?'),
-            content: const Text('Type nothing — just tap "Clear all" again.'),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: const Text('Cancel')),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.danger),
-                onPressed: () => Navigator.pop(context, true),
-                child: const Text('Clear all'),
-              ),
-            ],
-          );
-        },
-      );
-      if (confirmed2 == true) {
-        await ref.read(profileRepoProvider).clear();
-        await ref.read(weightLogRepoProvider).clear();
-        await ref.read(intakeLogRepoProvider).clear();
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('All local data cleared.')),
-          );
-        }
-      }
-    }
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  const _SectionHeader(this.text);
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _section(String text) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Text(
-        text.toUpperCase(),
-        style: const TextStyle(
-          color: AppColors.textSecondaryDark,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
-        ),
+        text,
+        style: GoogleFonts.inter(
+            color: FitnColors.ink50,
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 1.4),
       ),
     );
+  }
+
+  Future<void> _confirmClear(BuildContext context, WidgetRef ref) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Clear all data?',
+            style: FitnText.headline.copyWith(fontSize: 18)),
+        content: Text(
+            'This permanently deletes your profile, plans, workout logs, weight logs, and intake logs from this device. This cannot be undone.',
+            style: FitnText.body),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel')),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: FitnColors.danger),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Clear all'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      await ref.read(profileRepoProvider).clear();
+      await ref.read(weightLogRepoProvider).clear();
+      await ref.read(intakeLogRepoProvider).clear();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('All local data cleared.')),
+        );
+      }
+    }
   }
 }

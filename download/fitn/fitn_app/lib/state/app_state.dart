@@ -1,6 +1,7 @@
-/// App state + Riverpod notifiers. See spec §6.3.
+/// App state + Riverpod notifiers for the integrated Fitn app.
 ///
 /// Single AppState class + fine-grained `select()` subscriptions.
+/// Now includes: cart, orders, water logs, exercise logs, marketplace.
 library;
 
 import 'dart:convert';
@@ -12,12 +13,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../data/isar/collections/collections.dart';
 import '../data/isar/repositories/repositories.dart';
+import '../data/domain_types.dart';
 import '../data/supabase/sync/sync_service.dart';
 import '../engine/engine_provider.dart';
 
-// === Tab enum ===
+// === Tab enum (matches fitness-app: Training, Meals Prep, Logs, Store, Profile) ===
 
-enum Tab { home, workouts, meals, progress, profile }
+enum Tab { training, meals, progress, marketplace, profile }
 
 // === Auth state ===
 
@@ -43,7 +45,7 @@ class AppState {
   const AppState({
     this.hydrated = false,
     this.hasOnboarded = false,
-    this.activeTab = Tab.home,
+    this.activeTab = Tab.training,
     this.planGenerating = false,
     this.planError,
     this.planStale = false,
@@ -55,6 +57,13 @@ class AppState {
     this.auth,
     this.syncQueueLength = 0,
     this.lastSyncAt,
+    this.cart = const [],
+    this.orders = const [],
+    this.weightLogs = const [],
+    this.waterLogs = const [],
+    this.workoutLogs = const [],
+    this.exerciseLogs = const [],
+    this.userName,
   });
 
   final bool hydrated;
@@ -72,7 +81,22 @@ class AppState {
   final int syncQueueLength;
   final DateTime? lastSyncAt;
 
+  // Marketplace + meal ordering.
+  final List<CartItem> cart;
+  final List<Order> orders;
+
+  // Progress logs.
+  final List<WeightLogRecord> weightLogs;
+  final List<WaterLog> waterLogs;
+  final List<WorkoutLogRecord> workoutLogs;
+  final List<ExerciseLog> exerciseLogs;
+  final String? userName;
+
   bool get hasPlan => activePlan != null;
+
+  int get cartCount => cart.fold(0, (s, i) => s + i.quantity);
+  double get cartTotal =>
+      cart.fold(0.0, (s, i) => s + i.price * i.quantity);
 
   AppState copyWith({
     bool? hydrated,
@@ -89,6 +113,13 @@ class AppState {
     AuthState? auth,
     int? syncQueueLength,
     DateTime? lastSyncAt,
+    List<CartItem>? cart,
+    List<Order>? orders,
+    List<WeightLogRecord>? weightLogs,
+    List<WaterLog>? waterLogs,
+    List<WorkoutLogRecord>? workoutLogs,
+    List<ExerciseLog>? exerciseLogs,
+    String? userName,
   }) {
     return AppState(
       hydrated: hydrated ?? this.hydrated,
@@ -105,31 +136,27 @@ class AppState {
       auth: auth ?? this.auth,
       syncQueueLength: syncQueueLength ?? this.syncQueueLength,
       lastSyncAt: lastSyncAt ?? this.lastSyncAt,
+      cart: cart ?? this.cart,
+      orders: orders ?? this.orders,
+      weightLogs: weightLogs ?? this.weightLogs,
+      waterLogs: waterLogs ?? this.waterLogs,
+      workoutLogs: workoutLogs ?? this.workoutLogs,
+      exerciseLogs: exerciseLogs ?? this.exerciseLogs,
+      userName: userName ?? this.userName,
     );
   }
 }
 
-// === Providers ===
+// === Repositories ===
 
-final profileRepoProvider = Provider<ProfileRepository>((ref) {
-  return ProfileRepository();
-});
-
-final planRepoProvider = Provider<PlanRepository>((ref) {
-  return PlanRepository();
-});
-
-final workoutLogRepoProvider = Provider<WorkoutLogRepository>((ref) {
-  return WorkoutLogRepository();
-});
-
-final weightLogRepoProvider = Provider<WeightLogRepository>((ref) {
-  return WeightLogRepository();
-});
-
-final intakeLogRepoProvider = Provider<IntakeLogRepository>((ref) {
-  return IntakeLogRepository();
-});
+final profileRepoProvider = Provider<ProfileRepository>((ref) => ProfileRepository());
+final planRepoProvider = Provider<PlanRepository>((ref) => PlanRepository());
+final workoutLogRepoProvider =
+    Provider<WorkoutLogRepository>((ref) => WorkoutLogRepository());
+final weightLogRepoProvider =
+    Provider<WeightLogRepository>((ref) => WeightLogRepository());
+final intakeLogRepoProvider =
+    Provider<IntakeLogRepository>((ref) => IntakeLogRepository());
 
 // === App notifier ===
 
@@ -139,24 +166,30 @@ final appNotifierProvider =
 class AppNotifier extends AsyncNotifier<AppState> {
   late final ProfileRepository _profileRepo;
   late final PlanRepository _planRepo;
+  late final WeightLogRepository _weightRepo;
+  late final WorkoutLogRepository _workoutRepo;
 
   @override
   Future<AppState> build() async {
     _profileRepo = ref.watch(profileRepoProvider);
     _planRepo = ref.watch(planRepoProvider);
+    _weightRepo = ref.watch(weightLogRepoProvider);
+    _workoutRepo = ref.watch(workoutLogRepoProvider);
 
-    // Hydrate from local storage.
     final profileRecord = await _profileRepo.get();
     final activePlan = await _planRepo.getActive();
     final allPlans = await _planRepo.all();
+    final weights = await _weightRepo.all();
+    final workouts = await _workoutRepo.all();
 
     UserProfile? profile;
     PlanPreferences? prefs;
+    String? userName;
     if (profileRecord != null) {
       final data = profileRecord.data;
       try {
-        profile = UserProfile.fromJson(
-            data['profile'] as Map<String, dynamic>);
+        profile = UserProfile.fromJson(data['profile'] as Map<String, dynamic>);
+        userName = data['user_name'] as String?;
       } catch (_) {}
       try {
         prefs = PlanPreferences.fromJson(
@@ -179,6 +212,9 @@ class AppNotifier extends AsyncNotifier<AppState> {
       activePlan: plan,
       activePlanId: activePlan?.planId,
       planHistory: allPlans,
+      weightLogs: weights,
+      workoutLogs: workouts,
+      userName: userName,
     );
   }
 
@@ -186,7 +222,7 @@ class AppNotifier extends AsyncNotifier<AppState> {
     state = AsyncData(state.value!.copyWith(activeTab: tab));
   }
 
-  Future<void> setProfile(UserProfile p) async {
+  Future<void> setProfile(UserProfile p, {String? name}) async {
     final record = await _profileRepo.get() ??
         ProfileRecord(
           userId: 'anonymous',
@@ -199,11 +235,13 @@ class AppNotifier extends AsyncNotifier<AppState> {
       ..data = {
         'profile': p.toJson(),
         'preferences': state.value?.preferences?.toJson() ?? const {},
+        if (name != null) 'user_name': name,
       };
     await _profileRepo.put(record);
     state = AsyncData(state.value!.copyWith(
       profile: p,
       planStale: true,
+      userName: name ?? state.value?.userName,
     ));
     await _enqueueSync('upsert_profile', record.id.toString(), 'ProfileRecord');
   }
@@ -221,6 +259,8 @@ class AppNotifier extends AsyncNotifier<AppState> {
       ..data = {
         'profile': state.value?.profile?.toJson() ?? const {},
         'preferences': p.toJson(),
+        if (state.value?.userName != null)
+          'user_name': state.value!.userName,
       };
     await _profileRepo.put(record);
     state = AsyncData(state.value!.copyWith(
@@ -251,7 +291,6 @@ class AppNotifier extends AsyncNotifier<AppState> {
         engineData: engineData,
       );
 
-      // Persist: deactivate old active plan, save new as active.
       await _planRepo.deactivateAll();
       final planId = DateTime.now().microsecondsSinceEpoch.toString();
       final planRecord = PlanRecord(
@@ -271,6 +310,15 @@ class AppNotifier extends AsyncNotifier<AppState> {
       await _planRepo.put(planRecord);
       final allPlans = await _planRepo.all();
 
+      // Append starting weight log.
+      await _weightRepo.put(WeightLogRecord(
+        userId: state.value?.auth?.userId ?? 'anonymous',
+        date: DateTime.now(),
+        weightKg: profile.weightKg,
+        syncStatus: 'pending',
+      ));
+      final weights = await _weightRepo.all();
+
       state = AsyncData(state.value!.copyWith(
         hasOnboarded: true,
         planStale: false,
@@ -278,7 +326,8 @@ class AppNotifier extends AsyncNotifier<AppState> {
         activePlanId: planId,
         planHistory: allPlans,
         planGenerating: false,
-        activeTab: Tab.home,
+        activeTab: Tab.training,
+        weightLogs: weights,
       ));
       await _enqueueSync('upsert_plan', planId, 'PlanRecord');
     } on PartialAssessmentError catch (e) {
@@ -315,7 +364,6 @@ class AppNotifier extends AsyncNotifier<AppState> {
   }
 
   Future<void> clearOnSignOut() async {
-    // Reset auth state, keep local plan/profile/logs, clear sync queue.
     final sync = ref.read(syncProvider.notifier);
     await sync.clearQueue();
     state = AsyncData(state.value!.copyWith(
@@ -341,6 +389,121 @@ class AppNotifier extends AsyncNotifier<AppState> {
       lastSyncAt: ref.read(syncProvider).lastSyncAt,
     ));
   }
+
+  // === Cart operations ===
+
+  void addToCart(CartItem item) {
+    final cart = List<CartItem>.from(state.value!.cart);
+    final existing =
+        cart.indexWhere((c) => c.id == item.id && c.type == item.type);
+    if (existing >= 0) {
+      cart[existing] = cart[existing].copyWith(quantity: cart[existing].quantity + 1);
+    } else {
+      cart.add(item);
+    }
+    state = AsyncData(state.value!.copyWith(cart: cart));
+  }
+
+  void removeFromCart(String id) {
+    final cart =
+        List<CartItem>.from(state.value!.cart)..removeWhere((c) => c.id == id);
+    state = AsyncData(state.value!.copyWith(cart: cart));
+  }
+
+  void updateCartQty(String id, int qty) {
+    if (qty < 1) {
+      removeFromCart(id);
+      return;
+    }
+    final cart = List<CartItem>.from(state.value!.cart);
+    final idx = cart.indexWhere((c) => c.id == id);
+    if (idx >= 0) {
+      cart[idx] = cart[idx].copyWith(quantity: qty);
+      state = AsyncData(state.value!.copyWith(cart: cart));
+    }
+  }
+
+  void checkout(Order order) {
+    final orders = [order, ...state.value!.orders];
+    final itemType = order.id.contains('mkt') ? 'marketplace' : 'meal';
+    final remaining = state.value!.cart
+        .where((c) => c.type != itemType)
+        .toList();
+    state = AsyncData(state.value!.copyWith(orders: orders, cart: remaining));
+  }
+
+  // === Progress logging ===
+
+  Future<void> logWeight(double weightKg, {DateTime? date}) async {
+    final record = WeightLogRecord(
+      userId: state.value?.auth?.userId ?? 'anonymous',
+      date: date ?? DateTime.now(),
+      weightKg: weightKg,
+      syncStatus: 'pending',
+    );
+    await _weightRepo.put(record);
+    final weights = await _weightRepo.all();
+    state = AsyncData(state.value!.copyWith(
+      weightLogs: weights,
+      profile: state.value!.profile?.copyWith(weightKg: weightKg),
+    ));
+  }
+
+  void logWater(int amountMl) {
+    final today = DateTime.now();
+    final logs = [...state.value!.waterLogs, WaterLog(date: today, amountMl: amountMl)];
+    state = AsyncData(state.value!.copyWith(waterLogs: logs));
+  }
+
+  void clearTodayWater() {
+    final today = DateTime.now();
+    final logs = state.value!.waterLogs
+        .where((w) => !_sameDay(w.date, today))
+        .toList();
+    state = AsyncData(state.value!.copyWith(waterLogs: logs));
+  }
+
+  Future<void> logWorkout(WorkoutLogRecord record) async {
+    await _workoutRepo.put(record);
+    final workouts = await _workoutRepo.all();
+    state = AsyncData(state.value!.copyWith(workoutLogs: workouts));
+  }
+
+  void logExerciseSet(ExerciseLog log) {
+    final logs = [...state.value!.exerciseLogs];
+    final existingIdx = logs.indexWhere(
+        (l) => l.exerciseName == log.exerciseName && _sameDay(l.date, log.date));
+    if (existingIdx >= 0) {
+      final existing = logs[existingIdx];
+      logs[existingIdx] = ExerciseLog(
+        id: existing.id,
+        exerciseName: existing.exerciseName,
+        targetMuscle: existing.targetMuscle,
+        date: existing.date,
+        sets: [...existing.sets, ...log.sets],
+        durationMinutes: existing.durationMinutes + log.durationMinutes,
+      );
+    } else {
+      logs.add(log);
+    }
+    state = AsyncData(state.value!.copyWith(exerciseLogs: logs));
+  }
+
+  void resetOnboarding() {
+    state = AsyncData(state.value!.copyWith(
+      hasOnboarded: false,
+      activeTab: Tab.training,
+      cart: const [],
+      orders: const [],
+      waterLogs: const [],
+      activePlan: null,
+      activePlanId: null,
+      planStale: false,
+    ));
+  }
+
+  bool _sameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
 }
 
 // === Workout session notifier ===
@@ -454,7 +617,6 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState> {
 
   Future<void> finish() async {
     if (state.workoutName == null || state.planId == null) return;
-    final repo = ref.read(workoutLogRepoProvider);
     final record = WorkoutLogRecord(
       userId: ref.read(appNotifierProvider).value?.auth?.userId ?? 'anonymous',
       planId: state.planId!,
@@ -466,93 +628,13 @@ class WorkoutSessionNotifier extends Notifier<WorkoutSessionState> {
       syncStatus: 'pending',
     )
       ..sets = state.sets;
-    await repo.put(record);
+    await ref.read(appNotifierProvider.notifier).logWorkout(record);
     state = const WorkoutSessionState();
   }
 
   void cancel() {
     state = const WorkoutSessionState();
   }
-}
-
-// === Progress notifier (weight + intake logging) ===
-
-final progressProvider =
-    NotifierProvider<ProgressNotifier, ProgressState>(ProgressNotifier.new);
-
-class ProgressState {
-  const ProgressState({
-    this.weightLogs = const [],
-    this.intakeLogs = const [],
-    this.workoutLogs = const [],
-  });
-
-  final List<WeightLogRecord> weightLogs;
-  final List<IntakeLogRecord> intakeLogs;
-  final List<WorkoutLogRecord> workoutLogs;
-
-  ProgressState copyWith({
-    List<WeightLogRecord>? weightLogs,
-    List<IntakeLogRecord>? intakeLogs,
-    List<WorkoutLogRecord>? workoutLogs,
-  }) {
-    return ProgressState(
-      weightLogs: weightLogs ?? this.weightLogs,
-      intakeLogs: intakeLogs ?? this.intakeLogs,
-      workoutLogs: workoutLogs ?? this.workoutLogs,
-    );
-  }
-}
-
-class ProgressNotifier extends Notifier<ProgressState> {
-  @override
-  ProgressState build() {
-    _load();
-    return const ProgressState();
-  }
-
-  Future<void> _load() async {
-    final weightRepo = ref.read(weightLogRepoProvider);
-    final intakeRepo = ref.read(intakeLogRepoProvider);
-    final workoutRepo = ref.read(workoutLogRepoProvider);
-    final weights = await weightRepo.all();
-    final intakes = await intakeRepo.all();
-    final workouts = await workoutRepo.all();
-    weights.sort((a, b) => a.date.compareTo(b.date));
-    intakes.sort((a, b) => a.date.compareTo(b.date));
-    workouts.sort((a, b) => b.startedAt.compareTo(a.startedAt));
-    state = ProgressState(
-      weightLogs: weights,
-      intakeLogs: intakes,
-      workoutLogs: workouts,
-    );
-  }
-
-  Future<void> logWeight(double weightKg, {DateTime? date}) async {
-    final repo = ref.read(weightLogRepoProvider);
-    final record = WeightLogRecord(
-      userId: ref.read(appNotifierProvider).value?.auth?.userId ?? 'anonymous',
-      date: date ?? DateTime.now(),
-      weightKg: weightKg,
-      syncStatus: 'pending',
-    );
-    await repo.put(record);
-    await _load();
-  }
-
-  Future<void> logIntake(double intakeKcal, {DateTime? date}) async {
-    final repo = ref.read(intakeLogRepoProvider);
-    final record = IntakeLogRecord(
-      userId: ref.read(appNotifierProvider).value?.auth?.userId ?? 'anonymous',
-      date: date ?? DateTime.now(),
-      intakeKcal: intakeKcal,
-      syncStatus: 'pending',
-    );
-    await repo.put(record);
-    await _load();
-  }
-
-  Future<void> reload() async => await _load();
 }
 
 // === Auth notifier ===
@@ -577,7 +659,6 @@ class AuthNotifier extends Notifier<AuthState> {
             : AuthStatus.anonymous,
         email: event.session?.user.email,
       );
-      // Sync auth state to AppNotifier.
       Future.microtask(() {
         ref.read(appNotifierProvider.notifier).setAuth(state);
       });
@@ -604,6 +685,3 @@ class AuthNotifier extends Notifier<AuthState> {
     await ref.read(appNotifierProvider.notifier).clearOnSignOut();
   }
 }
-
-// === JSON encode helper ===
-// dart:convert's jsonEncode is re-exported via the import above.

@@ -1,14 +1,21 @@
-/// Onboarding — 5-step wizard. See spec §7.1.
+/// Onboarding — 4-step wizard matching FitLife Hub design.
+///
+/// Steps:
+/// 1. About Yourself (name, age, gender, weight, height)
+/// 2. Define Target (goal, weekly frequency)
+/// 3. Training Atmosphere (workout setting, gym finder + machine logger, activity level)
+/// 4. Nutritional Foundation (diet type, allergies)
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitn_engine/fitn_engine.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../state/app_state.dart';
-import '../../theme/app_theme.dart';
-import '../widgets/common_widgets.dart';
+import '../../ui/theme/fitn_design.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -19,117 +26,202 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   int _step = 0;
-  bool _isSubmitting = false;
+  bool _loading = false;
+  String _loadingMsg = 'Analyzing metabolic rate and physiological bio-markers...';
 
-  // Step 1: Basics.
-  final _ageCtrl = TextEditingController(text: '30');
-  Sex _sex = Sex.male;
-  final _heightCtrl = TextEditingController(text: '180');
+  // Step 1.
+  final _nameCtrl = TextEditingController(text: '');
+  final _ageCtrl = TextEditingController(text: '26');
+  String _gender = 'male';
   final _weightCtrl = TextEditingController(text: '75');
+  final _heightCtrl = TextEditingController(text: '175');
 
-  // Step 2: Body (optional).
-  double? _bodyFatPct;
-  final _neckCtrl = TextEditingController();
-  final _waistCtrl = TextEditingController();
-  final _hipCtrl = TextEditingController();
-  bool _bfUnknown = true;
+  // Step 2.
+  String _goal = 'muscle-gain';
+  int _frequency = 3;
 
-  // Step 3: Activity.
-  ActivityLevel _activity = ActivityLevel.lightlyActive;
-  TrainingStatus _status = TrainingStatus.novice;
-  EquipmentAccess _equipment = EquipmentAccess.fullGym;
+  // Step 3.
+  String _workoutPreference = 'gym'; // home | gym | outdoor | hybrid
+  String _activityLevel = 'moderate'; // sedentary | light | moderate | active
+  String? _selectedGymName;
+  List<String> _availableMachines = [];
 
-  // Step 4: Goal.
-  PrimaryGoal _goal = PrimaryGoal.muscleGain;
-  int _daysPerWeek = 4;
-  TrainingTimeOfDay _timeOfDay = TrainingTimeOfDay.evening;
+  // Step 4.
+  String _dietType = 'anything'; // anything | vegetarian | vegan | keto | low-carb | gluten-free | mediterranean
+  final _allergiesCtrl = TextEditingController();
 
-  // Step 5: Preferences.
-  DietType _diet = DietType.omnivore;
-  int _mealFreq = 3;
-  String? _cuisine;
-  final Set<String> _allergens = {};
-  final Set<String> _muscleFocus = {};
-  bool _includePrePost = true;
+  static const _nearbyGyms = [
+    _GymOption(
+      id: 'gym-1',
+      name: 'Titan Iron Academy',
+      distance: '0.4 miles away',
+      rating: 4.9,
+      address: '244 Heavy Metal Lane, District 4',
+      description:
+          'Hardcore powerlifting & bodybuilding sanctuary. Famous for its pristine equipment.',
+      image:
+          'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&auto=format&fit=crop&q=80',
+      defaultMachines: [
+        'Smith Machine',
+        'Leg Press Machine',
+        'Hack Squat',
+        'Seated Row Machine',
+        'Lat Pulldown',
+        'Cable Crossover',
+        'Pec Deck / Rear Delt Fly'
+      ],
+    ),
+    _GymOption(
+      id: 'gym-2',
+      name: 'Pulse Athletic Club',
+      distance: '1.2 miles away',
+      rating: 4.7,
+      address: '902 Wellness Blvd, Aether Plaza',
+      description:
+          'Luxury modern athletic center focusing on functional performance.',
+      image:
+          'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=300&auto=format&fit=crop&q=80',
+      defaultMachines: [
+        'Smith Machine',
+        'Cable Crossover',
+        'Lat Pulldown',
+        'Leg Extension Machine',
+        'Lying Leg Curl Machine',
+        'Chest Press Machine'
+      ],
+    ),
+    _GymOption(
+      id: 'gym-3',
+      name: 'Metro Flex Gym',
+      distance: '2.1 miles away',
+      rating: 4.8,
+      address: '410 Barbells Way, Industrial Sector',
+      description:
+          'No-nonsense bodybuilding temple equipped with vintage heavy machinery.',
+      image:
+          'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=300&auto=format&fit=crop&q=80',
+      defaultMachines: [
+        'Hack Squat',
+        'Smith Machine',
+        'Leg Press Machine',
+        'Lying Leg Curl Machine',
+        'Seated Row Machine',
+        'Pec Deck / Rear Delt Fly'
+      ],
+    ),
+    _GymOption(
+      id: 'gym-4',
+      name: 'Aura Fit Studio',
+      distance: '3.5 miles away',
+      rating: 4.6,
+      address: '12 Boutique Circle, Green Hills',
+      description:
+          'High-end coaching studio specializing in strength, aesthetics, and high-tech conditioning.',
+      image:
+          'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=300&auto=format&fit=crop&q=80',
+      defaultMachines: [
+        'Cable Crossover',
+        'Smith Machine',
+        'Lat Pulldown',
+        'Leg Extension Machine'
+      ],
+    ),
+  ];
+
+  static const _machineCategories = {
+    'Push': [
+      {'name': 'Smith Machine', 'desc': 'For secure heavy chest presses & controlled squats'},
+      {'name': 'Chest Press Machine', 'desc': 'Isolates the pectoral muscles under stable load'},
+      {'name': 'Pec Deck / Rear Delt Fly', 'desc': 'For safe chest flyes and posterior deltoid training'},
+    ],
+    'Pull': [
+      {'name': 'Lat Pulldown', 'desc': 'Prime compound vertical pull for back widening'},
+      {'name': 'Seated Row Machine', 'desc': 'Isolates the latissimus dorsi & middle back muscles'},
+      {'name': 'Cable Crossover', 'desc': 'Provides constant cable tension for chest and arm exercises'},
+    ],
+    'Legs': [
+      {'name': 'Leg Press Machine', 'desc': 'Heavy quadriceps and glute compound loading'},
+      {'name': 'Hack Squat', 'desc': 'Decompresses spine while building massive quadricep force'},
+      {'name': 'Leg Extension Machine', 'desc': 'Isolated single-joint quadricep builder'},
+      {'name': 'Lying Leg Curl Machine', 'desc': 'Isolated single-joint hamstring builder'},
+    ],
+    'Arms': [
+      {'name': 'Preacher Curl Bench', 'desc': 'Pins the biceps for ultimate peak contractions'},
+    ],
+  };
 
   @override
   void dispose() {
+    _nameCtrl.dispose();
     _ageCtrl.dispose();
-    _heightCtrl.dispose();
     _weightCtrl.dispose();
-    _neckCtrl.dispose();
-    _waistCtrl.dispose();
-    _hipCtrl.dispose();
+    _heightCtrl.dispose();
+    _allergiesCtrl.dispose();
     super.dispose();
   }
 
-  bool get _isStepValid {
+  bool _isStepValid() {
     switch (_step) {
       case 0:
-        return _ageCtrl.text.isNotEmpty &&
-            _heightCtrl.text.isNotEmpty &&
-            _weightCtrl.text.isNotEmpty &&
+        return _nameCtrl.text.trim().isNotEmpty &&
             int.tryParse(_ageCtrl.text) != null &&
-            int.tryParse(_ageCtrl.text)! >= 18 &&
-            int.tryParse(_ageCtrl.text)! <= 100 &&
-            double.tryParse(_heightCtrl.text) != null &&
-            double.tryParse(_weightCtrl.text) != null;
-      case 1:
-        return true; // all optional
-      case 2:
-        return true;
-      case 3:
-        return true;
-      case 4:
-        return true;
+            double.tryParse(_weightCtrl.text) != null &&
+            double.tryParse(_heightCtrl.text) != null;
       default:
         return true;
     }
   }
 
   Future<void> _submit() async {
-    setState(() => _isSubmitting = true);
+    setState(() {
+      _loading = true;
+      _loadingMsg = 'Analyzing metabolic rate and physiological bio-markers...';
+    });
+
+    final msgs = [
+      'Analyzing metabolic rate and physiological bio-markers...',
+      'Engineering optimal compound workout splits...',
+      'Matching macronutrient distributions with dietary targets...',
+      'Synthesizing high-protein culinary recommendations...',
+      'Polishing final custom coaching dashboard...',
+    ];
+    var msgIdx = 0;
+    final timer = Stream.periodic(const Duration(milliseconds: 1200), (_) {
+      msgIdx = (msgIdx + 1).clamp(0, msgs.length - 1);
+      if (mounted) setState(() => _loadingMsg = msgs[msgIdx]);
+    });
+
     try {
+      // Map fitness-app inputs → fitn_engine UserProfile.
       final profile = UserProfile(
         age: int.parse(_ageCtrl.text),
-        sex: _sex,
+        sex: _gender == 'female' ? Sex.female : Sex.male,
         heightCm: double.parse(_heightCtrl.text),
         weightKg: double.parse(_weightCtrl.text),
-        activityLevel: _activity,
-        trainingStatus: _status,
-        primaryGoal: _goal,
-        trainingDaysPerWeek: _daysPerWeek,
-        equipmentAccess: _equipment,
-        bodyFatPct: _bfUnknown ? null : _bodyFatPct,
-        neckCm: _neckCtrl.text.isEmpty ? null : double.tryParse(_neckCtrl.text),
-        waistCm:
-            _waistCtrl.text.isEmpty ? null : double.tryParse(_waistCtrl.text),
-        hipCm: _hipCtrl.text.isEmpty ? null : double.tryParse(_hipCtrl.text),
-        trainingTimeOfDay: _timeOfDay,
+        activityLevel: _mapActivity(_activityLevel),
+        trainingStatus: TrainingStatus
+            .novice, // engine doesn't have "endurance" goal; default novice
+        primaryGoal: _mapGoal(_goal),
+        trainingDaysPerWeek: _frequency.clamp(2, 6),
+        equipmentAccess: _mapEquipment(_workoutPreference),
+        dietType: _mapDiet(_dietType),
+        trainingTimeOfDay: TrainingTimeOfDay.evening,
       );
       final prefs = PlanPreferences(
-        dietType: _diet,
-        mealFrequency: _mealFreq,
-        cuisinePreference: _cuisine,
-        allergensToAvoid: _allergens.toList(),
-        muscleFocus: _muscleFocus.toList(),
-        includePrePostWorkout: _includePrePost,
+        mealFrequency: 3,
+        allergensToAvoid: _allergiesCtrl.text
+            .split(',')
+            .map((s) => s.trim().toLowerCase())
+            .where((s) => s.isNotEmpty)
+            .toList(),
+        cuisinePreference: 'mediterranean',
+        includePrePostWorkout: false,
       );
-      await ref.read(appNotifierProvider.notifier).setProfile(profile);
+      await ref
+          .read(appNotifierProvider.notifier)
+          .setProfile(profile, name: _nameCtrl.text.trim());
       await ref.read(appNotifierProvider.notifier).setPreferences(prefs);
       await ref.read(appNotifierProvider.notifier).generatePlan();
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Your plan is ready!')),
-        );
-      }
-    } on PartialAssessmentError catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Assessment incomplete: ${e.message}')),
-        );
-      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -137,310 +229,669 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         );
       }
     } finally {
-      if (mounted) setState(() => _isSubmitting = false);
+      timer.drain();
+      if (mounted) setState(() => _loading = false);
     }
   }
 
+  ActivityLevel _mapActivity(String s) => switch (s) {
+        'sedentary' => ActivityLevel.sedentary,
+        'light' => ActivityLevel.mostlySedentary,
+        'moderate' => ActivityLevel.lightlyActive,
+        'active' => ActivityLevel.active,
+        _ => ActivityLevel.lightlyActive,
+      };
+
+  PrimaryGoal _mapGoal(String s) => switch (s) {
+        'weight-loss' => PrimaryGoal.fatLoss,
+        'muscle-gain' => PrimaryGoal.muscleGain,
+        'strength' => PrimaryGoal.strength,
+        'endurance' => PrimaryGoal.recomp,
+        'general' => PrimaryGoal.maintenance,
+        _ => PrimaryGoal.muscleGain,
+      };
+
+  EquipmentAccess _mapEquipment(String s) => switch (s) {
+        'home' => EquipmentAccess.homeGym,
+        'gym' => EquipmentAccess.fullGym,
+        'outdoor' => EquipmentAccess.bodyweightOnly,
+        'hybrid' => EquipmentAccess.homeGym,
+        _ => EquipmentAccess.fullGym,
+      };
+
+  DietType _mapDiet(String s) => switch (s) {
+        'vegan' => DietType.vegan,
+        'vegetarian' => DietType.vegetarian,
+        'anything' || 'keto' || 'low-carb' || 'gluten-free' || 'mediterranean' =>
+          DietType.omnivore,
+        _ => DietType.omnivore,
+      };
+
   @override
   Widget build(BuildContext context) {
-    final appState = ref.watch(appNotifierProvider).valueOrNull;
-    final isGenerating = appState?.planGenerating ?? false;
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_stepTitle()),
-        leading: _step > 0
-            ? IconButton(
-                icon: const Icon(LucideIcons.arrowLeft),
-                onPressed: () => setState(() => _step--),
-              )
-            : null,
+      backgroundColor: FitnColors.cream,
+      body: SafeArea(
+        child: _loading ? _buildLoading() : _buildForm(),
       ),
-      body: _isSubmitting || isGenerating
-          ? _buildLoading()
-          : Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  _buildProgressDots(),
-                  const SizedBox(height: 24),
-                  Expanded(child: _buildStepContent()),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      if (_step > 0)
-                        Expanded(
-                          child: OutlinedButton(
-                            onPressed: () => setState(() => _step--),
-                            child: const Text('Back'),
-                          ),
-                        ),
-                      if (_step > 0) const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: _isStepValid
-                              ? () {
-                                  if (_step < 4) {
-                                    setState(() => _step++);
-                                  } else {
-                                    _submit();
-                                  }
-                                }
-                              : null,
-                          child: Text(_step < 4 ? 'Continue' : 'Generate Plan'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
     );
   }
 
-  String _stepTitle() {
-    return switch (_step) {
-      0 => 'Step 1 · Basics',
-      1 => 'Step 2 · Body (Optional)',
-      2 => 'Step 3 · Activity',
-      3 => 'Step 4 · Goal',
-      4 => 'Step 5 · Preferences',
-      _ => '',
-    };
+  Widget _buildLoading() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: FitnColors.accent05,
+                    shape: BoxShape.circle,
+                  ),
+                )
+                    .animate(onPlay: (c) => c.repeat())
+                    .scale(
+                        begin: const Offset(1, 1),
+                        end: const Offset(1.5, 1.5),
+                        duration: 1200.ms),
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: FitnColors.ink10, width: 1),
+                  ),
+                  child: Icon(LucideIcons.sparkles,
+                      color: FitnColors.accent, size: 32),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text('Formulating Your Plan',
+                style: FitnText.headline.copyWith(fontSize: 24)),
+            const SizedBox(height: 8),
+            Text(
+              _loadingMsg,
+              textAlign: TextAlign.center,
+              style: FitnText.serifItalic,
+            )
+                .animate(onPlay: (c) => c.repeat(reverse: true))
+                .fade(begin: 0.4, end: 1, duration: 1500.ms),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: 200,
+              child: LinearProgressIndicator(
+                minHeight: 2,
+                backgroundColor: FitnColors.ink05,
+                color: FitnColors.ink,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  Widget _buildProgressDots() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(5, (i) {
-        final isPast = i < _step;
-        final isCurrent = i == _step;
-        return GestureDetector(
-          onTap: isPast ? () => setState(() => _step = i) : null,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: isCurrent ? 24 : 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: isCurrent || isPast
-                  ? AppColors.primary
-                  : AppColors.bgDarkSurface,
-              borderRadius: BorderRadius.circular(4),
+  Widget _buildForm() {
+    final steps = [
+      ('Tell Us About Yourself',
+          'Let\'s gather some basic metrics to construct your physical baseline.',
+          LucideIcons.user),
+      ('Define Your Target',
+          'What is your primary fitness aspiration and weekly commitment?',
+          LucideIcons.activity),
+      ('Your Training Atmosphere',
+          'Where do you work out and what is your daily movement style?',
+          LucideIcons.dumbbell),
+      ('Nutritional Foundation',
+          'Your dietary habits and food sensitivities are vital.',
+          LucideIcons.utensils),
+    ];
+
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        // Header.
+        Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: FitnColors.ink05,
+                shape: BoxShape.circle,
+                border: Border.all(color: FitnColors.ink10, width: 1),
+              ),
+              child: Icon(LucideIcons.compass, size: 16, color: FitnColors.ink),
             ),
-          ),
-        );
-      }),
+            const SizedBox(width: 10),
+            Text('FITN PERSONALIZED PLANNER',
+                style: FitnText.microLabel.copyWith(fontSize: 9)),
+          ],
+        ),
+        const SizedBox(height: 24),
+        // Progress dots.
+        Row(
+          children: List.generate(4, (i) {
+            return Container(
+              margin: EdgeInsets.only(right: i < 3 ? 6 : 0),
+              height: 4,
+              width: i == _step ? 32 : (i < _step ? 16 : 8),
+              color: i == _step
+                  ? FitnColors.ink
+                  : (i < _step ? FitnColors.ink40 : FitnColors.ink10),
+            );
+          }),
+        ),
+        const SizedBox(height: 24),
+        // Title + subtitle.
+        Text(
+          steps[_step].$1,
+          style: FitnText.headline.copyWith(fontSize: 28),
+        ),
+        const SizedBox(height: 8),
+        Text(steps[_step].$2, style: FitnText.serifItalic),
+        const SizedBox(height: 24),
+        // Step content.
+        _buildStepContent(),
+        const SizedBox(height: 24),
+        // Footer nav.
+        Row(
+          children: [
+            if (_step > 0)
+              OutlinedButton(
+                onPressed: () => setState(() => _step--),
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(0, 48),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(LucideIcons.chevronLeft, size: 16),
+                    const SizedBox(width: 6),
+                    Text('BACK', style: FitnText.buttonLabel.copyWith(color: FitnColors.ink)),
+                  ],
+                ),
+              )
+            else
+              const Spacer(),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: _isStepValid()
+                  ? () {
+                      if (_step < 3) {
+                        setState(() => _step++);
+                      } else {
+                        _submit();
+                      }
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    _step < 3 ? FitnColors.ink : FitnColors.accent,
+                minimumSize: const Size(0, 48),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_step < 3) ...[
+                    Text('NEXT STEP', style: FitnText.buttonLabel),
+                    const SizedBox(width: 6),
+                    Icon(LucideIcons.chevronRight, size: 16, color: Colors.white),
+                  ] else ...[
+                    Icon(LucideIcons.sparkles, size: 16, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Text('BUILD MY PLANS', style: FitnText.buttonLabel),
+                    const SizedBox(width: 6),
+                    Icon(LucideIcons.arrowRight, size: 16, color: Colors.white),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
   Widget _buildStepContent() {
     return switch (_step) {
       0 => _buildBasicsStep(),
-      1 => _buildBodyStep(),
-      2 => _buildActivityStep(),
-      3 => _buildGoalStep(),
-      4 => _buildPreferencesStep(),
+      1 => _buildTargetStep(),
+      2 => _buildTrainingAtmosphereStep(),
+      3 => _buildNutritionStep(),
       _ => const SizedBox(),
     };
   }
 
-  Widget _buildLoading() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const ProgressRing(
-            progress: 0.7,
-            size: 80,
-            color: AppColors.primary,
-          ).animate(onPlay: (c) => c.repeat()).rotate(duration: 1500.ms),
-          const SizedBox(height: 24),
-          Text(
-            'Generating your plan…',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 32),
-          const SkeletonCard(),
-          const SizedBox(height: 12),
-          const SkeletonCard(),
-        ],
-      ),
-    );
-  }
-
   Widget _buildBasicsStep() {
-    return ListView(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _label('Your Name'),
         TextField(
-          controller: _ageCtrl,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(labelText: 'Age (18-100)'),
+          controller: _nameCtrl,
+          decoration: const InputDecoration(hintText: 'e.g. John Doe'),
         ),
         const SizedBox(height: 16),
-        const Text('Sex', style: TextStyle(color: AppColors.textSecondaryDark)),
-        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(child: _label('Age')),
+            const SizedBox(width: 16),
+            Expanded(child: _label('Gender')),
+          ],
+        ),
         Row(
           children: [
             Expanded(
-              child: _ChoiceChip(
-                label: 'Male',
-                selected: _sex == Sex.male,
-                onTap: () => setState(() => _sex = Sex.male),
+              child: TextField(
+                controller: _ageCtrl,
+                keyboardType: TextInputType.number,
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: 16),
             Expanded(
-              child: _ChoiceChip(
-                label: 'Female',
-                selected: _sex == Sex.female,
-                onTap: () => setState(() => _sex = Sex.female),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: FitnColors.ink15, width: 1),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _gender,
+                    isExpanded: true,
+                    style: GoogleFonts.inter(
+                        fontSize: 13, color: FitnColors.ink),
+                    items: const [
+                      DropdownMenuItem(value: 'male', child: Text('Male')),
+                      DropdownMenuItem(value: 'female', child: Text('Female')),
+                      DropdownMenuItem(value: 'other', child: Text('Non-binary')),
+                    ],
+                    onChanged: (v) => setState(() => _gender = v ?? 'male'),
+                  ),
+                ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 16),
-        TextField(
-          controller: _heightCtrl,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: const InputDecoration(labelText: 'Height (cm, 140-230)'),
+        Row(
+          children: [
+            Expanded(child: _label('Weight (kg)')),
+            const SizedBox(width: 16),
+            Expanded(child: _label('Height (cm)')),
+          ],
         ),
-        const SizedBox(height: 16),
-        TextField(
-          controller: _weightCtrl,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: const InputDecoration(labelText: 'Weight (kg, 35-300)'),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBodyStep() {
-    return ListView(
-      children: [
-        SwitchListTile(
-          title: const Text('Body fat % unknown'),
-          subtitle: const Text(
-              'If unknown, the engine estimates via Navy method or CUN-BAE.'),
-          value: _bfUnknown,
-          onChanged: (v) => setState(() {
-            _bfUnknown = v;
-            if (v) _bodyFatPct = null;
-          }),
-        ),
-        if (!_bfUnknown) ...[
-          Text('Body Fat %: ${_bodyFatPct?.toStringAsFixed(0) ?? '—'}',
-              style: const TextStyle(color: AppColors.textSecondaryDark)),
-          Slider(
-            value: _bodyFatPct ?? 18,
-            min: 2,
-            max: 50,
-            divisions: 48,
-            label: '${(_bodyFatPct ?? 18).round()}%',
-            onChanged: (v) => setState(() => _bodyFatPct = v),
-          ),
-        ],
-        const SizedBox(height: 16),
-        TextField(
-          controller: _neckCtrl,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(labelText: 'Neck (cm, optional)'),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: _waistCtrl,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(labelText: 'Waist (cm, optional)'),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: _hipCtrl,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-              labelText: 'Hip (cm, optional — required for females)'),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _weightCtrl,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: TextField(
+                controller: _heightCtrl,
+                keyboardType: TextInputType.number,
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
-  Widget _buildActivityStep() {
-    return ListView(
+  Widget _buildTargetStep() {
+    final goals = [
+      ('weight-loss', 'Fat Shred & Slimming', 'Burn calories, boost metabolism, lose body fat'),
+      ('muscle-gain', 'Lean Muscle Hypertrophy', 'Build size, increase muscle mass, density'),
+      ('strength', 'Pure Mechanical Strength', 'Lift heavier, improve power, core stabilization'),
+      ('endurance', 'Cardio & Stamina Builder', 'Boost VO2 max, endurance, lung capacity'),
+      ('general', 'Active Wellness & Tonus', 'Feel energetic, flexible, overall mobility'),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Activity Level',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
+        _label('Primary Aspiration'),
         const SizedBox(height: 8),
-        ...ActivityLevel.values.map((a) => _ChoiceTile(
-              label: a.display,
-              subtitle: _activityDescription(a),
-              selected: _activity == a,
-              onTap: () => setState(() => _activity = a),
-            )),
+        ...goals.map((g) {
+          final selected = _goal == g.$1;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: InkWell(
+              onTap: () => setState(() => _goal = g.$1),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: selected ? FitnColors.ink : Colors.white,
+                  border: Border.all(
+                      color: selected ? FitnColors.ink : FitnColors.ink10,
+                      width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(g.$2.toUpperCase(),
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: selected ? Colors.white : FitnColors.ink,
+                        )),
+                    const SizedBox(height: 4),
+                    Text(g.$3,
+                        style: FitnText.serifItalic.copyWith(
+                          color: selected ? Colors.white70 : FitnColors.ink50,
+                          fontSize: 11,
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
         const SizedBox(height: 16),
-        const Text('Training Status',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
+        _label('Weekly Workout Frequency'),
+        const SizedBox(height: 8),
+        Row(
+          children: [2, 3, 4, 5].map((n) {
+            final selected = _frequency == n;
+            return Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: n < 5 ? 8 : 0),
+                child: InkWell(
+                  onTap: () => setState(() => _frequency = n),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    decoration: BoxDecoration(
+                      color: selected ? FitnColors.ink : Colors.white,
+                      border: Border.all(
+                          color: selected ? FitnColors.ink : FitnColors.ink10,
+                          width: 1),
+                    ),
+                    child: Text(
+                      '$n DAYS',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: selected ? Colors.white : FitnColors.ink,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTrainingAtmosphereStep() {
+    final prefs = [
+      ('home', 'Home Gym (Calisthenics & Minimal Equipment)',
+          'Bodyweight focus, bands, chairs, dumbbells'),
+      ('gym', 'Commercial Gym (Barbells, Cables & Machines)',
+          'Full power rack access, cables, leg machines'),
+      ('outdoor', 'Outdoor Arena (Bars, Parks & Running)',
+          'Aerobic base, pullup bars, sprint loops'),
+      ('hybrid', 'Hybrid Versatility',
+          'A blend of home bodyweight and commercial machinery'),
+    ];
+    final activities = [
+      ('sedentary', 'Sedentary', 'Desk job, few walks'),
+      ('light', 'Lightly Active', '1-2h light walk/day'),
+      ('moderate', 'Moderately Active', 'Active stands, daily run'),
+      ('active', 'Very Athlete Active', 'Labor work or heavy training'),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _label('Workout Setting Preference'),
+        const SizedBox(height: 8),
+        ...prefs.map((p) {
+          final selected = _workoutPreference == p.$1;
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  _workoutPreference = p.$1;
+                  if (p.$1 != 'gym') {
+                    _selectedGymName = null;
+                    _availableMachines = const [];
+                  } else if (_selectedGymName == null) {
+                    _selectedGymName = _nearbyGyms.first.name;
+                    _availableMachines = _nearbyGyms.first.defaultMachines;
+                  }
+                });
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: selected ? FitnColors.ink : Colors.white,
+                  border: Border.all(
+                      color: selected ? FitnColors.ink : FitnColors.ink10,
+                      width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(p.$2.toUpperCase(),
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: selected ? Colors.white : FitnColors.ink,
+                        )),
+                    const SizedBox(height: 4),
+                    Text(p.$3,
+                        style: FitnText.serifItalic.copyWith(
+                          color: selected ? Colors.white70 : FitnColors.ink50,
+                          fontSize: 11,
+                        )),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+        if (_workoutPreference == 'gym') ...[
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Icon(LucideIcons.mapPin, size: 14, color: FitnColors.accent),
+              const SizedBox(width: 6),
+              Text('NEARBY GYM FINDER & LOGGER', style: FitnText.microLabel),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ..._nearbyGyms.map((g) {
+            final selected = _selectedGymName == g.name;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    _selectedGymName = g.name;
+                    _availableMachines = g.defaultMachines;
+                  });
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: selected ? FitnColors.accent : FitnColors.ink10,
+                        width: 1),
+                  ),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        child: Image.network(g.image,
+                            width: 48, height: 48, fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Container(
+                                width: 48,
+                                height: 48,
+                                color: FitnColors.ink05,
+                                child: Icon(LucideIcons.dumbbell, size: 18))),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(g.name.toUpperCase(),
+                                      style: GoogleFonts.inter(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: FitnColors.ink)),
+                                ),
+                                Text(g.distance,
+                                    style: FitnText.monoSmall.copyWith(
+                                        fontSize: 8, color: FitnColors.ink60)),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(g.address, style: FitnText.serifItalic.copyWith(fontSize: 10)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+          if (_selectedGymName != null) ...[
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: FitnColors.ink10, width: 1),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('LOG $_selectedGymName MACHINES',
+                      style: FitnText.microLabel),
+                  const SizedBox(height: 12),
+                  ..._machineCategories.entries.expand((cat) {
+                    return cat.value.map((m) {
+                      final isChecked = _availableMachines.contains(m['name']);
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (isChecked) {
+                                _availableMachines =
+                                    _availableMachines.where((x) => x != m['name']).toList();
+                              } else {
+                                _availableMachines = [..._availableMachines, m['name']!];
+                              }
+                            });
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 16,
+                                height: 16,
+                                decoration: BoxDecoration(
+                                  color: isChecked ? FitnColors.ink : Colors.white,
+                                  border: Border.all(
+                                      color: isChecked ? FitnColors.ink : FitnColors.ink30,
+                                      width: 1),
+                                ),
+                                child: isChecked
+                                    ? Icon(LucideIcons.check,
+                                        size: 12, color: Colors.white)
+                                    : null,
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(m['name']!.toUpperCase(),
+                                        style: GoogleFonts.inter(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w700,
+                                            color: FitnColors.ink)),
+                                    Text(m['desc']!,
+                                        style: FitnText.serifItalic.copyWith(fontSize: 9)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ],
+        const SizedBox(height: 20),
+        _label('Daily Baseline Activity Level'),
         const SizedBox(height: 8),
         GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 2.5,
-          children: TrainingStatus.values.map((s) {
-            return _ChoiceChip(
-              label: s.display,
-              selected: _status == s,
-              onTap: () => setState(() => _status = s),
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 16),
-        const Text('Equipment Access',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
-        const SizedBox(height: 8),
-        ...EquipmentAccess.values.map((e) => _ChoiceTile(
-              label: '${_equipmentEmoji(e)} ${e.display}',
-              subtitle: _equipmentDescription(e),
-              selected: _equipment == e,
-              onTap: () => setState(() => _equipment = e),
-            )),
-      ],
-    );
-  }
-
-  Widget _buildGoalStep() {
-    return ListView(
-      children: [
-        const Text('Primary Goal',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
-        const SizedBox(height: 8),
-        ...PrimaryGoal.values.map((g) => _ChoiceTile(
-              label: '${_goalEmoji(g)} ${g.display}',
-              subtitle: _goalDescription(g),
-              selected: _goal == g,
-              onTap: () => setState(() => _goal = g),
-            )),
-        const SizedBox(height: 16),
-        Text('Training Days per Week: $_daysPerWeek',
-            style: const TextStyle(color: AppColors.textSecondaryDark)),
-        Slider(
-          value: _daysPerWeek.toDouble(),
-          min: 2,
-          max: 6,
-          divisions: 4,
-          label: '$_daysPerWeek',
-          onChanged: (v) => setState(() => _daysPerWeek = v.round()),
-        ),
-        const SizedBox(height: 16),
-        const Text('Time of Day',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
-        const SizedBox(height: 8),
-        Row(
-          children: TrainingTimeOfDay.values.map((t) {
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: _ChoiceChip(
-                  label: '${_timeOfDayEmoji(t)} ${t.display}',
-                  selected: _timeOfDay == t,
-                  onTap: () => setState(() => _timeOfDay = t),
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 2.4,
+          children: activities.map((a) {
+            final selected = _activityLevel == a.$1;
+            return InkWell(
+              onTap: () => setState(() => _activityLevel = a.$1),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: selected ? FitnColors.ink : Colors.white,
+                  border: Border.all(
+                      color: selected ? FitnColors.ink : FitnColors.ink10,
+                      width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(a.$2.toUpperCase(),
+                        style: GoogleFonts.inter(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: selected ? Colors.white : FitnColors.ink)),
+                    const SizedBox(height: 2),
+                    Text(a.$3,
+                        style: FitnText.serifItalic.copyWith(
+                            fontSize: 10,
+                            color: selected ? Colors.white70 : FitnColors.ink50)),
+                  ],
                 ),
               ),
             );
@@ -450,257 +901,92 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  Widget _buildPreferencesStep() {
-    return ListView(
+  Widget _buildNutritionStep() {
+    final diets = [
+      ('anything', 'Anything / Balanced'),
+      ('vegetarian', 'Vegetarian'),
+      ('vegan', 'Vegan'),
+      ('keto', 'Ketogenic (Low Carb)'),
+      ('low-carb', 'Low Carb (Moderate)'),
+      ('gluten-free', 'Gluten-Free'),
+      ('mediterranean', 'Mediterranean'),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Diet Type',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
+        _label('Dietary Category'),
         const SizedBox(height: 8),
-        Row(
-          children: DietType.values.map((d) {
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: _ChoiceChip(
-                  label: d.display,
-                  selected: _diet == d,
-                  onTap: () => setState(() => _diet = d),
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+          childAspectRatio: 3.0,
+          children: diets.map((d) {
+            final selected = _dietType == d.$1;
+            return InkWell(
+              onTap: () => setState(() => _dietType = d.$1),
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  color: selected ? FitnColors.ink : Colors.white,
+                  border: Border.all(
+                      color: selected ? FitnColors.ink : FitnColors.ink10,
+                      width: 1),
                 ),
+                child: Text(d.$2.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.inter(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: selected ? Colors.white : FitnColors.ink)),
               ),
             );
           }).toList(),
         ),
         const SizedBox(height: 16),
-        Text('Meal Frequency: $_mealFreq meals/day',
-            style: const TextStyle(color: AppColors.textSecondaryDark)),
-        Slider(
-          value: _mealFreq.toDouble(),
-          min: 2,
-          max: 5,
-          divisions: 3,
-          label: '$_mealFreq',
-          onChanged: (v) => setState(() => _mealFreq = v.round()),
+        _label('Allergies & Food Sensitivities'),
+        TextField(
+          controller: _allergiesCtrl,
+          decoration: const InputDecoration(
+              hintText: 'e.g. Peanuts, Dairy, Seafood (or leave blank)'),
         ),
-        const SizedBox(height: 16),
-        DropdownButtonFormField<String>(
-          value: _cuisine,
-          decoration: const InputDecoration(labelText: 'Cuisine Preference'),
-          items: const [
-            DropdownMenuItem(value: null, child: Text('Any')),
-            DropdownMenuItem(value: 'american', child: Text('American')),
-            DropdownMenuItem(value: 'ethiopian', child: Text('Ethiopian')),
-            DropdownMenuItem(value: 'italian', child: Text('Italian')),
-            DropdownMenuItem(value: 'mexican', child: Text('Mexican')),
-            DropdownMenuItem(value: 'asian', child: Text('Asian')),
-            DropdownMenuItem(
-                value: 'mediterranean', child: Text('Mediterranean')),
-          ],
-          onChanged: (v) => setState(() => _cuisine = v),
-        ),
-        const SizedBox(height: 16),
-        const Text('Allergens to Avoid',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
         const SizedBox(height: 8),
-        Wrap(
-          spacing: 6,
-          runSpacing: 6,
-          children: [
-            'dairy',
-            'gluten',
-            'eggs',
-            'soy',
-            'peanuts',
-            'tree_nuts',
-            'shellfish',
-            'fish',
-            'sesame',
-            'corn'
-          ].map((a) {
-            return FilterChip(
-              label: Text(a),
-              selected: _allergens.contains(a),
-              onSelected: (sel) {
-                setState(() {
-                  if (sel) {
-                    _allergens.add(a);
-                  } else {
-                    _allergens.remove(a);
-                  }
-                });
-              },
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 16),
-        const Text('Muscle Focus',
-            style: TextStyle(color: AppColors.textSecondaryDark)),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 6,
-          runSpacing: 6,
-          children: [
-            'chest',
-            'back',
-            'shoulders',
-            'arms',
-            'legs',
-            'glutes',
-            'core',
-            'calves'
-          ].map((m) {
-            return FilterChip(
-              label: Text(m),
-              selected: _muscleFocus.contains(m),
-              onSelected: (sel) {
-                setState(() {
-                  if (sel) {
-                    _muscleFocus.add(m);
-                  } else {
-                    _muscleFocus.remove(m);
-                  }
-                });
-              },
-            );
-          }).toList(),
-        ),
-        const SizedBox(height: 16),
-        SwitchListTile(
-          title: const Text('Include pre/post workout meals'),
-          value: _includePrePost,
-          onChanged: (v) => setState(() => _includePrePost = v),
+        Text(
+          'Our paid meal delivery service tab will badge or restrict recommended preps with these triggers.',
+          style: FitnText.serifItalic.copyWith(fontSize: 10),
         ),
       ],
     );
   }
 
-  String _activityDescription(ActivityLevel a) {
-    return switch (a) {
-      ActivityLevel.sedentary => 'Little to no exercise, desk job.',
-      ActivityLevel.mostlySedentary => 'Daily light activity, office work.',
-      ActivityLevel.lightlyActive => '1-3 workouts/week or daily walks.',
-      ActivityLevel.active => '4-5 workouts/week or active job.',
-      ActivityLevel.highlyActive => '6-7 workouts/week or heavy labor.',
-    };
-  }
-
-  String _equipmentDescription(EquipmentAccess e) {
-    return switch (e) {
-      EquipmentAccess.fullGym => 'Gym membership — full equipment (33 types).',
-      EquipmentAccess.homeGym =>
-        'Home setup — barbell, dumbbells, kettlebells (9 types).',
-      EquipmentAccess.bodyweightOnly => 'Bodyweight + bands only (2 types).',
-    };
-  }
-
-  String _goalDescription(PrimaryGoal g) {
-    return switch (g) {
-      PrimaryGoal.fatLoss => 'Prioritise fat loss with a calorie deficit.',
-      PrimaryGoal.muscleGain => 'Build muscle with a calorie surplus.',
-      PrimaryGoal.recomp => 'Lose fat + build muscle simultaneously.',
-      PrimaryGoal.maintenance => 'Maintain current physique.',
-      PrimaryGoal.strength => 'Build strength with progressive overload.',
-    };
-  }
-
-  String _equipmentEmoji(EquipmentAccess e) {
-    return switch (e) {
-      EquipmentAccess.fullGym => '🏟️',
-      EquipmentAccess.homeGym => '🏠',
-      EquipmentAccess.bodyweightOnly => '🤸',
-    };
-  }
-
-  String _goalEmoji(PrimaryGoal g) {
-    return switch (g) {
-      PrimaryGoal.fatLoss => '🔥',
-      PrimaryGoal.muscleGain => '💪',
-      PrimaryGoal.recomp => '⚖️',
-      PrimaryGoal.maintenance => '🎯',
-      PrimaryGoal.strength => '🏋️',
-    };
-  }
-
-  String _timeOfDayEmoji(TrainingTimeOfDay t) {
-    return switch (t) {
-      TrainingTimeOfDay.morning => '🌅',
-      TrainingTimeOfDay.midday => '☀️',
-      TrainingTimeOfDay.evening => '🌆',
-    };
-  }
-}
-
-class _ChoiceChip extends StatelessWidget {
-  const _ChoiceChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-        decoration: BoxDecoration(
-          color: selected ? AppColors.primary.withValues(alpha: 0.15) : null,
-          border: Border.all(
-            color: selected ? AppColors.primary : AppColors.bgDarkSurface,
-            width: selected ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: selected ? AppColors.primary : AppColors.textPrimaryDark,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-          ),
-        ),
-      ),
+  Widget _label(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Text(text.toUpperCase(), style: FitnText.microLabel),
     );
   }
 }
 
-class _ChoiceTile extends StatelessWidget {
-  const _ChoiceTile({
-    required this.label,
-    required this.subtitle,
-    required this.selected,
-    required this.onTap,
+class _GymOption {
+  const _GymOption({
+    required this.id,
+    required this.name,
+    required this.distance,
+    required this.rating,
+    required this.address,
+    required this.description,
+    required this.image,
+    required this.defaultMachines,
   });
-  final String label;
-  final String subtitle;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      color: selected ? AppColors.primary.withValues(alpha: 0.1) : null,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: selected ? AppColors.primary : Colors.transparent,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        title: Text(label,
-            style: TextStyle(
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-              color: selected ? AppColors.primary : AppColors.textPrimaryDark,
-            )),
-        subtitle: Text(subtitle,
-            style: const TextStyle(
-                color: AppColors.textSecondaryDark, fontSize: 12)),
-        onTap: onTap,
-      ),
-    );
-  }
+  final String id;
+  final String name;
+  final String distance;
+  final double rating;
+  final String address;
+  final String description;
+  final String image;
+  final List<String> defaultMachines;
 }

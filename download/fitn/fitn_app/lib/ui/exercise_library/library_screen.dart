@@ -1,13 +1,14 @@
-/// Exercise library browser. See spec §7.9.
+/// Exercise library browser — search + browse all exercises.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fitn_engine/fitn_engine.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../engine/engine_provider.dart';
-import '../../theme/app_theme.dart';
+import '../../ui/theme/fitn_design.dart';
 
 class ExerciseLibraryScreen extends ConsumerStatefulWidget {
   const ExerciseLibraryScreen({super.key});
@@ -19,15 +20,13 @@ class ExerciseLibraryScreen extends ConsumerStatefulWidget {
 
 class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
   String _query = '';
-  String? _muscleFilter;
-  String? _equipmentFilter;
-  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     final engineAsync = ref.watch(engineProvider);
 
     return Scaffold(
+      backgroundColor: FitnColors.cream,
       appBar: AppBar(
         title: const Text('Exercise Library'),
         bottom: PreferredSize(
@@ -36,7 +35,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: TextField(
               decoration: const InputDecoration(
-                hintText: 'Search 1,217 exercises…',
+                hintText: 'Search 1,217 exercises...',
                 prefixIcon: Icon(LucideIcons.search),
                 isDense: true,
               ),
@@ -46,51 +45,46 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
         ),
       ),
       body: engineAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () =>
+            const Center(child: CircularProgressIndicator(color: FitnColors.accent)),
         error: (e, _) => Center(child: Text('Engine load failed: $e')),
         data: (engine) {
-          // For simplicity, search the engine's exercises via the public API.
-          // We don't have a direct search method on the engine — we re-load.
           return FutureBuilder<List<Exercise>>(
-            future: _searchExercises(engine),
+            future: _searchExercises(),
             builder: (context, snap) {
               if (!snap.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
-              final results = snap.data!;
               return ListView.builder(
-                controller: _scrollController,
-                itemCount: results.length,
+                itemCount: snap.data!.length,
                 itemBuilder: (context, i) {
-                  final e = results[i];
+                  final e = snap.data![i];
                   return ListTile(
                     leading: ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
                       child: e.videoThumbnail != null &&
                               e.videoThumbnail!.isNotEmpty
                           ? Image.network(e.videoThumbnail!,
-                              width: 56, height: 56, fit: BoxFit.cover,
+                              width: 48, height: 48, fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) => Container(
-                                  width: 56,
-                                  height: 56,
-                                  color: AppColors.bgDarkSurface,
+                                  width: 48,
+                                  height: 48,
+                                  color: FitnColors.ink05,
                                   child: const Icon(LucideIcons.dumbbell)))
                           : Container(
-                              width: 56,
-                              height: 56,
-                              color: AppColors.bgDarkSurface,
+                              width: 48,
+                              height: 48,
+                              color: FitnColors.ink05,
                               child: const Icon(LucideIcons.dumbbell),
                             ),
                     ),
-                    title: Text(e.name),
+                    title: Text(e.name,
+                        style: GoogleFonts.inter(
+                            fontSize: 12, fontWeight: FontWeight.w700)),
                     subtitle: Text(
-                      '${e.equipment} · ${e.mechanics} · ${e.experienceLevel.display}',
-                      style: const TextStyle(
-                          color: AppColors.textSecondaryDark, fontSize: 11),
+                      '${e.equipment} • ${e.mechanics} • ${e.experienceLevel.display}',
+                      style: GoogleFonts.inter(
+                          color: FitnColors.ink50, fontSize: 10),
                     ),
-                    onTap: () {
-                      // Show detail sheet (similar to Workouts tab).
-                    },
                   );
                 },
               );
@@ -101,9 +95,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
     );
   }
 
-  Future<List<Exercise>> _searchExercises(FitnEngine engine) async {
-    // Use the engine data — we don't expose search directly via FitnEngine,
-    // so we use the loaded data's exercise list.
+  Future<List<Exercise>> _searchExercises() async {
     final data = await getEngineData();
     var exercises = data.exercises;
     if (_query.isNotEmpty) {
@@ -112,17 +104,6 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
           .where((e) =>
               e.name.toLowerCase().contains(q) ||
               e.slug.toLowerCase().contains(q))
-          .toList();
-    }
-    if (_muscleFilter != null) {
-      exercises = exercises
-          .where((e) => e.muscleGroups.contains(_muscleFilter!))
-          .toList();
-    }
-    if (_equipmentFilter != null) {
-      exercises = exercises
-          .where((e) =>
-              e.equipment.toLowerCase() == _equipmentFilter!.toLowerCase())
           .toList();
     }
     return exercises;

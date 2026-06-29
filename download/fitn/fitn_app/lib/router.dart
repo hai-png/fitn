@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 
 import 'state/app_state.dart';
 import 'ui/auth/signin_screen.dart';
-import 'ui/auth/auth_callback_screen.dart';
 import 'ui/exercise_library/library_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/settings/settings_screen.dart';
@@ -23,7 +22,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/signin', builder: (_, __) => const SignInScreen()),
       GoRoute(
           path: '/auth/callback',
-          builder: (_, __) => const AuthCallbackScreen()),
+          builder: (_, __) => const SignInScreen()),
       GoRoute(
           path: '/workout-session',
           builder: (_, __) => const WorkoutSessionScreen()),
@@ -35,7 +34,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     redirect: (context, state) {
       final appAsync = ref.read(appNotifierProvider);
       final appState = appAsync.valueOrNull;
-      if (appState == null) return null; // still hydrating
+      if (appState == null) return null;
       if (!appState.hasOnboarded &&
           state.path != '/onboarding' &&
           state.path != '/signin' &&

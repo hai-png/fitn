@@ -123,3 +123,80 @@ Stage Summary:
   * Background sync `_pushEntry` is a placeholder that needs the repo-to-record wiring completed for production.
   * Exercise detail sheet in Workouts tab doesn't yet open YouTube player (would need youtube_player_flutter integration).
   * Adaptive plan adjustments UI not wired (engine has recommendCutAdjustment/recommendBulkAdjustment — UI hook is TODO per spec §12).
+
+---
+Task ID: INTEGRATION
+Agent: main agent (Super Z)
+Task: Push initial Fitn to hai-png/fitn, clone hai-png/fitness-app, study it, and integrate its features/UI/design into fitn.
+
+Work Log:
+- Initialized git in /home/z/my-project/download/fitn, pushed to new branch `feat/initial-fitn-build` on https://github.com/hai-png/fitn.git.
+- Cloned https://github.com/hai-png/fitness-app.git to /home/z/my-project/fitness-app-ref/.
+- Studied fitness-app (FitLife Hub) — React 19 + TypeScript + Vite + Tailwind v4 + Gemini AI.
+  - 5 tabs: Training, Meals Prep, Logs, Store, Profile.
+  - Design system: #1A1A1A (ink), #F9F8F6 (cream), #E63946 (red accent), #EFECE6 (warm cream outer).
+  - Typography: Inter (sans), JetBrains Mono (mono), Playfair Display (serif italic for headlines).
+  - Visual patterns: sharp corners (rounded-none), uppercase tracking-widest micro-labels, mono for stats, serif italic for descriptions.
+  - Phone mockup frame: 410x840px with status bar (time/wifi/battery) + home indicator.
+  - Onboarding: 4-step wizard (About Yourself, Define Target, Training Atmosphere with gym finder + machine logger, Nutritional Foundation).
+  - Training: weekly timeline tracker + day selector + exercise cards + rest timer + video tutorial modal + custom split builder.
+  - Meals: meal delivery ordering with cart + day planner + meal swap + checkout.
+  - Marketplace: products grid + category filter + cart drawer + checkout.
+  - Progress: weight log + water log + workout history + lifetime volume tiers + advanced analytics.
+  - Profile: user bio + nutrition blueprint with macro visualizer bars + meal schedule + orders history + reset.
+- Created integration plan: port design system + rewrite all 5 tabs + add marketplace + meal ordering + cart + water logs + analytics.
+- Built new design system: lib/ui/theme/fitn_design.dart — FitnColors, FitnText (Inter/JetBrains Mono/Playfair Display via google_fonts), FitnTheme, FitnCard, FitnSectionLabel, FitnPageTitle, FitnStatTile, FitnMacroBar.
+- Added google_fonts dependency to pubspec.yaml.
+- Rewrote lib/app.dart to use FitnTheme.light().
+- Added new domain types: lib/data/domain_types.dart — MealProduct, MarketplaceProduct, CartItem, Order, WaterLog, ExerciseSetLog, ExerciseLog, WorkoutLogSummary, LifetimeTier, MuscleVolumeZone, PersonalRecord.
+- Added product catalog: lib/data/catalog.dart — MealProducts (8 meals), MarketplaceProducts (13 products across apparel/equipment/supplements/accessories).
+- Rewrote lib/state/app_state.dart:
+  * Tab enum renamed: home→training, workouts→meals, meals→progress, progress→marketplace, profile→profile (matches fitness-app: Training, Meals Prep, Logs, Store, Profile).
+  * AppState extended with cart, orders, waterLogs, exerciseLogs, userName, cartCount/cartTotal getters.
+  * AppNotifier extended with addToCart, removeFromCart, updateCartQty, checkout, logWeight, logWater, clearTodayWater, logWorkout, logExerciseSet, resetOnboarding.
+  * Removed old ProgressNotifier (folded into AppNotifier).
+- Rewrote lib/ui/shell/app_shell.dart — phone mockup frame with status bar (time/wifi/battery), 5-tab bottom nav with fitness-app labels.
+- Rewrote lib/ui/onboarding/onboarding_screen.dart — 4-step wizard:
+  * Step 1: Basics (name, age, gender, weight, height).
+  * Step 2: Target (goal, frequency).
+  * Step 3: Training Atmosphere (workout setting + nearby gym finder + machine logger + activity level).
+  * Step 4: Nutrition (diet type + allergies).
+  * Loading screen with pulsing ring + cycling messages.
+  * Maps fitness-app inputs → fitn_engine UserProfile/PlanPreferences.
+- Rewrote lib/ui/tabs/training_tab.dart — program header with weekly timeline tracker, day selector, exercise cards with sets/reps/rest/RPE, inline rest timer, exercise expand/collapse, video tutorial modal.
+- Rewrote lib/ui/tabs/meals_tab.dart — meal delivery ordering system:
+  * Target macros alignment bar.
+  * Day/meals-per-day configurator (+/- steppers).
+  * Auto-generated meal plan (cycling through eligible meals filtered by diet + allergens).
+  * Per-meal swap modal.
+  * Order summary with subtotal + loyalty discount + delivery fee.
+  * Checkout flow (address + card) + success overlay.
+- Created lib/ui/tabs/marketplace_tab.dart — fitness product store:
+  * Category chips (All/Apparel/Equipment/Supplements/Accessories).
+  * Search bar + sort dropdown.
+  * 2-column product grid with image, rating, name, price, add-to-cart.
+  * Cart drawer (right-side 320px panel) with quantity controls + total + checkout.
+  * Checkout modal + success overlay.
+- Rewrote lib/ui/tabs/progress_tab.dart — weight log line chart (fl_chart) + water log with progress bar + quick-add buttons + workout history list + lifetime volume tier card + daily target card.
+- Rewrote lib/ui/tabs/profile_tab.dart — Coaching HQ:
+  * User bio card with avatar + metrics grid (Age/Weight/Height/Diet) + allergen warning.
+  * Nutrition blueprint with daily intake + 3 macro visualizer bars (Protein/Carbs/Fats).
+  * Hydration & timeline summary card.
+  * Paid orders history (from cart checkout).
+  * Plan history with restore buttons.
+  * Account section (sign in/out).
+  * Reset assessment button with confirm dialog.
+  * Engine version footer.
+- Rewrote lib/ui/workout/workout_session_screen.dart — full-screen logger with rest timer bar (drift-free endAt computation, ±15s adjustments, GO! at 0).
+- Rewrote lib/ui/auth/signin_screen.dart — magic-link + Google/Apple OAuth (matches fitness-app design). Merged AuthCallbackScreen into the same file.
+- Rewrote lib/ui/settings/settings_screen.dart — theme, units, sync queue, danger zone.
+- Rewrote lib/ui/exercise_library/library_screen.dart — search 1,217 exercises.
+- Updated lib/router.dart — removed auth_callback_screen import (merged into signin_screen).
+- Deleted obsolete files: home_tab.dart, workouts_tab.dart, app_theme.dart, common_widgets.dart, auth_callback_screen.dart.
+
+Stage Summary:
+- All 5 tabs now match fitness-app's design language: sharp corners, uppercase tracking-widest micro-labels, JetBrains Mono for stats, Playfair Display italic for headlines, red accent (#E63946) for primary actions.
+- New features added: Marketplace tab (products + cart + checkout), Meal ordering system (cart + day planner + meal swap + checkout), Water logging, Cart system shared between meals + marketplace, Order history, Lifetime volume tier gamification.
+- Kept the fitn_engine as the deterministic plan generator (no AI needed — it's better than the fitness-app's Gemini fallback).
+- Phone mockup frame on desktop with status bar + 5-tab bottom nav matching fitness-app.
+- All state in single AppNotifier with select()-able slices.

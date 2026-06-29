@@ -1,13 +1,15 @@
-/// Auth screens. See spec §7.10.
+/// Auth screens — magic-link + OAuth. Matches FitLife Hub design.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../core/env.dart';
 import '../../state/app_state.dart';
-import '../../theme/app_theme.dart';
+import '../../ui/theme/fitn_design.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -29,6 +31,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: FitnColors.cream,
       appBar: AppBar(title: const Text('Sign in')),
       body: SafeArea(
         child: Padding(
@@ -36,17 +39,17 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(LucideIcons.dumbbell, size: 48, color: AppColors.primary),
+              const SizedBox(height: 24),
+              Icon(LucideIcons.dumbbell, size: 48, color: FitnColors.accent),
               const SizedBox(height: 16),
-              const Text('Sign in to sync across devices',
+              Text('Sign in to sync across devices',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                  style: FitnText.headline.copyWith(fontSize: 20)),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Your plan stays on your device. Sign-in only syncs across devices.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: AppColors.textSecondaryDark, fontSize: 13),
+                style: FitnText.serifItalic,
               ),
               const SizedBox(height: 24),
               if (!_sent) ...[
@@ -61,34 +64,40 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: _sendMagicLink,
-                  icon: const Icon(LucideIcons.send),
-                  label: const Text('Send magic link'),
+                  icon: Icon(LucideIcons.send, size: 16, color: Colors.white),
+                  label: Text('SEND MAGIC LINK', style: FitnText.buttonLabel),
                 ),
               ] else ...[
-                const Icon(LucideIcons.mailCheck, size: 48, color: AppColors.success),
+                Icon(LucideIcons.mailCheck, size: 48, color: FitnColors.accent),
                 const SizedBox(height: 16),
                 Text(
                   'Check your email at ${_emailCtrl.text} for a sign-in link.',
                   textAlign: TextAlign.center,
+                  style: FitnText.body,
                 ),
                 const SizedBox(height: 16),
                 OutlinedButton(
                   onPressed: () => setState(() => _sent = false),
-                  child: const Text('Use a different email'),
+                  child: Text('USE A DIFFERENT EMAIL',
+                      style: GoogleFonts.inter(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.0,
+                          color: FitnColors.ink)),
                 ),
               ],
               const SizedBox(height: 24),
               if (Env.isSupabaseConfigured) ...[
-                const Row(
+                Row(
                   children: [
-                    Expanded(child: Divider()),
+                    const Expanded(child: Divider()),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text('or',
-                          style: TextStyle(
-                              color: AppColors.textSecondaryDark)),
+                          style: GoogleFonts.inter(
+                              color: FitnColors.ink40, fontSize: 11)),
                     ),
-                    Expanded(child: Divider()),
+                    const Expanded(child: Divider()),
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -96,16 +105,26 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   onPressed: () => ref
                       .read(authNotifierProvider.notifier)
                       .signInWithOAuth('google'),
-                  icon: const Icon(LucideIcons.chrome),
-                  label: const Text('Continue with Google'),
+                  icon: Icon(LucideIcons.chrome, size: 16),
+                  label: Text('CONTINUE WITH GOOGLE',
+                      style: GoogleFonts.inter(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.0,
+                          color: FitnColors.ink)),
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton.icon(
                   onPressed: () => ref
                       .read(authNotifierProvider.notifier)
                       .signInWithOAuth('apple'),
-                  icon: const Icon(LucideIcons.apple),
-                  label: const Text('Continue with Apple'),
+                  icon: Icon(LucideIcons.apple, size: 16),
+                  label: Text('CONTINUE WITH APPLE',
+                      style: GoogleFonts.inter(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.0,
+                          color: FitnColors.ink)),
                 ),
               ],
             ],
@@ -137,31 +156,34 @@ class AuthCallbackScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // The Supabase SDK handles the actual session restoration in
-    // authNotifierProvider's onAuthStateChange listener. We just show a
-    // loading state and pop back home.
+    ref.listen(authNotifierProvider, (previous, next) {
+      if (next.isAuthenticated) {
+        context.go('/');
+      }
+    });
+
     return Scaffold(
+      backgroundColor: FitnColors.cream,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const CircularProgressIndicator(),
+            const CircularProgressIndicator(color: FitnColors.accent),
             const SizedBox(height: 16),
-            const Text('Completing sign-in…'),
+            Text('Completing sign-in...', style: FitnText.body),
+            const SizedBox(height: 24),
             TextButton(
-              onPressed: () => Navigator.of(context).goNamed('/'),
-              child: const Text('Continue'),
+              onPressed: () => context.go('/'),
+              child: Text('CONTINUE TO APP',
+                  style: GoogleFonts.inter(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.0,
+                      color: FitnColors.accent)),
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-extension on NavigatorState {
-  void goNamed(String name) {
-    // Simplified — real implementation uses go_router's context.go.
-    popUntil((route) => route.isFirst);
   }
 }
