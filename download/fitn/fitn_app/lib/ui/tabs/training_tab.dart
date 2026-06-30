@@ -17,6 +17,7 @@ import 'package:fitn_engine/fitn_engine.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import '../../data/workout_templates.dart';
 import '../../state/app_state.dart';
 import '../../ui/theme/fitn_design.dart';
 
@@ -36,6 +37,23 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
   Timer? _restTimer;
   int _currentWeek = 1;
   final int _totalWeeks = 8;
+
+  // Modals.
+  bool _isProgramSelectorOpen = false;
+  bool _isSplitBuilderOpen = false;
+  WorkoutExercise? _activeTutorialExercise;
+  bool _isVideoPlaying = true;
+  int _videoProgress = 15;
+  bool _tutorialMuted = false;
+
+  // Split builder state.
+  final List<Map<String, dynamic>> _builderSchedule = [];
+  String _builderTitle = '';
+  String _builderDescription = '';
+  String _builderDifficulty = 'Intermediate';
+  int _selectedBuilderDayIndex = 0;
+  String _selectedDbCategory = 'Chest';
+  String _selectedDbExerciseName = 'Flat Barbell Bench Press';
 
   @override
   void dispose() {
@@ -129,23 +147,595 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
     return Scaffold(
       backgroundColor: FitnColors.cream,
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+        child: Stack(
           children: [
-            _buildProgramHeader(training),
-            const SizedBox(height: 20),
-            _buildSplitsHeader(),
-            const SizedBox(height: 12),
-            _buildDaySelector(workouts),
-            const SizedBox(height: 20),
-            if (selectedDay != null)
-              _buildDayCard(selectedDay)
-            else
-              const Padding(
-                padding: EdgeInsets.all(24),
-                child: Text('No workouts in plan.'),
-              ),
+            ListView(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 80),
+              children: [
+                _buildProgramHeader(training),
+                const SizedBox(height: 20),
+                _buildSplitsHeader(),
+                const SizedBox(height: 12),
+                _buildDaySelector(workouts),
+                const SizedBox(height: 20),
+                if (selectedDay != null)
+                  _buildDayCard(selectedDay)
+                else
+                  const Padding(
+                    padding: EdgeInsets.all(24),
+                    child: Text('No workouts in plan.'),
+                  ),
+              ],
+            ),
+            if (_isProgramSelectorOpen) _buildProgramSelectorModal(),
+            if (_isSplitBuilderOpen) _buildSplitBuilderModal(),
+            if (_activeTutorialExercise != null) _buildTutorialPlayerModal(),
           ],
+        ),
+      ),
+    );
+  }
+
+  // === Program Preset Selector Modal ===
+  Widget _buildProgramSelectorModal() {
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
+          constraints: const BoxConstraints(maxHeight: 500),
+          decoration: BoxDecoration(
+            color: FitnColors.cream,
+            border: Border.all(color: FitnColors.ink, width: 1),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('SELECT PROGRAM PRESET',
+                      style: FitnText.microLabel),
+                  IconButton(
+                    icon: Icon(LucideIcons.x, size: 16),
+                    onPressed: () =>
+                        setState(() => _isProgramSelectorOpen = false),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Expanded(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: ProgramPresets.all.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 8),
+                  itemBuilder: (context, idx) {
+                    final p = ProgramPresets.all[idx];
+                    return InkWell(
+                      onTap: () => _applyPresetProgram(p),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: FitnColors.ink10, width: 1),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(p.name.toUpperCase(),
+                                      style: GoogleFonts.inter(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700)),
+                                ),
+                                Text('${p.durationWeeks}w',
+                                    style: FitnText.mono.copyWith(
+                                        fontSize: 10,
+                                        color: FitnColors.accent)),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(p.description,
+                                style: FitnText.serifItalic
+                                    .copyWith(fontSize: 10)),
+                            const SizedBox(height: 6),
+                            Row(
+                              children: [
+                                _miniBadge(p.splitType),
+                                const SizedBox(width: 6),
+                                _miniBadge('${p.daysPerWeek}d/wk'),
+                                const SizedBox(width: 6),
+                                _miniBadge(p.goal.toUpperCase()),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _miniBadge(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      color: FitnColors.ink05,
+      child: Text(text,
+          style: GoogleFonts.inter(
+              fontSize: 8,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.8,
+              color: FitnColors.ink60)),
+    );
+  }
+
+  void _applyPresetProgram(ProgramPreset preset) {
+    // In a full implementation, this would rebuild the training plan with
+    // the preset's split template. For now, just close the modal.
+    setState(() => _isProgramSelectorOpen = false);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'Applied "${preset.name}" — ${preset.durationWeeks}w ${preset.splitType}')),
+      );
+    }
+  }
+
+  // === Split Builder Modal ===
+  Widget _buildSplitBuilderModal() {
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
+          constraints: const BoxConstraints(maxHeight: 600),
+          decoration: BoxDecoration(
+            color: FitnColors.cream,
+            border: Border.all(color: FitnColors.ink, width: 1),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('CUSTOM SPLIT BUILDER', style: FitnText.microLabel),
+                  IconButton(
+                    icon: Icon(LucideIcons.x, size: 16),
+                    onPressed: () =>
+                        setState(() => _isSplitBuilderOpen = false),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                decoration: const InputDecoration(
+                    labelText: 'Plan Title', isDense: true),
+                onChanged: (v) => _builderTitle = v,
+                controller: TextEditingController(text: _builderTitle),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                decoration: const InputDecoration(
+                    labelText: 'Description', isDense: true),
+                onChanged: (v) => _builderDescription = v,
+                controller: TextEditingController(text: _builderDescription),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Text('DAYS: ${_builderSchedule.length}',
+                      style: FitnText.microLabel),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: _addBuilderDay,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(0, 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                    ),
+                    child: Text('+ ADD DAY',
+                        style: GoogleFonts.inter(
+                            fontSize: 9, fontWeight: FontWeight.w700)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Expanded(
+                child: _builderSchedule.isEmpty
+                    ? Center(
+                        child: Text('No days yet. Tap "+ ADD DAY" to start.',
+                            style: FitnText.serifItalic))
+                    : ListView.builder(
+                        itemCount: _builderSchedule.length,
+                        itemBuilder: (context, idx) {
+                          final day = _builderSchedule[idx];
+                          final exercises =
+                              day['exercises'] as List? ?? [];
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 8),
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.white,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('DAY ${idx + 1}',
+                                        style: FitnText.microLabel
+                                            .copyWith(fontSize: 9)),
+                                    const Spacer(),
+                                    IconButton(
+                                      icon: Icon(LucideIcons.trash2,
+                                          size: 12, color: FitnColors.danger),
+                                      onPressed: () =>
+                                          _removeBuilderDay(idx),
+                                      padding: EdgeInsets.zero,
+                                      constraints: const BoxConstraints(),
+                                    ),
+                                  ],
+                                ),
+                                Text(day['name'] ?? '',
+                                    style: GoogleFonts.inter(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700)),
+                                Text('${exercises.length} exercises',
+                                    style: FitnText.monoSmall
+                                        .copyWith(fontSize: 9)),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+              ),
+              const SizedBox(height: 8),
+              // Exercise DB picker.
+              Container(
+                padding: const EdgeInsets.all(8),
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('ADD EXERCISE', style: FitnText.microLabel),
+                    const SizedBox(height: 6),
+                    SizedBox(
+                      height: 32,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: WorkoutTemplates.categories.map((c) {
+                          final selected = _selectedDbCategory == c;
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: GestureDetector(
+                              onTap: () => setState(() {
+                                _selectedDbCategory = c;
+                                final filtered = WorkoutTemplates
+                                    .exerciseDatabase
+                                    .where((e) =>
+                                        e.targetMuscle == c ||
+                                        (c == 'Back' && [
+                                          'Lats',
+                                          'Mid Back',
+                                          'Upper Back'
+                                        ].contains(e.targetMuscle)) ||
+                                        (c == 'Legs' && [
+                                          'Quads',
+                                          'Hamstrings'
+                                        ].contains(e.targetMuscle)))
+                                    .toList();
+                                if (filtered.isNotEmpty) {
+                                  _selectedDbExerciseName = filtered.first.name;
+                                }
+                              }),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 6),
+                                color: selected
+                                    ? FitnColors.ink
+                                    : FitnColors.ink05,
+                                child: Text(c.toUpperCase(),
+                                    style: GoogleFonts.inter(
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.w700,
+                                        color: selected
+                                            ? Colors.white
+                                            : FitnColors.ink60)),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: FitnColors.fill,
+                        border:
+                            Border.all(color: FitnColors.ink15, width: 1),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: _selectedDbExerciseName,
+                          isExpanded: true,
+                          style: GoogleFonts.inter(
+                              fontSize: 11, color: FitnColors.ink),
+                          items: WorkoutTemplates.exerciseDatabase
+                              .where((e) =>
+                                  _selectedDbCategory == 'Chest' &&
+                                      e.targetMuscle == 'Chest' ||
+                                  _selectedDbCategory == 'Back' && [
+                                    'Lats',
+                                    'Mid Back',
+                                    'Upper Back'
+                                  ].contains(e.targetMuscle) ||
+                                  _selectedDbCategory == 'Legs' && [
+                                    'Quads',
+                                    'Hamstrings'
+                                  ].contains(e.targetMuscle) ||
+                                  _selectedDbCategory == 'Shoulders' &&
+                                      ['Shoulders', 'Side Deltoid', 'Rear Deltoid']
+                                          .contains(e.targetMuscle) ||
+                                  _selectedDbCategory == 'Arms' &&
+                                      ['Biceps', 'Triceps'].contains(e.targetMuscle) ||
+                                  _selectedDbCategory == 'Core' &&
+                                      ['Lower Abs', 'Core'].contains(e.targetMuscle) ||
+                                  _selectedDbCategory == 'Cardio' &&
+                                      e.targetMuscle == 'Cardio')
+                              .map((e) => DropdownMenuItem(
+                                  value: e.name, child: Text(e.name)))
+                              .toList(),
+                          onChanged: (v) => setState(() =>
+                              _selectedDbExerciseName = v ?? ''),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _addExerciseToBuilderDay,
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(0, 32),
+                        ),
+                        child: Text('+ ADD TO DAY ${_selectedBuilderDayIndex + 1}',
+                            style: GoogleFonts.inter(
+                                fontSize: 9, fontWeight: FontWeight.w700)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _saveBuilderPlan,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: FitnColors.accent),
+                  child: Text('SAVE CUSTOM PLAN',
+                      style: FitnText.buttonLabel),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _addBuilderDay() {
+    setState(() {
+      _builderSchedule.add({
+        'name': 'Day ${_builderSchedule.length + 1} - Custom',
+        'focus': 'Custom',
+        'duration': 45,
+        'exercises': <Map<String, dynamic>>[],
+      });
+      _selectedBuilderDayIndex = _builderSchedule.length - 1;
+    });
+  }
+
+  void _removeBuilderDay(int idx) {
+    setState(() {
+      _builderSchedule.removeAt(idx);
+      if (_selectedBuilderDayIndex >= _builderSchedule.length) {
+        _selectedBuilderDayIndex = (_builderSchedule.length - 1).clamp(0, 999);
+      }
+    });
+  }
+
+  void _addExerciseToBuilderDay() {
+    final item = WorkoutTemplates.exerciseDatabase
+        .where((e) => e.name == _selectedDbExerciseName)
+        .firstOrNull;
+    if (item == null || _builderSchedule.isEmpty) return;
+    setState(() {
+      final day = _builderSchedule[_selectedBuilderDayIndex];
+      (day['exercises'] as List).add({
+        'name': item.name,
+        'sets': item.sets,
+        'reps': item.reps,
+        'rest': item.restSeconds,
+        'targetMuscle': item.targetMuscle,
+      });
+    });
+  }
+
+  void _saveBuilderPlan() {
+    if (_builderSchedule.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Add at least one day to your custom split.')),
+      );
+      return;
+    }
+    setState(() => _isSplitBuilderOpen = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Saved "${_builderTitle.isEmpty ? "Custom Split" : _builderTitle}" with ${_builderSchedule.length} days')),
+    );
+  }
+
+  // === Video Tutorial Player Modal ===
+  Widget _buildTutorialPlayerModal() {
+    final ex = _activeTutorialExercise!;
+    final e = ex.exercise;
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
+          constraints: const BoxConstraints(maxHeight: 600),
+          decoration: BoxDecoration(
+            color: FitnColors.cream,
+            border: Border.all(color: FitnColors.ink, width: 1),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text('FORM TUTORIAL',
+                        style: FitnText.microLabel),
+                  ),
+                  IconButton(
+                    icon: Icon(LucideIcons.x, size: 16),
+                    onPressed: () =>
+                        setState(() => _activeTutorialExercise = null),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(e.name, style: FitnText.headline.copyWith(fontSize: 18)),
+              const SizedBox(height: 12),
+              // Video player mock.
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (e.videoThumbnail != null &&
+                        e.videoThumbnail!.isNotEmpty)
+                      Image.network(e.videoThumbnail!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Container(
+                              color: FitnColors.ink05,
+                              child: Icon(LucideIcons.video, size: 48, color: FitnColors.ink40)))
+                    else
+                      Container(
+                          color: FitnColors.ink05,
+                          child: Icon(LucideIcons.video, size: 48, color: FitnColors.ink40)),
+                    // Play/pause button.
+                    GestureDetector(
+                      onTap: () =>
+                          setState(() => _isVideoPlaying = !_isVideoPlaying),
+                      child: Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
+                          color: FitnColors.accent,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          _isVideoPlaying ? LucideIcons.pause : LucideIcons.play,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                    // Mute button (top-right).
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () =>
+                            setState(() => _tutorialMuted = !_tutorialMuted),
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            _tutorialMuted
+                                ? LucideIcons.volumeX
+                                : LucideIcons.volume2,
+                            color: Colors.white,
+                            size: 14,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
+              // Progress bar.
+              ClipRRect(
+                child: LinearProgressIndicator(
+                  value: _videoProgress / 100,
+                  minHeight: 4,
+                  color: FitnColors.accent,
+                  backgroundColor: FitnColors.ink10,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text('INSTRUCTION', style: FitnText.microLabel),
+              const SizedBox(height: 4),
+              Text(e.overview, style: FitnText.body),
+              const SizedBox(height: 12),
+              Text('FORM STEPS', style: FitnText.microLabel),
+              const SizedBox(height: 6),
+              ...e.instructions.asMap().entries.map((entry) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 6),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 20,
+                        height: 20,
+                        decoration: const BoxDecoration(
+                          color: FitnColors.ink,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: Text('${entry.key + 1}',
+                            style: GoogleFonts.inter(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white)),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(entry.value, style: FitnText.body)),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
@@ -183,6 +773,23 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
                       style: FitnText.serifItalic.copyWith(fontSize: 11),
                     ),
                   ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () => setState(() => _isProgramSelectorOpen = true),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: FitnColors.fill,
+                    border: Border.all(color: FitnColors.ink15, width: 1),
+                  ),
+                  child: Text('PROGRAMS',
+                      style: GoogleFonts.inter(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.0,
+                          color: FitnColors.ink)),
                 ),
               ),
             ],
@@ -271,13 +878,53 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
             Text('ACTIVE SPLITS SCHEDULE', style: FitnText.microLabel),
           ],
         ),
-        Text('Customize Split / From Scratch',
-            style: GoogleFonts.inter(
-                fontSize: 9,
-                fontWeight: FontWeight.w700,
-                color: FitnColors.accent)),
+        GestureDetector(
+          onTap: () {
+            _initBuilder();
+            setState(() => _isSplitBuilderOpen = true);
+          },
+          child: Row(
+            children: [
+              Icon(LucideIcons.sliders, size: 12, color: FitnColors.accent),
+              const SizedBox(width: 4),
+              Text('CUSTOMIZE SPLIT / FROM SCRATCH',
+                  style: GoogleFonts.inter(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                      color: FitnColors.accent)),
+            ],
+          ),
+        ),
       ],
     );
+  }
+
+  void _initBuilder() {
+    final plan = ref.read(appNotifierProvider).valueOrNull?.activePlan;
+    if (plan == null) return;
+    _builderSchedule.clear();
+    for (final meso in plan.training.mesocycles) {
+      for (final micro in meso.microcycles) {
+        for (final w in micro.workouts) {
+          _builderSchedule.add({
+            'name': w.name,
+            'focus': w.focus,
+            'duration': w.estimatedDurationMin,
+            'exercises': w.exercises.map((e) => {
+                  'name': e.exercise.name,
+                  'sets': e.sets,
+                  'reps': e.reps,
+                  'rest': e.restSec,
+                  'targetMuscle': e.exercise.muscleGroups.isNotEmpty
+                      ? e.exercise.muscleGroups.first
+                      : '',
+                }).toList(),
+          });
+        }
+      }
+    }
+    _builderTitle = plan.training.splitType.display;
+    _builderDescription = 'Custom tailored split schedule.';
   }
 
   Widget _buildDaySelector(List<Workout> workouts) {
@@ -695,18 +1342,12 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
   }
 
   void _showTutorialModal(WorkoutExercise ex) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: FitnColors.cream,
-      builder: (context) => DraggableScrollableSheet(
-        initialChildSize: 0.85,
-        minChildSize: 0.5,
-        maxChildSize: 0.95,
-        expand: false,
-        builder: (context, controller) => _TutorialSheet(exercise: ex),
-      ),
-    );
+    setState(() {
+      _activeTutorialExercise = ex;
+      _videoProgress = 15;
+      _isVideoPlaying = true;
+      _tutorialMuted = false;
+    });
   }
 }
 
