@@ -31,7 +31,7 @@ class ProfileTab extends ConsumerWidget {
     final auth = appState?.auth;
 
     if (profile == null) {
-      return const Center(child: Text('No profile yet.'));
+      return Center(child: Text('No profile yet.'));
     }
 
     final macros = plan?.nutrition.macros;
@@ -261,7 +261,7 @@ class ProfileTab extends ConsumerWidget {
                   ),
                   const SizedBox(height: 12),
                   if (orders.isEmpty)
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Center(
                         child: Text(

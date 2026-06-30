@@ -1,14 +1,32 @@
-/// Engine data loader. Loads all JSON data files from `assets/`.
+/// Engine data container + loader. Loads all JSON data files from `assets/`.
 library;
 
 import 'dart:convert';
 import 'dart:io';
 
-import '../fitn_engine.dart';
-import '../src/training/exercise_library.dart';
-import '../src/training/split_designs.dart';
-import '../src/meal_plan/food_database.dart';
-import '../src/meal_plan/recipe_loader.dart';
+import 'models/training.dart';
+import 'models/meal.dart';
+import 'training/exercise_library.dart';
+import 'training/split_designs.dart';
+import 'meal_plan/food_database.dart';
+import 'meal_plan/recipe_loader.dart';
+
+/// Engine data container — bundles all loaded data needed by [FitnEngine].
+class EngineData {
+  EngineData({
+    required this.exercises,
+    required this.splits,
+    required this.movementPatterns,
+    required this.recipes,
+    required this.foodDatabase,
+  });
+
+  final List<Exercise> exercises;
+  final List<SplitDesign> splits;
+  final Map<String, MovementPatternSpec> movementPatterns;
+  final List<Recipe> recipes;
+  final Map<String, FoodItem> foodDatabase;
+}
 
 /// Load engine data from the assets directory.
 ///
@@ -22,7 +40,7 @@ Future<EngineData> loadEngineData({String? basePath}) async {
     if (basePath != null) basePath,
     '${Directory.current.path}/assets',
     '${Directory.current.path}/fitn_engine/assets',
-    '${Platform.script.resolve('assets').path}',
+    Platform.script.resolve('assets').path,
   ];
 
   String? assetDir;
@@ -87,11 +105,16 @@ Future<EngineData> loadEngineData({String? basePath}) async {
     prePostJson: prePostJson,
   );
 
+  final foodMap = <String, FoodItem>{};
+  for (final f in foodDb.all) {
+    foodMap[f.slug] = f;
+  }
+
   return EngineData(
     exercises: exerciseLibrary.all,
     splits: splits,
     movementPatterns: patterns,
     recipes: recipeLibrary.all,
-    foodDatabase: {for (final f in foodDb.all) f.slug: f},
+    foodDatabase: foodMap,
   );
 }

@@ -4,7 +4,7 @@
 /// logs, and exercise set logs (for advanced analytics).
 library;
 
-import 'collections.dart';
+import 'isar/collections/collections.dart';
 
 class MealProduct {
   MealProduct({

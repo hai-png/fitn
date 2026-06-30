@@ -45,20 +45,21 @@ class FitnColors {
   static const Color warning = Color(0xFFCA8A04);
 
   // Ink opacity helpers.
-  static Color ink40 = const Color(0xFF1A1A1A).withValues(alpha: 0.40);
-  static Color ink50 = const Color(0xFF1A1A1A).withValues(alpha: 0.50);
-  static Color ink60 = const Color(0xFF1A1A1A).withValues(alpha: 0.60);
-  static Color ink70 = const Color(0xFF1A1A1A).withValues(alpha: 0.70);
-  static Color ink80 = const Color(0xFF1A1A1A).withValues(alpha: 0.80);
-  static Color ink05 = const Color(0xFF1A1A1A).withValues(alpha: 0.05);
-  static Color ink10 = const Color(0xFF1A1A1A).withValues(alpha: 0.10);
-  static Color ink15 = const Color(0xFF1A1A1A).withValues(alpha: 0.15);
-  static Color ink30 = const Color(0xFF1A1A1A).withValues(alpha: 0.30);
+  static Color ink40 = const Color(0xFF1A1A1A).withOpacity(0.40);
+  static Color ink50 = const Color(0xFF1A1A1A).withOpacity(0.50);
+  static Color ink60 = const Color(0xFF1A1A1A).withOpacity(0.60);
+  static Color ink70 = const Color(0xFF1A1A1A).withOpacity(0.70);
+  static Color ink80 = const Color(0xFF1A1A1A).withOpacity(0.80);
+  static Color ink05 = const Color(0xFF1A1A1A).withOpacity(0.05);
+  static Color ink10 = const Color(0xFF1A1A1A).withOpacity(0.10);
+  static Color ink15 = const Color(0xFF1A1A1A).withOpacity(0.15);
+  static Color ink20 = const Color(0xFF1A1A1A).withOpacity(0.20);
+  static Color ink30 = const Color(0xFF1A1A1A).withOpacity(0.30);
 
-  static Color accent05 = const Color(0xFFE63946).withValues(alpha: 0.05);
-  static Color accent10 = const Color(0xFFE63946).withValues(alpha: 0.10);
-  static Color accent15 = const Color(0xFFE63946).withValues(alpha: 0.15);
-  static Color accent20 = const Color(0xFFE63946).withValues(alpha: 0.20);
+  static Color accent05 = const Color(0xFFE63946).withOpacity(0.05);
+  static Color accent10 = const Color(0xFFE63946).withOpacity(0.10);
+  static Color accent15 = const Color(0xFFE63946).withOpacity(0.15);
+  static Color accent20 = const Color(0xFFE63946).withOpacity(0.20);
 }
 
 class FitnText {
@@ -169,7 +170,7 @@ class FitnTheme {
           color: FitnColors.ink,
         ),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: Colors.white,
         elevation: 0,
         margin: EdgeInsets.zero,
@@ -228,7 +229,7 @@ class FitnTheme {
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Colors.white.withValues(alpha: 0.95),
+        backgroundColor: Colors.white.withOpacity(0.95),
         selectedItemColor: FitnColors.accent,
         unselectedItemColor: FitnColors.ink40,
         type: BottomNavigationBarType.fixed,
@@ -299,7 +300,7 @@ class FitnCard extends StatelessWidget {
             boxShadow: showShadow
                 ? [
                     BoxShadow(
-                      color: FitnColors.ink.withValues(alpha: 0.04),
+                      color: FitnColors.ink.withOpacity(0.04),
                       blurRadius: 4,
                       offset: const Offset(0, 1),
                     ),

@@ -46,7 +46,7 @@ class _AppShellState extends ConsumerState<AppShell> {
   Widget build(BuildContext context) {
     final appAsync = ref.watch(appNotifierProvider);
     final appState = appAsync.valueOrNull;
-    final activeTab = appState?.activeTab ?? Tab.training;
+    final activeTab = appState?.activeTab ?? FitnTab.training;
     final hasPlan = appState?.hasOnboarded ?? false;
 
     return Scaffold(
@@ -100,7 +100,7 @@ class _AppShellState extends ConsumerState<AppShell> {
               // Body — tab content.
               Expanded(
                 child: IndexedStack(
-                  index: Tab.values.indexOf(activeTab),
+                  index: FitnTab.values.indexOf(activeTab),
                   children: const [
                     TrainingTab(),
                     MealsTab(),
@@ -114,7 +114,7 @@ class _AppShellState extends ConsumerState<AppShell> {
               if (hasPlan)
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.95),
+                    color: Colors.white.withOpacity(0.95),
                     border: Border(
                         top: BorderSide(color: FitnColors.ink10, width: 1)),
                   ),
@@ -124,7 +124,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       _TabButton(
-                        tab: Tab.training,
+                        tab: FitnTab.training,
                         icon: LucideIcons.dumbbell,
                         label: 'Training',
                         activeTab: activeTab,
@@ -133,7 +133,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                             .setActiveTab(t),
                       ),
                       _TabButton(
-                        tab: Tab.meals,
+                        tab: FitnTab.meals,
                         icon: LucideIcons.utensilsCrossed,
                         label: 'Meals Prep',
                         activeTab: activeTab,
@@ -142,7 +142,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                             .setActiveTab(t),
                       ),
                       _TabButton(
-                        tab: Tab.progress,
+                        tab: FitnTab.progress,
                         icon: LucideIcons.activity,
                         label: 'Logs',
                         activeTab: activeTab,
@@ -151,7 +151,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                             .setActiveTab(t),
                       ),
                       _TabButton(
-                        tab: Tab.marketplace,
+                        tab: FitnTab.marketplace,
                         icon: LucideIcons.shoppingBag,
                         label: 'Store',
                         activeTab: activeTab,
@@ -160,7 +160,7 @@ class _AppShellState extends ConsumerState<AppShell> {
                             .setActiveTab(t),
                       ),
                       _TabButton(
-                        tab: Tab.profile,
+                        tab: FitnTab.profile,
                         icon: LucideIcons.user,
                         label: 'Profile',
                         activeTab: activeTab,
@@ -188,11 +188,11 @@ class _TabButton extends StatelessWidget {
     required this.onTap,
   });
 
-  final Tab tab;
+  final FitnTab tab;
   final IconData icon;
   final String label;
-  final Tab activeTab;
-  final void Function(Tab) onTap;
+  final FitnTab activeTab;
+  final void Function(FitnTab) onTap;
 
   @override
   Widget build(BuildContext context) {

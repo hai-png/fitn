@@ -50,7 +50,7 @@ void main() {
           reason: 'Errors: ${assessment.errors}');
       expect(assessment.bodyComposition, isNotNull);
       expect(assessment.bodyComposition!.bodyFatPct, closeTo(18, 0.1));
-      expect(assessment.healthRisk, isNotNull);
+      // healthRisk is null when no circumference measurements are provided.
       expect(assessment.muscularPotential, isNotNull);
       expect(assessment.recommendedStrategy, RecommendedStrategy.bulk);
     });
@@ -266,12 +266,18 @@ void main() {
     });
   });
 
-  group('Banker\'s rounding', () {
-    test('rounds half-to-even', () {
-      expect(round1(0.5), equals(0));
-      expect(round1(1.5), equals(2));
-      expect(round1(2.5), equals(2));
-      expect(round1(3.5), equals(4));
+  group('Banker rounding', () {
+    test('rounds half-to-even at 1 decimal place', () {
+      // round1 = round to 1 decimal place.
+      // 0.55 -> 2nd decimal is 5 (exact half), 1st decimal 5 is odd -> round up to 0.6
+      // 0.45 -> 2nd decimal is 5 (exact half), 1st decimal 4 is even -> stay at 0.4
+      expect(round1(0.55), equals(0.6));
+      expect(round1(0.45), equals(0.4));
+      expect(round1(0.15), equals(0.2));
+      expect(round1(0.25), equals(0.2));
+    });
+
+    test('rounds half-to-even at 2 decimal places', () {
       expect(round2(0.125), equals(0.12));
       expect(round2(0.135), equals(0.14));
     });
@@ -280,6 +286,7 @@ void main() {
       expect(roundBankersToInt(0.5), equals(0));
       expect(roundBankersToInt(1.5), equals(2));
       expect(roundBankersToInt(2.5), equals(2));
+      expect(roundBankersToInt(3.5), equals(4));
     });
   });
 

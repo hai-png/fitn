@@ -4,7 +4,7 @@ library;
 
 import '../models/training.dart';
 import '../models/enums.dart';
-import '../exercise_library.dart';
+import 'exercise_library.dart';
 
 /// Classify an exercise into a category (compound primary/secondary/accessory).
 ExerciseCategory classifyExercise(Exercise e) {
@@ -51,7 +51,7 @@ String? detectMovementPattern(Exercise e, Map<String, MovementPatternSpec> patte
       final kw = keyword.toLowerCase();
       // Slug match wins 100 + length.
       if (slugLower.contains(kw)) {
-        final score = 100 + kw.length;
+        final score = (100 + kw.length).toDouble();
         if (score > bestScore) {
           bestScore = score;
           best = patternName;
@@ -73,9 +73,9 @@ String? detectMovementPattern(Exercise e, Map<String, MovementPatternSpec> patte
 
   // Force-type fallback.
   final forceLower = e.forceType.toLowerCase();
-  final forceRoot = forceRoot(forceLower);
+  final root = forceRoot(forceLower);
   for (final entry in patterns.entries) {
-    if (entry.value.family == forceRoot) {
+    if (entry.value.family == root) {
       return entry.key;
     }
   }

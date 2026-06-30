@@ -3,6 +3,8 @@ library;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/env.dart';
@@ -12,7 +14,7 @@ class AppBootstrap {
   AppBootstrap._();
 
   /// Initialize everything that needs to happen before runApp.
-  static Future<Container> init() async {
+  static Future<ProviderContainer> init() async {
     final container = ProviderContainer();
 
     // Initialize Supabase (only if configured).

@@ -5,10 +5,12 @@ import 'assessment.dart';
 import 'meal.dart';
 import 'nutrition.dart';
 import 'training.dart';
-import '../version.dart';
+import '../version.dart' as ver;
 
 import '../models/profile.dart';
 import '../models/preferences.dart';
+
+const String _engineVersion = ver.engineVersion;
 
 class FitnessPlan {
   FitnessPlan({
@@ -41,7 +43,7 @@ class FitnessPlan {
           TrainingPlan.fromJson(json['training'] as Map<String, dynamic>),
       meal: MealPlan.fromJson(json['meal'] as Map<String, dynamic>),
       summary: json['summary'] as String,
-      engineVersion: json['engine_version'] as String? ?? engineVersion,
+      engineVersion: json['engine_version'] as String? ?? _engineVersion,
     );
   }
 }

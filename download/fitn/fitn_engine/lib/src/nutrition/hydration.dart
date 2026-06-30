@@ -15,6 +15,7 @@ import '../models/enums.dart';
 import '../models/profile.dart';
 import '../models/nutrition.dart';
 import '../utils/round.dart';
+import '../utils/units.dart';
 
 /// Compute hydration.
 ///

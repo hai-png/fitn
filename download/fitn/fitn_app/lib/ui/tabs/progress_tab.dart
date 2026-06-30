@@ -107,7 +107,7 @@ class _ProgressTabState extends ConsumerState<ProgressTab> {
                       ),
                     )
                   else
-                    const SizedBox(
+                    SizedBox(
                       height: 120,
                       child: Center(
                         child: Text('Log your weight to see the chart',
@@ -212,7 +212,7 @@ class _ProgressTabState extends ConsumerState<ProgressTab> {
                   ),
                   const SizedBox(height: 12),
                   if (workoutLogs.isEmpty)
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: Center(
                         child: Text('No workouts logged yet',

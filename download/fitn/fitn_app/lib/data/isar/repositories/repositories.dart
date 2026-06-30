@@ -8,8 +8,9 @@ library;
 
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/extensions.dart';
 
-import 'collections/collections.dart';
+import '../collections/collections.dart';
 
 class _LocalStorage {
   static SharedPreferences? _prefs;

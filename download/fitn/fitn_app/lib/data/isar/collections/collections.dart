@@ -13,6 +13,7 @@
 library;
 
 import 'dart:convert';
+import '../../../core/extensions.dart';
 
 class ProfileRecord {
   ProfileRecord({

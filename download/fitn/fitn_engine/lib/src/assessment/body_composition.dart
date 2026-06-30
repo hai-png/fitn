@@ -116,40 +116,37 @@ double _targetAt(double lbm, double targetBf) {
 ///
 /// Returns null only if [UserProfile.bodyFatPct] is invalid (out of [2, 60]) —
 /// the 3-method priority order otherwise always produces a result.
+/// Throws on internal computation errors (caught by the assessor).
 BodyComposition? assessBodyComposition(UserProfile profile) {
-  try {
-    final selection = _selectBodyFatPct(profile);
-    if (selection == null) return null;
+  final selection = _selectBodyFatPct(profile);
+  if (selection == null) return null;
 
-    final bfPct = selection.bodyFatPct;
-    final lbm = leanBodyMassKg(profile.weightKg, bfPct);
-    final fm = fatMassKg(profile.weightKg, bfPct);
-    final bmiVal = profile.bmi;
-    final ffmi = _computeFfmi(profile.weightKg, bfPct, profile.heightM);
+  final bfPct = selection.bodyFatPct;
+  final lbm = leanBodyMassKg(profile.weightKg, bfPct);
+  final fm = fatMassKg(profile.weightKg, bfPct);
+  final bmiVal = profile.bmi;
+  final ffmi = _computeFfmi(profile.weightKg, bfPct, profile.heightM);
 
-    final targets = _targetWeightsKg(profile.weightKg, bfPct, profile.sex);
+  final targets = _targetWeightsKg(profile.weightKg, bfPct, profile.sex);
 
-    final notes = <String>[];
-    notes.add('Body fat method: ${selection.method.display}');
-    notes.add(
-        'Lean mass ${round1(lbm)} kg, fat mass ${round1(fm)} kg');
-    notes.add(
-        'FFMI ${round1(ffmi.ffmi)}, normalized ${round1(ffmi.normalizedFfmi)}');
+  final notes = <String>[];
+  notes.add('Body fat method: ${selection.method.display}');
+  notes.add(
+      'Lean mass ${round1(lbm)} kg, fat mass ${round1(fm)} kg');
+  notes.add(
+      'FFMI ${round1(ffmi.ffmi)}, normalized ${round1(ffmi.normalizedFfmi)}');
 
-    return BodyComposition(
-      bodyFatPct: round1(bfPct),
-      bodyFatMethod: selection.method,
-      bodyFatCategory: bodyFatCategory(bfPct, profile.sex),
-      leanBodyMassKg: round1(lbm),
-      fatMassKg: round1(fm),
-      bmi: round1(bmiVal),
-      bmiCategory: bmiCategory(bmiVal),
-      ffmi: round1(ffmi.ffmi),
-      normalizedFfmi: round1(ffmi.normalizedFfmi),
-      targetWeightsKg: targets,
-      notes: notes,
-    );
-  } catch (e) {
-    return null;
-  }
+  return BodyComposition(
+    bodyFatPct: round1(bfPct),
+    bodyFatMethod: selection.method,
+    bodyFatCategory: bodyFatCategory(bfPct, profile.sex),
+    leanBodyMassKg: round1(lbm),
+    fatMassKg: round1(fm),
+    bmi: round1(bmiVal),
+    bmiCategory: bmiCategory(bmiVal),
+    ffmi: round1(ffmi.ffmi),
+    normalizedFfmi: round1(ffmi.normalizedFfmi),
+    targetWeightsKg: targets,
+    notes: notes,
+  );
 }

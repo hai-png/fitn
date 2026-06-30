@@ -111,8 +111,8 @@ const int minAcceptableScore = 60;
 
 // === Periodization (§9.12) ===
 
-const double deloadSetsMultiplier = 0.5;
-const double deloadRpeDelta = -1.5;
+// Note: deloadSetsMultiplier and deloadRpeDelta are defined in
+// training/periodization.dart to avoid duplicate exports.
 
 // === Helper functions ===
 

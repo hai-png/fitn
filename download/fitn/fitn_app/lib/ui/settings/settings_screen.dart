@@ -9,6 +9,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/env.dart';
 import '../../data/prefs/app_state_provider.dart';
 import '../../state/app_state.dart';
+import '../../data/supabase/sync/sync_service.dart';
 import '../../ui/theme/fitn_design.dart';
 
 class SettingsScreen extends ConsumerWidget {

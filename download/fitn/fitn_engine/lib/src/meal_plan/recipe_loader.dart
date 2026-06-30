@@ -231,8 +231,12 @@ Future<RecipeLibrary> loadRecipeLibraryFromFiles({
   String? uncuratedPath,
   String? prePostPath,
 }) async {
-  String? read(String? path) =>
-      path == null ? null : (await File(path).readAsString());
+  Future<String?> read(String? path) async {
+    if (path == null) return null;
+    final file = File(path);
+    if (!await file.exists()) return null;
+    return await file.readAsString();
+  }
   return loadRecipeLibrary(
     curatedJson: await read(curatedPath),
     uncuratedJson: await read(uncuratedPath),

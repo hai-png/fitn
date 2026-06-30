@@ -71,12 +71,20 @@ export 'src/meal_plan/food_database.dart';
 export 'src/meal_plan/allergen_constants.dart';
 export 'src/meal_plan/meal_templates.dart';
 
+// Utils.
+export 'src/utils/round.dart';
+export 'src/utils/units.dart';
+export 'src/utils/enum_helpers.dart';
+
 import 'dart:io';
 
 import 'src/models/enums.dart';
 import 'src/models/profile.dart';
 import 'src/models/preferences.dart';
 import 'src/models/assessment.dart';
+import 'src/models/nutrition.dart';
+import 'src/models/training.dart';
+import 'src/models/meal.dart';
 import 'src/models/fitness_plan.dart';
 import 'src/errors.dart';
 import 'src/version.dart';
@@ -218,19 +226,4 @@ class FitnEngine {
   }
 }
 
-/// Engine data container.
-class EngineData {
-  EngineData({
-    required this.exercises,
-    required this.splits,
-    required this.movementPatterns,
-    required this.recipes,
-    required this.foodDatabase,
-  });
-
-  final List<Exercise> exercises;
-  final List<SplitDesign> splits;
-  final Map<String, MovementPatternSpec> movementPatterns;
-  final List<Recipe> recipes;
-  final Map<String, FoodItem> foodDatabase;
-}
+// EngineData is defined in src/engine_data.dart and re-exported above.

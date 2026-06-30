@@ -19,7 +19,7 @@ import '../engine/engine_provider.dart';
 
 // === Tab enum (matches fitness-app: Training, Meals Prep, Logs, Store, Profile) ===
 
-enum Tab { training, meals, progress, marketplace, profile }
+enum FitnTab { training, meals, progress, marketplace, profile }
 
 // === Auth state ===
 
@@ -45,7 +45,7 @@ class AppState {
   const AppState({
     this.hydrated = false,
     this.hasOnboarded = false,
-    this.activeTab = Tab.training,
+    this.activeTab = FitnTab.training,
     this.planGenerating = false,
     this.planError,
     this.planStale = false,
@@ -68,7 +68,7 @@ class AppState {
 
   final bool hydrated;
   final bool hasOnboarded;
-  final Tab activeTab;
+  final FitnTab activeTab;
   final bool planGenerating;
   final String? planError;
   final bool planStale;
@@ -101,7 +101,7 @@ class AppState {
   AppState copyWith({
     bool? hydrated,
     bool? hasOnboarded,
-    Tab? activeTab,
+    FitnTab? activeTab,
     bool? planGenerating,
     String? planError,
     bool? planStale,
@@ -218,7 +218,7 @@ class AppNotifier extends AsyncNotifier<AppState> {
     );
   }
 
-  Future<void> setActiveTab(Tab tab) async {
+  Future<void> setActiveTab(FitnTab tab) async {
     state = AsyncData(state.value!.copyWith(activeTab: tab));
   }
 
@@ -326,7 +326,7 @@ class AppNotifier extends AsyncNotifier<AppState> {
         activePlanId: planId,
         planHistory: allPlans,
         planGenerating: false,
-        activeTab: Tab.training,
+        activeTab: FitnTab.training,
         weightLogs: weights,
       ));
       await _enqueueSync('upsert_plan', planId, 'PlanRecord');
@@ -492,7 +492,7 @@ class AppNotifier extends AsyncNotifier<AppState> {
   void resetOnboarding() {
     state = AsyncData(state.value!.copyWith(
       hasOnboarded: false,
-      activeTab: Tab.training,
+      activeTab: FitnTab.training,
       cart: const [],
       orders: const [],
       waterLogs: const [],
@@ -674,7 +674,7 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<void> signInWithOAuth(String provider) async {
     final client = Supabase.instance.client;
     await client.auth.signInWithOAuth(
-      OAuthProvider.parse(provider),
+      OAuthProvider.values.firstWhere((e) => e.name == provider),
       redirectTo: 'com.fitn.app://auth/callback',
     );
   }

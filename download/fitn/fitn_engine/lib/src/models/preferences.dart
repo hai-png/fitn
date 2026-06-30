@@ -4,7 +4,7 @@ library;
 import 'enums.dart';
 
 class PlanPreferences {
-  const PlanPreferences({
+  PlanPreferences({
     this.exerciseHoursPerDay = 1.0,
     this.exerciseIntensity = ExerciseIntensity.moderate,
     this.climate = Climate.temperate,

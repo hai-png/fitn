@@ -10,8 +10,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:workmanager/workmanager.dart';
 
-import '../../core/env.dart';
-import '../isar/repositories/repositories.dart';
+import '../../../core/env.dart';
+import '../../isar/repositories/repositories.dart';
+import '../../isar/collections/collections.dart';
 
 final syncProvider = NotifierProvider<SyncNotifier, SyncState>(SyncNotifier.new);
 

@@ -6,7 +6,7 @@ import 'domain_types.dart';
 class MealProducts {
   MealProducts._();
 
-  static const List<MealProduct> all = [
+  static List<MealProduct> all = [
     MealProduct(
       id: 'meal-1',
       name: 'Flame-Grilled Angus Steak & Asparagus',
@@ -125,7 +125,7 @@ class MealProducts {
 class MarketplaceProducts {
   MarketplaceProducts._();
 
-  static const List<MarketplaceProduct> all = [
+  static List<MarketplaceProduct> all = [
     // APPAREL
     MarketplaceProduct(
       id: 'prod-apparel-1',

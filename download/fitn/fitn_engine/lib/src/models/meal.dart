@@ -124,7 +124,7 @@ class Recipe {
           .toList(),
       nutritionPerServing:
           (json['nutrition_per_serving'] as Map).map((k, v) =>
-              MapEntry(k as String, (v as num).toDouble())),
+              MapEntry(k as String, (v as num?)?.toDouble() ?? 0.0)),
       nutritionSource: json['nutrition_source'] as String? ?? 'published',
       proteinDensity: json['protein_density'] as String? ?? 'medium',
       calorieDensity: json['calorie_density'] as String? ?? 'medium',
@@ -262,6 +262,13 @@ class Meal {
   final double actualFatG;
   final String selectionReason;
   final List<String> notes;
+
+  /// Computed: total fiber from scaled recipe + fillers.
+  double get actualFiberG {
+    final scaledFiber = scaledNutrition['fiber_g'] ?? 0;
+    final fillersFiber = foods.fold(0.0, (s, f) => s + f.fiberG);
+    return scaledFiber + fillersFiber;
+  }
 
   Map<String, dynamic> toJson() => {
         'meal_type': mealType.toJson(),
