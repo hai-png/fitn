@@ -16,8 +16,8 @@ import 'package:fitn_engine/fitn_engine.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../data/catalog.dart';
 import '../../data/domain_types.dart';
+import '../../engine/engine_provider.dart';
 import '../../state/app_state.dart';
 import '../../ui/theme/fitn_design.dart';
 
@@ -46,13 +46,16 @@ class _MealsTabState extends ConsumerState<MealsTab> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _generatePlan());
   }
 
-  void _generatePlan() {
+  void _generatePlan() async {
     final appState = ref.read(appNotifierProvider).valueOrNull;
     final diet = _mapDiet(appState?.profile?.dietType ?? DietType.omnivore);
-    final allergies = (appState?.preferences?.allergensToAvoid ?? const [])
-        .join(',')
-        .toLowerCase();
-    final eligible = _eligibleMeals(diet, allergies);
+    final allergies =
+        (appState?.preferences?.allergensToAvoid ?? const []).join(',').toLowerCase();
+
+    // Load recipes from the engine's recipe database (~225 recipes).
+    final allRecipes = await ref.read(engineMealRecipesProvider.future);
+    final eligible = _eligibleMeals(allRecipes, diet, allergies);
+
     final slots = _mealsPerDay == 3
         ? ['Breakfast', 'Lunch', 'Dinner']
         : ['Lunch', 'Dinner'];
@@ -74,14 +77,22 @@ class _MealsTabState extends ConsumerState<MealsTab> {
         DietType.omnivore => 'anything',
       };
 
-  List<MealProduct> _eligibleMeals(String diet, String allergies) {
-    var filtered = MealProducts.all.where((m) {
+  /// Filter the engine's recipe database by diet type and allergens.
+  List<MealProduct> _eligibleMeals(
+      List<MealProduct> allRecipes, String diet, String allergies) {
+    var filtered = allRecipes.where((m) {
       if (diet == 'vegan') return m.category == 'vegan';
-      if (diet == 'vegetarian') return m.category == 'vegetarian' || m.category == 'vegan';
+      if (diet == 'vegetarian') {
+        return m.category == 'vegetarian' || m.category == 'vegan';
+      }
       return true;
     }).toList();
     if (allergies.isNotEmpty) {
-      final allergens = allergies.split(',').map((a) => a.trim()).where((a) => a.isNotEmpty).toList();
+      final allergens = allergies
+          .split(',')
+          .map((a) => a.trim())
+          .where((a) => a.isNotEmpty)
+          .toList();
       final safe = filtered.where((m) {
         return !allergens.any((a) =>
             m.name.toLowerCase().contains(a) ||
@@ -89,7 +100,7 @@ class _MealsTabState extends ConsumerState<MealsTab> {
       }).toList();
       if (safe.isNotEmpty) filtered = safe;
     }
-    return filtered.isEmpty ? MealProducts.all : filtered;
+    return filtered.isEmpty ? allRecipes : filtered;
   }
 
   void _swapMeal(MealProduct replacement) {
@@ -424,7 +435,9 @@ class _MealsTabState extends ConsumerState<MealsTab> {
   Widget _buildSwapModal() {
     final diet = _mapDiet(ref.read(appNotifierProvider).valueOrNull?.profile?.dietType ?? DietType.omnivore);
     final allergies = (ref.read(appNotifierProvider).valueOrNull?.preferences?.allergensToAvoid ?? const []).join(',').toLowerCase();
-    final eligible = _eligibleMeals(diet, allergies);
+    // Load eligible recipes from engine asynchronously — use the cached
+    // provider value if available, otherwise show a loading state.
+    final recipesAsync = ref.watch(engineMealRecipesProvider);
     return Container(
       color: Colors.black54,
       child: Center(
@@ -454,12 +467,23 @@ class _MealsTabState extends ConsumerState<MealsTab> {
               ),
               const SizedBox(height: 12),
               Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: eligible.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (context, idx) {
-                    final m = eligible[idx];
+                child: recipesAsync.when(
+                  loading: () => const Center(
+                      child: CircularProgressIndicator(
+                          color: FitnColors.accent)),
+                  error: (e, _) => Center(
+                      child: Text('Error loading recipes: $e',
+                          style: FitnText.serifItalic)),
+                  data: (allRecipes) {
+                    final eligible =
+                        _eligibleMeals(allRecipes, diet, allergies);
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: eligible.length,
+                      separatorBuilder: (_, __) =>
+                          const SizedBox(height: 8),
+                      itemBuilder: (context, idx) {
+                        final m = eligible[idx];
                     return InkWell(
                       onTap: () => _swapMeal(m),
                       child: Container(
@@ -495,6 +519,8 @@ class _MealsTabState extends ConsumerState<MealsTab> {
                         ),
                       ),
                     );
+                  },
+                );
                   },
                 ),
               ),

@@ -17,7 +17,8 @@ import 'package:fitn_engine/fitn_engine.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import '../../data/workout_templates.dart';
+import '../../engine/engine_provider.dart';
+import "../../data/workout_templates.dart";
 import '../../state/app_state.dart';
 import '../../ui/theme/fitn_design.dart';
 
@@ -405,123 +406,135 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
                       ),
               ),
               const SizedBox(height: 8),
-              // Exercise DB picker.
-              Container(
-                padding: const EdgeInsets.all(8),
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('ADD EXERCISE', style: FitnText.microLabel),
-                    const SizedBox(height: 6),
-                    SizedBox(
-                      height: 32,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: WorkoutTemplates.categories.map((c) {
-                          final selected = _selectedDbCategory == c;
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: GestureDetector(
-                              onTap: () => setState(() {
-                                _selectedDbCategory = c;
-                                final filtered = WorkoutTemplates
-                                    .exerciseDatabase
-                                    .where((e) =>
-                                        e.targetMuscle == c ||
-                                        (c == 'Back' && [
-                                          'Lats',
-                                          'Mid Back',
-                                          'Upper Back'
-                                        ].contains(e.targetMuscle)) ||
-                                        (c == 'Legs' && [
-                                          'Quads',
-                                          'Hamstrings'
-                                        ].contains(e.targetMuscle)))
-                                    .toList();
-                                if (filtered.isNotEmpty) {
-                                  _selectedDbExerciseName = filtered.first.name;
-                                }
-                              }),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 6),
-                                color: selected
-                                    ? FitnColors.ink
-                                    : FitnColors.ink05,
-                                child: Text(c.toUpperCase(),
-                                    style: GoogleFonts.inter(
-                                        fontSize: 8,
-                                        fontWeight: FontWeight.w700,
-                                        color: selected
-                                            ? Colors.white
-                                            : FitnColors.ink60)),
+              // Exercise DB picker — uses engine's 1,217-exercise database.
+              Consumer(builder: (context, ref, _) {
+                final categoriesAsync =
+                    ref.watch(engineMuscleCategoriesProvider);
+                final exercisesAsync =
+                    ref.watch(exercisesByMuscleProvider(_selectedDbCategory));
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('ADD EXERCISE (FROM 1,217-EXERCISE DB)',
+                          style: FitnText.microLabel),
+                      const SizedBox(height: 6),
+                      // Category chips (dynamic from engine).
+                      categoriesAsync.when(
+                        loading: () => const SizedBox(
+                            height: 32,
+                            child: Center(
+                                child: SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2)))),
+                        error: (e, _) => Text('Error: $e',
+                            style: FitnText.serifItalic),
+                        data: (categories) => SizedBox(
+                          height: 32,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: categories.map((c) {
+                              final selected = _selectedDbCategory == c;
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: GestureDetector(
+                                  onTap: () => setState(() {
+                                    _selectedDbCategory = c;
+                                  }),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 6),
+                                    color: selected
+                                        ? FitnColors.ink
+                                        : FitnColors.ink05,
+                                    child: Text(c.toUpperCase(),
+                                        style: GoogleFonts.inter(
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w700,
+                                            color: selected
+                                                ? Colors.white
+                                                : FitnColors.ink60)),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      // Exercise dropdown (filtered by category from engine).
+                      exercisesAsync.when(
+                        loading: () => const SizedBox(
+                            height: 40,
+                            child: Center(
+                                child: SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2)))),
+                        error: (e, _) => Text('Error: $e',
+                            style: FitnText.serifItalic),
+                        data: (exercises) {
+                          if (exercises.isEmpty) {
+                            return Text('No exercises in $_selectedDbCategory',
+                                style: FitnText.serifItalic);
+                          }
+                          // Ensure selected exercise is valid for this category.
+                          if (!exercises.any((e) =>
+                              e.name == _selectedDbExerciseName)) {
+                            _selectedDbExerciseName = exercises.first.name;
+                          }
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: FitnColors.fill,
+                              border: Border.all(
+                                  color: FitnColors.ink15, width: 1),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _selectedDbExerciseName,
+                                isExpanded: true,
+                                style: GoogleFonts.inter(
+                                    fontSize: 11, color: FitnColors.ink),
+                                items: exercises
+                                    .map((e) => DropdownMenuItem(
+                                          value: e.name,
+                                          child: Text(
+                                              '${e.name} (${e.equipment})',
+                                              overflow: TextOverflow.ellipsis),
+                                        ))
+                                    .toList(),
+                                onChanged: (v) => setState(() =>
+                                    _selectedDbExerciseName = v ?? ''),
                               ),
                             ),
                           );
-                        }).toList(),
+                        },
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        color: FitnColors.fill,
-                        border:
-                            Border.all(color: FitnColors.ink15, width: 1),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: _selectedDbExerciseName,
-                          isExpanded: true,
-                          style: GoogleFonts.inter(
-                              fontSize: 11, color: FitnColors.ink),
-                          items: WorkoutTemplates.exerciseDatabase
-                              .where((e) =>
-                                  _selectedDbCategory == 'Chest' &&
-                                      e.targetMuscle == 'Chest' ||
-                                  _selectedDbCategory == 'Back' && [
-                                    'Lats',
-                                    'Mid Back',
-                                    'Upper Back'
-                                  ].contains(e.targetMuscle) ||
-                                  _selectedDbCategory == 'Legs' && [
-                                    'Quads',
-                                    'Hamstrings'
-                                  ].contains(e.targetMuscle) ||
-                                  _selectedDbCategory == 'Shoulders' &&
-                                      ['Shoulders', 'Side Deltoid', 'Rear Deltoid']
-                                          .contains(e.targetMuscle) ||
-                                  _selectedDbCategory == 'Arms' &&
-                                      ['Biceps', 'Triceps'].contains(e.targetMuscle) ||
-                                  _selectedDbCategory == 'Core' &&
-                                      ['Lower Abs', 'Core'].contains(e.targetMuscle) ||
-                                  _selectedDbCategory == 'Cardio' &&
-                                      e.targetMuscle == 'Cardio')
-                              .map((e) => DropdownMenuItem(
-                                  value: e.name, child: Text(e.name)))
-                              .toList(),
-                          onChanged: (v) => setState(() =>
-                              _selectedDbExerciseName = v ?? ''),
+                      const SizedBox(height: 6),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _addExerciseToBuilderDay,
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(0, 32),
+                          ),
+                          child: Text(
+                              '+ ADD TO DAY ${_selectedBuilderDayIndex + 1}',
+                              style: GoogleFonts.inter(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700)),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _addExerciseToBuilderDay,
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(0, 32),
-                        ),
-                        child: Text('+ ADD TO DAY ${_selectedBuilderDayIndex + 1}',
-                            style: GoogleFonts.inter(
-                                fontSize: 9, fontWeight: FontWeight.w700)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }),
               const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
@@ -561,8 +574,9 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
     });
   }
 
-  void _addExerciseToBuilderDay() {
-    final item = WorkoutTemplates.exerciseDatabase
+  void _addExerciseToBuilderDay() async {
+    final data = await getEngineData();
+    final item = data.exercises
         .where((e) => e.name == _selectedDbExerciseName)
         .firstOrNull;
     if (item == null || _builderSchedule.isEmpty) return;
@@ -570,10 +584,13 @@ class _TrainingTabState extends ConsumerState<TrainingTab> {
       final day = _builderSchedule[_selectedBuilderDayIndex];
       (day['exercises'] as List).add({
         'name': item.name,
-        'sets': item.sets,
-        'reps': item.reps,
-        'rest': item.restSeconds,
-        'targetMuscle': item.targetMuscle,
+        'sets': 3,
+        'reps': '8-12 reps',
+        'rest': 90,
+        'targetMuscle': item.muscleGroups.isNotEmpty
+            ? item.muscleGroups.first
+            : _selectedDbCategory,
+        'equipment': item.equipment,
       });
     });
   }

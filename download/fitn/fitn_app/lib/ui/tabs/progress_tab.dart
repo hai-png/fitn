@@ -18,6 +18,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../data/analytics_engine.dart';
 import '../../data/domain_types.dart';
 import '../../data/isar/collections/collections.dart';
+import '../../engine/engine_provider.dart';
 import '../../state/app_state.dart';
 import '../../ui/theme/fitn_design.dart';
 
@@ -834,37 +835,107 @@ class _ProgressTabState extends ConsumerState<ProgressTab> {
                 ],
               ),
               const SizedBox(height: 12),
-              // Muscle category.
-              Wrap(
-                spacing: 4,
-                runSpacing: 4,
-                children: ['Chest', 'Back', 'Legs', 'Shoulders', 'Arms', 'Core'].map((c) {
-                  final selected = _logExMuscle == c;
-                  return GestureDetector(
-                    onTap: () => setState(() {
-                      _logExMuscle = c;
-                      // Try to find first exercise in category.
-                      final match = WorkoutTemplatesDb.firstExerciseForMuscle(c);
-                      if (match != null) _logExName = match;
-                    }),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      color: selected ? FitnColors.ink : FitnColors.ink05,
-                      child: Text(c.toUpperCase(),
-                          style: GoogleFonts.inter(
-                              fontSize: 8,
-                              fontWeight: FontWeight.w700,
-                              color: selected ? Colors.white : FitnColors.ink60)),
+              // Exercise picker — uses engine's 1,217-exercise database.
+              Consumer(builder: (context, ref, _) {
+                final categoriesAsync =
+                    ref.watch(engineMuscleCategoriesProvider);
+                final exercisesAsync =
+                    ref.watch(exercisesByMuscleProvider(_logExMuscle));
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Muscle category chips (dynamic from engine).
+                    categoriesAsync.when(
+                      loading: () => const SizedBox(
+                          height: 28,
+                          child: Center(
+                              child: SizedBox(
+                                  width: 14,
+                                  height: 14,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2)))),
+                      error: (e, _) => Text('Error: $e',
+                          style: FitnText.serifItalic),
+                      data: (categories) => Wrap(
+                        spacing: 4,
+                        runSpacing: 4,
+                        children: categories.map((c) {
+                          final selected = _logExMuscle == c;
+                          return GestureDetector(
+                            onTap: () => setState(() {
+                              _logExMuscle = c;
+                            }),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              color: selected
+                                  ? FitnColors.ink
+                                  : FitnColors.ink05,
+                              child: Text(c.toUpperCase(),
+                                  style: GoogleFonts.inter(
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w700,
+                                      color: selected
+                                          ? Colors.white
+                                          : FitnColors.ink60)),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  );
-                }).toList(),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                decoration: const InputDecoration(labelText: 'Exercise Name', isDense: true),
-                controller: TextEditingController(text: _logExName),
-                onChanged: (v) => _logExName = v,
-              ),
+                    const SizedBox(height: 8),
+                    // Exercise dropdown (filtered by category from engine).
+                    exercisesAsync.when(
+                      loading: () => const SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: SizedBox(
+                                  width: 14,
+                                  height: 14,
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2)))),
+                      error: (e, _) => Text('Error: $e',
+                          style: FitnText.serifItalic),
+                      data: (exercises) {
+                        if (exercises.isEmpty) {
+                          return Text('No exercises in $_logExMuscle',
+                              style: FitnText.serifItalic);
+                        }
+                        if (!exercises
+                            .any((e) => e.name == _logExName)) {
+                          _logExName = exercises.first.name;
+                        }
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: FitnColors.fill,
+                            border: Border.all(
+                                color: FitnColors.ink15, width: 1),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: _logExName,
+                              isExpanded: true,
+                              style: GoogleFonts.inter(
+                                  fontSize: 11, color: FitnColors.ink),
+                              items: exercises
+                                  .map((e) => DropdownMenuItem(
+                                        value: e.name,
+                                        child: Text(
+                                            '${e.name} (${e.equipment})',
+                                            overflow: TextOverflow.ellipsis),
+                                      ))
+                                  .toList(),
+                              onChanged: (v) => setState(
+                                  () => _logExName = v ?? ''),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -1306,25 +1377,4 @@ class _BodyMapPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant _BodyMapPainter oldDelegate) =>
       oldDelegate.selectedMuscle != selectedMuscle;
-}
-
-/// Helper for workout templates DB lookups.
-class WorkoutTemplatesDb {
-  WorkoutTemplatesDb._();
-
-  /// Find first exercise name for a given muscle category.
-  static String? firstExerciseForMuscle(String category) {
-    final muscleMap = {
-      'Chest': ['Chest'],
-      'Back': ['Lats', 'Mid Back', 'Upper Back'],
-      'Legs': ['Quads', 'Hamstrings'],
-      'Shoulders': ['Shoulders', 'Side Deltoid', 'Rear Deltoid'],
-      'Arms': ['Biceps', 'Triceps'],
-      'Core': ['Lower Abs', 'Core'],
-    };
-    final muscles = muscleMap[category] ?? [];
-    // Import from workout_templates.dart
-    // (deferred to avoid circular import)
-    return null;
-  }
 }
