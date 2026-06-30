@@ -200,3 +200,45 @@ Stage Summary:
 - Kept the fitn_engine as the deterministic plan generator (no AI needed — it's better than the fitness-app's Gemini fallback).
 - Phone mockup frame on desktop with status bar + 5-tab bottom nav matching fitness-app.
 - All state in single AppNotifier with select()-able slices.
+
+---
+Task ID: AUDIT-PARITY
+Agent: main agent (Super Z)
+Task: Push fixes, audit whole app for issues, ensure feature parity with React fitness-app.
+
+Work Log:
+- Synced with remote main (which had evolved with 20+ commits since initial push).
+- Created branch feat/audit-and-feature-parity from origin/main.
+- Fixed stale widget_test.dart referencing non-existent MyApp class.
+- Ran flutter analyze: 0 errors on remote main codebase.
+- Ran dart test on fitn_engine: all 21 tests pass.
+- Audited React fitness-app comprehensively:
+  * TrainingTab: program preset selector, custom split builder, video tutorial player with progress/mute.
+  * ProgressTab: 4 sub-tabs (metrics/muscles/exercises/visuals), Epley 1RM, muscle volume zones, body map, PRs, exercise progression, rolling trends, flex/share cards, custom set logger.
+  * MealOrderingTab: meal swap, cart, checkout (already implemented).
+  * MarketplaceTab: products, cart drawer, checkout (already implemented).
+  * Onboarding: gym finder, machine logger (already implemented).
+- Built new data files:
+  * analytics_engine.dart: Epley 1RM, core metrics, rolling trends, exercise progression, PRs, muscle volume zones, lifetime tiers, workout history generator.
+  * workout_templates.dart: ExerciseDbItem database (16 exercises), ProgramPreset definitions (5 presets), category list.
+- Rewrote training_tab.dart to add:
+  * Program preset selector modal (5 presets).
+  * Custom split builder modal with day add/remove, exercise DB picker, save.
+  * Video tutorial player modal with play/pause, mute, progress bar.
+  * Made 'Customize Split' clickable, added 'PROGRAMS' button.
+- Rewrote progress_tab.dart with 4 sub-tabs:
+  * Metrics: core metrics + rolling trends + training focus splits + weight/water/workout logs + lifetime tier.
+  * Muscles: muscle volume zones + balance analysis + interactive body map (CustomPaint) + muscle selector.
+  * Exercises: PRs (Epley 1RM) + progression analysis + custom set logger modal + all exercises list.
+  * Visuals: 4 flex/share cards + share modal with copy-to-clipboard.
+- Fixed compile errors: const constructor issues, num->double, missing imports, nullable access, LucideIcons.body -> LucideIcons.user, const Icon with non-const color.
+- flutter analyze: 0 errors, 6 warnings.
+- dart test: 21/21 pass.
+- flutter build web: SUCCESS (50.9s).
+- Pushed to feat/audit-and-feature-parity on hai-png/fitn.
+
+Stage Summary:
+- Feature parity achieved with React fitness-app for all 5 tabs.
+- New files: analytics_engine.dart, workout_templates.dart.
+- Modified files: training_tab.dart (added 3 modals), progress_tab.dart (complete rewrite with 4 sub-tabs), widget_test.dart (fixed).
+- 2,553 lines added, 268 lines removed.
