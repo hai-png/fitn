@@ -1,2 +1,36 @@
+# Build artifacts
+**/build/
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+**/generated/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Secrets
+**/.env
+**/env.local
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Coverage
+coverage/
+*.lcov
+
+# Logs
+*.log
+
+# Non-project directories (workspace artifacts, not part of the app)
 skills/
 node_modules/
+fitness-app-ref/
+upload/
+tool-results/
+scripts/
+worklog.md
